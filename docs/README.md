@@ -57,6 +57,8 @@ Blueprint phase. Looking for pilot partners and funding to move to real trucks.
 - [Webhooks](WEBHOOKS.md)
 - [Verification](VERIFY.md)
 - [SLA DSL](SLA_DSL.md)
+- [Data Flow](DATA_FLOW.md)
+- [Security](SECURITY.md)
 - [OpenAPI draft](OPENAPI.yaml)
 - [ADR](adr/0001-modular-monolith.md)
 
