@@ -1,0 +1,231 @@
+openapi: 3.1.0
+info:
+  title: LogiQED API
+  version: 0.1.0
+  description: |
+    Verifiable Freight Infrastructure.
+    Evidence layer for physical logistics.
+    Trust Levels E0-E5.
+    SLA engine.
+    Evidence Packages.
+
+servers:
+  - url: https://api.logiqed.io/v1
+    description: Production API
+  - url: https://staging.api.logiqed.io/v1
+    description: Staging API
+
+tags:
+  - name: Shipments
+    description: Trip and shipment management
+  - name: Events
+    description: Signed event stream and Evidence Graph
+  - name: SLA
+    description: Rules and exception attribution
+  - name: Evidence
+    description: Evidence Packages and verification
+  - name: Claims
+    description: ZK claims
+
+paths:
+  /shipments:
+    post:
+      tags: [Shipments]
+      summary: Create a shipment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ShipmentCreate'
+      responses:
+        '201':
+          description: Shipment created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Shipment'
+
+  /shipments/{id}/events:
+    post:
+      tags: [Events]
+      summary: Append signed event to shipment
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventCreate'
+      responses:
+        '202':
+          description: Event accepted
+
+  /shipments/{id}/sla:
+    get:
+      tags: [SLA]
+      summary: Evaluate SLA for shipment
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: SLA evaluation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SLAEvaluation'
+
+  /shipments/{id}/evidence:
+    get:
+      tags: [Evidence]
+      summary: Get Evidence Package for shipment
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Evidence Package
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EvidencePackage'
+
+  /claims/verify:
+    post:
+      tags: [Claims]
+      summary: Verify a claim proof
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClaimVerificationRequest'
+      responses:
+        '200':
+          description: Claim verification result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClaimVerificationResult'
+
+components:
+  schemas:
+    ShipmentCreate:
+      type: object
+      required: [origin, destination, cargo, shipperId]
+      properties:
+        origin:
+          type: string
+          semanticTag: location
+        destination:
+          type: string
+          semanticTag: location
+        cargo:
+          type: object
+          properties:
+            weightKg:
+              type: number
+            volumeM3:
+              type: number
+            type:
+              type: string
+        shipperId:
+          type: string
+          semanticTag: party
+
+    Shipment:
+      type: object
+      properties:
+        id:
+          type: string
+          semanticTag: entityId
+        status:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+          semanticTag: timestamp
+
+    EventCreate:
+      type: object
+      required: [shipmentId, eventType, timestamp, sourceId]
+      properties:
+        shipmentId:
+          type: string
+        eventType:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        sourceId:
+          type: string
+        signature:
+          type: string
+        trustLevel:
+          type: string
+          enum: [E0, E1, E2, E3, E4, E5]
+
+    SLAEvaluation:
+      type: object
+      properties:
+        shipmentId:
+          type: string
+        ruleVersion:
+          type: string
+        conclusion:
+          type: string
+        chargeableDelayMin:
+          type: integer
+        reasons:
+          type: array
+          items:
+            type: string
+        confidence:
+          type: string
+
+    EvidencePackage:
+      type: object
+      properties:
+        packageId:
+          type: string
+        claimType:
+          type: string
+        conclusion:
+          type: string
+        proofReference:
+          type: string
+        schemaVersion:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+
+    ClaimVerificationRequest:
+      type: object
+      required: [proofId]
+      properties:
+        proofId:
+          type: string
+
+    ClaimVerificationResult:
+      type: object
+      properties:
+        proofId:
+          type: string
+        isValid:
+          type: boolean
+        verifiedAt:
+          type: string
+          format: date-time
