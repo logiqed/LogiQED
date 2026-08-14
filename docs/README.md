@@ -43,7 +43,7 @@ EU eFTI Regulation applies from July 9, 2027. Machine-verifiable freight evidenc
 
 ## Status
 
-Blueprint phase. Looking for design partners and funding to move to pilot with real trucks.
+Blueprint phase. Looking for pilot partners and funding to move to real trucks.
 
 ## Docs
 
@@ -54,3 +54,10 @@ Blueprint phase. Looking for design partners and funding to move to pilot with r
 - [Claims](CLAIMS.md)
 - [Evidence](EVIDENCE.md)
 - [OpenAPI draft](OPENAPI.yaml)
+
+## More
+
+- [Roadmap](ROADMAP.md)
+- [FAQ](FAQ.md)
+- [Contributing](CONTRIBUTING.md)
+- [License](LICENSE.md)
