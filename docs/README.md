@@ -2,7 +2,7 @@
 
 **Verifiable Freight Infrastructure.**
 
-LogiQED is not a freight marketplace. It is a cryptographic evidence layer for physical logistics.
+LogiQED is a cryptographic evidence layer for physical logistics.
 
 Telemetry and trip events become signed, structured Evidence Packages. SLA violations are explained. Driver responsibility is confirmed or excluded based on verifiable data. Disputes close by math, not by trust.
 
@@ -10,7 +10,7 @@ Telemetry and trip events become signed, structured Evidence Packages. SLA viola
 
 Sensor/device, attestation, timestamp, signature, provenance, ZK, Evidence Package.
 
-Not "truck arrived late." But: arrival 14:37, ETA 13:55, delay 42 min, cause: traffic between A-B, telemetry clean, events signed, hashes match, SLA rule v3, no penalty.
+A late truck is explained by data: arrival 14:37, ETA 13:55, delay 42 min, cause: traffic between A-B, telemetry clean, events signed, hashes match, SLA rule v3, no penalty.
 
 ## What LogiQED Provides
 
@@ -62,7 +62,7 @@ Blueprint phase. Looking for pilot partners and funding to move to real trucks.
 - [Glossary](GLOSSARY.md)
 - [Pilot](PILOT.md)
 - [OpenAPI draft](OPENAPI.yaml)
-- [ADR](adr/0001-modular-monolith.md)
+- [ADR 0001: Modular Monolith](adr/0001-modular-monolith.md)
 - [ADR 0002: Crypto and Data Availability](adr/0002-crypto-data-availability.md)
 
 ## More
@@ -71,4 +71,5 @@ Blueprint phase. Looking for pilot partners and funding to move to real trucks.
 - [FAQ](FAQ.md)
 - [Contributing](CONTRIBUTING.md)
 - [Changelog](CHANGELOG.md)
+- [X / Twitter](https://x.com/LogiQED)
 - [License](LICENSE.md)
