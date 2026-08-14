@@ -14,7 +14,12 @@ $250–300K.
 
 ## Team
 
-3 C# developers + 1 systems/C++ engineer + DevOps.
+- 2 Senior .NET Engineers — platform and evidence pipeline
+- 1 Senior Data Engineer — MS SQL, analytics, event storage design
+- 1 Senior Systems/C++ Engineer — ZK integration, performance, attestation
+- DevOps Engineer — infrastructure, deployment, monitoring
+
+Team can be scaled up to 2x full-time developers. Final size depends on budget and pilot scope.
 
 ## MVP Scope
 
@@ -26,7 +31,7 @@ $250–300K.
 
 3. **Signed Event Stream / Evidence Graph**
    - Every event signed, linked, hashable.
-   - Provenance DAG: claim → events → sources → rule → proof.
+   - Provenance DAG: claim, events, sources, rule, proof.
 
 4. **SLA Engine**
    - Rules, timers, automatic recalculation for external factors.
