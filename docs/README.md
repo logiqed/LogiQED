@@ -55,7 +55,10 @@ Blueprint phase. Looking for pilot partners and funding to move to real trucks.
 - [Evidence](EVIDENCE.md)
 - [Ingest API](INGEST.md)
 - [Webhooks](WEBHOOKS.md)
+- [Verification](VERIFY.md)
+- [SLA DSL](SLA_DSL.md)
 - [OpenAPI draft](OPENAPI.yaml)
+- [ADR](adr/0001-modular-monolith.md)
 
 ## More
 
