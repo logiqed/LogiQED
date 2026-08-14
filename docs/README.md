@@ -47,10 +47,10 @@ Blueprint phase. Looking for design partners and funding to move to pilot with r
 
 ## Docs
 
-- [Vision](docs/VISION.md)
-- [Architecture](docs/ARCHITECTURE.md)
-- [MVP](docs/MVP.md)
-- [Trust Levels](docs/TRUST_LEVELS.md)
-- [Claims](docs/CLAIMS.md)
-- [Evidence](docs/EVIDENCE.md)
-- [OpenAPI draft](docs/OPENAPI.yaml)
+- [Vision](VISION.md)
+- [Architecture](ARCHITECTURE.md)
+- [MVP](MVP.md)
+- [Trust Levels](TRUST_LEVELS.md)
+- [Claims](CLAIMS.md)
+- [Evidence](EVIDENCE.md)
+- [OpenAPI draft](OPENAPI.yaml)
