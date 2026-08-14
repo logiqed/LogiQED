@@ -70,7 +70,6 @@ components:
         verifiedAt:
           type: string
           format: date-time
-		  
 ```
 ## Example Request
 
