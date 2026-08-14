@@ -59,6 +59,8 @@ Blueprint phase. Looking for pilot partners and funding to move to real trucks.
 - [SLA DSL](SLA_DSL.md)
 - [Data Flow](DATA_FLOW.md)
 - [Security](SECURITY.md)
+- [Glossary](GLOSSARY.md)
+- [Pilot](PILOT.md)
 - [OpenAPI draft](OPENAPI.yaml)
 - [ADR](adr/0001-modular-monolith.md)
 
@@ -67,4 +69,5 @@ Blueprint phase. Looking for pilot partners and funding to move to real trucks.
 - [Roadmap](ROADMAP.md)
 - [FAQ](FAQ.md)
 - [Contributing](CONTRIBUTING.md)
+- [Changelog](CHANGELOG.md)
 - [License](LICENSE.md)
