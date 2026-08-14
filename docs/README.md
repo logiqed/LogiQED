@@ -8,9 +8,9 @@ Telemetry and trip events become signed, structured Evidence Packages. SLA viola
 
 ## The Chain
 
-Sensor/device → attestation → timestamp → signature → provenance → ZK → Evidence Package.
+Sensor/device, attestation, timestamp, signature, provenance, ZK, Evidence Package.
 
-Not "truck arrived late." But: arrival 14:37, ETA 13:55, delay 42 min, cause: traffic between A-B, telemetry clean, events signed, hashes match, SLA rule v3 — no penalty.
+Not "truck arrived late." But: arrival 14:37, ETA 13:55, delay 42 min, cause: traffic between A-B, telemetry clean, events signed, hashes match, SLA rule v3, no penalty.
 
 ## What LogiQED Provides
 
