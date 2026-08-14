@@ -8,7 +8,12 @@ Accepted
 
 LogiQED starts as a pilot MVP for evidence infrastructure in physical logistics.
 
-The team is small: 3 C# developers + 1 systems/C++ engineer + DevOps.
+The team:
+
+- 2 Senior C# Engineers — platform and evidence pipeline
+- 1 Senior Data Engineer — MS SQL, analytics, event storage design
+- 1 Senior Systems/C++ Engineer — ZK integration, performance, attestation
+- DevOps Engineer — infrastructure, deployment, monitoring
 
 ## Decision
 
