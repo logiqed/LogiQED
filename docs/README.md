@@ -53,6 +53,8 @@ Blueprint phase. Looking for pilot partners and funding to move to real trucks.
 - [Trust Levels](TRUST_LEVELS.md)
 - [Claims](CLAIMS.md)
 - [Evidence](EVIDENCE.md)
+- [Ingest API](INGEST.md)
+- [Webhooks](WEBHOOKS.md)
 - [OpenAPI draft](OPENAPI.yaml)
 
 ## More
