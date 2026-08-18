@@ -67,9 +67,10 @@ Blueprint phase. Looking for pilot partners and funding to move to real trucks.
 
 ## More
 
+- [Business Model](BUSINESS_MODEL.md)
 - [Roadmap](ROADMAP.md)
 - [FAQ](FAQ.md)
 - [Contributing](CONTRIBUTING.md)
 - [Changelog](CHANGELOG.md)
 - [X / Twitter](https://x.com/LogiQED)
-- [License](LICENSE.md)
+- [License](../LICENSE.md)
