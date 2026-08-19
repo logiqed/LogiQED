@@ -6,11 +6,11 @@ Build the core evidence layer and prove it with real trucks.
 
 ## Timeline
 
-4–6 months.
+3–4 months.
 
 ## Budget
 
-$250–300K.
+$170–200K.
 
 ## Team
 
@@ -20,6 +20,16 @@ $250–300K.
 - DevOps Engineer — infrastructure, deployment, monitoring
 
 Team can be scaled up to 2x full-time developers. Final size depends on budget and pilot scope.
+
+## Existing Platform
+
+C# Blazor operational platform is reused.
+
+First demo within 1–2 weeks: map, documents, reports, SLA, chat.
+
+Blockchain integration comes after the demo.
+
+This reduces risk and accelerates the pilot.
 
 ## MVP Scope
 
