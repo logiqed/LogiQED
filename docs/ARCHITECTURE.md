@@ -22,7 +22,7 @@ For a pilot MVP, a modular monolith is the right trade-off. Natural computationa
 
 ## Blockchain and ZK
 
-- Flock-class proof systems — hash-intensive workloads. Benchmarks on real LogiQED circuits.
+- Flock-class proof systems — hash-intensive workloads. Runs on x86 Linux. Post-quantum proving already 3x faster on Mac, x86 ceiling still open. Benchmarks on real LogiQED circuits.
 - EigenDA — temporary data availability.
 - Arweave — permanent commitments and proofs.
 - Arbitrum Stylus — smart contracts for settlement and arbitration (Phase 2).
