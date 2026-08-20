@@ -27,6 +27,14 @@ For a pilot MVP, a modular monolith is the right trade-off. Natural computationa
 - Arweave — permanent commitments and proofs.
 - Arbitrum Stylus — smart contracts for settlement and arbitration (Phase 2).
 
+## Proof Verification
+
+Hash-based SNARKs for post-quantum Ethereum are formally verified through Lean 4 via Yukon Research and Ethereum Foundation.
+
+Ethereum Foundation and zkSecurity run a $1M proximity challenge to establish strong security bounds.
+
+LogiQED adopts formally verified proof backends when production ready.
+
 ## Privacy and Storage
 
 - MS SQL — operational data.
