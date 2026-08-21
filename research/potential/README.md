@@ -1,17 +1,17 @@
 # Future Product Ideas
 
-Draft ideas for LogiQED beyond the core evidence layer.
+Draft directions for LogiQED beyond the core evidence layer.
 
-These are exploration notes. They may become separate products, modules or integrations.
+Each idea describes the problem, how it works, technical dependencies and why it is planned for later.
 
 The core remains: signed events, Evidence Graph, SLA Engine, Evidence Package, Trust Levels.
 
 ## Ideas
 
 - [Marketplace](marketplace.md)
-- [DePIN](depin.md)
+- [DePIN Integrations](depin.md)
 - [Scientific Sensors](scientific-sensors.md)
-- [Soulbound](soulbound.md)
+- [Soulbound Reputation](soulbound.md)
 - [MeshShield](meshshield.md)
 - [Proof-of-Freeze](proof-of-freeze.md)
 - [HD Maps](hd-maps.md)
