@@ -74,3 +74,11 @@ Blueprint phase. Looking for pilot partners and funding to move to real trucks.
 - [Changelog](CHANGELOG.md)
 - [X / Twitter](https://x.com/LogiQED)
 - [License](../LICENSE.md)
+
+## Future Ideas
+
+Draft directions for product expansion beyond the core evidence layer.
+
+Marketplace, DePIN, scientific sensors, soulbound reputation, security modules, HD maps, AI agents.
+
+- [Future Product Ideas](potential/README.md)
