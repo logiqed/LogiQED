@@ -2,14 +2,29 @@
 
 ## Idea
 
-Autonomous container lockdown when tampering is detected.
+Autonomous cargo lockdown when tampering is detected.
 
-Local AI detects attack. Hardware locks activate without cloud connection.
+## Problem
 
-## Value
+Cargo is vulnerable when connectivity is lost.
 
-Cargo protection even without connectivity.
+## How It Works
+
+1. Local AI detects attack: cutting, opening, impact.
+2. Device decides autonomously without cloud.
+3. Hardware locks engage.
+4. Event and proof generated locally.
+5. Proof uploads when connectivity returns.
+
+## Technical Dependencies
+
+- Edge AI model
+- Hardware secure element
+- Local proof generation
+- Signed event stream
 
 ## Why Later
 
 Requires hardware integration and safety certification.
+
+Start with detection and alerts, then lockdown.

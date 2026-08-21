@@ -4,14 +4,34 @@
 
 Trucks build high-definition maps for autonomous vehicles.
 
-## Value
+## Problem
 
-Road condition, signage, obstacles, lanes.
+Autonomous trucks need constantly updated road data.
 
-Sell to autonomous truck developers.
+## How It Works
+
+1. Cameras and sensors capture road conditions.
+2. Data signed and geotagged.
+3. Aggregated into HD map layers.
+4. Sold to autonomous vehicle developers.
+
+## Map Layers
+
+- Lane geometry
+- Signage
+- Road surface quality
+- Construction zones
+- Connectivity coverage
+
+## Technical Dependencies
+
+- Camera fleet
+- Computer vision
+- Evidence Graph
+- Data marketplace
 
 ## Why Later
 
-Requires camera fleet and mapping infrastructure.
+Requires large fleet and mapping infrastructure.
 
 Useful after evidence layer has scale.

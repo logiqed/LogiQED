@@ -2,20 +2,35 @@
 
 ## Idea
 
-Direct freight marketplace on top of the evidence layer.
+Direct freight marketplace built on top of verified evidence.
 
-## Why
+## Problem
 
-Once trust is established through Evidence Packages, carriers and shippers can transact without brokers.
+Brokers control freight matching. Carriers pay 5–10% per load. Shippers lack direct access to verified carriers.
 
-## Value
+## How It Works
 
-- Direct freight matching
-- No middleman fees
-- Reputation based on verified history
+1. Shipper publishes load with route, weight, volume, timeline, budget.
+2. Carriers see loads matched to their location and capacity.
+3. AI dispatcher suggests optimal routes and pricing.
+4. Booking locks funds in smart contract.
+5. Delivery produces ZK proof.
+6. Settlement releases payment automatically.
+
+## Technical Dependencies
+
+- Signed Event Stream
+- Evidence Graph
+- SLA Engine
+- Smart contract settlement
+- AI dispatcher
 
 ## Why Later
 
-Marketplace requires liquidity and network effects.
+Marketplace needs liquidity on both sides.
 
-Evidence layer must prove value first.
+Evidence layer must prove delivery verification first.
+
+## MVP Path
+
+Evidence layer first. Marketplace built once carriers and shippers trust the proof.
