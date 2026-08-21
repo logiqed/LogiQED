@@ -81,4 +81,4 @@ Draft directions for product expansion beyond the core evidence layer.
 
 Marketplace, DePIN, scientific sensors, soulbound reputation, security modules, HD maps, AI agents.
 
-- [Future Product Ideas](potential/README.md)
+- [Future Product Ideas](../research/potential/README.md)
