@@ -61,6 +61,7 @@ Blueprint phase. Looking for pilot partners and funding to move to real trucks.
 - [Security](SECURITY.md)
 - [Glossary](GLOSSARY.md)
 - [Pilot](PILOT.md)
+- [Development Process](DEVELOPMENT.md)
 - [OpenAPI draft](OPENAPI.yaml)
 - [ADR 0001: Modular Monolith](adr/0001-modular-monolith.md)
 - [ADR 0002: Crypto and Data Availability](adr/0002-crypto-data-availability.md)
