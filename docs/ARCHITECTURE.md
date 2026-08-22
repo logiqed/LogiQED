@@ -131,6 +131,15 @@ Trust Levels:
 | E4 | hardware-backed + corroborated source |
 | E5 | multiple independent trusted sources |
 
+## Observability
+
+- Seq — structured logging.
+- Correlation ID — end-to-end tracing across all async flows.
+- Grafana — dashboards and metrics.
+- Every evidence event traceable from ingest to Arweave.
+
+Data is not lost. Every packet can be traced in seconds.
+
 ## Security
 
 - Hybrid signatures: Ed25519 + ML-DSA.
