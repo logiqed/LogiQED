@@ -60,6 +60,7 @@ Blueprint phase. Looking for pilot partners and funding to move to real trucks.
 - [UI — ASCII Schemes](UI.md)
 - [Data Flow](DATA_FLOW.md)
 - [Security](SECURITY.md)
+- [Authorization](AUTHORIZATION.md)
 - [Glossary](GLOSSARY.md)
 - [Pilot](PILOT.md)
 - [Development Process](DEVELOPMENT.md)
