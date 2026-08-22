@@ -57,6 +57,7 @@ Blueprint phase. Looking for pilot partners and funding to move to real trucks.
 - [Webhooks](WEBHOOKS.md)
 - [Verification](VERIFY.md)
 - [SLA DSL](SLA_DSL.md)
+- [UI — ASCII Schemes](UI.md)
 - [Data Flow](DATA_FLOW.md)
 - [Security](SECURITY.md)
 - [Glossary](GLOSSARY.md)
