@@ -45,9 +45,9 @@ LogiQED adopts formally verified proof backends when production ready.
 
 Pluggable proof verification services.
 
-- Native verifier
-- Aligned Proof Aggregation — potential backend for cheap ZK verification at scale
-- EigenLayer — optional decentralized verification
+- Native verifier — direct verification for low volume or local checks.
+- Aligned Proof Aggregation — potential backend for cheap ZK verification at scale. Aggregates thousands of proofs into one, reducing L1 gas cost by 10-100x. Verification in milliseconds with cents-level fees. Security backed by EigenLayer validator pool.
+- EigenLayer — optional decentralized verification through AVS.
 
 ## Storage
 
