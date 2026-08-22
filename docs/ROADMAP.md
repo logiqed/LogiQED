@@ -12,10 +12,11 @@
 
 ## Phase 1 — Pilot MVP
 
-4–6 months. $250–300K.
+3–4 months. $170–200K.
 
 - Shipment/Trip domain model
 - GPS + mobile tracking
+- Cold-chain temperature
 - Signed Event Stream
 - Evidence Graph
 - SLA Engine

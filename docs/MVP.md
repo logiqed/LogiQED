@@ -39,31 +39,34 @@ This reduces risk and accelerates the pilot.
 2. **GPS + mobile/device tracking**
    - Telemetry via smartphone and onboard systems.
 
-3. **Signed Event Stream / Evidence Graph**
+3. **Cold-chain temperature**
+   - Temperature sensor for cargo condition claims.
+
+4. **Signed Event Stream / Evidence Graph**
    - Every event signed, linked, hashable.
    - Provenance DAG: claim, events, sources, rule, proof.
 
-4. **SLA Engine**
+5. **SLA Engine**
    - Rules, timers, automatic recalculation for external factors.
 
-5. **Exception attribution**
+6. **Exception attribution**
    - Traffic, weather, geofences, vehicle, warehouse.
    - Automatic determination of delay cause.
 
-6. **Evidence Package**
+7. **Evidence Package**
    - Structured proof package: events, hashes, signatures, rule, conclusion.
 
-7. **ZK proof of two claims**
+8. **ZK proof of two claims**
    - SLA Exception Claim.
    - Cargo Condition Claim.
 
-8. **e-documents**
+9. **e-documents**
    - Electronic waybills, acts, signatures.
 
-9. **OpenAPI + webhooks**
-   - Machine-readable API for integrations and AI agents.
+10. **OpenAPI + webhooks**
+    - Machine-readable API for integrations and AI agents.
 
-10. **AI copilot for operations**
+11. **AI copilot for operations**
     - Analysis assistance. Not an autonomous dispatcher.
 
 ## What is NOT in MVP
