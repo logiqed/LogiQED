@@ -28,6 +28,14 @@ Camera hardware diversity.
 - Secure element
 - Decentralized storage
 
+## Attestation Provider
+
+Darkbloom — hardware attestation on Apple Silicon.
+
+Validated model: $102K ARR, 4.5B tokens served, 250 Macs.
+
+Candidate for driver device attestation in Black Box.
+
 ## Why Later
 
 Hardware integration is complex.

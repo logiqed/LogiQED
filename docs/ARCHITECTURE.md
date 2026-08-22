@@ -11,6 +11,12 @@ For a pilot MVP, a modular monolith is the right trade-off. Natural computationa
 - C# Blazor Server / WebAssembly — single stack.
 - ASP.NET Core — REST API, OpenAPI, webhooks.
 - Entity Framework Core + MS SQL Server — operational data, analytics.
+- FluentValidation — request and domain validation.
+- MediatR + CQRS — command and query separation.
+- SignalR — real-time updates.
+- RabbitMQ — message bus for telemetry and event processing.
+- Redis — hot cache and pub/sub.
+- Seq — structured logging and tracing.
 
 ## Evidence Layer
 
@@ -35,13 +41,70 @@ Ethereum Foundation and zkSecurity run a $1M proximity challenge to establish st
 
 LogiQED adopts formally verified proof backends when production ready.
 
-## Privacy and Storage
+### Verification Backends
 
-- MS SQL — operational data.
-- EigenDA — temporary hashes and proofs.
-- Arweave — Evidence Root, Merkle commitments, proof, schema version, timestamps, non-personal manifest.
+Pluggable proof verification services.
 
-Raw encrypted telemetry is stored separately in deletable storage. Deleting data or destroying keys does not remove the cryptographic proof.
+- Native verifier
+- Aligned Proof Aggregation — potential backend for cheap ZK verification at scale
+- EigenLayer — optional decentralized verification
+
+## Storage
+
+LogiQED uses different storage layers for different purposes.
+
+### Redis
+
+Purpose: speed and real-time.
+
+Use cases:
+
+- Hot cache for active shipments
+- Pub/Sub for GPS updates and status changes
+- Rate limiting for API
+- Job queues for event processing
+
+Redis is an operational cache. It is not a system of record.
+
+### MS SQL
+
+Purpose: system of record.
+
+Use cases:
+
+- Shipments, users, contracts, SLA rules
+- Reports and analytics
+- Reference data
+
+MS SQL stores current state and business data.
+
+### EigenDA
+
+Purpose: temporary evidence availability.
+
+Use cases:
+
+- Signed events
+- Hash chains
+- Temporary evidence before aggregation
+
+EigenDA provides short-term verifiable availability. It is not permanent storage.
+
+### Arweave
+
+Purpose: permanent evidence.
+
+Use cases:
+
+- Final Evidence Packages
+- Proof roots
+- Audit records
+
+Arweave stores what must survive for years.
+
+### Principle
+
+Redis speeds up operations. MS SQL records state. EigenDA proves availability. Arweave preserves truth.
 
 ## Source Identity & Trust
 
