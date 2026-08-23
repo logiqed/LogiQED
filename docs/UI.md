@@ -218,9 +218,15 @@ Executive overview: total shipments, active in transit, exceptions resolved, val
 
 Driver screen for active trip, telemetry, SLA protection and quick actions.
 
-Active Trip opens full shipment details: route, status, documents, event history.
+### Clickable elements
 
-Device Trust Level opens attestation details:
+**Active Trip: SHP-802**
+Opens full shipment details: route, status, documents, event history.
+
+**Device Trust Level: E4**
+Opens attestation details.
+
+*Simulated for MVP demo:*
 
 - Source: Onboard CAN bus
 - Device: Scania R450 (AB-777-CD)
@@ -230,7 +236,20 @@ Device Trust Level opens attestation details:
 - Corroboration: GPS + CAN + gateway signed
 - Evidence Confidence: High
 
-Penalty Protection opens the active exclusion rule:
+*Production version:*
+
+- Source: signed telemetry from onboard device
+- Device: registered in telemetry subsystem with SourceCode + ExternalId
+- Attestation: real device attestation via TPM / Secure Element
+- Firmware digest: verified against signed firmware
+- Key: hardware-backed, non-exportable
+- Corroboration: multiple independent signed sources
+- Evidence Confidence: calculated from real assurance vector
+
+**Penalty Protection: Active**
+Opens the active exclusion rule.
+
+*Simulated for MVP demo:*
 
 - Rule: TRAFFIC_OR_QUEUE_EXCLUSION
 - Version: v3.2
@@ -238,17 +257,55 @@ Penalty Protection opens the active exclusion rule:
 - Condition: telemetry.speed < 5 km/h AND geofence.type == "WAREHOUSE_QUEUE" AND source.trust_level >= E3
 - Result: Chargeable delay = 0 min. No penalty applied. Evidence Package auto-generated.
 
-eFTI Documents are clickable: preview or download.
+*Production version:*
 
-Quick Actions:
+- Rule from SLA Engine, versioned and signed
+- Condition evaluated against signed events
+- Result: automatic evidence generation and penalty exclusion
 
-- Report Incident / Delay — opens form with photo, comment and reason.
-- Sign Delivery / Handover — opens signature form.
-- Sync Telemetry Ping — manually sends coordinates.
+**Auto-Exclusion Rule: Active**
+Opens the same active rule details as Penalty Protection.
 
-AI Copilot / Dispatcher Chat opens chat with dispatcher.
+**Onboard CAN bus: Connected**
+Opens device diagnostics: connection status, last sync, firmware version, error codes.
 
-Trip List shows all trips. Profile shows driver documents, rating and settings.
+**eFTI Documents**
+Each document is clickable.
+
+- Consignment Note (e-CMR): preview or download.
+- Temperature Log: opens temperature graph for the trip.
+
+**Report Incident / Delay**
+Opens form with photo, comment and reason.
+
+**Sign Delivery / Handover**
+Opens signature form.
+
+**Sync Telemetry Ping**
+Manually sends coordinates to the dispatcher.
+
+**Open Chat (1 new message)**
+Opens chat with dispatcher. Shows unread message.
+
+**Trip List**
+Opens list of all driver trips.
+
+**Profile**
+Opens driver profile: documents, rating, settings.
+
+### Non-clickable elements
+
+**Status: In Transit**
+Indicator only. Shows current trip status.
+
+**GPS: Active**
+Indicator only. Shows that GPS reporting is on.
+
+**Target Arrival: 22.08.2026 18:00**
+Information only. Shows planned arrival time.
+
+**Status: On Schedule (Delay = 0 min)**
+Information only. Shows current SLA status.
 
 ```text
 +---------------------------------------+
