@@ -94,12 +94,16 @@ Rule builder: AND/OR/NOT conditions, field comparisons, domain conditions, timer
 
 ```text
 +---------------------------------------------------------------------------------------------------------------------------------+
-| LogiQED    | Dashboard | Map | Registry | SLA Engine | Evidence | Chat                 | 🔔 [Operator] [EN]                 |
+| LogiQED    | Dashboard | Map | Registry | SLA Engine | Evidence | Chat                     | 🔔 [Operator] [EN]                 |
 +---------------------------------------------------------------------------------------------------------------------------------+
 | SLA Rule Builder > Exception Attribution Rule #3              [ Test Rule ] [ Simulate ] [ Save ] [ Save & Close ] [ Delete ]   |
 +---------------------------------------------------------------------------------------------------------------------------------+
 | Rule Name: TRAFFIC_OR_QUEUE_EXCLUSION                                                             Version: v3.2                 |
 | Description: Automatically excludes driver penalty if delay is caused by external traffic congestion or warehouse queue.        |
++---------------------------------------------------------------------------------------------------------------------------------+
+| Working Calendar                                                                                                                |
+|   Calendar: [ 24/7 ]  [ Business hours ]  [ Custom ]      Timezone: [ UTC+1 Berlin ]                                            |
+|   Holiday Set: [ EU Logistics 2026 ]                        Next holiday: 03.10.2026 (German Unity Day)                         |
 +---------------------------------------------------------------------------------------------------------------------------------+
 | Timers and escalations                                                                                                          |
 |   Code: ARRIVAL_DEADLINE_BREACHED     Action: Timer escalation          Offset, min: 0      Order: 1   Active: [✓]  [Delete]    |
@@ -123,7 +127,7 @@ Associated e-Documents and cryptographic evidence package: package ID, SLA resul
 
 ```text
 +---------------------------------------------------------------------------------------------------------------------------------+
-| LogiQED    | Dashboard | Map | Registry | SLA Engine | Evidence | Chat                     | 🔔 [Operator] [EN]                 |
+| LogiQED    | Dashboard | Map | Registry | SLA Engine | Evidence | Chat                             | 🔔 [Operator] [EN]         |
 +---------------------------------------------------------------------------------------------------------------------------------+
 | Shipment SHP-802 > Documents & Evidence Package                 [ Export PDF ] [ View Proof ] [ Verify Package ]                |
 +---------------------------------------------------------------------------------------------------------------------------------+
