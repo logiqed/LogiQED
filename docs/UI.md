@@ -179,21 +179,35 @@ Executive overview: total shipments, active in transit, exceptions resolved, val
 
 ```text
 +---------------------------------------------------------------------------------------------------------------------------------+
-| LogiQED    | Dashboard | Map | Registry | SLA Engine | Evidence | Chat                    | 🔔 [Operator] [EN]                  |
+| LogiQED    | Dashboard | Map | Registry | SLA Engine | Evidence | Chat                               | 🔔 [Operator] [EN]       |
 +---------------------------------------------------------------------------------------------------------------------------------+
-| Executive Dashboard — Verifiable Freight Infrastructure                                      [ Last 30 Days ] [ Export Analytics]|
+| Dashboard    [ Overview ] [ Disputes ] [ Trust ] [ Anchors ]                                              [ Last 30 Days ]      |
 +---------------------------------------------------------------------------------------------------------------------------------+
-| KPI Summary                                                                                                                     |
+| Overview                                                                                                                        |
 |   ┌────────────────────────┐  ┌────────────────────────┐  ┌────────────────────────┐  ┌────────────────────────┐                |
 |   │ Total Shipments: 1,420 │  │ Active in Transit: 142 │  │ Exceptions Resolved: 28│  │ Valid ZK Proofs: 1,392 │                |
 |   │ 🟢 +12% vs last month  │  │ 🚛 On schedule: 114    │  │ ⚠️ Auto-resolved: 28   │  │ 🔒 100% Verified       │                |
 |   └────────────────────────┘  └────────────────────────┘  └────────────────────────┘  └────────────────────────┘                |
 +---------------------------------------------------------------------------------------------------------------------------------+
-| Dispute Resolution & Financial Impact                                                           | System Trust Distribution     |
-|   • Average Dispute Close Time: 12 minutes (down from 45 days)                                  |   • E5 (Encrypted/Post-Q): 45%|
-|   • Total Penalties Fairly Excluded: €34,500                                                    |   • E4 (Secure Onboard):  40% |
-|   • eFTI Compliance Rate: 99.8%                                                                 |   • E2-E3 (Standard GPS): 12% |
-|                                                                                                 |   • E1 (Manual/Fallback):  3% |
+
+[ Disputes ]
++---------------------------------------------------------------------------------------------------------------------------------+
+| Dispute Resolution & Financial Impact                                                                                           |
+|   • Average Dispute Close Time: 12 minutes (down from 45 days)                                                                  |
+|   • Total Penalties Fairly Excluded: €34,500                                                                                    |
+|   • eFTI Compliance Rate: 99.8%                                                                                                 |
++---------------------------------------------------------------------------------------------------------------------------------+
+
+[ Trust ]
++---------------------------------------------------------------------------------------------------------------------------------+
+| System Trust Distribution                                                                                                       |
+|   • E5 (Encrypted/Post-Q): 45%                                                                                                  |
+|   • E4 (Secure Onboard):  40%                                                                                                   |
+|   • E2-E3 (Standard GPS): 12%                                                                                                   |
+|   • E1 (Manual/Fallback):  3%                                                                                                   |
++---------------------------------------------------------------------------------------------------------------------------------+
+
+[ Anchors ]
 +---------------------------------------------------------------------------------------------------------------------------------+
 | Recent Immutable Anchors (Arweave / Storage)                                                                                    |
 |   [PKG-8821] Berlin->Warsaw | Hash: 0x8f4c...1a | Arweave TX: 0x12...99 | Status: Verified                                      |
