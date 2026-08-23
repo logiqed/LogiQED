@@ -95,6 +95,46 @@ OwnerKind + OwnerId. Employee is built-in. Vehicles and other kinds are extensib
 - Evidence Package
 - Trust Levels E0–E5
 
+## SLA Subsystem
+
+Service level management with policies, calendars and exception rules.
+
+### Components
+
+- SLA policies: reaction and resolution targets by scope.
+- Working calendars: working hours by weekday and time zone.
+- Holiday sets: named non-working days.
+- Exception rules: automatic penalty exclusion based on conditions.
+
+### Policy
+
+- Code, reaction time, resolution time, on-site arrival time.
+- Calendar type: 24-7 or business hours.
+- Valid from and valid to.
+- Scope dimensions: category, type, priority.
+
+### Calendar
+
+- Time zone.
+- Working hours per weekday.
+- Holiday sets attached.
+- Default calendar flag.
+
+### Exception Rules
+
+- Condition builder: field comparisons, domain conditions, AND/OR/NOT.
+- Timers and escalations.
+- Resulting action: chargeable delay, evidence generation.
+- Rule versioning.
+- Execution history.
+
+### Integration
+
+- SLA policies apply to shipments.
+- Working calendars control timer behaviour.
+- Exception rules generate Evidence Packages.
+- Rule results visible to driver as Penalty Protection.
+
 ## Blockchain and ZK
 
 - Flock-class proof systems — hash-intensive workloads. Runs on x86 Linux. Post-quantum proving already 3x faster on Mac, x86 ceiling still open. Benchmarks on real LogiQED circuits.

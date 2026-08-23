@@ -2,23 +2,19 @@
 
 ASCII wireframes for the LogiQED platform.
 
-MVP focuses on: Registry, Map, SLA Engine, Evidence Package, ZK Proof Inspector, Dashboard, Mobile Driver View.
+MVP focuses on: Registry, Map, SLA Overview, SLA Policy, SLA Rule Builder, Evidence Package, ZK Proof Inspector, Dashboard, Mobile Driver View.
 
-Full product scope includes 16 screens.
+Full product scope includes all screens below.
 
-## UI Notes
-
-- 16 screens covering full product scope.
-- Light and dark themes supported across all screens.
-- Designed for desktop operators and mobile drivers.
+> Demo data, proof values and attestation details are simulated for MVP presentation.
 
 ## 1. Registry
 
-Freight registry: filters for active, delayed, exception, verified, table with trust levels, proof status, workflow, export.
+Freight registry with filters for active, delayed, exception and verified shipments.
 
 ```text
 +-----------------------------------------------------------------------------------------------------------------------------------------------------+
-| LogiQED    | Dashboard | Map | Registry | SLA Engine | Evidence | Chat                                   | 🔔 [Operator] [EN]                                         |
+| LogiQED    | Dashboard | Map | Registry | SLA Engine | Evidence | Chat                                         | 🔔 [Operator] [EN]                 |
 +-----------------------------------------------------------------------------------------------------------------------------------------------------+
 | Freight Registry                                                                                                                                    |
 | Filter: [ Active (24) ] [ Delayed (3) ] [ Exception (5) ] [ Verified (142) ]                             [ Search trip, hash, device... ] [ + New ] |
@@ -36,7 +32,7 @@ Freight registry: filters for active, delayed, exception, verified, table with t
 
 ## 2. Map
 
-Operational control map: active trips queue, interactive map with routes and geofences, selected trip details, SLA status, trust level, evidence actions.
+Operational control map with active trips queue, interactive map and selected trip details.
 
 ```text
 +---------------------------------------------------------------------------------------------------------------------------------+
@@ -65,9 +61,10 @@ Operational control map: active trips queue, interactive map with routes and geo
 | Legend: 🟢 On time, 🔴 Delayed, 🟡 At risk    |   Summary: 12 active, 3 delayed, 9 on schedule                                  |
 +---------------------------------------------------------------------------------------------------------------------------------+
 ```
+
 ## 3. Workflow & Status Engine
 
-Trip lifecycle management: statuses, visual pipeline Created → Picked Up → In Transit → Delivered, timers and escalations.
+Trip lifecycle management with visual pipeline and timers.
 
 ```text
 +---------------------------------------------------------------------------------------------------------------------------------+
@@ -88,9 +85,88 @@ Trip lifecycle management: statuses, visual pipeline Created → Picked Up → I
 |   • Code: RESOLUTION_DEADLINE_BREACH Action: Auto-Close Dispute  Offset, min: 0     Order: 2    Active: [✓]   [Delete]          |
 +---------------------------------------------------------------------------------------------------------------------------------+
 ```
-## 4. SLA Engine
 
-Rule builder: AND/OR/NOT conditions, field comparisons, domain conditions, timers, resulting action, execution history.
+## 4. SLA Overview / Hub
+
+Configuration hub for SLA policies, working calendars and holiday sets.
+
+```text
++---------------------------------------------------------------------------------------------------------------------------------+
+| LogiQED    | Dashboard | Map | Registry | Workflow | SLA | Telemetry | Chat            | 🔔 [EN] [Admin User]                   |
++---------------------------------------------------------------------------------------------------------------------------------+
+| CONFIGURATION > SLA                                                                                                     [ ⏱️ ]  |
+| Service level policies, working calendars and holidays.                                                                         |
++---------------------------------------------------------------------------------------------------------------------------------+
+| Tabs: [ SLA policies ] [ Working calendars ] [ Holiday sets ]                                                                   |
++---------------------------------------------------------------------------------------------------------------------------------+
+| ⏱️ SLA policies                                | 📅 Working calendars                     | 🏖️ Holiday sets                     |
+| Reaction and resolution targets by scope.      | Working hours by weekday and time zone.  | Named sets of non-working days for  |
+|                                                |                                          | calendar.                           |
+| [ SLA policies ]                               | [ Working calendars ]                    | [ Holiday sets ]                    |
++---------------------------------------------------------------------------------------------------------------------------------+
+```
+
+## 5. Edit SLA Policy
+
+Detailed editor for a specific SLA policy with reaction, resolution and scope.
+
+```text
++---------------------------------------------------------------------------------------------------------------------------------+
+| LogiQED    | Dashboard | Map | Registry | Workflow | SLA | Telemetry | Chat            | 🔔 [EN] [Admin User]                   |
++---------------------------------------------------------------------------------------------------------------------------------+
+| SLA > SLA policies > Edit SLA policy                                                     [ Save ] [ Save and close ] [ Close ]  |
++---------------------------------------------------------------------------------------------------------------------------------+
+| General information                                                                                                             |
+|   Code *: [ EMERGENCY-A1-CRITICAL ]                                 Calendar type:    [ Calendar time (24-7) ] >                |
+|   Reaction (min) *: [ 5  ]                                          Working calendar: [ -- Default --     ] >                   |
+|   Resolution (min) *: [ 30 ]                                        Valid from:       [ _ _._ _._ _ _ _      ] 📅               |
+|   On-site arrival (min): [ 20 ]                                     Valid to:         [ _ _._ _._ _ _ _      ] 📅               |
+|   Active: [✓]                                                                                                                   |
++---------------------------------------------------------------------------------------------------------------------------------+
+| Scope                                                                                                                           |
+|   Dimension: [ Enter the dimension                   ]    Value: [ Enter the value                     ]  [ + Add ] [ Remove ]  |
+|   [ Page size: 20 ]  [ Combine filters: AND / OR ]                                           [ 🔄 Refresh ] [ ⚙️ Reset ] [ ↗️ ]  |
+|   ----------------------------------------------------------------------------------------------------------------------------- |
+|   Dimension                                                                              | Value                                |
+|   ----------------------------------------------------------------------------------------------------------------------------- |
+|   Category                                                                               | A1                                   |
+|   Type                                                                                   | A                                    |
+|   Priority                                                                               | CRITICAL                             |
+|   Page 1 of 1 (3 of 3 items)                                                                                                    |
++---------------------------------------------------------------------------------------------------------------------------------+
+```
+
+## 6. Edit Working Calendar
+
+Editor for working hours by weekday, time zone and holiday sets.
+
+```text
++---------------------------------------------------------------------------------------------------------------------------------+
+| LogiQED    | Dashboard | Map | Registry | Workflow | SLA | Telemetry | Chat         | 🔔 [EN] [Admin User]                      |
++---------------------------------------------------------------------------------------------------------------------------------+
+| SLA > Working calendars > Edit calendar                                                  [ Save ] [ Save and close ] [ Close ]  |
++---------------------------------------------------------------------------------------------------------------------------------+
+| General Information                                                                                                             |
+|   Code *: [ DEFAULT ]                                                                                                           |
+|   Name *: [ Standard calendar ]                                                                                                 |
+|   Time zone *: [ (UTC+03:00) Kyiv]                                                                                              |
+|   Holiday sets: [ Select holiday sets ]                                                                                         |
+|   Default: [✓]                                                                                                                  |
++---------------------------------------------------------------------------------------------------------------------------------+
+| Working hours                                                                                                                   |
+|   Monday      [ 09:00 ] ✕ - [ 18:00 ] ✕ [✓] ✕  [ + Add Interval ]                                                               |
+|   Tuesday     [ 09:00 - 18:00 ] ✕              [ + Add Interval ]                                                               |
+|   Wednesday   [ 09:00 - 18:00 ] ✕              [ + Add Interval ]                                                               |
+|   Thursday    [ 09:00 - 18:00 ] ✕              [ + Add Interval ]                                                               |
+|   Friday      [ 09:00 - 18:00 ] ✕              [ + Add Interval ]                                                               |
+|   Saturday    Day off                          [ + Add Interval ]                                                               |
+|   Sunday      Day off                          [ + Add Interval ]                                                               |
++---------------------------------------------------------------------------------------------------------------------------------+
+```
+
+## 7. SLA Rule Builder
+
+Rule builder for exception attribution.
 
 ```text
 +---------------------------------------------------------------------------------------------------------------------------------+
@@ -121,18 +197,19 @@ Rule builder: AND/OR/NOT conditions, field comparisons, domain conditions, timer
 |   · Triggered: 142 times    · Exceptions Created: 28    · Success Rate: 100%    · Last Triggered: Today, 14:22 (Trip SHP-803)   |
 +---------------------------------------------------------------------------------------------------------------------------------+
 ```
-## 5. Evidence Package
 
-Associated e-Documents and cryptographic evidence package: package ID, SLA result, key telemetry events with hashes, signature chain, Arweave Tx, package hash.
+## 8. Evidence Package
+
+Associated e-Documents and cryptographic evidence package.
 
 ```text
 +---------------------------------------------------------------------------------------------------------------------------------+
-| LogiQED    | Dashboard | Map | Registry | SLA Engine | Evidence | Chat                             | 🔔 [Operator] [EN]         |
+| LogiQED    | Dashboard | Map | Registry | SLA Engine | Evidence | Chat                     | 🔔 [Operator] [EN]                 |
 +---------------------------------------------------------------------------------------------------------------------------------+
 | Shipment SHP-802 > Documents & Evidence Package                 [ Export PDF ] [ View Proof ] [ Verify Package ]                |
 +---------------------------------------------------------------------------------------------------------------------------------+
 | 📄 Associated e-Documents                       | 📦 Cryptographic Evidence Package (Immutable Snapshot)                        |
-| -------------------------                       | ----------------------------------------------------------------------------- |
+| -------------------------                       | -------------------------------------------------------------                 |
 | • eFTI_Consignment_Note_802.pdf                 | • Package ID: pkg_981247190248192a                                            |
 |   Status: [ eFTI Compliant ]  [👁️ View]         | • Created: 22.08.2026 14:15 UTC                                               |
 | • Customs_Clearance_Declaration.xml             | • SLA Result: Chargeable Delay: 0 min. Penalty: Not Applied                   |
@@ -149,9 +226,10 @@ Associated e-Documents and cryptographic evidence package: package ID, SLA resul
 | 🔗 Arweave Tx: 0x8f4c21a9e7b13...1a  |  Package Hash: sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855   |
 +---------------------------------------------------------------------------------------------------------------------------------+
 ```
-## 6. ZK Proof Inspector
 
-Proof inspection: claim type, public inputs, proof data, verification result, verification time, copy proof, export ZK JSON.
+## 9. ZK Proof Inspector
+
+Inspection of a single cryptographic proof.
 
 ```text
 +---------------------------------------------------------------------------------------------------------------------------------+
@@ -170,12 +248,13 @@ Proof inspection: claim type, public inputs, proof data, verification result, ve
 |   [ 0x7b2a9f1c4e8d3b2a1f9e8d7c6b5a4f3e2d1c0b9a8f7e6d5c4b3a2f1e0d9c8b7a ]                                                        |
 |   [ 0x3f1e9d8c7b6a5f4e3d2c1b0a9f8e7d6c5b4a3f2e1d0c9b8a7f6e5d4c3b2a1f0e ]                                                        |
 +---------------------------------------------------------------------------------------------------------------------------------+
-| Verification Result: 🟢 SUCCESS (Valid Proof)  |  Verification Time: 42 ms              [ Copy Proof ] [ Export ZK JSON ] [ Close ] |
+| Verification Result: 🟢 SUCCESS (Valid Proof)  |  Verification Time: 42 ms          [ Copy Proof ] [ Export ZK JSON ] [ Close ] |
 +---------------------------------------------------------------------------------------------------------------------------------+
 ```
-## 7. Dashboard
 
-Executive overview: total shipments, active in transit, exceptions resolved, valid ZK proofs, financial impact, trust level distribution, recent immutable anchors.
+## 10. Dashboard
+
+Executive dashboard with KPI, disputes, trust distribution and anchors.
 
 ```text
 +---------------------------------------------------------------------------------------------------------------------------------+
@@ -189,32 +268,24 @@ Executive overview: total shipments, active in transit, exceptions resolved, val
 |   │ 🟢 +12% vs last month  │  │ 🚛 On schedule: 114    │  │ ⚠️ Auto-resolved: 28   │  │ 🔒 100% Verified       │                |
 |   └────────────────────────┘  └────────────────────────┘  └────────────────────────┘  └────────────────────────┘                |
 +---------------------------------------------------------------------------------------------------------------------------------+
-
-[ Disputes ]
-+---------------------------------------------------------------------------------------------------------------------------------+
-| Dispute Resolution & Financial Impact                                                                                           |
+| [ Disputes ]                                                                                                                    |
 |   • Average Dispute Close Time: 12 minutes (down from 45 days)                                                                  |
 |   • Total Penalties Fairly Excluded: €34,500                                                                                    |
 |   • eFTI Compliance Rate: 99.8%                                                                                                 |
 +---------------------------------------------------------------------------------------------------------------------------------+
-
-[ Trust ]
-+---------------------------------------------------------------------------------------------------------------------------------+
-| System Trust Distribution                                                                                                       |
+| [ Trust ]                                                                                                                       |
 |   • E5 (Encrypted/Post-Q): 45%                                                                                                  |
 |   • E4 (Secure Onboard):  40%                                                                                                   |
 |   • E2-E3 (Standard GPS): 12%                                                                                                   |
 |   • E1 (Manual/Fallback):  3%                                                                                                   |
 +---------------------------------------------------------------------------------------------------------------------------------+
-
-[ Anchors ]
-+---------------------------------------------------------------------------------------------------------------------------------+
-| Recent Immutable Anchors (Arweave / Storage)                                                                                    |
+| [ Anchors ]                                                                                                                     |
 |   [PKG-8821] Berlin->Warsaw | Hash: 0x8f4c...1a | Arweave TX: 0x12...99 | Status: Verified                                      |
 |   [PKG-8822] Paris->Lyon    | Hash: 0x3b1e...8c | Arweave TX: 0x44...55 | Status: Verified                                      |
 +---------------------------------------------------------------------------------------------------------------------------------+
 ```
-## 8. Mobile Driver View
+
+## 11. Mobile Driver View
 
 Driver screen for active trip, telemetry, SLA protection and quick actions.
 
@@ -341,41 +412,43 @@ Information only. Shows current SLA status.
 | [ Trip List ]         [ Profile ]     |
 +---------------------------------------+
 ```
-## 9. Chat
-Communication: chat list, attachments including photo, audio, documents, evidence packages, verified status, attach evidence button.
+## 12. Chat
+
+Communication with attachments and evidence packages.
 
 ```text
-+---------------------------------------------------------------------------------------------------------------------------------+
-| LogiQED    | Dashboard | Map | Registry | SLA Engine | Evidence | Chat                 | Status: [🟢 Online] [Realtime ⚡]      |
-+---------------------------------------------------------------------------------------------------------------------------------+
-| Active Chats (4)                 | TRK-42: Berlin -> Warsaw (Driver: Hans Mueller)                          [📋 Trip #802 Info] |
-| [C+] [🔄]                        | -------------------------------------------------------------------------------------------- |
-| -------------------------------- |                                                                                              |
-| 🟢 TRK-42 (Berlin-Warsaw) [2]    |   [ Attachment: Warehouse Geofence Photo Entry ]                                             |
-|    Photo, 11:44                  |   [ 📁 Download Archive (2.4 MB) ]                      [ 22.08 11:44 ]                      |
-|                                  |                                                                                              |
-| ⚪ Victoria Weber (TransLog Sp.) |   🎵 Driver Voice Note: Delayed at Berlin loading dock due to heavy traffic.                 |
-|    Audio, 12:18                  |   [▶ ─────────●─────── 01:24 / 03:59 ] [🔊 ───●─]        [ 22.08 12:18 ]                     |
-|                                  |                                                                                              |
-| 🤖 SLA Support [Bot]             |   👤 Dispatcher:                                                                             |
-|    Image, 07:37                  |   Acknowledged. Automatically triggering SLA exception rule for queue delay.                 |
-|                                  |                                                                                              |
-| ⚪ Tetiana Bondarenko            |   📄 **eFTI_Consignment_Note_802.pdf**                                                       |
-|    Document, 22.05               |      304.3 KB · application/pdf                       [👁️ Preview] [📥 Download]             |
-|                                  |                                                                                              |
-|                                  |   📦 **Evidence_Package_PKG8821.json** [🔒 Verified]                                         |
++----------------------------------------------------------------------------------------------------------------------------------+
+| LogiQED    | Dashboard | Map | Registry | SLA Engine | Evidence | Chat                      | Status: [🟢 Online] [Realtime ⚡]  |
++----------------------------------------------------------------------------------------------------------------------------------+
+| Active Chats (4)                 | TRK-42: Berlin -> Warsaw (Driver: Hans Mueller)                           [📋 Trip #802 Info] |
+| [C+] [🔄]                        | --------------------------------------------------------------------------------------------- |
+| -------------------------------- |                                                                                               |
+| 🟢 TRK-42 (Berlin-Warsaw) [2]    |   [ Attachment: Warehouse Geofence Photo Entry ]                                              |
+|    Photo, 11:44                  |   [ 📁 Download Archive (2.4 MB) ]                       [ 22.08 11:44 ]                      |
+|                                  |                                                                                               |
+| ⚪ Victoria Weber (TransLog Sp.) |   🎵 Driver Voice Note: Delayed at Berlin loading dock due to heavy traffic.                  |
+|    Audio, 12:18                  |   [▶ ─────────●─────── 01:24 / 03:59 ] [🔊 ───●─]        [ 22.08 12:18 ]                      |
+|                                  |                                                                                               |
+| 🤖 SLA Support [Bot]             |   👤 Dispatcher:                                                                              |
+|    Image, 07:37                  |   Acknowledged. Automatically triggering SLA exception rule for queue delay.                  |
+|                                  |                                                                                               |
+| ⚪ Tetiana Bondarenko            |   📄 **eFTI_Consignment_Note_802.pdf**                                                        |
+|    Document, 22.05               |      304.3 KB · application/pdf                        [👁️ Preview] [📥 Download]             |
+|                                  |                                                                                               |
+|                                  |   📦 **Evidence_Package_PKG8821.json** [🔒 Verified]                                          |
 |                                  |      45.1 KB · cryptographic proof             [👁️ Preview] [📥 Download]                    |
 +---------------------------------------------------------------------------------------------------------------------------------+
 | 📎 [ + Attach Evidence ] [ Type a message or attach files... ]                                                [ 🎤 ] [ ➡️ ]     |
 +---------------------------------------------------------------------------------------------------------------------------------+
 ```
-## 10. Notification Rules Engine
 
-Notification rules: match conditions, recipients, delivery channels: in-app, email, SMS, push, chat.
+## 13. Notification Rules Engine
+
+Rules for automatic notifications.
 
 ```text
 +---------------------------------------------------------------------------------------------------------------------------------+
-| LogiQED    | Dashboard | Map | Registry | Workflow | Notifications | Telemetry | Chat   | 🔔 [EN] [Operator]                    |
+| LogiQED    | Dashboard | Map | Registry | Workflow | Notifications | Telemetry | Chat    | 🔔 [EN] [Operator]                   |
 +---------------------------------------------------------------------------------------------------------------------------------+
 | Notifications > Notification Rules > Edit Notification Rule                              [ Save ] [ Save & Close ] [ Close ]    |
 +---------------------------------------------------------------------------------------------------------------------------------+
@@ -394,19 +467,14 @@ Notification rules: match conditions, recipients, delivery channels: in-app, ema
 |   [✓] In-app notification     [✓] Email     [ ] SMS     [✓] Device push (Driver PWA)     [✓] External conversation (Chat)       |
 +---------------------------------------------------------------------------------------------------------------------------------+
 ```
-## 11. Telemetry & My Location Hub
+
+## 14. Telemetry & My Location Hub
 
 Self-reporting and device monitoring.
 
-Employee browser starts or stops reporting. Shows current state, last reported coordinates, age of last submission and geolocation errors.
-
-Server controls reporting interval. Wake Lock API keeps screen awake when possible.
-
-Continuous background reporting with screen off is handled by tracker application with a device key.
-
 ```text
 +---------------------------------------------------------------------------------------------------------------------------------+
-| LogiQED    | Dashboard | Map | Registry | Workflow | Notifications | Telemetry | Chat   | 🔔 [EN] [Operator]                   |
+| LogiQED    | Dashboard | Map | Registry | Workflow | Notifications | Telemetry | Chat    | 🔔 [EN] [Operator]                   |
 +---------------------------------------------------------------------------------------------------------------------------------+
 | Telemetry > My Location                                                                                                         |
 +---------------------------------------------------------------------------------------------------------------------------------+
@@ -426,15 +494,16 @@ Continuous background reporting with screen off is handled by tracker applicatio
 |   of telemetry devices.                                                                                                         |
 +---------------------------------------------------------------------------------------------------------------------------------+
 ```
-## 12. Workflow Diagram
 
-Visual lifecycle diagram: New Created, Accepted, Rejected, In Progress, Completed, Closed.
+## 15. Workflow Diagram
+
+Visual lifecycle diagram.
 
 ```text
 +---------------------------------------------------------------------------------------------------------------------------------+
-| LogiQED    | Dashboard | Map | Registry | Workflow | SLA | Telemetry | Chat         | 🔔 [EN] [Operator]                   |
+| LogiQED    | Dashboard | Map | Registry | Workflow | SLA | Telemetry | Chat         | 🔔 [EN] [Operator]                        |
 +---------------------------------------------------------------------------------------------------------------------------------+
-| Workflow > Workflow Diagram                                                                [ Fit to screen ] [ 100% ] [ 🔍 ] [ 📤 ]|
+| Workflow > Workflow Diagram                                                             [ Fit to screen ] [ 100% ] [ 🔍 ] [ 📤 ]|
 +---------------------------------------------------------------------------------------------------------------------------------+
 | Mode: [✓] System transitions   [ ] Reject loops                    | Selected Schema: VERIFIABLE_FREIGHT_CORRIDOR               |
 +---------------------------------------------------------------------------------------------------------------------------------+
@@ -459,15 +528,16 @@ Visual lifecycle diagram: New Created, Accepted, Rejected, In Progress, Complete
 |                                                            (Immutable Archive)                                                  |
 +---------------------------------------------------------------------------------------------------------------------------------+
 ```
-## 13. Appeals & Shift Handover
 
-Shift handover journal and incident registry: statuses, comments, supervisor decisions.
+## 16. Appeals & Shift Handover
 
-```
+Shift handover journal and incident registry.
+
+```text
 +---------------------------------------------------------------------------------------------------------------------------------+
 | LogiQED    | Dashboard | Map | Registry | Workflow | SLA | Shift Handover | Chat       | 🔔 [EN] [Operator]                     |
 +---------------------------------------------------------------------------------------------------------------------------------+
-| Shift Handover Record > View: SHP-20260821-C0000001                                      [ Accept the shift ] [ Cancel ] [ Close ]|
+| Shift Handover Record > View: SHP-20260821-C0000001                                    [ Accept the shift ] [ Cancel ] [ Close ]|
 +---------------------------------------------------------------------------------------------------------------------------------+
 | Number: SHP-20260821-C0000001    | Status: 🟠 Handed over    | Handed over by: Anna Rudenko                                     |
 | Handed over: 21.08.2026 21:46:03 | Night shift: 21.08.2026 09:48:00 - 21.08.2026 21:46:03                                       |
@@ -486,9 +556,10 @@ Shift handover journal and incident registry: statuses, comments, supervisor dec
 |   Shift comment: Waiting for materials from maintenance team. Supervisor decision: Pending           |                          |
 +---------------------------------------------------------------------------------------------------------------------------------+
 ```
-## 14. Appeals Analytics
 
-Dispute analytics: SLA breaches, average reaction and resolution times, P90, period comparison, chart.
+## 17. Appeals Analytics
+
+Analytics for SLA breaches and dispute dynamics.
 
 ```text
 +---------------------------------------------------------------------------------------------------------------------------------+
@@ -506,8 +577,10 @@ Dispute analytics: SLA breaches, average reaction and resolution times, P90, per
 |   (Bar chart visualization showing peaks on days 12, 18, 21 with breakdown by Reaction vs Resolution breaches)                  |
 +---------------------------------------------------------------------------------------------------------------------------------+
 ```
-## 15. Org Structure
-Organizational chart: departments, employees, contacts.
+
+## 18. Org Structure
+
+Organizational chart.
 
 ```text
 +---------------------------------------------------------------------------------------------------------------------------------+
@@ -532,13 +605,15 @@ Organizational chart: departments, employees, contacts.
 |                               15 employees                              15 employees                                            |
 +---------------------------------------------------------------------------------------------------------------------------------+
 ```
-## 16. Goods Turnover
 
-Goods movement management: receipts, issues, transfers, write-offs, turnover sheet.
+## 19. Goods Turnover
+
+Goods movement management.
 
 ```text
+
 +---------------------------------------------------------------------------------------------------------------------------------+
-| LogiQED    | Dashboard | Map | Registry | Workflow | Goods Turnover | Telemetry | Chat    | 🔔 [EN] [Operator]                  |
+| LogiQED    | Dashboard | Map | Registry | Workflow | Goods Turnover | Telemetry | Chat     | 🔔 [EN] [Operator]                 |
 +---------------------------------------------------------------------------------------------------------------------------------+
 | Infrastructure > Goods Turnover                                                            [ 🛒 Create Document ]               |
 | Goods movement by documents: receipts, issues, transfers and write-offs with approval, posting and a turnover sheet             |
