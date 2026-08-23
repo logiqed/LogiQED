@@ -289,7 +289,13 @@ Notification rules: match conditions, recipients, delivery channels: in-app, ema
 ```
 ## 11. Telemetry & My Location Hub
 
-Active tracker monitoring: reporting status, coordinates, browser limitations, instructions.
+Self-reporting and device monitoring.
+
+Employee browser starts or stops reporting. Shows current state, last reported coordinates, age of last submission and geolocation errors.
+
+Server controls reporting interval. Wake Lock API keeps screen awake when possible.
+
+Continuous background reporting with screen off is handled by tracker application with a device key.
 
 ```text
 +---------------------------------------------------------------------------------------------------------------------------------+

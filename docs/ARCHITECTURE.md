@@ -18,6 +18,75 @@ For a pilot MVP, a modular monolith is the right trade-off. Natural computationa
 - Redis — hot cache and pub/sub.
 - Seq — structured logging and tracing.
 
+## Telemetry Subsystem
+
+Unified infrastructure layer for ingesting, normalizing, storing and distributing mobile-object positions in real time.
+
+### Purpose
+
+Separates coordinate sources from business objects. Provides generic answers:
+
+- Where is this object now?
+- Which position was just received?
+
+### Core Idea
+
+Coordinate source, telemetry device, owner, generic position.
+
+### Sources
+
+- Employee browser
+- Tracker application
+- External tracking systems
+
+### Device Identity
+
+Unique pair of SourceCode + ExternalId.
+
+### Device Owner
+
+OwnerKind + OwnerId. Employee is built-in. Vehicles and other kinds are extensible.
+
+### Data Model
+
+- Last known position on device record.
+- Time-ordered position track with server-configurable retention.
+
+### Ingestion and Normalization
+
+- Latitude and longitude validated.
+- Timestamps normalized to UTC.
+- Future timestamps capped at server receive time.
+- Duplicate timestamps removed.
+- Points ordered by recorded time.
+- Known points not re-inserted.
+- Late payloads extend history but cannot move current position backwards.
+
+### Realtime Delivery
+
+- SignalR hub /hubs/telemetry.
+- TelemetryPositionReceived event.
+- Dispatch map adapter translates owner key and coordinate update.
+
+### Resilience
+
+- Client can buffer points offline.
+- Retried payloads are safe.
+- Late data does not degrade current position.
+
+### Security
+
+- Telemetry.Read
+- Telemetry.Write
+- Telemetry.Report
+- Tracker-ingest API uses device key, not user auth.
+- Only hash of tracker key stored.
+
+### Extensibility
+
+- New owner kinds without changing core.
+- New ingest adapters without changing core.
+
 ## Evidence Layer
 
 - Signed Event Stream
@@ -45,9 +114,9 @@ LogiQED adopts formally verified proof backends when production ready.
 
 Pluggable proof verification services.
 
-- Native verifier — direct verification for low volume or local checks.
-- Aligned Proof Aggregation — potential backend for cheap ZK verification at scale. Aggregates thousands of proofs into one, reducing L1 gas cost by 10-100x. Verification in milliseconds with cents-level fees. Security backed by EigenLayer validator pool.
-- EigenLayer — optional decentralized verification through AVS.
+- Native verifier
+- Aligned Proof Aggregation — potential backend for cheap ZK verification at scale. Aggregates thousands of proofs into one, reducing L1 gas cost by 10-100x.
+- EigenLayer — optional decentralized verification
 
 ## Storage
 
