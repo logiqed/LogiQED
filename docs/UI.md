@@ -308,6 +308,7 @@ Continuous background reporting with screen off is handled by tracker applicatio
 |   ┌─────────────────────────────────────────────────────────┐                                                                   |
 |   │ 🟢 Reporting is on         [ 🛑 Stop reporting ]        │                                                                   |
 |   │ Last reported: just now    Coordinates: 52.5200, 13.4050│                                                                   |
+|   │ Reporting interval: 15 sec (server controlled)          │                                                                   |
 |   └─────────────────────────────────────────────────────────┘                                                                   |
 |                                                                                                                                 |
 | WHAT TO KEEP IN MIND                                                                                                            |
