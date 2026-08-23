@@ -6,7 +6,15 @@ MVP focuses on: Registry, Map, SLA Engine, Evidence Package, ZK Proof Inspector,
 
 Full product scope includes 16 screens.
 
+## UI Notes
+
+- 16 screens covering full product scope.
+- Light and dark themes supported across all screens.
+- Designed for desktop operators and mobile drivers.
+
 ## 1. Registry
+
+Freight registry: filters for active, delayed, exception, verified, table with trust levels, proof status, workflow, export.
 
 ```text
 +-----------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -27,6 +35,8 @@ Full product scope includes 16 screens.
 ```
 
 ## 2. Map
+
+Operational control map: active trips queue, interactive map with routes and geofences, selected trip details, SLA status, trust level, evidence actions.
 
 ```text
 +---------------------------------------------------------------------------------------------------------------------------------+
@@ -57,6 +67,8 @@ Full product scope includes 16 screens.
 ```
 ## 3. Workflow & Status Engine
 
+Trip lifecycle management: statuses, visual pipeline Created → Picked Up → In Transit → Delivered, timers and escalations.
+
 ```text
 +---------------------------------------------------------------------------------------------------------------------------------+
 | LogiQED    | Dashboard | Map | Registry | Workflow | SLA | Telemetry | Chat              | 🔔 [EN] [Operator]                   |
@@ -77,6 +89,8 @@ Full product scope includes 16 screens.
 +---------------------------------------------------------------------------------------------------------------------------------+
 ```
 ## 4. SLA Engine
+
+Rule builder: AND/OR/NOT conditions, field comparisons, domain conditions, timers, resulting action, execution history.
 
 ```text
 +---------------------------------------------------------------------------------------------------------------------------------+
@@ -105,6 +119,8 @@ Full product scope includes 16 screens.
 ```
 ## 5. Evidence Package
 
+Associated e-Documents and cryptographic evidence package: package ID, SLA result, key telemetry events with hashes, signature chain, Arweave Tx, package hash.
+
 ```text
 +---------------------------------------------------------------------------------------------------------------------------------+
 | LogiQED    | Dashboard | Map | Registry | SLA Engine | Evidence | Chat                     | 🔔 [Operator] [EN]                 |
@@ -131,6 +147,8 @@ Full product scope includes 16 screens.
 ```
 ## 6. ZK Proof Inspector
 
+Proof inspection: claim type, public inputs, proof data, verification result, verification time, copy proof, export ZK JSON.
+
 ```text
 +---------------------------------------------------------------------------------------------------------------------------------+
 | ZK Proof Inspector — Shipment SHP-802                                                                                     [X]   |
@@ -152,6 +170,8 @@ Full product scope includes 16 screens.
 +---------------------------------------------------------------------------------------------------------------------------------+
 ```
 ## 7. Dashboard
+
+Executive overview: total shipments, active in transit, exceptions resolved, valid ZK proofs, financial impact, trust level distribution, recent immutable anchors.
 
 ```text
 +---------------------------------------------------------------------------------------------------------------------------------+
@@ -177,6 +197,8 @@ Full product scope includes 16 screens.
 +---------------------------------------------------------------------------------------------------------------------------------+
 ```
 ## 8. Mobile Driver View
+
+Driver screen: active trip, telemetry, device trust level, SLA protection, eFTI documents, quick actions, dispatcher chat.
 
 ```text
 +---------------------------------------+
@@ -213,6 +235,7 @@ Full product scope includes 16 screens.
 +---------------------------------------+
 ```
 ## 9. Chat
+Communication: chat list, attachments including photo, audio, documents, evidence packages, verified status, attach evidence button.
 
 ```text
 +---------------------------------------------------------------------------------------------------------------------------------+
@@ -241,6 +264,8 @@ Full product scope includes 16 screens.
 ```
 ## 10. Notification Rules Engine
 
+Notification rules: match conditions, recipients, delivery channels: in-app, email, SMS, push, chat.
+
 ```text
 +---------------------------------------------------------------------------------------------------------------------------------+
 | LogiQED    | Dashboard | Map | Registry | Workflow | Notifications | Telemetry | Chat   | 🔔 [EN] [Operator]                    |
@@ -264,6 +289,8 @@ Full product scope includes 16 screens.
 ```
 ## 11. Telemetry & My Location Hub
 
+Active tracker monitoring: reporting status, coordinates, browser limitations, instructions.
+
 ```text
 +---------------------------------------------------------------------------------------------------------------------------------+
 | LogiQED    | Dashboard | Map | Registry | Workflow | Notifications | Telemetry | Chat   | 🔔 [EN] [Operator]                   |
@@ -286,6 +313,8 @@ Full product scope includes 16 screens.
 +---------------------------------------------------------------------------------------------------------------------------------+
 ```
 ## 12. Workflow Diagram
+
+Visual lifecycle diagram: New Created, Accepted, Rejected, In Progress, Completed, Closed.
 
 ```text
 +---------------------------------------------------------------------------------------------------------------------------------+
@@ -318,6 +347,8 @@ Full product scope includes 16 screens.
 ```
 ## 13. Appeals & Shift Handover
 
+Shift handover journal and incident registry: statuses, comments, supervisor decisions.
+
 ```
 +---------------------------------------------------------------------------------------------------------------------------------+
 | LogiQED    | Dashboard | Map | Registry | Workflow | SLA | Shift Handover | Chat       | 🔔 [EN] [Operator]                     |
@@ -343,6 +374,8 @@ Full product scope includes 16 screens.
 ```
 ## 14. Appeals Analytics
 
+Dispute analytics: SLA breaches, average reaction and resolution times, P90, period comparison, chart.
+
 ```text
 +---------------------------------------------------------------------------------------------------------------------------------+
 | LogiQED    | Dashboard | Map | Registry | Workflow | Analytics | Telemetry | Chat       | 🔔 [EN] [Operator]                    |
@@ -360,6 +393,7 @@ Full product scope includes 16 screens.
 +---------------------------------------------------------------------------------------------------------------------------------+
 ```
 ## 15. Org Structure
+Organizational chart: departments, employees, contacts.
 
 ```text
 +---------------------------------------------------------------------------------------------------------------------------------+
@@ -385,6 +419,8 @@ Full product scope includes 16 screens.
 +---------------------------------------------------------------------------------------------------------------------------------+
 ```
 ## 16. Goods Turnover
+
+Goods movement management: receipts, issues, transfers, write-offs, turnover sheet.
 
 ```text
 +---------------------------------------------------------------------------------------------------------------------------------+
