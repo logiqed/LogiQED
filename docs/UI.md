@@ -216,7 +216,39 @@ Executive overview: total shipments, active in transit, exceptions resolved, val
 ```
 ## 8. Mobile Driver View
 
-Driver screen: active trip, telemetry, device trust level, SLA protection, eFTI documents, quick actions, dispatcher chat.
+Driver screen for active trip, telemetry, SLA protection and quick actions.
+
+Active Trip opens full shipment details: route, status, documents, event history.
+
+Device Trust Level opens attestation details:
+
+- Source: Onboard CAN bus
+- Device: Scania R450 (AB-777-CD)
+- Attestation: Secure boot verified
+- Firmware digest: 0x...
+- Key: hardware-backed, not exportable
+- Corroboration: GPS + CAN + gateway signed
+- Evidence Confidence: High
+
+Penalty Protection opens the active exclusion rule:
+
+- Rule: TRAFFIC_OR_QUEUE_EXCLUSION
+- Version: v3.2
+- Status: Active
+- Condition: telemetry.speed < 5 km/h AND geofence.type == "WAREHOUSE_QUEUE" AND source.trust_level >= E3
+- Result: Chargeable delay = 0 min. No penalty applied. Evidence Package auto-generated.
+
+eFTI Documents are clickable: preview or download.
+
+Quick Actions:
+
+- Report Incident / Delay — opens form with photo, comment and reason.
+- Sign Delivery / Handover — opens signature form.
+- Sync Telemetry Ping — manually sends coordinates.
+
+AI Copilot / Dispatcher Chat opens chat with dispatcher.
+
+Trip List shows all trips. Profile shows driver documents, rating and settings.
 
 ```text
 +---------------------------------------+
