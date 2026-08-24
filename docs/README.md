@@ -20,6 +20,7 @@ A late truck is explained by data: arrival 14:37, ETA 13:55, delay 42 min, cause
 - **SLA Engine** — rule execution with automatic exception attribution.
 - **Evidence Package** — immutable snapshot of claim, proof, and context.
 - **Targeted ZK Proofs** — high-value claims only. No overengineering.
+- **Role-based UI** — navigation and screens are generated from permissions. No hardcoded roles.
 
 ## First Two ZK Claims
 
