@@ -71,6 +71,7 @@ Blueprint phase. Looking for pilot partners and funding to move to real trucks.
 
 ## More
 
+- [For Investors](PLATFORM.md)
 - [Business Model](BUSINESS_MODEL.md)
 - [Roadmap](ROADMAP.md)
 - [FAQ](FAQ.md)
