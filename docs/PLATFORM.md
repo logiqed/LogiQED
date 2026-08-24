@@ -187,7 +187,7 @@ Founder stays and builds the product.
 
 ### Option 2: Full Acquisition
 
-Price: Starting at $250K. Negotiable.
+Price: Starting at $350K. Negotiable.
 
 Full transfer of code, brand, domain, GitHub, X account and documentation.
 
