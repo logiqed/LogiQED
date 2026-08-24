@@ -200,3 +200,7 @@ For investment, acquisition or pilot partnership:
 Email: LogiQED@gmail.com
 
 X / Twitter: [@LogiQED](https://x.com/LogiQED)
+
+GitHub: [github.com/logiqed/LogiQED](https://github.com/logiqed/LogiQED)
+
+Domain: [logiqed.tech](https://logiqed.tech)
