@@ -2,11 +2,13 @@
 
 Ingest is the entry point for physical events.
 
-Every event from an IoT sensor, device, or external API is accepted here, signed, and assigned a Trust Level.
+Every event from an IoT sensor, device, or external API is accepted here, signed, and evaluated.
+
+The client never sends a trust level. The server computes it from source identity, attestation, provenance and corroboration.
 
 ## Endpoint
 
-`POST /v1/evidence/ingest`
+POST /v1/evidence/ingest
 
 ## Request
 
@@ -14,7 +16,7 @@ Every event from an IoT sensor, device, or external API is accepted here, signed
 openapi: 3.1.0
 info:
   title: LogiQED Ingest API
-  version: 0.1.0
+  version: 0.2.0
 
 paths:
   /v1/evidence/ingest:
@@ -25,7 +27,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/EvidenceIngestRequest'
+              $ref: '#/components/schemas/EvidenceEventEnvelope'
       responses:
         '202':
           description: Event accepted
@@ -36,33 +38,42 @@ paths:
 
 components:
   schemas:
-    EvidenceIngestRequest:
+    EvidenceEventEnvelope:
       type: object
       required:
-        - sensorId
-        - eventType
-        - timestamp
+        - sourceId
+        - keyId
+        - signatureAlgorithm
         - signature
-        - payload
+        - schemaVersion
+        - canonicalizationMethod
+        - receivedAt
+        - epcisEvent
       properties:
-        sensorId:
+        sourceId:
           type: string
           example: "sensor_01HZ..."
-        eventType:
+        keyId:
           type: string
-          example: "temperature_reading"
-        timestamp:
+          example: "key_01HZ..."
+        signatureAlgorithm:
           type: string
-          format: date-time
+          example: "Ed25519"
         signature:
           type: string
-          description: "Signed hash of payload"
-        trustLevel:
+          description: "Signed canonical EPCIS event"
+        schemaVersion:
           type: string
-          enum: [E1, E2, E3, E4, E5]
-        payload:
+          example: "1.0"
+        canonicalizationMethod:
+          type: string
+          example: "JCS"
+        receivedAt:
+          type: string
+          format: date-time
+        epcisEvent:
           type: object
-          description: "Sensor data"
+          description: "GS1 EPCIS 2.0 event"
 
     EvidenceIngestResponse:
       type: object
@@ -72,48 +83,83 @@ components:
         status:
           type: string
           example: "accepted"
-        trustLevel:
-          type: string
+        trustEvaluation:
+          type: object
+          properties:
+            sourceId:
+              type: string
+            assuranceLevel:
+              type: string
+              example: "E4"
+            trustPolicy:
+              type: string
+              example: "E4_REQUIRED_V1"
+            evaluationStatus:
+              type: string
+              example: "PASS"
+
+
 ```		  
 ## Example Payloads
 
-### Temperature Sensor
+### EPCIS Object Event
 
 ```json
 {
-  "sensorId": "sensor_01HZ...",
-  "eventType": "temperature_reading",
-  "timestamp": "2026-08-14T08:30:00Z",
+  "sourceId": "sensor_01HZ...",
+  "keyId": "key_01HZ...",
+  "signatureAlgorithm": "Ed25519",
   "signature": "0x...",
-  "trustLevel": "E3",
-  "payload": {
-    "cargoId": "shipment_01HZ...",
-    "temperatureC": 3.2,
-    "humidityPercent": 55.0
+  "schemaVersion": "1.0",
+  "canonicalizationMethod": "JCS",
+  "receivedAt": "2026-08-25T14:00:00Z",
+  "epcisEvent": {
+    "eventType": "ObjectEvent",
+    "eventTime": "2026-08-25T14:00:00Z",
+    "action": "OBSERVE",
+    "bizLocation": {
+      "id": "urn:epc:id:sgln:0614141.00001.0"
+    },
+    "sensorData": {
+      "temperature": {
+        "value": 4.2,
+        "unit": "C"
+      }
+    }
   }
 }
 ```
 
-### GPS Event
+### EPCIS Event with Geo Location
 
 ```json
 {
-  "sensorId": "sensor_01HZ...",
-  "eventType": "gps_position",
-  "timestamp": "2026-08-14T08:31:00Z",
+  "sourceId": "gps_01HZ...",
+  "keyId": "key_01HZ...",
+  "signatureAlgorithm": "Ed25519",
   "signature": "0x...",
-  "trustLevel": "E3",
-  "payload": {
-    "shipmentId": "shipment_01HZ...",
-    "latitude": 52.2297,
-    "longitude": 21.0122
+  "schemaVersion": "1.0",
+  "canonicalizationMethod": "JCS",
+  "receivedAt": "2026-08-25T14:00:00Z",
+  "epcisEvent": {
+    "eventType": "ObjectEvent",
+    "eventTime": "2026-08-25T14:00:00Z",
+    "action": "OBSERVE",
+    "bizLocation": {
+      "id": "urn:epc:id:sgln:0614141.00002.0"
+    },
+    "geoLocation": {
+      "lat": 52.52,
+      "lon": 13.40
+    }
   }
 }
 ```
 
 ## Design Notes
 
-- Trust Level is assigned at ingest and stored with the event.
-- Payload is kept minimal. No personal data.
-- Signature verifies the source signed the payload hash.
-- Ingest does not evaluate SLA. It only records authenticated events.
+- Client never supplies trust level. Server evaluates.
+- EPCIS 2.0 is the event language.
+- Signature covers the canonical EPCIS event.
+- Payload is minimal. No personal data.
+- Ingest records authenticated events only. SLA evaluation happens later.

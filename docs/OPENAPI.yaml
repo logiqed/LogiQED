@@ -1,13 +1,12 @@
+```yaml
 openapi: 3.1.0
 info:
   title: LogiQED API
-  version: 0.1.0
+  version: 0.2.0
   description: |
     Verifiable Freight Infrastructure.
     Evidence layer for physical logistics.
-    Trust Levels E0-E5.
-    SLA engine.
-    Evidence Packages.
+    EPCIS 2.0 event model.
 
 servers:
   - url: https://api.logiqed.io/v1
@@ -19,7 +18,7 @@ tags:
   - name: Shipments
     description: Trip and shipment management
   - name: Events
-    description: Signed event stream and Evidence Graph
+    description: Signed EPCIS event stream and Evidence Graph
   - name: SLA
     description: Rules and exception attribution
   - name: Evidence
@@ -160,22 +159,17 @@ components:
 
     EventCreate:
       type: object
-      required: [shipmentId, eventType, timestamp, sourceId]
+      required: [sourceId, keyId, signature, epcisEvent]
       properties:
-        shipmentId:
-          type: string
-        eventType:
-          type: string
-        timestamp:
-          type: string
-          format: date-time
         sourceId:
+          type: string
+        keyId:
           type: string
         signature:
           type: string
-        trustLevel:
-          type: string
-          enum: [E0, E1, E2, E3, E4, E5]
+        epcisEvent:
+          type: object
+          description: GS1 EPCIS 2.0 event
 
     SLAEvaluation:
       type: object
@@ -222,10 +216,51 @@ components:
     ClaimVerificationResult:
       type: object
       properties:
-        proofId:
+        claimType:
           type: string
-        isValid:
-          type: boolean
+        claimVersion:
+          type: string
+        result:
+          type: string
+        rule:
+          type: object
+          properties:
+            id:
+              type: string
+            version:
+              type: string
+            digest:
+              type: string
+        trustPolicy:
+          type: object
+          properties:
+            id:
+              type: string
+            version:
+              type: string
+            result:
+              type: string
+        corroboration:
+          type: object
+          properties:
+            result:
+              type: string
+        evidenceRoot:
+          type: string
+        proof:
+          type: object
+          properties:
+            backend:
+              type: string
+            circuitId:
+              type: string
+            version:
+              type: string
+            valid:
+              type: boolean
+        schemaVersion:
+          type: string
         verifiedAt:
           type: string
           format: date-time
+```

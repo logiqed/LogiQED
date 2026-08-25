@@ -1,48 +1,46 @@
-# LogiQED Security
-
-## Reporting
-
-Security issues should be reported privately to the project maintainers.
-
-Do not open public issues for vulnerabilities.
+# Security
 
 ## Key Management
 
-- Device keys are generated on the device and stored in platform-protected storage.
-- Keys are not exported in plaintext.
-- Hybrid signature scheme: Ed25519 + ML-DSA.
-- Crypto-agile design: signature providers are pluggable.
+Device keys are generated on the device and stored in platform-protected storage.
+
+Keys are not exported in plaintext.
+
+Crypto-agile signature suite: ECDSA-P256, Ed25519, ML-DSA, SLH-DSA.
 
 ## Data Handling
 
-- Raw telemetry is not stored permanently.
-- Permanent storage contains hashes, proofs, and non-personal manifests.
-- Encrypted context data is stored separately in deletable storage.
-- Key destruction does not remove the cryptographic proof.
+Raw telemetry is stored in object storage with retention policies.
+
+Permanent storage contains commitments and proofs, not raw operational data.
+
+Public Manifest is designed to exclude direct identifiers.
+
+Pseudonymised data may remain personal data if a link can be restored with additional information.
 
 ## Source Attestation
 
-Every source has:
+Physical asset attestation uses TPM 2.0, Secure Element, OEM PKI and meter certificates.
 
-- SourceId
-- DeviceKey
-- SourceType
-- AttestationType
-- TrustLevel
-- Firmware/AppVersion
-- RevocationStatus
+Compute attestation uses Intel TDX, AMD SEV-SNP, vTPM and workload identity.
 
-## Trust Levels
+## Integrity
 
-Sources are ranked E0–E5. Higher levels require stronger attestation and corroboration.
+Every event is signed.
 
-## Webhook Security
+Source-local sequence with optional previous event hash.
 
-Webhooks are signed by LogiQED. Subscribers must verify signatures before processing.
+Merkle commitments with signed root.
+
+## Verification
+
+Claims are independently verifiable.
+
+Verification does not require access to raw telemetry.
 
 ## Design Principles
 
 - Privacy-by-design
 - Least privilege
 - No raw telemetry in permanent storage
-- Every proof independently verifiable
+- Every claim is policy-bound

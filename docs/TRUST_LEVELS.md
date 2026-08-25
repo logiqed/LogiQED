@@ -1,60 +1,53 @@
-# LogiQED Trust Levels
+# LogiQED Trust Model
 
-Every source of evidence has a trust level. Trust levels turn binary "proof" into graded confidence.
+## Source Assurance
 
-## Levels
+Every source is evaluated across identity, authentication, integrity, attestation, metrology, time, provenance and completeness.
 
 | Level | Source |
 |-------|--------|
-| E0 | User input |
-| E1 | Authenticated external API |
-| E2 | Signed software source |
-| E3 | Attested device |
-| E4 | Hardware-backed + corroborated source |
-| E5 | Multiple independent trusted sources |
+| E0 | user input |
+| E1 | authenticated external API |
+| E2 | signed software source |
+| E3 | attested device |
+| E4 | hardware-backed + corroborated source |
+| E5 | multiple independent trusted sources |
 
-## Why Trust Levels Matter
+Source Assurance is not an enum supplied by the client. It is the server-side evaluation of source identity, key, certificate, attestation, firmware and revocation status.
 
-A signed event does not mean the source is trustworthy. It means someone with a key signed it.
+## Trust Policy
 
-Trust Levels answer:
+A Trust Policy defines the required assurance for a specific claim.
 
-- Who signed it?
-- What type of source is it?
-- Is the device attested?
-- Is it corroborated by independent sources?
+Example: E4_REQUIRED_V1
 
-## Example
+Claim can be evaluated only if all required sources satisfy the policy.
 
-TrafficDelayClaim
+## Claim Confidence
 
-Confidence: E4
+Claim Confidence is the result of evaluating a claim against its Trust Policy.
 
-Sources: Truck GPS + Traffic Provider + Geofence
+It is separate from Source Assurance.
 
-This gives insurers, SLA engines, and courts a way to weight evidence instead of accepting or rejecting it.
+One source may be E4, but a specific claim based on that source may still have low confidence if corroboration is missing.
+
+## Provenance
+
+Trust Levels are not just an enum. They form Trust Policy + Provenance Graph.
+
+Three sources are not necessarily independent. GPS and geofence may derive from the same signal.
+
+Evidence Graph records provenance of the source of the source.
 
 ## MVP Implementation
 
-Minimal source identity fields in MVP:
+Minimal source identity fields:
 
 - SourceId
-- DeviceKey
+- KeyId
 - SourceType
 - AttestationType
-- TrustLevel
-- KeyIssuedAt
 - Firmware/AppVersion
 - RevocationStatus
-- EvidenceConfidence
 
-Full hardware attestation comes in Phase 2.
-
-## TrustLevel Assignment Rules
-
-- Start at E1 for authenticated APIs.
-- Start at E2 for signed software sources.
-- A device with verified hardware key becomes E3.
-- Multiple corroborating independent sources elevate to E4 or E5.
-
-The rules are part of the SLA schema and are versioned.
+Server computes assurance and trust policy result. Client never supplies trust level.

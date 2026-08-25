@@ -8,34 +8,30 @@ It is an immutable snapshot that connects a claim, its sources, the rule that ev
 
 Evidence Package contains:
 
-- Claim ID
+- Claim ID and version
 - Claim Type
 - Schema Version
 - Timestamp
 - Sources
-- Trust Levels
+- Trust Policy result
+- Corroboration result
 - Input Events
-- SLA Rule Reference
+- SLA Rule reference and digest
 - Conclusion
 - Proof Reference
-- Non-personal Manifest
+- Privacy-minimized Public Manifest
 
 ## Provenance Chain
 
 The package references an Evidence Graph.
 
-Claim → Events → Sources → Rule → Proof.
+Claim, Events, Sources, Source-of-Source, Rule, Proof.
 
 ## Privacy Design
 
 Permanent storage contains commitments and proofs. Not raw telemetry.
 
-- Evidence Root
-- Merkle Commitments
-- Proof
-- Schema Version
-- Timestamps
-- Non-personal Manifest
+Public Manifest is designed to exclude direct identifiers.
 
 Raw encrypted context data is stored separately in deletable storage.
 
@@ -50,19 +46,17 @@ They can check:
 - Proof validity
 - Hash consistency
 - Source signatures
-- Rule version
+- Rule version and digest
+- Trust policy result
 - Conclusion correctness
 
 ## Example
 
-SLA Exception Package
+Detention Package
 
-- Claim: SLA Exception
-- Conclusion: No penalty
-- Gross Delay: 42 min
-- Traffic: 31 min
-- Queue: 16 min
-- Chargeable Delay: 0 min
-- Rule: SLA v3.2
+- Claim: Detention
+- Conclusion: Warehouse attributable: 68 min
+- Rule: DETENTION_V1
+- Trust Policy: E4_REQUIRED_V1
+- Result: PASS
 - Proof: VALID
-- Confidence: E4
