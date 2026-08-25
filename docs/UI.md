@@ -31,12 +31,12 @@ Chat is available for all roles.
 Demo roles:
 
 - ADMIN: Users, Roles, Permissions, Rules & Endpoints, Audit Journal, Chat
-- SLA_ANALYST: SLA Overview, SLA Policy, Working Calendar, Rule Builder, Chat
-- DISPATCHER: Registry, Map, Workflow, Evidence Package, ZK Proof Inspector, Dashboard, Notifications, Chat
+- SLA_ANALYST: SLA Overview, SLA Policy, Working Calendar, Driver Incident Reports, Chat
+- DISPATCHER: Registry, Map, Workflow, Evidence Package, ZK Proof Inspector, Dashboard, Notifications, Driver Incident Reports, Chat
 - DRIVER: Mobile Driver View, Telemetry, Chat
-- AUDITOR: Audit Journal, Chat
+- AUDITOR: Audit Journal, Driver Incident Reports, Chat
 
-The demo starts with ADMIN creating roles and users. Then SLA_ANALYST creates SLA policy and exception rule. DISPATCHER creates shipment and tracks delay. DRIVER reports telemetry. System generates evidence. AUDITOR reviews the case.
+The demo starts with ADMIN creating roles and users. Then SLA_ANALYST creates SLA policy. DISPATCHER creates shipment and tracks delay. DRIVER reports incident. System verifies and pauses SLA. Evidence generated. AUDITOR reviews the case.
 
 > Demo data, proof values and attestation details are simulated for MVP presentation.
 
@@ -53,7 +53,7 @@ These screens are shown in the investor demo:
 7. SLA Overview
 8. Edit SLA Policy
 9. Edit Working Calendar
-10. SLA Rule Builder
+10. Driver Incident Reports
 11. Registry
 12. Map
 13. Workflow & Status Engine
@@ -98,11 +98,11 @@ User, role and permission management. Access rules and endpoint configuration. A
 
 ### SLA_ANALYST
 
-SLA policies, working calendars, holiday sets, exception rules. Analytics and metrics.
+SLA policies, working calendars, holiday sets, Driver Incident Reports. Analytics and metrics.
 
 ### DISPATCHER
 
-Shipment registry, operational map, workflow management, chat, notifications. Creates routes and assigns drivers.
+Shipment registry, operational map, workflow management, Driver Incident Reports, chat, notifications. Creates routes and assigns drivers.
 
 ### DRIVER
 
@@ -114,7 +114,7 @@ Deadline control, escalations, team management. Shift handovers.
 
 ### AUDITOR
 
-Audit journal, reports, SLA compliance. Read-only access.
+Audit journal, reports, SLA compliance, Driver Incident Reports. Read-only access.
 
 ---
 
@@ -309,38 +309,38 @@ Editor for working hours by weekday, time zone and holiday sets.
 +---------------------------------------------------------------------------------------------------------------------------------+
 ```
 
-### 10. SLA Rule Builder
+## 10. Driver Incident Reports
 
-Rule builder for exception attribution.
+Registry of all driver incident reports and SLA pauses.
+
+Each report shows trip, driver, reason, reported time, confirmed time, closed time, duration, status and result.
+
+Reasons: Traffic, Warehouse Queue, Weather, Vehicle Breakdown.
+
+Status:
+
+- Verifying — system checks the report.
+- Confirmed — SLA paused, penalty 0.
+- Rejected — SLA continued, penalty applied.
+- Closed — driver closed the incident, SLA resumed.
+
+Evidence Package is linked for every confirmed, rejected or closed case.
+
+Used by SLA Analyst, Dispatcher and Auditor to review all exception situations.
 
 ```text
-+---------------------------------------------------------------------------------------------------------------------------------+
-| LogiQED    | Dashboard | Map | Registry | SLA Engine | Evidence | Chat                     | 🔔 [Operator] [EN]                 |
-+---------------------------------------------------------------------------------------------------------------------------------+
-| SLA Rule Builder > Exception Attribution Rule #3              [ Test Rule ] [ Simulate ] [ Save ] [ Save & Close ] [ Delete ]   |
-+---------------------------------------------------------------------------------------------------------------------------------+
-| Rule Name: TRAFFIC_OR_QUEUE_EXCLUSION                                                             Version: v3.2                 |
-| Description: Automatically excludes driver penalty if delay is caused by external traffic congestion or warehouse queue.        |
-+---------------------------------------------------------------------------------------------------------------------------------+
-| Working Calendar                                                                                                                |
-|   Calendar: [ 24/7 ]  [ Business hours ]  [ Custom ]      Timezone: [ UTC+1 Berlin ]                                            |
-|   Holiday Set: [ EU Logistics 2026 ]                        Next holiday: 03.10.2026 (German Unity Day)                         |
-+---------------------------------------------------------------------------------------------------------------------------------+
-| Timers and escalations                                                                                                          |
-|   Code: ARRIVAL_DEADLINE_BREACHED     Action: Timer escalation          Offset, min: 0      Order: 1   Active: [✓]  [Delete]    |
-|   Code: SLA_CONDITION_CHECK           Action: Evidence Generation       Offset, min: 15     Order: 2   Active: [✓]  [Delete]    |
-+---------------------------------------------------------------------------------------------------------------------------------+
-| Arming condition                                                                                                                |
-|   [ AND ] [ OR ]   [ ! NOT ]   [ + Field comparison ]   [ + Domain condition ]   [ + Condition group ]                          |
-|   > telemetry.speed < 5 km/h  AND  geofence.type == "WAREHOUSE_QUEUE"  AND  source.trust_level >= E3  AND  event.timestamp      |
-+---------------------------------------------------------------------------------------------------------------------------------+
-| Resulting Action                                                                                                                |
-|   > Chargeable delay = 0 min. No penalty applied.                                                                               |
-|   > Linked Evidence Package ID: PKG-8821   |   Proof Status: Ready                                                              |
-+---------------------------------------------------------------------------------------------------------------------------------+
-| Rule Execution History (Last 30 days)                                                                                           |
-|   · Triggered: 142 times    · Exceptions Created: 28    · Success Rate: 100%    · Last Triggered: Today, 14:22 (Trip SHP-803)   |
-+---------------------------------------------------------------------------------------------------------------------------------+
++----------------------------------------------------------------------------------------------------------------------------------------------+
+| LogiQED    |  Driver Incident Reports                                                                             [ 🔍 Filter ] [ Export ]   |
++----------------------------------------------------------------------------------------------------------------------------------------------+
+| Trip     | Driver          | Reason           | Reported | Confirmed | Closed   | Duration | Status     | Evidence          | Result         |
++----------------------------------------------------------------------------------------------------------------------------------------------+
+| SHP-803  | Hans Mueller    | Traffic          | 14:10    | 14:12     | 15:03    | 53 min   | Closed     | PKG-8821          | Penalty 0      |
+| SHP-805  | Michael Hoffmann| Warehouse Queue  | 09:20    | 09:25     | 11:45    | 2h 25m   | Closed     | PKG-8822          | Penalty 0      |
+| SHP-807  | Hans Mueller    | Traffic          | 16:05    | —         | —        | 10 min   | Rejected   | PKG-8823          | Penalty Applied|
+| SHP-808  | Michael Hoffmann| Weather          | 17:10    | —         | —        | —        | Verifying  | —                 | Pending        |
++----------------------------------------------------------------------------------------------------------------------------------------------+
+| Summary: 28 confirmed, 3 rejected, 1 verifying, success rate 90%                                                                             |
++----------------------------------------------------------------------------------------------------------------------------------------------+
 ```
 
 ## DISPATCHER Screens
@@ -474,7 +474,7 @@ Inspection of a single cryptographic proof.
 +---------------------------------------------------------------------------------------------------------------------------------+
 | ZK Proof Inspector — Shipment SHP-802                                                                                     [X]   |
 +---------------------------------------------------------------------------------------------------------------------------------+
-| Claim Type: SLA Exception Excluded (Traffic Congestion)                                                                         |
+| Claim Type: Detention / Warehouse Waiting (Traffic Congestion)                                                                         |
 | Verification Contract: Simulated (MVP)                                                                                          |
 +---------------------------------------------------------------------------------------------------------------------------------+
 | Public Inputs:                                                                                                                  |
@@ -534,13 +534,13 @@ Rules for automatic notifications.
 +---------------------------------------------------------------------------------------------------------------------------------+
 | Notifications > Notification Rules > Edit Notification Rule                              [ Save ] [ Save & Close ] [ Close ]    |
 +---------------------------------------------------------------------------------------------------------------------------------+
-| Name: SLA Exception Notice — Driver & Carrier                                                                                   |
+| Name: Incident Report Notice — Driver & Carrier                                                                                   |
 | Description: Notifies responsible parties when an exception rule triggers and penalty protection is applied.                    |
 +---------------------------------------------------------------------------------------------------------------------------------+
 | Match conditions                                                                                                                |
 |   [ Page size: 20 ]  [ Combine filters: AND / OR ]                                         [ 🔄 Refresh ] [ ⚙️ Reset filters ]  |
 |   ----------------------------------------------------------------------------------------------------------------------------- |
-|   Attribute: trip_status  ==  EXCEPTION_EXCLUDED                                                                                |
+|   Attribute: incident_status == CONFIRMED                                                                                |
 +---------------------------------------------------------------------------------------------------------------------------------+
 | Recipients                                                                                                                      |
 |   Recipient kind: [ Responsible user / Carrier Dispatcher ]                                                      [ + Add ]      |
@@ -582,9 +582,9 @@ Communication with attachments and evidence packages.
 
 ## DRIVER Screens
 
-### 19. Mobile Driver View
+### 19. Mobile Driver View (Demo)
 
-Driver screen for active trip, telemetry, SLA protection and quick actions.
+Driver screen for the demo scenario.
 
 ### Clickable elements
 
@@ -592,88 +592,40 @@ Driver screen for active trip, telemetry, SLA protection and quick actions.
 Opens full shipment details: route, status, documents, event history.
 
 **Device Trust Level: E4**
-Opens attestation details.
+Opens attestation details. Simulated for MVP demo.
 
-*Simulated for MVP demo:*
-
-- Source: Onboard CAN bus
-- Device: Scania R450 (AB-777-CD)
-- Attestation: Secure boot verified
-- Firmware digest: 0x...
-- Key: hardware-backed, not exportable
-- Corroboration: GPS + CAN + gateway signed
-- Evidence Confidence: High
-
-*Production version:*
-
-- Source: signed telemetry from onboard device
-- Device: registered in telemetry subsystem with SourceCode + ExternalId
-- Attestation: real device attestation via TPM / Secure Element
-- Firmware digest: verified against signed firmware
-- Key: hardware-backed, non-exportable
-- Corroboration: multiple independent signed sources
-- Evidence Confidence: calculated from real assurance vector
-
-**Penalty Protection: Active**
-Opens the active exclusion rule.
-
-*Simulated for MVP demo:*
-
-- Rule: TRAFFIC_OR_QUEUE_EXCLUSION
-- Version: v3.2
-- Status: Active
-- Condition: telemetry.speed < 5 km/h AND geofence.type == "WAREHOUSE_QUEUE" AND source.trust_level >= E3
-- Result: Chargeable delay = 0 min. No penalty applied. Evidence Package auto-generated.
-
-*Production version:*
-
-- Rule from SLA Engine, versioned and signed
-- Condition evaluated against signed events
-- Result: automatic evidence generation and penalty exclusion
-
-**Auto-Exclusion Rule: Active**
-Opens the same active rule details as Penalty Protection.
-
-**Onboard CAN bus: Connected**
-Opens device diagnostics: connection status, last sync, firmware version, error codes.
-
-**eFTI Documents**
-Each document is clickable.
-
-- Consignment Note (e-CMR): preview or download.
-- Temperature Log: opens temperature graph for the trip.
+Production version uses real device attestation via TPM or Secure Element.
 
 **Report Incident / Delay**
-Opens form with photo, comment and reason.
+
+Opens the Report Incident form.
+
+After submit, button states:
+
+- Verifying... — system checks the report.
+- Close Incident — report confirmed, SLA paused.
+- Report Incident / Delay — report rejected, SLA remains active.
+
+Driver receives notification for both confirmed and rejected cases.
 
 **Sign Delivery / Handover**
-Opens signature form.
-
-**Sync Telemetry Ping**
-Manually sends coordinates to the dispatcher.
-
-**Open Chat (1 new message)**
-Opens chat with dispatcher. Shows unread message.
-
-**Trip List**
-Opens list of all driver trips.
-
-**Profile**
-Opens driver profile: documents, rating, settings.
+Opens the Sign Delivery form shown below.
 
 ### Non-clickable elements
 
 **Status: In Transit**
-Indicator only. Shows current trip status.
+Indicator only.
 
 **GPS: Active**
-Indicator only. Shows that GPS reporting is on.
+Indicator only.
 
-**Target Arrival: 22.08.2026 18:00**
-Information only. Shows planned arrival time.
+**Arrival**
+Information only.
 
-**Status: On Schedule (Delay = 0 min)**
-Information only. Shows current SLA status.
+**Delay**
+Information only.
+
+When SLA is paused, the SLA block shows Status: Paused with the reason.
 
 ```text
 +---------------------------------------+
@@ -686,29 +638,104 @@ Information only. Shows current SLA status.
 | 📍 Current Location & Telemetry       |
 | • GPS: Active (Lat: 52.52, Lon: 13.40)|
 | • Device Trust Level: 🟢 E4 (Secure)  |
-| • Onboard CAN bus: Connected          |
 +---------------------------------------+
-| ⏱️ SLA & Exception Protection         |
-| • Target Arrival: 22.08.2026 18:00    |
-| • Status: On Schedule (Delay = 0 min) |
-| • Penalty Protection: Active          |
-| • Auto-Exclusion Rule: Active (v3)    |
-+---------------------------------------+
-| 📄 eFTI Documents                     |
-| • Consignment Note (e-CMR): [Signed]  |
-| • Temperature Log: [2.4°C - Normal]   |
+| ⏱️ SLA                                |
+| • Deadline: 22.08.2026 18:00          |
+| • Delay: 0 min                        |
 +---------------------------------------+
 | Quick Actions                         |
 | [ 📸 Report Incident / Delay ]        |
 | [ ✍️ Sign Delivery / Handover ]       |
-| [ 🔄 Sync Telemetry Ping ]            |
-+---------------------------------------+
-| 💬 AI Copilot / Dispatcher Chat       |
-| [ Open Chat (1 new message) ]         |
 +---------------------------------------+
 | [ Trip List ]         [ Profile ]     |
 +---------------------------------------+
 ```
+
+When SLA is paused:
+
+```text
+| ⏱️ SLA                              |
+| • Deadline: 22.08.2026 18:00    |
+| • Status: Paused (Traffic)          |
+| • Delay: 0 min                      |
+```
+
+### Device Trust Level: E4 
+
+```text
++---------------------------------------+
+| Device Trust Level: E4                |
++---------------------------------------+
+| Source: Onboard CAN bus               |
+| Device: Scania R450 (AB-777-CD)       |
+|                                       |
+| Attestation: Secure boot verified     |
+| Firmware digest: 0x...                |
+| Key: hardware-backed, not exportable  |
+|                                       |
+| Corroboration: GPS + CAN + gateway    |
+| Evidence Confidence: High             |
++---------------------------------------+
+```
+
+### Report Incident form
+
+Reason is required. Comment and photo are optional.
+
+Reason determines what the system verifies:
+- Traffic — GPS track and Traffic API.
+- Warehouse Queue — warehouse geofence.
+- Weather — weather data.
+- Vehicle Breakdown — vehicle telemetry.
+
+```text
++---------------------------------------+
+| Report Incident / Delay               |
++---------------------------------------+
+| Trip: SHP-802                         |
+|                                       |
+| Reason: *                             |
+| [ Traffic ] [ Warehouse Queue ]       |
+| [ Weather ] [ Vehicle Breakdown ]     |
+|                                       |
+| Comment (optional):                   |
+| [ Add comment ]                       |
+|                                       |
+| Photo (optional):                     |
+| [ 📸 Add photo ]                      |
+|                                       |
+| [ Submit Report ]                     |
++---------------------------------------+
+```
+
+### Sign Delivery / Handover form
+
+Confirms delivery and completes the SLA.
+
+Photo proves the cargo was delivered.
+
+Recipient signature proves the receiving party accepted it.
+
+Confirm Delivery finalizes the trip and generates the Evidence Package.
+
+```text
++---------------------------------------+
+| Sign Delivery / Handover              |
++---------------------------------------+
+| Trip: SHP-802                         |
+| Berlin -> Warsaw                      |
+|                                       |
+| Delivery confirmation:                |
+| • Arrived at: 22.08.2026 17:50        |
+| • Location: Warsaw Warehouse          |
+|                                       |
+| [ 📸 Photo of delivered cargo ]       |
+| [ ✍️ Recipient signature ]            |
+|                                       |
+| [ Confirm Delivery ]                  |
++---------------------------------------+
+```
+
 ### 20. Telemetry
 
 Self-reporting and device monitoring.
