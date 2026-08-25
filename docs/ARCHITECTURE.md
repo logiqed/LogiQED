@@ -212,11 +212,23 @@ Redis is an operational cache. It is not a system of record.
 
 Purpose: system of record.
 
+Large enterprise database with a wide domain model.
+
+Covers shipments, users, contracts, SLA rules, warehouse operations, telemetry devices, audit and analytics.
+
 Use cases:
 
 - Shipments, users, contracts, SLA rules
 - Reports and analytics
 - Reference data
+- Warehouse operations
+- Audit journal
+
+MS SQL stores current state and business data.
+
+Analytical views and indexed queries for fast reporting and dashboards.
+
+Multi-provider support: MS SQL and PostgreSQL are both available via configuration.
 
 ### Arweave
 

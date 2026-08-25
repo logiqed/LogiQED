@@ -22,9 +22,11 @@ Both products reuse the same C# Blazor core: SLA engine, workflow, auth, admin p
 - Web.UI.Tests: 400+ tests
 - Omnichannel.Tests: 160+ tests
 
-## Database Support
+## Database
 
-Multi-provider database support.
+Large enterprise database with a wide domain model.
+
+Multi-provider support:
 
 - MS SQL Server
 - PostgreSQL
