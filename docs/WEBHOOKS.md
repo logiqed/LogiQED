@@ -19,7 +19,7 @@ LogiQED sends HTTP POST requests to registered webhook URLs.
 openapi: 3.1.0
 info:
   title: LogiQED Webhook API
-  version: 0.1.0
+  version: 0.2.0
 
 paths:
   /v1/webhooks/evidence:
@@ -64,9 +64,13 @@ components:
   "eventType": "evidence.accepted",
   "eventId": "event_01HZ...",
   "shipmentId": "shipment_01HZ...",
-  "timestamp": "2026-08-14T08:30:00Z",
+  "timestamp": "2026-08-25T08:30:00Z",
   "data": {
-    "trustLevel": "E3"
+    "trustEvaluation": {
+      "assuranceLevel": "E4",
+      "trustPolicy": "E4_REQUIRED_V1",
+      "evaluationStatus": "PASS"
+    }
   },
   "signature": "0x..."
 }
