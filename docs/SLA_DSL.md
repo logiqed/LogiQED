@@ -8,27 +8,57 @@ Define when a shipment is late, what counts as an exception, and how responsibil
 
 ## Rule Structure
 
+### Detention / Warehouse Waiting
+
 ```json
 {
-  "ruleId": "SLA_V3.2",
-  "claimType": "SLA Exception",
-  "eta": "13:55",
-  "arrival": "14:37",
-  "grossDelayMin": 42,
-  "exceptions": [
+  "ruleId": "DETENTION_V1",
+  "claimType": "Detention",
+  "appointment": "12:00",
+  "events": [
     {
-      "type": "traffic",
-      "durationMin": 31,
-      "trustLevel": "E4"
+      "type": "geofence_entry",
+      "time": "11:54",
+      "trustPolicy": "E4_REQUIRED_V1"
     },
     {
-      "type": "warehouse_queue",
-      "durationMin": 16,
-      "trustLevel": "E3"
+      "type": "dock_assignment",
+      "time": "13:02",
+      "trustPolicy": "E4_REQUIRED_V1"
+    },
+    {
+      "type": "loading_start",
+      "time": "13:18",
+      "trustPolicy": "E4_REQUIRED_V1"
+    },
+    {
+      "type": "warehouse_exit",
+      "time": "14:11",
+      "trustPolicy": "E4_REQUIRED_V1"
     }
   ],
-  "chargeableDelayMin": 0,
-  "conclusion": "No penalty"
+  "result": {
+    "verifiedWaitingMin": 68,
+    "carrierAttributableMin": 0,
+    "warehouseAttributableMin": 68
+  },
+  "conclusion": "Warehouse responsible for 68 minutes"
+}
+```
+
+## Cargo Condition
+
+```json
+{
+  "ruleId": "CARGO_TEMP_V1",
+  "claimType": "Cargo Condition",
+  "contractRange": {
+    "min": 2,
+    "max": 8,
+    "unit": "C"
+  },
+  "trustPolicy": "E4_REQUIRED_V1",
+  "conclusion": "Committed measurements from E4 sources stayed within range"
 }
 ```
 
@@ -41,9 +71,17 @@ Define when a shipment is late, what counts as an exception, and how responsibil
 - `warehouse_queue`
 - `border_delay`
 
+## Trust Policy
+
+Rules reference Trust Policy, not just Trust Level.
+
+Example: E4_REQUIRED_V1
+
+A claim is valid only if all required sources satisfy the policy.
+
 ## Design Notes
 
 - Rules are versioned. Changes create a new version.
-- Exceptions require Trust Level.
+- Rules reference Trust Policy.
 - Conclusion is deterministic from input events and rule version.
 - DSL is machine-readable and AI-friendly.
