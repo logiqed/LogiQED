@@ -240,9 +240,9 @@ Trust Levels:
 | E4 | hardware-backed + corroborated source |
 | E5 | multiple independent trusted sources |
 
-## Hardware Attestation Reference
+## Hardware Attestation Research
 
-LogiQED studies d-inference by Layr-Labs.
+LogiQED researches hardware proving approaches from d-inference by Layr-Labs.
 
 Reference: https://github.com/Layr-Labs/d-inference
 
