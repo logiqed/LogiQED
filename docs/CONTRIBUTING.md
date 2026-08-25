@@ -12,7 +12,7 @@ Use GitHub Issues for:
 
 - Reporting documentation errors
 - Asking questions about the architecture
-- Suggesting improvements to Evidence OS, Trust Levels, or Claims
+- Suggesting improvements to evidence layer, trust model, or claims
 
 ## Pull Requests
 

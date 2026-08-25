@@ -2,35 +2,43 @@
 
 ## Evidence Package
 
-Immutable snapshot connecting a claim, its sources, the rule that evaluated it, and the proof that verifies it.
+Immutable snapshot connecting a claim, its sources, trust policy result, rule version and proof.
 
-## Trust Level
+## Source Assurance
 
-Graded confidence assigned to a source. Range: E0 (user input) to E5 (multiple independent trusted sources).
+Server-side evaluation of a source. Range E0–E5.
+
+## Trust Policy
+
+Required assurance for a specific claim. Example: E4_REQUIRED_V1.
+
+## Claim Confidence
+
+Result of evaluating a claim against its Trust Policy.
 
 ## Claim
 
-A verifiable statement evaluated by the SLA engine. Example: SLA Exception, Cargo Condition.
+Verifiable statement evaluated by SLA policy. Examples: Detention, Cargo Condition.
 
 ## Provenance
 
-Chain showing how a claim was derived from events, sources, and rules.
-
-## Signed Event Stream
-
-Sequence of authenticated events from devices, APIs, and sources.
+Chain showing how a claim was derived from events, sources and rules.
 
 ## Evidence Graph
 
-Directed acyclic graph connecting events, sources, and rules into a claim.
+Directed acyclic graph connecting events, sources, rules and claims. Records source-of-source provenance.
+
+## EPCIS
+
+GS1 EPCIS 2.0. Logistics event language describing what, when, where and why.
 
 ## SLA Rule
 
-Versioned rule that defines delay, exceptions, and chargeable time.
+Versioned rule that defines exceptions and chargeable time.
 
 ## Ingest
 
-Entry point for physical events into LogiQED.
+Entry point for signed EPCIS events.
 
 ## eFTI
 
@@ -43,3 +51,15 @@ Cryptographic proof that a computation was performed correctly without revealing
 ## Post-Quantum Ready
 
 Architecture designed to migrate to quantum-resistant algorithms without redesign.
+
+## Flock
+
+Hash-based proof system. Experimental backend in LogiQED. Not a critical dependency.
+
+## EigenDA
+
+Data availability layer. Optional in LogiQED. Added only when benchmark justifies.
+
+## Arweave
+
+Permanent storage for commitments and proofs. Optional in LogiQED.

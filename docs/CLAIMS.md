@@ -48,5 +48,5 @@ Result:
 - Version
 - Input events required
 - Rule reference
-- Trust Level requirement
+- Trust Policy requirement
 - Expected output

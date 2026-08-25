@@ -8,7 +8,7 @@ LogiQED is the cryptographic evidence layer for physical logistics.
 
 LogiQED turns physical logistics events into independently verifiable business evidence.
 
-Not "the truck was late." But "the committed measurements produced by sources satisfying trust policy E4 show that 31 minutes of delay were caused by traffic, and SLA rule v3.2 excludes that delay."
+Not "the truck was late." But "committed events show geofence entry at 11:54, dock assignment at 13:02, loading start at 13:18, exit at 14:11. Verified waiting: 68 minutes. Warehouse attributable: 68 minutes."
 
 ## The Chain
 
