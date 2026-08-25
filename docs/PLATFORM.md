@@ -30,7 +30,7 @@ Solution Explorer, Test Explorer, code and build output.
 
 ## Database
 
-Large enterprise database with a wide domain model.
+Large enterprise database with a wide domain model. 330+ tables.
 
 Multi-provider support:
 
@@ -40,6 +40,8 @@ Multi-provider support:
 Provider is selected via configuration. No code changes required to switch.
 
 Connection strings are environment-based.
+
+![Database](images/database.png)
 
 ## Core Modules
 
