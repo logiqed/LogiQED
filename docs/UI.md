@@ -26,13 +26,15 @@ There is no fixed UI layout per role. The same platform adapts to each role auto
 
 The demo shows the full flow: SLA setup, shipment creation, delay, exception, evidence and proof.
 
+Chat is available for all roles.
+
 Demo roles:
 
-- ADMIN: Users, Roles, Permissions, Rules & Endpoints, Audit Journal
-- SLA_ANALYST: SLA Overview, SLA Policy, Working Calendar, Rule Builder
+- ADMIN: Users, Roles, Permissions, Rules & Endpoints, Audit Journal, Chat
+- SLA_ANALYST: SLA Overview, SLA Policy, Working Calendar, Rule Builder, Chat
 - DISPATCHER: Registry, Map, Workflow, Evidence Package, ZK Proof Inspector, Dashboard, Notifications, Chat
-- DRIVER: Mobile Driver View, Telemetry
-- AUDITOR: Audit Journal
+- DRIVER: Mobile Driver View, Telemetry, Chat
+- AUDITOR: Audit Journal, Chat
 
 The demo starts with ADMIN creating roles and users. Then SLA_ANALYST creates SLA policy and exception rule. DISPATCHER creates shipment and tracks delay. DRIVER reports telemetry. System generates evidence. AUDITOR reviews the case.
 
@@ -87,6 +89,8 @@ These screens are part of MVP but not shown in the demo.
 ## Roles
 
 Roles are fully configurable in the admin panel. Any role can be created with any set of permissions.
+
+Chat is available for all roles.
 
 ### ADMIN
 
