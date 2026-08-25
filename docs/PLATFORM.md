@@ -22,6 +22,12 @@ Both products reuse the same C# Blazor core: SLA engine, workflow, auth, admin p
 - Web.UI.Tests: 400+ tests
 - Omnichannel.Tests: 160+ tests
 
+## Platform Screenshot
+
+Solution Explorer, Test Explorer, code and build output.
+
+![Solution](docs/images/solution.png)
+
 ## Database
 
 Large enterprise database with a wide domain model.
