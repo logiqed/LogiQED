@@ -25,19 +25,18 @@
 - Two ZK claims
 - e-documents
 - OpenAPI + webhooks
-- AI copilot for operations
 
-Definition of done: real trucks produce signed events. SLA exceptions resolve automatically. Two claims verified end-to-end.
+Definition of done: real trucks produce signed events. At least one real commercial dispute settled using Evidence Package.
 
 ## Phase 2 — Integrations and Scale
 
+- eFTI compliance tooling
+- GS1 EPCIS 2.0 compatibility
 - Device attestation
 - Hardware-backed source identity
-- Darkbloom integration
-- EigenCompute for heavy optimization
-- Warehouse slot management
+- EigenDA for evidence hashes at scale
 - Insurance API pilots
-- eFTI compliance tooling
+- Warehouse slot management
 
 ## Phase 3 — Ecosystem
 
@@ -52,4 +51,4 @@ Definition of done: real trucks produce signed events. SLA exceptions resolve au
 
 Evidence first. Marketplace later. Autonomy last.
 
-The trust graph is the moat.
+The real moat: validated source identities, evidence schemas, SLA claim library, eFTI/EPCIS compatibility, insurer acceptance, settlement precedents.

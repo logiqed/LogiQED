@@ -40,7 +40,7 @@ Privacy-by-design. Crypto-agile. Post-quantum ready.
 
 ## Why Now
 
-EU eFTI Regulation applies from July 9, 2027. Machine-verifiable freight evidence becomes mandatory. LogiQED is built for this window.
+From 9 July 2027, EU authorities must accept regulatory freight information submitted electronically through certified eFTI platforms, creating a major interoperability and digital-evidence tailwind.
 
 ## Status
 

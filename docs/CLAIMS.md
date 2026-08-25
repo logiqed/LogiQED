@@ -1,33 +1,36 @@
 # LogiQED ZK Claims
 
-MVP ships with two cryptographic claims. Not everything. Two high-value claims that close real disputes.
+MVP ships with two cryptographic claims.
 
-## Claim 1: SLA Exception Claim
+## Claim 1: Detention / Warehouse Waiting Claim
 
-Proves that a delay was non-chargeable.
+Deterministic claim based on timestamps, geofences and independent events.
 
 Example:
 
-- Contract ETA: 13:55
-- Actual Arrival: 14:37
-- Gross Delay: 42 min
-- Verified Traffic: 31 min
-- Warehouse Queue: 16 min
-- Chargeable Delay: 0 min
+- Appointment: 12:00
+- Truck geofence entry: 11:54
+- Dock assignment: 13:02
+- Loading start: 13:18
+- Warehouse exit: 14:11
 
 Result:
 
-- SLA penalty does not apply.
+- Verified waiting: 68 minutes
+- Carrier attributable: 0 minutes
+- Warehouse attributable: 68 minutes
+
+No philosophical debate about traffic causality. Timestamps, geofences, events and rule.
 
 ## Claim 2: Cargo Condition Claim
 
-Proves that cargo stayed within contracted conditions.
+Proves that committed measurements produced by sources satisfying trust policy E4 remained within contract range.
 
 Example:
 
-- Contract: 2°C ≤ temperature ≤ 8°C
+- Contract: 2–8°C
 - Trip: EU lane
-- Claim: Temperature remained within contracted range during custody interval
+- Claim: Committed measurements from E4 sources stayed within 2–8°C during custody interval
 
 Result:
 
@@ -35,14 +38,11 @@ Result:
 
 ## Why These Two
 
-- Pharma, food, insurance, and shippers understand them instantly.
-- They are hash-intensive, fitting Flock-class proof systems.
-- They do not reveal raw telemetry.
-- They cover the most expensive disputes: delays and cargo condition.
+- Detention claim is deterministic and easy to verify.
+- Cargo condition claim covers cold chain.
+- Both are valuable for settlement and insurance.
 
 ## Claim Definition Format
-
-Each claim is defined by:
 
 - Claim ID
 - Version
@@ -50,5 +50,3 @@ Each claim is defined by:
 - Rule reference
 - Trust Level requirement
 - Expected output
-
-This format becomes the foundation for future claims.

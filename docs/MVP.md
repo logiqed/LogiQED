@@ -57,7 +57,7 @@ This reduces risk and accelerates the pilot.
    - Structured proof package: events, hashes, signatures, rule, conclusion.
 
 8. **ZK proof of two claims**
-   - SLA Exception Claim.
+   - Detention / Warehouse Waiting Claim.
    - Cargo Condition Claim.
 
 9. **e-documents**
@@ -66,11 +66,12 @@ This reduces risk and accelerates the pilot.
 10. **OpenAPI + webhooks**
     - Machine-readable API for integrations and AI agents.
 
-11. **AI copilot for operations**
-    - Analysis assistance. Not an autonomous dispatcher.
-
 ## What is NOT in MVP
 
+- AI copilot for operations
+- Full blockchain settlement
+- EigenDA as critical dependency
+- Arweave as permanent storage for every package
 - DePIN economics
 - Scientific marketplace
 - Soulbound badges
@@ -81,10 +82,16 @@ This reduces risk and accelerates the pilot.
 
 These are Phase 2+.
 
+## MVP Storage
+
+Operational event storage, canonicalization, Merkle tree, Evidence Root, timestamp / external anchor, Evidence Package.
+
+EigenDA is added only when benchmark shows the need for a separate DA layer.
+
 ## MVP Definition of Done
 
 - Real trucks produce signed events.
 - SLA engine resolves exceptions automatically.
 - Two ZK claims verified end-to-end.
 - Evidence Package exported for external review.
-- Design partners can access API and see value.
+- At least one real commercial dispute or SLA exception is settled using the Evidence Package instead of the legacy manual process.

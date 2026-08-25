@@ -87,14 +87,6 @@ OwnerKind + OwnerId. Employee is built-in. Vehicles and other kinds are extensib
 - New owner kinds without changing core.
 - New ingest adapters without changing core.
 
-## Evidence Layer
-
-- Signed Event Stream
-- Evidence Graph
-- SLA Engine
-- Evidence Package
-- Trust Levels E0–E5
-
 ## SLA Subsystem
 
 Service level management with policies, calendars and exception rules.
@@ -135,32 +127,73 @@ Service level management with policies, calendars and exception rules.
 - Exception rules generate Evidence Packages.
 - Rule results visible to driver as Penalty Protection.
 
-## Blockchain and ZK
+## Evidence Layer
 
-- Flock-class proof systems — hash-intensive workloads. Runs on x86 Linux. Post-quantum proving already 3x faster on Mac, x86 ceiling still open. Benchmarks on real LogiQED circuits.
-- EigenDA — temporary data availability.
-- Arweave — permanent commitments and proofs.
-- Arbitrum Stylus — smart contracts for settlement and arbitration (Phase 2).
+- Signed Event Stream
+- Evidence Graph
+- Evidence Package
+- Trust Levels E0–E5
 
-## Proof Verification
+## Event Model
 
-Hash-based SNARKs for post-quantum Ethereum are formally verified through Lean 4 via Yukon Research and Ethereum Foundation.
+LogiQED uses GS1 EPCIS 2.0 as the logistics event language.
 
-Ethereum Foundation and zkSecurity run a $1M proximity challenge to establish strong security bounds.
+GS1 EPCIS Event, LogiQED Source Identity, Signature / Attestation, Evidence Graph, Claim, Proof, Evidence Package.
 
-LogiQED adopts formally verified proof backends when production ready.
+LogiQED adds verifiable trust and claim evaluation on top of EPCIS.
 
-### Verification Backends
+## Trust Levels
 
-Pluggable proof verification services.
+| Level | Source |
+|-------|--------|
+| E0 | user input |
+| E1 | authenticated external API |
+| E2 | signed software source |
+| E3 | attested device |
+| E4 | hardware-backed + corroborated source |
+| E5 | multiple independent trusted sources |
 
-- Native verifier
-- Aligned Proof Aggregation — potential backend for cheap ZK verification at scale. Aggregates thousands of proofs into one, reducing L1 gas cost by 10-100x.
-- EigenLayer — optional decentralized verification
+Trust Levels are not just an enum. They become Trust Policy + Provenance Graph.
+
+Three sources are not necessarily independent. GPS and geofence may derive from the same signal.
+
+Evidence Graph must record provenance of the source of the source.
+
+## Hardware Attestation Research
+
+LogiQED researches hardware proving approaches from d-inference by Layr-Labs.
+
+Reference: https://github.com/Layr-Labs/d-inference
+
+Key patterns:
+
+- Secure Enclave / TEE-based key generation
+- Hardware-verified attestation
+- E2E encryption between client and node
+- Hash-only logs
+
+These patterns map to LogiQED trust levels E4–E5.
+
+## Proof Engine
+
+Pluggable proof backend.
+
+- Groth16
+- Plonk
+- STARK
+- Flock-class proofs (experimental)
+
+Flock is an experimental proving backend. Not a critical dependency for commercial MVP.
+
+Crypto-agile architecture allows replacing proof backend without changing the product.
 
 ## Storage
 
-LogiQED uses different storage layers for different purposes.
+MVP storage:
+
+Operational event storage, canonicalization, Merkle tree, Evidence Root, timestamp / external anchor, Evidence Package.
+
+EigenDA is added only when benchmark shows the need for a separate DA layer.
 
 ### Redis
 
@@ -185,20 +218,6 @@ Use cases:
 - Reports and analytics
 - Reference data
 
-MS SQL stores current state and business data.
-
-### EigenDA
-
-Purpose: temporary evidence availability.
-
-Use cases:
-
-- Signed events
-- Hash chains
-- Temporary evidence before aggregation
-
-EigenDA provides short-term verifiable availability. It is not permanent storage.
-
 ### Arweave
 
 Purpose: permanent evidence.
@@ -211,9 +230,7 @@ Use cases:
 
 Arweave stores what must survive for years.
 
-### Principle
-
-Redis speeds up operations. MS SQL records state. EigenDA proves availability. Arweave preserves truth.
+Pseudonymised data may remain personal data. Arweave is used carefully for commitments and proofs, not raw telemetry.
 
 ## Source Identity & Trust
 
@@ -228,32 +245,6 @@ Minimal attestation in MVP:
 - Firmware/AppVersion
 - RevocationStatus
 - EvidenceConfidence
-
-Trust Levels:
-
-| Level | Source |
-|-------|--------|
-| E0 | user input |
-| E1 | authenticated external API |
-| E2 | signed software source |
-| E3 | attested device |
-| E4 | hardware-backed + corroborated source |
-| E5 | multiple independent trusted sources |
-
-## Hardware Attestation Research
-
-LogiQED researches hardware proving approaches from d-inference by Layr-Labs.
-
-Reference: https://github.com/Layr-Labs/d-inference
-
-Key patterns:
-
-- Secure Enclave / TEE-based key generation
-- Hardware-verified attestation
-- E2E encryption between client and node
-- Hash-only logs
-
-These patterns map to LogiQED trust levels E4–E5.
 
 ## Observability
 
