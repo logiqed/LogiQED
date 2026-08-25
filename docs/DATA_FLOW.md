@@ -1,56 +1,57 @@
-# LogiQED Data Flow
+# Data Flow
 
 ## Overview
 
-Physical events become cryptographic evidence.
+Physical logistics events become policy-bound business evidence.
 
 ## Flow
 
 1. **INGEST**
-   Sensor or device sends signed event to LogiQED Ingest API.
+   Source sends signed EPCIS event to LogiQED Ingest API.
 
 2. **AUTHENTICATE**
-   Signature verified. Source identity checked. Trust Level assigned.
+   Signature verified. Source identity checked. Trust evaluated server-side.
 
 3. **PROVENANCE**
-   Event added to Signed Event Stream. Linked into Evidence Graph.
+   Event added to Evidence Graph with source-of-source provenance.
 
 4. **DECISION**
-   SLA Engine evaluates events against rule version.
-   Exceptions attributed: traffic, weather, geofence, vehicle, warehouse.
+   SLA policy evaluates events.
+   Claim generated with rule result, trust policy result and corroboration.
 
-5. **PROOF**
-   Claim evaluated.
-   ZK proof generated for supported claims.
-   Evidence Package created.
+5. **COMMIT**
+   Operational store, canonicalization, Merkle commitment, Evidence Root, external timestamp or anchor, Evidence Package.
 
-6. **PERSIST**
-   Operational data in MS SQL.
-   Temporary hashes and proofs in EigenDA.
-   Permanent commitments and manifest in Arweave.
+6. **VERIFY**
+   External party verifies claim without raw telemetry.
 
-7. **VERIFY**
-   External party verifies Evidence Package without raw telemetry.
+## Example: Detention Claim
 
-## Example
+Appointment: 12:00
 
-GPS event + traffic API + geofence event
+Geofence entry: 11:54
 
-SLA rule v3.2
+Dock assignment: 13:02
 
-Gross delay: 42 min
-Traffic: 31 min
-Queue: 16 min
-Chargeable delay: 0 min
+Loading start: 13:18
 
-Claim: SLA Exception
-Conclusion: No penalty
-Trust Level: E4
+Warehouse exit: 14:11
 
-Evidence Package
+Result:
+
+- Verified waiting: 68 minutes
+- Carrier attributable: 0 minutes
+- Warehouse attributable: 68 minutes
+
+## Optional Later
+
+- EigenDA for evidence hashes at scale
+- Arweave for permanent commitments
+- L2 settlement
 
 ## Design Notes
 
 - Each step is signed and hashable.
-- No raw telemetry in permanent storage.
+- Raw telemetry stays in operational store with retention.
+- Permanent layer contains commitments and proofs, not raw telemetry.
 - Any step can be independently audited.
