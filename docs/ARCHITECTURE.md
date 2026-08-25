@@ -240,6 +240,21 @@ Trust Levels:
 | E4 | hardware-backed + corroborated source |
 | E5 | multiple independent trusted sources |
 
+## Hardware Attestation Reference
+
+LogiQED studies d-inference by Layr-Labs.
+
+Reference: https://github.com/Layr-Labs/d-inference
+
+Key patterns:
+
+- Secure Enclave / TEE-based key generation
+- Hardware-verified attestation
+- E2E encryption between client and node
+- Hash-only logs
+
+These patterns map to LogiQED trust levels E4–E5.
+
 ## Observability
 
 - Seq — structured logging.

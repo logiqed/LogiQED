@@ -173,6 +173,14 @@ Architecture and product direction reviewed by Grok.
 
 Blueprint confirmed as a solid foundation for real pilots.
 
+## Hardware Attestation Reference
+
+LogiQED studies d-inference by Layr-Labs for hardware proving approaches.
+
+Reference: https://github.com/Layr-Labs/d-inference
+
+This is the same model used for LogiQED trust levels E4–E5.
+
 ## Deal Options
 
 ### Option 1: Investment for MVP
