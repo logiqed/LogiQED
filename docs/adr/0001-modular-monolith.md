@@ -12,7 +12,7 @@ The team:
 
 - 2 Senior .NET Engineers — platform and evidence pipeline
 - 1 Senior Data Engineer — MS SQL, analytics, event storage design
-- 1 Senior Systems/C++ Engineer — ZK integration, performance, attestation
+- 1 Senior Systems/C++ Engineer — proof backend integration, performance
 - DevOps Engineer — infrastructure, deployment, monitoring
 
 Team can be scaled up to 2x full-time developers. Final size depends on budget and pilot scope.
@@ -26,7 +26,7 @@ Use a modular monolith on C# Blazor / ASP.NET Core.
 - Faster development and deployment
 - Simpler operations
 - Clear internal module boundaries
-- Microservices can be extracted later at natural boundaries: telemetry ingestion, prover workers, AI execution
+- Microservices can be extracted later at natural boundaries: telemetry ingestion, proof workers, AI execution
 
 ## Alternatives Considered
 
