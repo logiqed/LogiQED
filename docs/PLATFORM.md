@@ -26,7 +26,7 @@ Both products reuse the same C# Blazor core: SLA engine, workflow, auth, admin p
 
 Solution Explorer, Test Explorer, code and build output.
 
-![Solution](docs/images/solution.png)
+![Solution](images/solution.png)
 
 ## Database
 
