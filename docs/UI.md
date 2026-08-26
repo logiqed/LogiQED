@@ -629,7 +629,7 @@ When SLA is paused, the SLA block shows Status: Paused with the reason.
 
 ```text
 +---------------------------------------+
-| 📱 LogiQED Driver               [ EN ]|
+| 📱 LogiQED Driver            🔔 [ EN ]|
 +---------------------------------------+
 | Active Trip: SHP-802                  |
 | Berlin -> Warsaw                      |
@@ -655,7 +655,7 @@ When SLA is paused:
 
 ```text
 | ⏱️ SLA                              |
-| • Deadline: 22.08.2026 18:00    |
+| • Deadline: 22.08.2026 18:00        |
 | • Status: Paused (Traffic)          |
 | • Delay: 0 min                      |
 ```
