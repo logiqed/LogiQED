@@ -629,7 +629,7 @@ When SLA is paused, the SLA block shows Status: Paused with the reason.
 
 ```text
 +---------------------------------------+
-| 📱 LogiQED Driver            🔔 [ EN ]|
+| 📱 LogiQED Driver           🔔 [ EN ] |
 +---------------------------------------+
 | Active Trip: SHP-802                  |
 | Berlin -> Warsaw                      |
