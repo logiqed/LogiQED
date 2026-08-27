@@ -86,6 +86,8 @@ Rule: SLA pause is the measured interval between TrafficEntered and TrafficExite
 
 If TrafficEntered or TrafficExited falls outside working calendar, the pause is rounded to the nearest working boundary.
 
+![Route State Machine](images/diagram-route-state-machine.svg)
+
 ### Event Orchestrator
 
 Background Service within LogiQED.Web.API for MVP. Extract to a separate microservice when scale justifies it.

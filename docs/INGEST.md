@@ -259,7 +259,7 @@ Server:
 
 ### Response
 
-```
+```json
 {
   "eventId": "0194e0d2-...",
   "status": "accepted",

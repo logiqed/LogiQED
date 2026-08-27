@@ -39,6 +39,8 @@ Deterministic claim based on timestamps, geofences and independent events.
 }
 ```
 
+![Detention Timeline](images/diagram-detention-timeline.svg)
+
 ### Rule
 
 The waiting interval is calculated from the earliest relevant timestamp to the start of loading.

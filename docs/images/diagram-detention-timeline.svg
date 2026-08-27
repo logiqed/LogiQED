@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 380" font-family="Arial, Helvetica, sans-serif">
+  <rect width="900" height="380" fill="#f8f9fa" rx="12"/>
+  <text x="450" y="35" font-size="20" font-weight="bold" text-anchor="middle" fill="#212529">Detention Claim — Timeline</text>
+
+  <!-- Временная линия -->
+  <line x1="80" y1="200" x2="850" y2="200" stroke="#6c757d" stroke-width="3"/>
+
+  <!-- Events (маркеры) -->
+  <g font-size="11" text-anchor="middle" fill="#212529">
+    <!-- Geofence entry 11:54 -->
+    <circle cx="130" cy="200" r="10" fill="#007bff"/>
+    <text x="130" y="235" font-weight="bold">11:54</text>
+    <text x="130" y="252">Geofence Entry</text>
+
+    <!-- Appointment 12:00 -->
+    <circle cx="240" cy="200" r="10" fill="#6c757d" stroke="#343a40"/>
+    <text x="240" y="235" font-weight="bold">12:00</text>
+    <text x="240" y="252">Appointment</text>
+
+    <!-- Dock assignment 13:02 -->
+    <circle cx="430" cy="200" r="10" fill="#ffc107"/>
+    <text x="430" y="235" font-weight="bold">13:02</text>
+    <text x="430" y="252">Dock Assignment</text>
+
+    <!-- Loading start 13:18 -->
+    <circle cx="560" cy="200" r="10" fill="#17a2b8"/>
+    <text x="560" y="235" font-weight="bold">13:18</text>
+    <text x="560" y="252">Loading Start</text>
+
+    <!-- Warehouse exit 14:11 -->
+    <circle cx="760" cy="200" r="10" fill="#28a745"/>
+    <text x="760" y="235" font-weight="bold">14:11</text>
+    <text x="760" y="252">Warehouse Exit</text>
+  </g>
+
+  <!-- Зона ожидания 68 мин (11:54 -> 13:02) -->
+  <rect x="130" y="160" width="300" height="24" rx="12" fill="#ffc107" opacity="0.7"/>
+  <text x="280" y="177" font-size="11" font-weight="bold" text-anchor="middle" fill="#212529">WAITING: 68 min</text>
+
+  <!-- Зона оформления 16 мин (13:02 -> 13:18) -->
+  <rect x="430" y="160" width="130" height="24" rx="12" fill="#17a2b8" opacity="0.6"/>
+  <text x="495" y="177" font-size="10" text-anchor="middle" fill="#fff">dock: 16 min</text>
+
+  <!-- Зона погрузки 53 мин (13:18 -> 14:11) -->
+  <rect x="560" y="160" width="200" height="24" rx="12" fill="#28a745" opacity="0.6"/>
+  <text x="660" y="177" font-size="10" text-anchor="middle" fill="#fff">loading: 53 min</text>
+
+  <!-- Результат -->
+  <rect x="200" y="290" width="500" height="50" rx="10" fill="#e3f2fd" stroke="#64b5f6" stroke-width="2"/>
+  <text x="450" y="315" font-size="13" font-weight="bold" text-anchor="middle" fill="#0b3d91">Verified waiting: 68 minutes</text>
+  <text x="450" y="332" font-size="11" text-anchor="middle" fill="#0b3d91">Carrier: 0 min · Warehouse: 68 min</text>
+</svg>

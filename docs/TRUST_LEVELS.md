@@ -23,6 +23,8 @@ Each dimension is evaluated independently. The final level is a combination of d
 | E4    | E3 plus corroboration with another source  |
 | E5    | E4 plus three or more independent sources  |
 
+![Trust Levels](images/diagram-trust-levels.svg)
+
 ## Trust Policy
 ```json
 {
