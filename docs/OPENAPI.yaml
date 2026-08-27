@@ -1,11 +1,24 @@
 openapi: 3.1.0
 info:
   title: LogiQED API
-  version: 0.2.0
+  version: 0.3.0
   description: |
     Verifiable Freight Infrastructure.
     Evidence layer for physical logistics.
     EPCIS 2.0 event model.
+
+    ## Authentication
+    - Device events: X-Device-Key header, assigned by LogiQED.
+    - Operator API: Bearer JWT.
+    - Claims verification: public, no auth required.
+
+    ## Rate limits
+    - Ingest: 100 requests per minute per source.
+    - Other endpoints: 1000 requests per minute per token.
+
+    ## Idempotency
+    - Send Idempotency-Key header on POST endpoints.
+    - Duplicate key returns the original response.
 
 servers:
   - url: https://api.logiqed.io/v1
@@ -18,6 +31,8 @@ tags:
     description: Trip and shipment management
   - name: Events
     description: Signed EPCIS event stream and Evidence Graph
+  - name: Route
+    description: Route state machine and monitoring
   - name: SLA
     description: Rules and exception attribution
   - name: Evidence
@@ -25,11 +40,16 @@ tags:
   - name: Claims
     description: ZK claims
 
+security:
+  - BearerAuth: []
+
 paths:
   /shipments:
     post:
       tags: [Shipments]
       summary: Create a shipment
+      security:
+        - BearerAuth: []
       requestBody:
         required: true
         content:
@@ -43,14 +63,65 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Shipment'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+    get:
+      tags: [Shipments]
+      summary: List shipments
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: status
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 20
+            maximum: 100
+        - name: offset
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 0
+      responses:
+        '200':
+          description: Shipment list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Shipment'
 
   /shipments/{id}/events:
     post:
       tags: [Events]
       summary: Append signed event to shipment
+      security:
+        - DeviceKeyAuth: []
       parameters:
         - name: id
           in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: Idempotency-Key
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: X-Device-Key
+          in: header
           required: true
           schema:
             type: string
@@ -63,17 +134,57 @@ paths:
       responses:
         '202':
           description: Event accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventAcceptResponse'
+        '400':
+          description: Invalid payload or signature
+        '401':
+          description: Missing or invalid device key
+        '409':
+          description: Duplicate event
+        '413':
+          description: Payload too large
+        '429':
+          description: Rate limit exceeded
 
-  /shipments/{id}/sla:
+  /shipments/{id}/route:
     get:
-      tags: [SLA]
-      summary: Evaluate SLA for shipment
+      tags: [Route]
+      summary: Get route state machine snapshot
+      security:
+        - BearerAuth: []
       parameters:
         - name: id
           in: path
           required: true
           schema:
             type: string
+            format: uuid
+      responses:
+        '200':
+          description: Route state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RouteState'
+        '404':
+          description: Shipment not found
+
+  /shipments/{id}/sla:
+    get:
+      tags: [SLA]
+      summary: Evaluate SLA for shipment
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
       responses:
         '200':
           description: SLA evaluation
@@ -81,17 +192,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SLAEvaluation'
+        '404':
+          description: Shipment not found
 
   /shipments/{id}/evidence:
     get:
       tags: [Evidence]
       summary: Get Evidence Package for shipment
+      security:
+        - BearerAuth: []
       parameters:
         - name: id
           in: path
           required: true
           schema:
             type: string
+            format: uuid
       responses:
         '200':
           description: Evidence Package
@@ -99,11 +215,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EvidencePackage'
+        '404':
+          description: Shipment not found or no Evidence Package
+
+  /claims/{claimId}:
+    get:
+      tags: [Claims]
+      summary: Get claim by ID
+      security: []
+      parameters:
+        - name: claimId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Public claim details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClaimPublic'
 
   /claims/verify:
     post:
       tags: [Claims]
       summary: Verify a claim proof
+      security: []
       requestBody:
         required: true
         content:
@@ -117,21 +256,36 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ClaimVerificationResult'
+        '400':
+          description: Invalid request
+        '404':
+          description: Claim or proof not found
 
 components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    DeviceKeyAuth:
+      type: apiKey
+      in: header
+      name: X-Device-Key
+
   schemas:
     ShipmentCreate:
       type: object
-      required: [origin, destination, cargo, shipperId]
+      required: [origin, destination, cargo, shipperId, vehicleId]
       properties:
         origin:
           type: string
-          semanticTag: location
+          x-semanticTag: location
         destination:
           type: string
-          semanticTag: location
+          x-semanticTag: location
         cargo:
           type: object
+          required: [type]
           properties:
             weightKg:
               type: number
@@ -141,40 +295,101 @@ components:
               type: string
         shipperId:
           type: string
-          semanticTag: party
+          x-semanticTag: party
+        vehicleId:
+          type: string
+          x-semanticTag: entityId
+          description: Vehicle or device identifier that will report events
 
     Shipment:
       type: object
       properties:
         id:
           type: string
-          semanticTag: entityId
+          format: uuid
+          x-semanticTag: entityId
         status:
           type: string
+          example: "CREATED"
         createdAt:
           type: string
           format: date-time
-          semanticTag: timestamp
+          x-semanticTag: timestamp
 
     EventCreate:
       type: object
-      required: [sourceId, keyId, signature, epcisEvent]
+      required: [sourceId, keyId, signatureAlgorithm, signature, canonicalizationMethod, schemaVersion, epcisEvent]
       properties:
         sourceId:
           type: string
+          description: Device or API source identifier
         keyId:
           type: string
+          description: Identifier of the signing key
+        signatureAlgorithm:
+          type: string
+          enum: [Ed25519, ML-DSA]
+          example: "Ed25519"
         signature:
           type: string
+          description: Base64 signature over canonical JSON of epcisEvent using JCS
+        canonicalizationMethod:
+          type: string
+          enum: [JCS]
+          description: Canonicalization algorithm, RFC 8785
+        schemaVersion:
+          type: string
+          example: "1.0"
         epcisEvent:
           type: object
           description: GS1 EPCIS 2.0 event
+
+    EventAcceptResponse:
+      type: object
+      properties:
+        eventId:
+          type: string
+          format: uuid
+        status:
+          type: string
+          example: "accepted"
+        receivedAt:
+          type: string
+          format: date-time
+        trustEvaluation:
+          type: object
+          properties:
+            sourceId:
+              type: string
+            trustLevel:
+              type: string
+              example: "E4"
+            trustPolicy:
+              type: string
+              example: "E4_REQUIRED_V1"
+            evaluationStatus:
+              type: string
+              enum: [PASS, FAIL, INSUFFICIENT_DATA]
+
+    RouteState:
+      type: object
+      properties:
+        shipmentId:
+          type: string
+          format: uuid
+        state:
+          type: string
+          example: "SLA_PAUSED"
+        updatedAt:
+          type: string
+          format: date-time
 
     SLAEvaluation:
       type: object
       properties:
         shipmentId:
           type: string
+          format: uuid
         ruleVersion:
           type: string
         conclusion:
@@ -187,30 +402,56 @@ components:
             type: string
         confidence:
           type: string
+          enum: [PASS, FAIL, INSUFFICIENT_DATA]
 
     EvidencePackage:
       type: object
       properties:
         packageId:
           type: string
+          format: uuid
         claimType:
           type: string
+          enum: [DETENTION, CARGO_CONDITION]
         conclusion:
+          type: object
+        proofReference:
+          type: string
+        schemaVersion:
+          type: string
+        evidenceRoot:
+          type: string
+        externalAnchorRef:
+          type: string
+          description: Arweave transaction ID
+        createdAt:
+          type: string
+          format: date-time
+
+    ClaimPublic:
+      type: object
+      properties:
+        claimId:
+          type: string
+          format: uuid
+        claimType:
+          type: string
+        result:
+          type: string
+        evidenceRoot:
           type: string
         proofReference:
           type: string
         schemaVersion:
           type: string
-        createdAt:
-          type: string
-          format: date-time
 
     ClaimVerificationRequest:
       type: object
-      required: [proofId]
+      required: [claimId]
       properties:
-        proofId:
+        claimId:
           type: string
+          format: uuid
 
     ClaimVerificationResult:
       type: object
@@ -239,6 +480,7 @@ components:
               type: string
             result:
               type: string
+              enum: [PASS, FAIL, INSUFFICIENT_DATA]
         corroboration:
           type: object
           properties:
@@ -262,3 +504,30 @@ components:
         verifiedAt:
           type: string
           format: date-time
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            requestId:
+              type: string
+
+  responses:
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Authentication required
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'

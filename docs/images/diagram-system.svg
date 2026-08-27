@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 640" font-family="Arial, Helvetica, sans-serif">
+  <rect width="920" height="640" fill="#f8f9fa" rx="12"/>
+  <text x="460" y="40" font-size="22" font-weight="bold" text-anchor="middle" fill="#212529">LogiQED System Architecture (MVP)</text>
+
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#6c757d"/>
+    </marker>
+  </defs>
+
+  <!-- Клиенты -->
+  <g>
+    <text x="110" y="90" font-size="12" font-weight="bold" text-anchor="middle" fill="#495057">CLIENTS</text>
+    <rect x="20" y="110" width="180" height="45" rx="8" fill="#007bff"/>
+    <text x="110" y="137" font-size="13" font-weight="bold" text-anchor="middle" fill="#fff">Driver Browser</text>
+    <rect x="20" y="190" width="180" height="45" rx="8" fill="#007bff"/>
+    <text x="110" y="217" font-size="13" font-weight="bold" text-anchor="middle" fill="#fff">Tracker App</text>
+    <rect x="20" y="270" width="180" height="45" rx="8" fill="#007bff"/>
+    <text x="110" y="297" font-size="13" font-weight="bold" text-anchor="middle" fill="#fff">Dispatcher UI</text>
+  </g>
+
+  <!-- Монолит -->
+  <rect x="240" y="80" width="380" height="500" rx="12" fill="#e3f2fd" stroke="#64b5f6" stroke-width="2"/>
+  <text x="430" y="105" font-size="14" font-weight="bold" text-anchor="middle" fill="#0b3d91">MODULAR MONOLITH</text>
+
+  <g font-size="12" text-anchor="middle" fill="#212529">
+    <rect x="260" y="130" width="160" height="42" rx="6" fill="#fff" stroke="#90caf9"/>
+    <text x="340" y="156">SignalR Hub</text>
+    <rect x="440" y="130" width="160" height="42" rx="6" fill="#fff" stroke="#90caf9"/>
+    <text x="520" y="156">Telemetry API</text>
+
+    <rect x="260" y="210" width="160" height="42" rx="6" fill="#fff" stroke="#90caf9"/>
+    <text x="340" y="236">Event Orchestrator</text>
+    <rect x="440" y="210" width="160" height="42" rx="6" fill="#fff" stroke="#90caf9"/>
+    <text x="520" y="236">SLA Engine</text>
+
+    <rect x="260" y="290" width="160" height="42" rx="6" fill="#fff" stroke="#90caf9"/>
+    <text x="340" y="316">Evidence Builder</text>
+    <rect x="440" y="290" width="160" height="42" rx="6" fill="#fff" stroke="#90caf9"/>
+    <text x="520" y="316">Identity Manager</text>
+
+    <rect x="260" y="370" width="160" height="42" rx="6" fill="#fff" stroke="#90caf9"/>
+    <text x="340" y="396">Dispatch Dashboard</text>
+    <rect x="440" y="370" width="160" height="42" rx="6" fill="#fff" stroke="#90caf9"/>
+    <text x="520" y="396">Notifications</text>
+
+    <rect x="260" y="450" width="340" height="45" rx="6" fill="#e9ecef" stroke="#adb5bd"/>
+    <text x="430" y="470">Shared Kernel</text>
+    <text x="430" y="486" font-size="10" fill="#6c757d">interfaces / domain events / common types</text>
+  </g>
+
+  <!-- Внешние сервисы -->
+  <g>
+    <text x="800" y="90" font-size="12" font-weight="bold" text-anchor="middle" fill="#495057">INFRASTRUCTURE</text>
+    <rect x="670" y="110" width="220" height="45" rx="8" fill="#ff9800"/>
+    <text x="780" y="137" font-size="13" font-weight="bold" text-anchor="middle" fill="#fff">Redis</text>
+    <rect x="670" y="190" width="220" height="45" rx="8" fill="#ffc107"/>
+    <text x="780" y="217" font-size="13" font-weight="bold" text-anchor="middle" fill="#212529">RabbitMQ</text>
+    <rect x="670" y="270" width="220" height="45" rx="8" fill="#4caf50"/>
+    <text x="780" y="297" font-size="13" font-weight="bold" text-anchor="middle" fill="#fff">MS SQL</text>
+    <rect x="670" y="350" width="220" height="45" rx="8" fill="#e91e63"/>
+    <text x="780" y="377" font-size="13" font-weight="bold" text-anchor="middle" fill="#fff">Seq + Grafana</text>
+    <rect x="670" y="430" width="220" height="45" rx="8" fill="#9c27b0"/>
+    <text x="780" y="457" font-size="13" font-weight="bold" text-anchor="middle" fill="#fff">Aligned Layer</text>
+    <rect x="670" y="510" width="220" height="45" rx="8" fill="#607d8b"/>
+    <text x="780" y="537" font-size="13" font-weight="bold" text-anchor="middle" fill="#fff">Arweave</text>
+  </g>
+
+  <!-- Стрелки: клиенты -> монолит -->
+  <line x1="200" y1="132" x2="240" y2="132" stroke="#6c757d" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="200" y1="212" x2="240" y2="212" stroke="#6c757d" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="200" y1="292" x2="240" y2="292" stroke="#6c757d" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Стрелки: монолит -> инфраструктура -->
+  <line x1="620" y1="152" x2="670" y2="152" stroke="#6c757d" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="620" y1="232" x2="670" y2="232" stroke="#6c757d" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="620" y1="312" x2="670" y2="312" stroke="#6c757d" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="620" y1="392" x2="670" y2="392" stroke="#6c757d" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="620" y1="472" x2="670" y2="472" stroke="#6c757d" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="620" y1="532" x2="670" y2="532" stroke="#6c757d" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Подписи стрелок (с белым контуром, чтобы не пересекались) -->
+  <g font-size="9" fill="#6c757d" stroke="#f8f9fa" stroke-width="3" paint-order="stroke" stroke-linecap="round" stroke-linejoin="round">
+    <text x="215" y="125">SignalR</text>
+    <text x="215" y="205">HTTPS + Protobuf</text>
+    <text x="215" y="285">REST</text>
+    <text x="630" y="145">Telemetry API</text>
+    <text x="630" y="225">Orchestrator</text>
+    <text x="630" y="305">EF Core</text>
+    <text x="630" y="385">OTEL / metrics</text>
+    <text x="630" y="465">Evidence</text>
+    <text x="630" y="525">Package + proof</text>
+  </g>
+
+  <!-- Примечание -->
+  <text x="460" y="600" font-size="10" font-style="italic" text-anchor="middle" fill="#6c757d">Redis is a cache/buffer, not the system of record. Arweave stores final Evidence Packages only.</text>
+</svg>

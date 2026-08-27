@@ -10,8 +10,8 @@ Built for real business processes: shipments, SLA, telemetry, warehouse, documen
 
 The platform is the foundation for two products:
 
-- **LogiQED** — Verifiable Freight Infrastructure
-- **PowerQED** — Verifiable Energy Infrastructure
+- LogiQED — Verifiable Freight Infrastructure
+- PowerQED — Verifiable Energy Infrastructure, blueprint stage
 
 Both products reuse the same C# Blazor core: SLA engine, workflow, auth, admin panel, telemetry, reporting.
 
@@ -21,12 +21,22 @@ Both products reuse the same C# Blazor core: SLA engine, workflow, auth, admin p
 - 1,300+ tests
 - Web.UI.Tests: 400+ tests
 - Omnichannel.Tests: 160+ tests
+- 330+ tables in the domain model
 
 ## Platform Screenshot
 
 Solution Explorer, Test Explorer, code and build output.
 
 ![Solution](images/solution.png)
+
+## Product Status
+
+| Component      | Status           |
+|----------------|------------------|
+| Core platform  | Production-ready |
+| Evidence Layer | MVP stage        |
+| ZK Claims      | MVP stage        |
+| PowerQED       | Blueprint only   |
 
 ## Database
 
@@ -63,8 +73,6 @@ User, role and permission management. Rules and endpoint configuration. Audit jo
 
 Role-based UI construction: navigation and screens are generated from permissions.
 
-Any role can be created with any set of permissions. Menu items are shown or hidden automatically based on the effective permissions of the current user.
-
 No hardcoded roles. The same platform adapts to any organizational structure.
 
 ### Telemetry Subsystem
@@ -75,8 +83,6 @@ Separates coordinate sources from business objects. Provides generic answers:
 
 - Where is this object now?
 - Which position was just received?
-
-Core idea: coordinate source, telemetry device, owner, generic position.
 
 Position sources:
 
@@ -100,10 +106,12 @@ Data model:
 
 - Last known position on device record
 - Time-ordered position track with server-configurable retention
+- Raw positions: 30 days
+- Aggregates: 1 year
 
 Ingestion and normalization:
 
-- Latitude and longitude validated against legal ranges
+- Latitude and longitude validated
 - Timestamps normalized to UTC
 - Future timestamps capped at server receive time
 - Duplicate timestamps removed
@@ -116,6 +124,8 @@ Resilience:
 - Client can buffer points offline
 - Retried payloads are safe
 - Late data does not degrade current position
+- Redis down fallback: read from MS SQL projections
+- No connectivity at geofence boundary: events buffered and replayed
 
 Realtime delivery:
 
@@ -130,6 +140,7 @@ Access control:
 - Telemetry.Report
 - Tracker-ingest API uses device key, not user auth
 - Only hash of tracker key stored
+- Key rotation endpoint available
 
 Administration:
 
@@ -164,24 +175,35 @@ Bulk editing of entities across the platform.
 
 Flexible filter builder with nested conditions and AND/OR combinations. Filters are saved per user.
 
-## What Is Included
+### Evidence Layer
 
-- Full C# Blazor solution
-- Source code
-- Tests
-- Documentation
-- Brand: LogiQED
-- Domain: logiqed.tech
-- GitHub repository
-- Twitter / X account
-- Email: LogiQED@gmail.com
-- PowerQED blueprint and documentation
+- Signed Event Stream
+- Evidence Graph
+- Evidence Package
+- Trust Levels E0–E5
 
-## Validation
+### Route Monitoring
 
-Architecture and product direction reviewed by Grok.
+- Route State Machine
+- TrafficEntered and TrafficExited events
+- Event Orchestrator as Background Service
+- On-Demand Oracle
 
-Blueprint confirmed as a solid foundation for real pilots.
+## Why Now
+
+From 9 July 2027, EU authorities must accept electronic freight transport information, eFTI, as the default.
+
+LogiQED is positioned as evidence infrastructure on top of eFTI.
+
+## Proof Engine
+
+Primary proof backend: Aligned Layer. Fast, cheap ZK-verification as AVS on EigenLayer.
+
+Status: mock for MVP, integration in Phase 2.
+
+Official developer documentation: https://docs.alignedlayer.com/
+
+Alternatives: Groth16, Plonk, STARK, Flock.
 
 ## Hardware Attestation Research
 
@@ -211,14 +233,16 @@ Full transfer of code, brand, domain, GitHub, X account and documentation.
 
 Buyer receives the complete platform and can build any logistics or operational product on top.
 
+Final terms depend on due diligence. Non-disclosure agreement required before sharing additional details.
+
 ## Contact
 
 For investment, acquisition or pilot partnership:
 
 Email: LogiQED@gmail.com
 
-X / Twitter: [@LogiQED](https://x.com/LogiQED)
+- [X / Twitter](https://x.com/LogiQED)
 
-GitHub: [github.com/logiqed/LogiQED](https://github.com/logiqed/LogiQED)
+- [GitHub](https://github.com/logiqed/LogiQED)
 
-Domain: [logiqed.tech](https://logiqed.tech)
+Domain: logiqed.tech

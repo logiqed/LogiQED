@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1050 380" font-family="Arial, Helvetica, sans-serif">
+  <rect width="1050" height="380" fill="#f8f9fa" rx="12"/>
+  <text x="525" y="35" font-size="20" font-weight="bold" text-anchor="middle" fill="#212529">LogiQED — Event-Driven Route Monitoring Data Flow</text>
+
+  <!-- Pipeline -->
+  <g font-size="13" font-weight="bold" text-anchor="middle">
+    <rect x="20" y="100" width="140" height="50" rx="8" fill="#007bff"/>
+    <text x="90" y="130" fill="#fff">Driver App</text>
+
+    <rect x="190" y="100" width="140" height="50" rx="8" fill="#28a745"/>
+    <text x="260" y="130" fill="#fff">Telemetry Ingest</text>
+
+    <rect x="360" y="100" width="140" height="50" rx="8" fill="#ffc107"/>
+    <text x="430" y="130" fill="#212529">Event Orchestrator</text>
+
+    <rect x="530" y="100" width="140" height="50" rx="8" fill="#fd7e14"/>
+    <text x="600" y="130" fill="#fff">SLA Engine</text>
+
+    <rect x="700" y="100" width="140" height="50" rx="8" fill="#6f42c1"/>
+    <text x="770" y="130" fill="#fff">Evidence Builder</text>
+
+    <rect x="870" y="100" width="140" height="50" rx="8" fill="#17a2b8"/>
+    <text x="940" y="130" fill="#fff">Proof Engine</text>
+  </g>
+
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#495057"/>
+    </marker>
+  </defs>
+
+  <!-- main arrows -->
+  <g stroke="#495057" stroke-width="2" fill="none">
+    <line x1="160" y1="125" x2="180" y2="125" marker-end="url(#arrow)"/>
+    <line x1="330" y1="125" x2="350" y2="125" marker-end="url(#arrow)"/>
+    <line x1="500" y1="125" x2="520" y2="125" marker-end="url(#arrow)"/>
+    <line x1="670" y1="125" x2="690" y2="125" marker-end="url(#arrow)"/>
+    <line x1="840" y1="125" x2="860" y2="125" marker-end="url(#arrow)"/>
+  </g>
+
+  <g font-size="11" fill="#495057" text-anchor="middle">
+    <text x="170" y="92">Protobuf 1KB</text>
+    <text x="340" y="92">Normalized</text>
+    <text x="510" y="92">Route FSM</text>
+    <text x="680" y="92">Pause / Resume</text>
+    <text x="850" y="92">ZK Proof</text>
+  </g>
+
+  <!-- Aux boxes -->
+  <g text-anchor="middle">
+    <rect x="175" y="240" width="170" height="50" rx="8" fill="#dc3545"/>
+    <text x="260" y="262" font-size="12" font-weight="bold" fill="#fff">SignalR</text>
+    <text x="260" y="278" font-size="10" fill="#fff">/hubs/telemetry</text>
+
+    <rect x="360" y="240" width="170" height="50" rx="8" fill="#4caf50"/>
+    <text x="445" y="262" font-size="12" font-weight="bold" fill="#fff">MS SQL</text>
+    <text x="445" y="278" font-size="10" fill="#fff">System of Record</text>
+
+    <rect x="555" y="240" width="160" height="50" rx="8" fill="#ff9800"/>
+    <text x="635" y="262" font-size="12" font-weight="bold" fill="#212529">Redis</text>
+    <text x="635" y="278" font-size="10" fill="#212529">Cache / Route Buffer</text>
+
+    <rect x="870" y="240" width="150" height="50" rx="8" fill="#607d8b"/>
+    <text x="945" y="262" font-size="12" font-weight="bold" fill="#fff">Arweave</text>
+    <text x="945" y="278" font-size="10" fill="#fff">Permanent Storage</text>
+  </g>
+
+  <!-- dashed connectors -->
+  <g stroke="#6c757d" stroke-width="2" stroke-dasharray="6,4" fill="none">
+    <line x1="260" y1="150" x2="260" y2="240"/>
+    <polyline points="260,150 260,190 445,190 445,240"/>
+    <polyline points="260,150 260,225 635,225 635,240"/>
+    <polyline points="430,150 430,190 445,190 445,240"/>
+    <polyline points="430,150 430,215 635,215 635,240"/>
+  </g>
+
+  <!-- proof -> arweave -->
+  <line x1="940" y1="150" x2="940" y2="240" stroke="#495057" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="925" y="200" font-size="11" fill="#495057" text-anchor="end">Evidence + ZK proof</text>
+
+  <!-- note -->
+  <text x="525" y="330" font-size="11" font-style="italic" text-anchor="middle" fill="#6c757d">Note: ZK-proof is generated only for disputed or exception-bound routes. Clean routes close with signed events + Evidence Root.</text>
+</svg>

@@ -11,99 +11,21 @@ Verification allows any party to check an Evidence Package without accessing raw
 - Trust policy result
 - Corroboration result
 - Conclusion correctness
+- Evidence Root against external anchor
 
 ## Endpoint
 
-`POST /v1/evidence/verify`
+POST /v1/evidence/verify
+
+## Authentication
+
+Public endpoint. No API key required.
+
+Rate limit: 100 requests per minute per IP.
 
 ## Request
 
-```yaml
-openapi: 3.1.0
-info:
-  title: LogiQED Verification API
-  version: 0.2.0
-
-paths:
-  /v1/evidence/verify:
-    post:
-      summary: Verify Evidence Package
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/VerificationRequest'
-      responses:
-        '200':
-          description: Verification result
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/VerificationResult'
-
-components:
-  schemas:
-    VerificationRequest:
-      type: object
-      required: [packageId]
-      properties:
-        packageId:
-          type: string
-
-    VerificationResult:
-      type: object
-      properties:
-        claimType:
-          type: string
-        claimVersion:
-          type: string
-        result:
-          type: string
-        rule:
-          type: object
-          properties:
-            id:
-              type: string
-            version:
-              type: string
-            digest:
-              type: string
-        trustPolicy:
-          type: object
-          properties:
-            id:
-              type: string
-            version:
-              type: string
-            result:
-              type: string
-        corroboration:
-          type: object
-          properties:
-            result:
-              type: string
-        evidenceRoot:
-          type: string
-        proof:
-          type: object
-          properties:
-            backend:
-              type: string
-            circuitId:
-              type: string
-            version:
-              type: string
-            valid:
-              type: boolean
-        schemaVersion:
-          type: string
-        verifiedAt:
-          type: string
-          format: date-time
-```
-
-## Example Request
+### Option A: by package ID
 
 ```json
 {
@@ -111,41 +33,154 @@ components:
 }
 ```
 
-## Example Result
+### Option B: full package
 
 ```json
 {
-  "claimType": "Detention",
-  "claimVersion": "1.0",
-  "result": "Warehouse attributable: 68 min",
+  "package": {
+    "schemaVersion": "1.0",
+    "claimId": "...",
+    "claimType": "DETENTION",
+    "sources": [],
+    "inputEvents": [],
+    "rule": {
+      "id": "DETENTION_V1",
+      "version": "1.0",
+      "digest": "sha256:..."
+    },
+    "evidenceRoot": "0x8f3a...",
+    "proof": {
+      "backend": "ALIGNED_LAYER_MOCK",
+      "proofHash": "sha256:..."
+    },
+    "signature": "ed25519:..."
+  }
+}
+```
+
+## Responses
+
+### 200 Verified
+
+```json
+{
+  "requestId": "req_01HZ...",
+  "packageId": "pkg_01HZ...",
+  "schemaVersion": "1.0",
+  "result": {
+    "status": "VALID",
+    "conclusion": "Warehouse attributable: 68 min"
+  },
+  "checks": {
+    "signature": "PASS",
+    "evidenceRootMerkle": "PASS",
+    "evidenceRootAnchor": "PASS",
+    "ruleDigest": "PASS",
+    "trustPolicy": "PASS",
+    "corroboration": "PASS",
+    "proofValidity": "PASS"
+  },
+  "trustPolicy": {
+    "id": "E4_REQUIRED_V1",
+    "version": "1.0",
+    "evaluationStatus": "PASS"
+  },
   "rule": {
     "id": "DETENTION_V1",
     "version": "1.0",
-    "digest": "0x..."
+    "digest": "sha256:..."
   },
-  "trustPolicy": {
-    "id": "E4_REQUIRED",
-    "version": "1.0",
-    "result": "PASS"
-  },
-  "corroboration": {
-    "result": "PASS"
-  },
-  "evidenceRoot": "0x...",
+  "evidenceRoot": "0x8f3a...",
+  "externalAnchorRef": "arweave:kT4b...",
   "proof": {
-    "backend": "Groth16",
+    "backend": "ALIGNED_LAYER_MOCK",
     "circuitId": "detention_claim_v1",
     "version": "1.0",
     "valid": true
   },
-  "schemaVersion": "1.0",
   "verifiedAt": "2026-08-25T14:05:00Z"
 }
 ```
 
+### 200 Invalid
+
+```json
+{
+  "requestId": "req_01HZ...",
+  "packageId": "pkg_01HZ...",
+  "schemaVersion": "1.0",
+  "result": {
+    "status": "INVALID",
+    "reason": "Evidence Root does not match Merkle commitment"
+  },
+  "checks": {
+    "signature": "PASS",
+    "evidenceRootMerkle": "FAIL",
+    "evidenceRootAnchor": "PASS",
+    "ruleDigest": "PASS",
+    "trustPolicy": "PASS",
+    "corroboration": "PASS",
+    "proofValidity": "PASS"
+  },
+  "verifiedAt": "2026-08-25T14:05:00Z"
+}
+```
+
+### 400 Invalid Request
+
+```json
+{
+  "requestId": "req_01HZ...",
+  "error": {
+    "code": "INVALID_PACKAGE",
+    "message": "Neither packageId nor package provided"
+  }
+}
+```
+
+### 404 Package Not Found
+
+```json
+{
+  "requestId": "req_01HZ...",
+  "error": {
+    "code": "PACKAGE_NOT_FOUND",
+    "message": "Evidence Package not found"
+  }
+}
+```
+
+### 429 Rate Limit Exceeded
+
+```json
+{
+  "requestId": "req_01HZ...",
+  "error": {
+    "code": "RATE_LIMITED",
+    "message": "Rate limit exceeded. Try again in 60 seconds."
+  }
+}
+```
+
+## Verification Steps
+
+1. Resolve package by packageId or by full package payload.
+2. Verify signature with the organization key.
+3. Recompute Evidence Root from canonical input events.
+4. Verify anchor against externalAnchorRef.
+5. Verify rule digest from published rule definition.
+6. Verify trust policy from source identities.
+7. Verify corroboration from Evidence Graph.
+8. Verify proof through the proof backend.
+9. Recompute conclusion from rule formula and input events.
+10. Log verification with requestId, packageId, result, and verifiedAt.
+
 ## Design Notes
 
 - Verification never exposes raw telemetry.
-- Proof validity is checked against committed inputs.
-- Trust policy result is checked server-side.
+- verifiedAt is set by the server.
+- Checks return PASS, FAIL, or SKIP.
+- SKIP is used when a check is not applicable.
+- Verification results are logged for audit.
+- Aligned Layer is the primary proof backend. Mock for MVP.
 - Any party can verify independently.

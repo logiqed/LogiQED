@@ -8,27 +8,103 @@ Accepted
 
 LogiQED starts as a pilot MVP for evidence infrastructure in physical logistics.
 
-The team:
+Team:
 
 - 2 Senior .NET Engineers — platform and evidence pipeline
 - 1 Senior Data Engineer — MS SQL, analytics, event storage design
 - 1 Senior Systems/C++ Engineer — proof backend integration, performance
 - DevOps Engineer — infrastructure, deployment, monitoring
 
-Team can be scaled up to 2x full-time developers. Final size depends on budget and pilot scope.
+Team can be scaled to 2x full-time developers. Final size depends on budget and pilot scope.
+
+Constraints:
+
+- Timeline: 3–4 months.
+- Budget: $170–200K.
+- Must produce two end-to-end ZK claims.
+- Must integrate with hardware trackers and temperature sensors.
+- Deployment target: single VM and managed SQL.
 
 ## Decision
 
 Use a modular monolith on C# Blazor / ASP.NET Core.
 
+The Event Orchestrator runs as a Background Service inside the monolith.
+
+Modules communicate through interfaces, not through each other's database tables.
+
+### Module List
+
+- Telemetry — ingest, normalization, deduplication, retention
+- Route — route state machine, segment and traffic events
+- SLA — policies, calendars, exception rules, timers
+- Evidence — package builder, trust levels, provenance graph
+- Identity — device keys, attestation, revocation
+- Notifications — SignalR, webhooks, email, push
+- Dispatcher — dashboard, manual incident resolution
+
 ## Consequences
 
-- Faster development and deployment
-- Simpler operations
-- Clear internal module boundaries
-- Microservices can be extracted later at natural boundaries: telemetry ingestion, proof workers, AI execution
+### Positive
+
+- Faster development and deployment.
+- Simpler operations. One process, one deployment unit.
+- Clear internal module boundaries enforced by convention and tests.
+- Route State Machine and Orchestrator stay in-process for MVP.
+- Refactoring across modules is cheap. No network boundaries.
+
+### Negative
+
+- Scaling limit. Modules share a single process.
+- Deployment coupling. A bug in any module takes down the monolith.
+- Big ball of mud risk without discipline.
+
+### Mitigations
+
+- Architecture tests enforce module boundaries.
+- Shared Kernel contains common types.
+- Review discipline. Boundary changes require 2 approvals.
+- Telemetry ingest and orchestrator are isolated behind interfaces.
+
+### Triggers for Extraction
+
+- Sustained load above 5,000 active devices.
+- Evidence build time above 500ms p95.
+- Team size grows beyond 6 engineers.
 
 ## Alternatives Considered
 
-- Microservices from day one: rejected. Too much operational overhead for a pilot.
-- Serverless: rejected. Less control over evidence pipeline.
+### Microservices from day one
+
+Rejected.
+
+- Operational overhead: multiple deployments, service discovery, monitoring, tracing.
+- Team would spend 30–40 percent of time on infrastructure.
+- No pilot-scale load justifies it.
+- End-to-end evidence flows are harder to coordinate.
+
+### Serverless
+
+Rejected.
+
+- Stateless functions poorly match route state machines.
+- Cold start latency unpredictable for real-time telemetry.
+- Vendor lock-in risk.
+- Less control over signature verification and proof generation.
+
+### Separate orchestrator microservice
+
+Rejected for MVP.
+
+- No pilot-scale load.
+- Adds deployment and debugging complexity.
+- Route state machine co-located with SLA engine is simpler.
+- Extraction path is clear.
+
+## Related Documents
+
+- [Architecture](../ARCHITECTURE.md)
+- [MVP](../MVP.md)
+- [Pilot](../PILOT.md)
+- [Development Process](../DEVELOPMENT.md)
+- [ADR 0002: Storage and Commitments](0002-storage-and-commitments.md)
