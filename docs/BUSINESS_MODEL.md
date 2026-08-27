@@ -79,12 +79,10 @@ A client recovers the Pro subscription on the first resolved dispute.
 
 ## Cost Structure
 
-| Category 			  | Share |
-|------------- -------|-------|
-| R&D 				  | 60%   |
-| Sales and Marketing | 25%   |
-| Infrastructure 	  | 10%   |
-| Administrative 	  | 5%    |
+- R&D: 60%
+- Sales and Marketing: 25%
+- Infrastructure: 10%
+- Administrative: 5%
 
 ## Pilot KPIs
 
