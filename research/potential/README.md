@@ -57,18 +57,16 @@ Idea statuses:
 
 ## Detailed Files
 
-| File | Idea |
-|------|------|
-| marketplace.md | Marketplace |
-| depin.md | DePIN Integrations |
-| scientific-sensors.md | Scientific Sensors |
-| soulbound.md | Soulbound Reputation |
-| meshshield.md | MeshShield |
-| proof-of-freeze.md | Proof-of-Freeze |
-| hd-maps.md | HD Maps |
-| warehouse-marketplace.md | Warehouse Marketplace |
-| black-box.md | Black Box |
-| ai-agents.md | AI Agents |
+- [Marketplace](marketplace.md)
+- [DePIN Integrations](depin.md)
+- [Scientific Sensors](scientific-sensors.md)
+- [Soulbound Reputation](soulbound.md)
+- [MeshShield](meshshield.md)
+- [Proof-of-Freeze](proof-of-freeze.md)
+- [HD Maps](hd-maps.md)
+- [Warehouse Marketplace](warehouse-marketplace.md)
+- [Black Box](black-box.md)
+- [AI Agents](ai-agents.md)
 
 ---
 
