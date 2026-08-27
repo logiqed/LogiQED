@@ -66,7 +66,7 @@ Privacy-by-design. Crypto-agile. Post-quantum ready.
 
 From 9 July 2027, EU authorities must accept regulatory freight information submitted electronically through certified eFTI platforms, creating a major interoperability and digital-evidence tailwind.
 
-Official regulation: [European Commission — eFTI](https://transport.ec.europa.eu/transport-themes/electronic-freight-transport-information-efti_en)
+Official regulation: [Regulation (EU) 2020/1056 on electronic freight transport information (eFTI)](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32020R1056)
 
 ---
 
