@@ -97,6 +97,7 @@ Checks:
 - Evidence Root against Arweave
 - Signature
 - ZK-proof when generated
+- Formal verification result when available
 
 Raw telemetry is not required for verification.
 
@@ -106,13 +107,13 @@ Raw telemetry is not required for verification.
 
 Inputs:
 
-| Event 		  | Time  |
-|-----------------|-------|
-| Appointment 	  | 12:00 |
-| Geofence entry  | 11:54 |
+| Event | Time |
+|-------|------|
+| Appointment | 12:00 |
+| Geofence entry | 11:54 |
 | Dock assignment | 13:02 |
-| Loading start   | 13:18 |
-| Warehouse exit  | 14:11 |
+| Loading start | 13:18 |
+| Warehouse exit | 14:11 |
 
 Rule:
 
@@ -141,6 +142,7 @@ Result:
 - EigenDA for evidence hashes at scale
 - Arweave for permanent commitments
 - L2 settlement
+- Lean 4 formal proofs in production
 
 ---
 

@@ -18,6 +18,8 @@ Sensor/device, attestation, timestamp, signature, provenance, ZK, Evidence Packa
 
 A late truck is explained by data: arrival 14:37, ETA 13:55, delay 42 min, cause: traffic between A-B, telemetry clean, events signed, hashes match, SLA rule v3, no penalty.
 
+Event Orchestrator maintains the Route State Machine per route and decides whether external enrichment is required.
+
 <p align="center">
   <img src="images/diagram-flow.svg" alt="LogiQED Data Flow" width="850"/>
 </p>
@@ -30,6 +32,8 @@ A late truck is explained by data: arrival 14:37, ETA 13:55, delay 42 min, cause
 - **Trust Levels E0–E5** — graded confidence for every source.
 - **Evidence Graph** — provenance DAG connecting events, sources, and rules.
 - **SLA Engine** — rule execution with automatic exception attribution.
+- **Route State Machine** — TrafficEntered pauses SLA, TrafficExited resumes it.
+- **On-Demand Oracle** — external APIs called only when an incident occurs.
 - **Evidence Package** — immutable snapshot of claim, proof, and context.
 - **Targeted ZK Proofs** — high-value claims only. No overengineering.
 - **Role-based UI** — navigation and screens are generated from permissions. No hardcoded roles.
@@ -52,9 +56,11 @@ A late truck is explained by data: arrival 14:37, ETA 13:55, delay 42 min, cause
 
 ## Tech Stack
 
-C# Blazor, MS SQL, Flock-class proof systems, EigenDA, Arweave, Arbitrum Stylus.
+C# Blazor, MS SQL, Redis, RabbitMQ, SignalR, Aligned Layer, Arweave.
 
 Privacy-by-design. Crypto-agile. Post-quantum ready.
+
+Formal verification with Lean 4.
 
 <p align="center">
   <img src="images/diagram-system.svg" alt="LogiQED System Architecture" width="850"/>

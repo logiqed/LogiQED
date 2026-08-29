@@ -31,6 +31,7 @@ MVP storage:
 - Raw telemetry is never stored permanently.
 - EigenDA is added only when benchmark shows the need for a separate DA layer.
 - Aligned Layer is the primary proof backend. Mock for MVP.
+- Lean 4 formal verification is research only and does not affect storage decisions.
 
 ### Process
 

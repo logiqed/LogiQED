@@ -103,6 +103,7 @@ Prove that LogiQED produces trustworthy evidence and settles a real commercial d
 - Evidence Packages for Detention and Cargo Condition
 - Benchmarks for proof generation
 - Pilot report with case study
+- Optional: Lean 4 formal proof for one claim rule, research only
 
 ## Next Step
 

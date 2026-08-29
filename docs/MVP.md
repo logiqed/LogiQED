@@ -10,7 +10,7 @@ Build the core evidence layer and prove it with real trucks.
 
 ## Budget
 
-$170–200K. Timeline 3–4 months.
+$170–200K.
 
 ## Team
 
@@ -23,13 +23,13 @@ Team can be scaled up to 2x full-time developers. Final size depends on pilot sc
 
 ## Milestones
 
-| Phase 			   | Timeline   | Result 																   |
-|----------------------|------------|--------------------------------------------------------------------------|
-| Setup 			   | Week 1–2   | Demo: map, documents, reports, SLA, chat on existing platform            |
-| Tracking and Events  | Week 3–6   | Telemetry, signatures, Evidence Graph, deduplication 					   |
-| SLA and Orchestrator | Week 7–10  | Route State Machine, SLA Engine, Enrichment Decider, On-Demand Oracle    |
-| Claims and Proof     | Week 11–13 | Two ZK claims with mock backend, Evidence Package, Arweave integration   |
-| Pilot 			   | Week 14–16 | Real trucks, commercial dispute, final report 						   |
+| Phase | Timeline | Result |
+|-------|----------|--------|
+| Setup | Week 1–2 | Demo: map, documents, reports, SLA, chat on existing platform |
+| Tracking and Events | Week 3–6 | Telemetry, signatures, Evidence Graph, deduplication |
+| SLA and Orchestrator | Week 7–10 | Route State Machine, SLA Engine, Enrichment Decider, On-Demand Oracle |
+| Claims and Proof | Week 11–13 | Two ZK claims with mock backend, Evidence Package, Arweave integration |
+| Pilot | Week 14–16 | Real trucks, commercial dispute, final report |
 
 ## Existing Platform
 
@@ -90,22 +90,27 @@ This reduces risk and accelerates the pilot.
 12. OpenAPI and webhooks
     - Machine-readable API for integrations and AI agents.
 
+13. Lean 4 formal verification
+    - Research only, not part of MVP delivery.
+    - Formal proofs added for high-value claims after pilot.
+
 ## What is NOT in MVP
 
-| Item 							 | Why not 										 |
-|--------------------------------|-----------------------------------------------|
-| AI copilot 					 | Not needed for proof of value                 |
-| Full blockchain settlement     | Requires business logic validation            |
+| Item | Why not |
+|------|---------|
+| AI copilot | Not needed for proof of value |
+| Full blockchain settlement | Requires business logic validation |
 | Real Aligned Layer integration | Mock suffices for MVP, integration in Phase 2 |
-| EigenDA 					     | Only when benchmark load requires 			 |
-| Arweave for every package      | Keep only disputed claims 					 |
-| DePIN economics 		         | Research, not product 						 |
-| Scientific marketplace         | Research, not product                         |
-| Soulbound badges 		         | Research, not product                         |
-| MeshShield 	   		         | Research, not product                         |
-| Proof-of-Freeze  		         | Research, not product                         |
-| HD maps                        | Research, not product                         |
-| Warehouse marketplace          | Research, not product                         |
+| EigenDA | Only when benchmark load requires |
+| Arweave for every package | Keep only disputed claims |
+| DePIN economics | Research, not product |
+| Scientific marketplace | Research, not product |
+| Soulbound badges | Research, not product |
+| MeshShield | Research, not product |
+| Proof-of-Freeze | Research, not product |
+| HD maps | Research, not product |
+| Warehouse marketplace | Research, not product |
+| Lean 4 proofs in production | Research only for MVP |
 
 ## MVP Storage
 
@@ -132,10 +137,11 @@ EigenDA is added only when benchmark shows the need for a separate DA layer.
 
 ## Risks
 
-| Risk 					  | Mitigation 								     |
-|-------------------------|----------------------------------------------|
+| Risk | Mitigation |
+|------|------------|
 | Aligned Layer not ready | Mock for full MVP, interface already defined |
-| Phone GPS inaccurate    | Add onboard sensor, enrich with TMS events   |
-| Pilot partner not found | Run 3–5 negotiations in parallel             |
-| SLA calendar complexity | Golden tests from day one                    |
-| Budget overrun          | CI/CD from start, reserve included           |
+| Phone GPS inaccurate | Add onboard sensor, enrich with TMS events |
+| Pilot partner not found | Run 3–5 negotiations in parallel |
+| SLA calendar complexity | Golden tests from day one |
+| Budget overrun | CI/CD from start, reserve included |
+| Lean 4 learning curve | Research only, does not block MVP |

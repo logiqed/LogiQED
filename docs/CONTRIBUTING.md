@@ -44,6 +44,8 @@ We are especially interested in feedback on:
 - Claim definitions, especially edge cases
 - SLA DSL grammar and semantics
 - Telemetry ingestion and deduplication logic
+- Event-Driven Route Monitoring
+- Lean 4 formal verification approach
 
 Use the issue label `improvement`.
 

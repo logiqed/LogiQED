@@ -14,6 +14,7 @@ Each claim follows the same structure:
 - Expected output
 - Edge case handling
 - Signature and publication
+- Formal verification reference for the rule
 
 A claim is verified only with the rule version that was active at the time of the underlying events.
 
@@ -114,6 +115,7 @@ The verifier checks:
 - Trust policy result
 - Signature
 - Proof validity
+- Formal verification result, when available
 
 ---
 
@@ -174,7 +176,10 @@ The claim is VALID only when every committed measurement satisfies the rule.
     "ruleId": "cargo-temp-v1"
   },
   "signature": "ed25519:...",
-  "proof": "zk:..."
+  "proof": {
+  "backend": "ALIGNED_LAYER_MOCK",
+  "proofHash": "0x..."
+}
 }
 ```
 

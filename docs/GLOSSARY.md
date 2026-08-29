@@ -66,6 +66,11 @@ Definitions of LogiQED concepts. For examples and diagrams, see ARCHITECTURE.md 
   Status: mock for MVP, integration in Phase 2.
   Official developer documentation: https://docs.alignedlayer.com/
 
+- **Lean 4**
+  Formal verification tool. Machine-checked proofs for claim rules and SLA mathematics.
+  Status: research. MVP uses deterministic rules with golden tests.
+  Official repository: https://github.com/leanprover/lean4
+
 - **Flock**
   Hash-based proof system. Experimental backend in LogiQED. Not a critical dependency.
 

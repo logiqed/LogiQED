@@ -104,6 +104,16 @@ Official developer documentation: https://docs.alignedlayer.com/
 
 Alternatives: Groth16, Plonk, STARK, Flock.
 
+## Formal Verification
+
+Primary tool: Lean 4.
+
+Machine-checked proofs for claim rules and SLA mathematics.
+
+Status: research. MVP uses deterministic rules with golden tests.
+
+Official repository: https://github.com/leanprover/lean4
+
 ## EPCIS
 
 LogiQED uses GS1 EPCIS 2.0 as the logistics event language.
@@ -141,25 +151,26 @@ Excluded:
 - Real Aligned Layer integration, Phase 2
 - Device attestation, Phase 2
 - EigenDA, Phase 3
+- Lean 4 formal proofs in production, Phase 2
 
 ## Success Metrics for Pilot
 
-| Metric 						 | Target          |
-|--------------------------------|-----------------|
-| Pilot partners                 | 3–5             |
-| Evidence Packages per month    | 10,000+         |
-| Disputes closed without lawyer | 100%            |
-| Time from dispute to proof     | Under 5 minutes |
-| NPS from pilot partners        | 40+             |
+| Metric | Target |
+|--------|--------|
+| Pilot partners | 3–5 |
+| Evidence Packages per month | 10,000+ |
+| Disputes closed without lawyer | 100% |
+| Time from dispute to proof | Under 5 minutes |
+| NPS from pilot partners | 40+ |
 
 ## Why LogiQED vs Alternatives
 
 | Alternative | Why Not |
-|------------------------------|------------------------------------------------------|
-| Paper and email evidence 	   | Weak, slow, contested 								  |
-| TMS and screenshot culture   | Not cryptographically binding 						  |
+|-------------|---------|
+| Paper and email evidence | Weak, slow, contested |
+| TMS and screenshot culture | Not cryptographically binding |
 | General blockchain documents | No trust levels, no SLA logic, no geofence/telemetry |
-| Manual arbitration           | Costly, slow, subjective 							  |
+| Manual arbitration | Costly, slow, subjective |
 
 ## Contact
 

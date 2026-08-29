@@ -12,6 +12,7 @@ Verification allows any party to check an Evidence Package without accessing raw
 - Corroboration result
 - Conclusion correctness
 - Evidence Root against external anchor
+- Formal verification result, when available
 
 ## Endpoint
 
@@ -78,7 +79,8 @@ Rate limit: 100 requests per minute per IP.
     "ruleDigest": "PASS",
     "trustPolicy": "PASS",
     "corroboration": "PASS",
-    "proofValidity": "PASS"
+    "proofValidity": "PASS",
+    "formalVerification": "SKIP"
   },
   "trustPolicy": {
     "id": "E4_REQUIRED_V1",
@@ -120,7 +122,8 @@ Rate limit: 100 requests per minute per IP.
     "ruleDigest": "PASS",
     "trustPolicy": "PASS",
     "corroboration": "PASS",
-    "proofValidity": "PASS"
+    "proofValidity": "PASS",
+    "formalVerification": "SKIP"
   },
   "verifiedAt": "2026-08-25T14:05:00Z"
 }
@@ -173,7 +176,8 @@ Rate limit: 100 requests per minute per IP.
 7. Verify corroboration from Evidence Graph.
 8. Verify proof through the proof backend.
 9. Recompute conclusion from rule formula and input events.
-10. Log verification with requestId, packageId, result, and verifiedAt.
+10. Check formal verification result when available.
+11. Log verification with requestId, packageId, result, and verifiedAt.
 
 ## Design Notes
 
@@ -181,6 +185,7 @@ Rate limit: 100 requests per minute per IP.
 - verifiedAt is set by the server.
 - Checks return PASS, FAIL, or SKIP.
 - SKIP is used when a check is not applicable.
+- formalVerification returns SKIP for MVP packages without Lean 4 proof.
 - Verification results are logged for audit.
 - Aligned Layer is the primary proof backend. Mock for MVP.
 - Any party can verify independently.

@@ -14,18 +14,19 @@ Source Assurance is a server-side evaluation of a source across seven dimensions
 
 Each dimension is evaluated independently. The final level is a combination of dimensions, not a single value.
 
-| Level | Description 								 |
-|-------|--------------------------------------------|
-| E0    | Manual input, basic authentication 		 |
-| E1    | Authenticated external API 				 |
-| E2    | Signed software source 					 |
-| E3    | Attested device, TPM or Secure Element 	 |
-| E4    | E3 plus corroboration with another source  |
-| E5    | E4 plus three or more independent sources  |
+| Level | Description |
+|-------|-------------|
+| E0 | Manual input, basic authentication |
+| E1 | Authenticated external API |
+| E2 | Signed software source |
+| E3 | Attested device, TPM or Secure Element |
+| E4 | E3 plus corroboration with another source |
+| E5 | E4 plus three or more independent sources |
 
 ![Trust Levels](images/diagram-trust-levels.svg)
 
 ## Trust Policy
+
 ```json
 {
   "policyId": "E4_REQUIRED_V1",
@@ -60,10 +61,10 @@ GPS and geofence may derive from the same signal.
 
 Rule: E5 is assigned only when the Evidence Graph confirms independence.
 
-| Level | Requirement 														 |
-|-------|--------------------------------------------------------------------|
-| E4 	| Corroboration with another source 								 |
-| E5 	| Three or more independent sources, confirmed in the Evidence Graph |
+| Level | Requirement |
+|-------|-------------|
+| E4 | Corroboration with another source |
+| E5 | Three or more independent sources, confirmed in the Evidence Graph |
 
 Independence is not just different SourceId values. It means the data does not come from the same physical sensor or signal.
 
@@ -75,9 +76,18 @@ Each call adds a source to the claim.
 
 The Enrichment Decider determines whether external confirmation is required.
 
+## Formal Verification and Trust
+
+Lean 4 can formally verify trust policy evaluation logic.
+
+Status: research. MVP uses deterministic rules with golden tests.
+
+A formally verified trust policy is machine-checked and cannot be misinterpreted.
+
 ## MVP Implementation
 
 ### Source Identity Model
+
 ```json
 {
   "sourceId": "sensor_01HZ...",

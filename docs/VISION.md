@@ -97,6 +97,14 @@ Status: mock for MVP, integration in Phase 2.
 
 Alternatives: Groth16, Plonk, STARK, Flock.
 
+### Formal Verification
+
+Primary tool: Lean 4.
+
+Machine-checked proofs for claim rules and SLA mathematics.
+
+Status: research. MVP uses deterministic rules with golden tests.
+
 ## What Cryptography Proves
 
 Cryptography does not prove physical truth.

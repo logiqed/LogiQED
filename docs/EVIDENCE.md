@@ -28,24 +28,25 @@ When the schema changes, a new version is created. Verifiers support the previou
 
 Evidence Package contains:
 
-| Field 			  | Type   | Description 								     |
-|---------------------|--------|-------------------------------------------------|
-| schemaVersion 	  | string | Schema version 								 |
-| claimId 			  | string | Unique claim ID 						         |
-| claimVersion 		  | string | Version of the claim definition 			     |
-| claimType 		  | enum   | DETENTION, CARGO_CONDITION 				     |
-| timestamp 		  | string | ISO 8601 UTC 								     |
-| sources 			  | array  | Source IDs, trust levels, attestation types 	 |
-| trustPolicyResult   | object | Policy reference, PASS or FAIL, digest 		 |
-| corroborationResult | object | Corroborating sources and result 			     |
-| inputEvents 		  | array  | Canonical event hashes or event IDs 			 |
-| ruleRef             | object | Rule ID, version, digest 				         |
-| conclusion	      | object | Human-readable and machine-readable result 	 |
-| proofRef 			  | object | Proof backend, proof hash, status 				 |
-| publicManifest      | object | Privacy-minimized public summary 		         |
-| evidenceRoot        | string | Merkle root of canonical event hashes 			 |
-| externalAnchorRef   | string | Arweave transaction ID 						 |
-| signature           | string | Ed25519 signature over canonical bytes 		 |
+| Field | Type | Description |
+|-------|------|-------------|
+| schemaVersion | string | Schema version |
+| claimId | string | Unique claim ID |
+| claimVersion | string | Version of the claim definition |
+| claimType | enum | DETENTION, CARGO_CONDITION |
+| timestamp | string | ISO 8601 UTC |
+| sources | array | Source IDs, trust levels, attestation types |
+| trustPolicyResult | object | Policy reference, PASS or FAIL, digest |
+| corroborationResult | object | Corroborating sources and result |
+| inputEvents | array | Canonical event hashes or event IDs |
+| ruleRef | object | Rule ID, version, digest |
+| conclusion | object | Human-readable and machine-readable result |
+| proofRef | object | Proof backend, proof hash, status |
+| formalVerificationRef | object | Lean 4 proof reference, when available |
+| publicManifest | object | Privacy-minimized public summary |
+| evidenceRoot | string | Merkle root of canonical event hashes |
+| externalAnchorRef | string | Arweave transaction ID |
+| signature | string | Ed25519 signature over canonical bytes |
 
 ---
 
@@ -59,11 +60,11 @@ For the reference example:
 
 13:02 - 11:54 = 68 minutes
 
-| Interval 		   | Calculation 					| Minutes | Attribution |
-|------------------|--------------------------------|---------|-------------|
-| waiting_for_dock | dockAssignment - geofenceEntry | 68      | warehouse   |
-| dock_assignment  | loadingStart - dockAssignment  | 16      | not counted |
-| loading 		   | warehouseExit - loadingStart   | 53      | not counted |
+| Interval | Calculation | Minutes | Attribution |
+|----------|-------------|---------|-------------|
+| waiting_for_dock | dockAssignment - geofenceEntry | 68 | warehouse |
+| dock_assignment | loadingStart - dockAssignment | 16 | not counted |
+| loading | warehouseExit - loadingStart | 53 | not counted |
 
 ---
 
@@ -96,12 +97,12 @@ Each node in the graph is hash-linked.
 
 ## Storage
 
-| Store 			| Content 								   | Retention													   |
-|-------------------|------------------------------------------|---------------------------------------------------------------|
-| MS SQL 			| Operational events, claims, rules, audit | Raw positions: 30 days. Aggregates: 1 year. Claims: permanent |
-| Redis 			| Hot cache for active routes              | Active route lifetime 									       |
-| Arweave 			| Final Evidence Packages                  | Permanent 													   |
-| Deletable storage | Raw encrypted context data               | Deletable on request 										   |
+| Store | Content | Retention |
+|-------|---------|-----------|
+| MS SQL | Operational events, claims, rules, audit | Raw positions: 30 days. Aggregates: 1 year. Claims: permanent |
+| Redis | Hot cache for active routes | Active route lifetime |
+| Arweave | Final Evidence Packages | Permanent |
+| Deletable storage | Raw encrypted context data | Deletable on request |
 
 Raw telemetry is never stored permanently.
 
@@ -151,6 +152,7 @@ Checks:
 - Trust policy result matches source trust levels
 - Conclusion matches rule formula and input events
 - ZK-proof when present
+- Formal verification result when available
 
 ---
 

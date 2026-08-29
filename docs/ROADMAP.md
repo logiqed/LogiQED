@@ -93,6 +93,7 @@ P1 Important:
 - Insurance API pilot with 1–2 insurers
 - Orchestrator extraction to microservice when load exceeds 5000 devices
 - Warehouse slot management pilot
+- Lean 4 formal proofs for high-value claims
 
 P2 Optional:
 
@@ -138,11 +139,11 @@ D. HD maps, Citizen Science, MeshShield, Proof-of-Freeze
 
 ## eFTI Timeline
 
-| Date 		  | Event 														 |
-|-------------|--------------------------------------------------------------|
-| 2026 		  | Pilot ready, technology demonstrated 						 |
-| 9 July 2027 | EU accepts eFTI, market moves to electronic documents 		 |
-| 2028 		  | eFTI becomes mandatory, LogiQED operates as infrastructure   |
+| Date | Event |
+|------|-------|
+| 2026 | Pilot ready, technology demonstrated |
+| 9 July 2027 | EU accepts eFTI, market moves to electronic documents |
+| 2028 | eFTI becomes mandatory, LogiQED operates as infrastructure |
 
 LogiQED must be ready when the market arrives.
 
@@ -150,8 +151,8 @@ LogiQED must be ready when the market arrives.
 
 ## Phase Transition Criteria
 
-| Transition   | Criteria 													     |
-|--------------|-----------------------------------------------------------------|
-| Phase 0 to 1 | OpenAPI, demo, architecture specification 						 |
-| Phase 1 to 2 | One dispute closed, pilot complete, 2–3 clients in pipeline     |
+| Transition | Criteria |
+|-----------|----------|
+| Phase 0 to 1 | OpenAPI, demo, architecture specification |
+| Phase 1 to 2 | One dispute closed, pilot complete, 2–3 clients in pipeline |
 | Phase 2 to 3 | 100 or more clients, 1 million or more packages, stable revenue |

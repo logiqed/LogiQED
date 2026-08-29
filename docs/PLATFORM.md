@@ -31,12 +31,13 @@ Solution Explorer, Test Explorer, code and build output.
 
 ## Product Status
 
-| Component      | Status           |
-|----------------|------------------|
-| Core platform  | Production-ready |
-| Evidence Layer | MVP stage        |
-| ZK Claims      | MVP stage        |
-| PowerQED       | Blueprint only   |
+| Component | Status |
+|-----------|--------|
+| Core platform | Production-ready |
+| Evidence Layer | MVP stage |
+| ZK Claims | MVP stage |
+| Lean 4 formal verification | Research |
+| PowerQED | Blueprint only |
 
 ## Database
 
@@ -188,6 +189,12 @@ Flexible filter builder with nested conditions and AND/OR combinations. Filters 
 - TrafficEntered and TrafficExited events
 - Event Orchestrator as Background Service
 - On-Demand Oracle
+
+### Lean 4 Formal Verification
+
+- Machine-checked proofs for claim rules and SLA mathematics
+- Research only, not part of MVP delivery
+- Official repository: https://github.com/leanprover/lean4
 
 ## Why Now
 

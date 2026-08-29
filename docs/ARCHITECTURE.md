@@ -313,6 +313,51 @@ Flock is an experimental proving backend. Not a critical dependency for commerci
 
 Crypto-agile architecture allows replacing proof backend without changing the product.
 
+## Formal Verification
+
+LogiQED uses formal verification for the mathematical core of claims and SLA rules.
+
+Primary tool: Lean 4.
+
+Lean 4 provides machine-checked proofs that a rule is correct before it is deployed.
+
+Official repository: https://github.com/leanprover/lean4
+
+### What Can Be Formally Verified
+
+- Detention claim formula
+- Cargo condition range validation
+- SLA calendar calculations
+- Trust policy evaluation logic
+- Merkle tree and Evidence Root construction
+- Signature verification flow
+
+### Integration with Proof Engine
+
+| Layer | Role |
+|-------|------|
+| Lean 4 | Formal verification of rules and claim mathematics |
+| Groth16 / Plonk / STARK | ZK-proof generation and verification |
+| Flock | Experimental hash-based proof backend |
+
+### Why Lean 4
+
+- Machine-checked proofs cannot be misinterpreted
+- Rules become formal statements, not code comments
+- Open verification by any party
+- Aligns with better.codes and the fixed verifier plus open search model
+
+### MVP Status
+
+- Lean 4 verification is research
+- MVP uses deterministic rules with golden tests
+- Formal proofs are added for high-value claims after pilot
+
+### Related Research
+
+- better.codes: open search for mathematical proofs verified by Lean 4
+- Ethereum Foundation and zkSecurity collaboration
+
 ### Interface Sketch
 
 ```csharp

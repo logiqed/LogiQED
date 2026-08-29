@@ -60,6 +60,10 @@ A rule defines how to calculate a claim. A result is generated separately by the
   },
   "enrichment": {
     "required": false
+  },
+  "formalVerification": {
+    "tool": "Lean 4",
+    "status": "research"
   }
 }
 ```
@@ -103,11 +107,9 @@ The SLA Engine produces a separate result object.
   },
   "status": "VALID"
 }
-```
 
 ## Cargo Condition
 
-```json
 {
   "ruleId": "CARGO_TEMP_V1",
   "version": 1,
@@ -137,6 +139,10 @@ The SLA Engine produces a separate result object.
   },
   "enrichment": {
     "required": false
+  },
+  "formalVerification": {
+    "tool": "Lean 4",
+    "status": "research"
   }
 }
 ```
@@ -173,6 +179,10 @@ The SLA Engine produces a separate result object.
     "required": true,
     "type": "TRAFFIC_API",
     "onEvent": "TrafficEntered"
+  },
+  "formalVerification": {
+    "tool": "Lean 4",
+    "status": "research"
   }
 }
 ```
@@ -207,12 +217,12 @@ The SLA Engine processes rules in this order:
 
 ## Golden Tests
 
-| Case 					  | Input 		   | Expected              |
-|-------------------------|----------------|-----------------------|
-| Normal detention 		  | 11:54 to 13:02 | 68 minutes, warehouse |
-| Midnight crossing 	  | 23:50 to 00:10 | Calendar-adjusted     |
-| DST 					  | 02:30 to 03:30 | 60 minutes, not 120   |
-| Missing dock assignment | No event 	   | INCONCLUSIVE          |
+| Case | Input | Expected |
+|------|-------|----------|
+| Normal detention | 11:54 to 13:02 | 68 minutes, warehouse |
+| Midnight crossing | 23:50 to 00:10 | Calendar-adjusted |
+| DST | 02:30 to 03:30 | 60 minutes, not 120 |
+| Missing dock assignment | No event | INCONCLUSIVE |
 
 ## Design Notes
 
@@ -222,3 +232,4 @@ The SLA Engine processes rules in this order:
 - Working calendars and carrier timezone are evaluated during SLA calculation.
 - External API calls happen only when an incident occurs.
 - DSL is machine-readable and AI-friendly.
+- Lean 4 formal verification is research only.

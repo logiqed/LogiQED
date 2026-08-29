@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.4.0] - 2026-08-29
+
+Formal verification and research ideas updated.
+
+### Added
+
+- Formal Verification section in Architecture with Lean 4
+- Lean 4 blocks in diagram-flow.svg and diagram-system.svg
+- Lean 4 reference in MVP scope and risks
+- Event-Driven Route Monitoring and Lean 4 in Contributing
+- Future Product Ideas reworked with unified template
+- Categories, statuses, priorities, and navigation in Future Ideas README
+
+### Changed
+
+- README Tech Stack updated: Aligned Layer instead of Arbitrum Stylus
+- README What LogiQED Provides updated with Route State Machine and On-Demand Oracle
+- Diagram column spacing increased for readability
+- Arrow labels aligned to the left in diagram-system.svg
+
 ## [0.3.0] - 2026-08-27
 
 Architecture updated for event-driven route monitoring and demo preparation.

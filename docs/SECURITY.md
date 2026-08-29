@@ -8,13 +8,13 @@ The role-based access model allows creating any role with any combination of per
 
 Default demo roles:
 
-| Role 		 | Access 										  |
-|------------|------------------------------------------------|
-| Device     | Write-only: events and telemetry 			  |
-| Driver     | Read own trips, SLA status, Penalty Protection |
-| Dispatcher | Read all trips in organization, comments 	  |
-| Auditor    | Read Evidence Packages, verify, export 		  |
-| Admin      | Manage devices, keys, SLA rules, users 	      |
+| Role | Access |
+|------|--------|
+| Device | Write-only: events and telemetry |
+| Driver | Read own trips, SLA status, Penalty Protection |
+| Dispatcher | Read all trips in organization, comments |
+| Auditor | Read Evidence Packages, verify, export |
+| Admin | Manage devices, keys, SLA rules, users |
 
 Any custom role can be created from the admin panel.
 
@@ -55,13 +55,13 @@ Implemented via JWT for operator UI and X-Device-Key for trackers.
 
 ## Data Handling
 
-| Data 					| Retention 		   | Storage		   |
-|-----------------------|----------------------|-------------------|
-| Raw positions         | 30 days 			   | MS SQL 		   |
-| Aggregates, 1 hour    | 1 year    		   | MS SQL 		   |
-| Evidence Packages     | Permanent            | Arweave 		   |
+| Data | Retention | Storage |
+|------|-----------|---------|
+| Raw positions | 30 days | MS SQL |
+| Aggregates, 1 hour | 1 year | MS SQL |
+| Evidence Packages | Permanent | Arweave |
 | Raw encrypted context | Deletable on request | Deletable storage |
-| Public Manifest       | Permanent 		   | Arweave 		   |
+| Public Manifest | Permanent | Arweave |
 
 Raw telemetry is never stored permanently.
 
@@ -77,10 +77,10 @@ Pseudonymised data may remain personal data if a link can be restored with addit
 
 ## Source Attestation
 
-| Layer 		  | Method 												 |
-|-----------------|------------------------------------------------------|
+| Layer | Method |
+|-------|--------|
 | Physical assets | TPM 2.0, Secure Element, OEM PKI, meter certificates |
-| Compute		  | Intel TDX, AMD SEV-SNP, vTPM, workload identity 	 |
+| Compute | Intel TDX, AMD SEV-SNP, vTPM, workload identity |
 
 MVP uses signed software sources and authenticated APIs.
 
@@ -101,6 +101,7 @@ MVP alternative: signed builds, recorded firmware version, signed update manifes
 - Claims are independently verifiable.
 - Verification does not require raw telemetry.
 - Verifier checks signature, Evidence Root, rule digest, trust policy result, and proof validity.
+- Formal verification result checked when available.
 
 ## Error Handling and Resilience
 
@@ -111,12 +112,12 @@ MVP alternative: signed builds, recorded firmware version, signed update manifes
 
 ## Monitoring and Alerts
 
-| Metric 						| Alert 						 |
-|-------------------------------|--------------------------------|
+| Metric | Alert |
+|--------|-------|
 | Failed signature verification | Above 5 percent over 5 minutes |
-| Failed admin auth 			| Above 5 per IP over 10 minutes |
-| Revoked key usage 			| Instant 						 |
-| Ingest rate limit exceeded 	| Above 10 per minute per source |
+| Failed admin auth | Above 5 per IP over 10 minutes |
+| Revoked key usage | Instant |
+| Ingest rate limit exceeded | Above 10 per minute per source |
 
 ## Design Principles
 

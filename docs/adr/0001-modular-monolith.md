@@ -33,6 +33,8 @@ The Event Orchestrator runs as a Background Service inside the monolith.
 
 Modules communicate through interfaces, not through each other's database tables.
 
+Lean 4 formal verification is research only and does not affect the monolith decision.
+
 ### Module List
 
 - Telemetry — ingest, normalization, deduplication, retention

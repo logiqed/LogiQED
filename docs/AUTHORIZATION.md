@@ -10,6 +10,7 @@ Hybrid stateful JWT authentication with server-managed sessions, multi-stage log
 - Server session exists with its own TokenVersion.
 - Session can be revoked independently of JWT expiration.
 - Authentication and authorization are separated.
+- Roles and permissions are fully configurable. No hardcoded roles.
 
 ## Login Flow
 
@@ -82,6 +83,18 @@ Hybrid stateful JWT authentication with server-managed sessions, multi-stage log
 - UserEntity has roles and direct permissions.
 - Effective roles and effective permissions calculated centrally.
 - Authentication and authorization are separate concerns.
+- Navigation, screens, and backend endpoints are generated from effective permissions.
+- Any custom role can be created with any combination of permissions.
+
+## Default Demo Roles
+
+| Role | Access |
+|------|--------|
+| Device | Write-only: events and telemetry |
+| Driver | Read own trips, SLA status, Penalty Protection |
+| Dispatcher | Read all trips in organization, comments |
+| Auditor | Read Evidence Packages, verify, export |
+| Admin | Manage devices, keys, SLA rules, users |
 
 ## Security Properties
 
@@ -93,3 +106,4 @@ Hybrid stateful JWT authentication with server-managed sessions, multi-stage log
 - Refresh hardening.
 - Client resilience.
 - RBAC separation.
+- Fully configurable roles without hardcoded permissions.
