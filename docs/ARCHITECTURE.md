@@ -315,13 +315,19 @@ Crypto-agile architecture allows replacing proof backend without changing the pr
 
 ## Formal Verification
 
-LogiQED uses formal verification for the mathematical core of claims and SLA rules.
-
 Primary tool: Lean 4.
 
-Lean 4 provides machine-checked proofs that a rule is correct before it is deployed.
+Machine-checked proofs for claim rules and SLA mathematics.
 
 Official repository: https://github.com/leanprover/lean4
+
+Learning resources:
+
+- Natural Number Game for beginners: https://adam.math.hhu.de
+- Functional Programming in Lean: https://lean-lang.org/functional_programming_in_lean/
+- Theorem Proving in Lean: https://lean-lang.org/theorem_proving_in_lean4/
+
+Status: research. MVP uses deterministic rules with golden tests.
 
 ### What Can Be Formally Verified
 
