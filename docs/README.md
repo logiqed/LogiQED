@@ -87,8 +87,8 @@ Looking for pilot partners and funding to move from demo to real trucks.
 ---
 ## For Investors
 
-- [PITCH](PITCH.md) — start here
-- [PLATFORM](PLATFORM.md) — full platform details
+- [PITCH](PITCH.md) - start here
+- [PLATFORM](PLATFORM.md) - full platform details
 - [Business Model](BUSINESS_MODEL.md)
 - [MVP](MVP.md)
 - [Pilot](PILOT.md)
