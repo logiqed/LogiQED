@@ -211,9 +211,21 @@ eFTI certification planned for 2026 according to Regulation (EU) 2020/1056.
 - Insurance API integrations
 - Marketplace later
 
-## Token Utility
+## Token and Ecosystem
 
-If the investor launches a token:
+The team does not claim any token rights and does not build the token.
+
+Investors are welcome to launch and list the token as they see fit.
+
+The team supports token launch technically where needed.
+
+The team is not against token launch. We welcome it.
+
+Token development and listing are on the investor's side.
+
+If the investor launches a token, the team receives 15% of the token allocation.
+
+Token utility can include:
 
 - Discounts on evidence fees
 - Staking for SLA guarantees with slashing
@@ -247,11 +259,15 @@ Plus technical blog on Medium and Dev.to.
 
 ## Transparency
 
-Investor dashboard, read-only:
+The entire development process is visible in Azure DevOps:
 
 - Backlog and tasks
+- Active bugs and their status
 - Burndown charts
 - Test results and coverage
+- Sprint planning
+
+Investor dashboard is read-only.
 
 Full repository access after NDA for technical due diligence.
 
@@ -278,10 +294,12 @@ Full transfer including source code, deployment scripts, CI/CD pipelines, market
 
 ### Option 2: Team + Platform + Equity
 
-The investor hires the team and acquires the platform after MVP.
+The investor hires the team and pays a platform fee instead of full acquisition.
 
 | Parameter | Value |
 |-----------|-------|
+| Platform fee | 40% of acquisition price, $140K, paid upfront |
+| Remaining platform value | 60%, $210K, after MVP |
 | MVP development | $170–200K USDT, estimated |
 | Team | 5–6 engineers, scalable to 8–10 |
 | Equity | 15% |
@@ -295,9 +313,10 @@ See [MVP.md](MVP.md) for full scope.
 
 Payment flexibility:
 
-- 50% upfront, 50% after MVP
-- 80% upfront, 20% after MVP
-- 100% upfront: 10% discount and priority start within 1 week
+- 40% platform fee upfront
+- 50% of MVP cost upfront, 50% after MVP
+- 80% of MVP cost upfront, 20% after MVP
+- 100% of MVP cost upfront: 10% discount and priority start within 1 week
 
 After MVP: the team continues at the same monthly rate of $35–40K. The investor can reduce or expand the team based on roadmap priorities. If the investor stops development, a 2-month handover period ensures smooth transition.
 
@@ -305,7 +324,9 @@ The team manages development. The investor covers infrastructure.
 
 All payments in USDT.
 
-Code transfer after full payment. Until then, the code remains with the team.
+Code transfer after full platform payment. Until then, the code remains with the team.
+
+The investor has full visibility through Azure DevOps.
 
 ## Timeline
 

@@ -10,6 +10,8 @@ LogiQED turns this obligation into competitive advantage through verifiable evid
 
 LogiQED is the only platform connecting eFTI compliance, ZK proofs, and post-quantum security on one enterprise-grade C# foundation.
 
+The European eFTI compliance software market is projected to reach €2.4B by 2027.
+
 We are a senior engineering team from Ukraine with a production-ready platform: 120+ projects, 1,300+ tests, 330+ tables.
 
 ## What It Is
@@ -200,8 +202,6 @@ From 9 July 2027, EU authorities must accept electronic freight transport inform
 
 eFTI certification planned for 2026 according to Regulation (EU) 2020/1056.
 
-The European eFTI compliance software market is projected to reach €2.4B by 2027.
-
 ## Competitors
 
 | Competitor | Why LogiQED |
@@ -214,12 +214,23 @@ The European eFTI compliance software market is projected to reach €2.4B by 20
 
 - Pilot with one European carrier, see [PILOT.md](PILOT.md)
 - eFTI compliance as entry point
+- Early adopter program for 10–20 carriers on Starter plan
 - Insurance API integrations
 - Marketplace later
 
-## Token Utility
+## Token and Ecosystem
 
-If the investor launches a token:
+The team does not claim any token rights and does not build the token.
+
+Investors are welcome to launch and list the token as they see fit.
+
+The team is not against token launch. We welcome it and support it technically where needed.
+
+Token development and listing are on the investor's side.
+
+If the investor launches a token, the team receives 15% of the token allocation.
+
+Token utility can include:
 
 - Discounts on evidence fees
 - Staking for SLA guarantees with slashing
@@ -232,8 +243,8 @@ Slashing scenario: if a node operator fails to provide proof within N blocks, st
 
 Senior engineering team from Ukraine.
 
-- Starts with 5–6 senior .NET developers (6 FTE)
-- Scales to 8–10 FTE from month 2
+- Starts with 5–6 senior .NET developers
+- Scales to 8–10 engineers from month 2
 - 15+ years in C# / .NET
 - Worked together on logistics and cloud systems
 - Comfortable with crypto, ZK, blockchain
@@ -253,11 +264,15 @@ Plus technical blog on Medium and Dev.to.
 
 ## Transparency
 
-Investor dashboard, read-only:
+The entire development process is visible in Azure DevOps:
 
 - Backlog and tasks
+- Active bugs and their status
 - Burndown charts
 - Test results and coverage
+- Sprint planning
+
+Investor dashboard is read-only.
 
 Full repository access after NDA for technical due diligence.
 
@@ -285,14 +300,18 @@ Full transfer including source code, deployment scripts, CI/CD pipelines, market
 
 ### Option 2: Team + Platform + Equity
 
-The investor hires the team and acquires the platform after MVP.
+The investor hires the team and pays a platform fee instead of full acquisition.
 
 | Parameter | Value |
 |-----------|-------|
-| Estimated MVP development | $170–200K USDT |
+| Platform fee | 40% of acquisition price, $140K, paid upfront |
+| Remaining platform value | 60%, $210K, after MVP |
+| MVP development | $170–200K USDT, estimated |
 | Team | 5–6 engineers, scalable to 8–10 |
 | Equity | 15% |
 | Token allocation | 15%, if launched |
+
+Final price depends on the approved MVP scope and team composition.
 
 MVP scope: Evidence Layer, ZK Claims, Route Monitoring, telemetry dashboards. AI and Lean 4 are explicitly out of scope.
 
@@ -300,9 +319,10 @@ See [MVP.md](MVP.md) for full scope.
 
 Payment flexibility:
 
-- 50% upfront, 50% after MVP
-- 80% upfront, 20% after MVP
-- 100% upfront: 10% discount and priority start within 1 week
+- 40% platform fee upfront
+- 50% of MVP cost upfront, 50% after MVP
+- 80% of MVP cost upfront, 20% after MVP
+- 100% of MVP cost upfront: 10% discount and priority start within 1 week
 
 After MVP: the team continues at the same monthly rate of $35–40K. The investor can reduce or expand the team based on roadmap priorities. If the investor stops development, a 2-month handover period ensures smooth transition.
 
@@ -310,9 +330,9 @@ The team manages development. The investor covers infrastructure.
 
 All payments in USDT.
 
-Code transfer after full payment. Until then, the code remains with the team.
+Code transfer after full platform payment. Until then, the code remains with the team.
 
-Investor has full visibility through Azure DevOps.
+The investor has full visibility through Azure DevOps.
 
 ## Timeline
 
@@ -322,7 +342,8 @@ Investor has full visibility through Azure DevOps.
 | Month 2 | Q1 2026 | Evidence Layer, Aligned Layer mock |
 | Month 3 | Q2 2026 | ZK Claims, route monitoring, telemetry integration |
 | Month 4 | Q2 2026 | Pilot launch with one carrier, documentation, handover |
-| Phase 2 | Q3 2026 | Real Aligned Layer, attestation, insurance API, Lean 4, AI |
+| Pilot run | Q3 2026 | 3–6 months pilot, first paying contract by Q4 2026 |
+| Phase 2 | Q3 2026 | Aligned Layer, attestation, insurance API, Lean 4, AI |
 | eFTI | July 2027 | Compliance tooling ready |
 
 ## Contact
