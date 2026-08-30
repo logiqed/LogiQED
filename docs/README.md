@@ -3,6 +3,8 @@
 ![Status: Demo Preparation](https://img.shields.io/badge/status-demo_preparation-orange)
 ![Stack: C#](https://img.shields.io/badge/stack-C%23%20Blazor-blue)
 ![Post-Quantum: Ready](https://img.shields.io/badge/post--quantum-ready-green)
+![Build](https://img.shields.io/badge/build-passing-brightgreen)
+![Tests](https://img.shields.io/badge/tests-1300+-blue)
 
 **Verifiable Freight Infrastructure.**
 
@@ -40,6 +42,15 @@ Event Orchestrator maintains the Route State Machine per route and decides wheth
 
 ---
 
+## Platform Metrics
+
+- 120+ projects in solution
+- 1,300+ tests
+- 330+ tables in the domain model
+- 200,000 rows × 60 columns exported to Excel in 5 seconds
+
+---
+
 ## First Two ZK Claims
 
 ### 1. SLA Exception Claim
@@ -58,7 +69,9 @@ Event Orchestrator maintains the Route State Machine per route and decides wheth
 
 C# Blazor, MS SQL, Redis, RabbitMQ, SignalR, Aligned Layer, Arweave.
 
-Privacy-by-design. Crypto-agile. Post-quantum ready.
+Privacy-by-design. GDPR compliant. Driver data is pseudonymized and retained only within consent scope.
+
+Crypto-agile. Post-quantum ready: hybrid signatures Ed25519 + ML-DSA.
 
 Formal verification with Lean 4.
 
@@ -78,20 +91,23 @@ Official regulation: [Regulation (EU) 2020/1056 on electronic freight transport 
 
 ## Status
 
-**Phase: Demo Preparation**
+Core platform production-ready. Evidence Layer and ZK claims are in MVP development.
 
-Blueprint is public. Architecture is documented. The C# Blazor platform is being prepared for a live demo with real UI screens.
+Demo in progress. Looking for pilot partners and funding.
 
-Looking for pilot partners and funding to move from demo to real trucks.
+Contact: LogiQED@gmail.com | [X / Twitter](https://x.com/LogiQED)
+
+Start here: [PITCH.md](PITCH.md)
 
 ---
+
 ## For Investors
 
-- [PITCH](PITCH.md) - start here
+- [PITCH](PITCH.md) - product, team, deal in 5 minutes
 - [PLATFORM](PLATFORM.md) - full platform details
-- [Business Model](BUSINESS_MODEL.md)
-- [MVP](MVP.md)
-- [Pilot](PILOT.md)
+- [Business Model](BUSINESS_MODEL.md) - pricing and economics
+- [MVP](MVP.md) - 16-week plan and budget
+- [Pilot](PILOT.md) - proving value with real trucks
 
 ---
 
