@@ -85,12 +85,20 @@ Blueprint is public. Architecture is documented. The C# Blazor platform is being
 Looking for pilot partners and funding to move from demo to real trucks.
 
 ---
+## For Investors
+
+- [PITCH](PITCH.md) — start here
+- [PLATFORM](PLATFORM.md) — full platform details
+- [Business Model](BUSINESS_MODEL.md)
+- [MVP](MVP.md)
+- [Pilot](PILOT.md)
+
+---
 
 ## Docs
 
 - [Vision](VISION.md)
 - [Architecture](ARCHITECTURE.md)
-- [MVP](MVP.md)
 - [Trust Levels](TRUST_LEVELS.md)
 - [Claims](CLAIMS.md)
 - [Evidence](EVIDENCE.md)
@@ -103,7 +111,6 @@ Looking for pilot partners and funding to move from demo to real trucks.
 - [Security](SECURITY.md)
 - [Authorization](AUTHORIZATION.md)
 - [Glossary](GLOSSARY.md)
-- [Pilot](PILOT.md)
 - [Development Process](DEVELOPMENT.md)
 - [OpenAPI draft](OPENAPI.yaml)
 - [ADR 0001: Modular Monolith](adr/0001-modular-monolith.md)
@@ -113,8 +120,6 @@ Looking for pilot partners and funding to move from demo to real trucks.
 
 ## More
 
-- [For Investors](PLATFORM.md)
-- [Business Model](BUSINESS_MODEL.md)
 - [Roadmap](ROADMAP.md)
 - [FAQ](FAQ.md)
 - [Contributing](CONTRIBUTING.md)

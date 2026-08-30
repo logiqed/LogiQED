@@ -10,8 +10,6 @@ LogiQED turns this obligation into competitive advantage through verifiable evid
 
 LogiQED is the only platform connecting eFTI compliance, ZK proofs, and post-quantum security on one enterprise-grade C# foundation.
 
-The European eFTI compliance software market is projected to reach billions by 2027, and LogiQED is positioned to capture a meaningful share as the only platform combining ZK proofs with post-quantum security.
-
 We are a senior engineering team from Ukraine with a production-ready platform: 120+ projects, 1,300+ tests, 330+ tables.
 
 ## What It Is
@@ -189,11 +187,20 @@ Status: research. Not in MVP scope. MVP focuses on evidence and ZK claims.
 
 See [BUSINESS_MODEL.md](BUSINESS_MODEL.md) for full details.
 
+Key pricing:
+
+- SaaS subscription: $99/month + $10/vehicle for Pro plan.
+- Per-evidence-package: $0.08 (Pro), $0.05 (Enterprise).
+- Cost per package: $0.01–0.03.
+- Gross margin: 70–85%.
+
 ## Why Now
 
 From 9 July 2027, EU authorities must accept electronic freight transport information as the default.
 
 eFTI certification planned for 2026 according to Regulation (EU) 2020/1056.
+
+The European eFTI compliance software market is projected to reach €2.4B by 2027.
 
 ## Competitors
 
@@ -205,9 +212,8 @@ eFTI certification planned for 2026 according to Regulation (EU) 2020/1056.
 
 ## Go-to-Market
 
-- Pilot with one European carrier
+- Pilot with one European carrier, see [PILOT.md](PILOT.md)
 - eFTI compliance as entry point
-- Early adopter program for 10–20 carriers on Starter plan
 - Insurance API integrations
 - Marketplace later
 
@@ -226,8 +232,8 @@ Slashing scenario: if a node operator fails to provide proof within N blocks, st
 
 Senior engineering team from Ukraine.
 
-- Starts with 5–6 senior .NET developers
-- Scales to 8–10 engineers from month 2
+- Starts with 5–6 senior .NET developers (6 FTE)
+- Scales to 8–10 FTE from month 2
 - 15+ years in C# / .NET
 - Worked together on logistics and cloud systems
 - Comfortable with crypto, ZK, blockchain
@@ -267,6 +273,7 @@ The investor can watch the project move in real time.
 | Quantum breakthrough | Hybrid signatures, crypto-agile |
 | Conservative adoption | Pilot carrier, TMS integration |
 | Team capacity | Scalable team, phased delivery |
+| Legal or regulatory delay in eFTI | Focus on voluntary SLA disputes first |
 
 ## Deal Options
 
@@ -282,12 +289,10 @@ The investor hires the team and acquires the platform after MVP.
 
 | Parameter | Value |
 |-----------|-------|
-| MVP development | $170–200K USDT, estimated |
+| Estimated MVP development | $170–200K USDT |
 | Team | 5–6 engineers, scalable to 8–10 |
 | Equity | 15% |
 | Token allocation | 15%, if launched |
-
-Final price depends on the approved MVP scope and team composition.
 
 MVP scope: Evidence Layer, ZK Claims, Route Monitoring, telemetry dashboards. AI and Lean 4 are explicitly out of scope.
 
@@ -307,6 +312,8 @@ All payments in USDT.
 
 Code transfer after full payment. Until then, the code remains with the team.
 
+Investor has full visibility through Azure DevOps.
+
 ## Timeline
 
 | Phase | When | What |
@@ -315,8 +322,7 @@ Code transfer after full payment. Until then, the code remains with the team.
 | Month 2 | Q1 2026 | Evidence Layer, Aligned Layer mock |
 | Month 3 | Q2 2026 | ZK Claims, route monitoring, telemetry integration |
 | Month 4 | Q2 2026 | Pilot launch with one carrier, documentation, handover |
-| Pilot run | Q3 2026 | 3–6 months pilot, first paying contract by Q4 2026 |
-| Phase 2 | Q3 2026 | Aligned Layer, attestation, insurance API, Lean 4, AI |
+| Phase 2 | Q3 2026 | Real Aligned Layer, attestation, insurance API, Lean 4, AI |
 | eFTI | July 2027 | Compliance tooling ready |
 
 ## Contact
@@ -327,3 +333,13 @@ Email: LogiQED@gmail.com
 - [GitHub](https://github.com/logiqed/LogiQED)
 
 Domain: logiqed.tech
+
+---
+
+## More Details
+
+- [PLATFORM](PLATFORM.md)
+- [BUSINESS_MODEL](BUSINESS_MODEL.md)
+- [MVP](MVP.md)
+- [PILOT](PILOT.md)
+- [ARCHITECTURE](ARCHITECTURE.md)
