@@ -43,7 +43,7 @@ Data flow: Telemetry Ingest, then Event Orchestrator, then Route State Machine, 
 
 ![System Architecture](images/diagram-system.svg)
 
-See ARCHITECTURE.md for full details.
+See [Architecture](ARCHITECTURE.md) for full details.
 
 ## Product Status
 
