@@ -20,16 +20,7 @@ Exit criteria:
 - Two diagrams: data flow and system architecture
 - Evidence Package specification
 - Demo ready for a 10-minute presentation
-
-Demo access:
-
-- Public demo will be available soon at https://logiqed.tech/
-- Read-only roles for exploration:
-  - Driver
-  - Dispatcher
-  - SLA Analyst
-  - Admin
-- Full interactive access for investors and partners on request
+- Pilot partner identified
 
 Output: investor pitch and pilot partner search.
 
@@ -102,8 +93,6 @@ P1 Important:
 - Insurance API pilot with 1–2 insurers
 - Orchestrator extraction to microservice when load exceeds 5000 devices
 - Warehouse slot management pilot
-- Lean 4 formal proofs for high-value claims
-- AI module research to prototype
 
 P2 Optional:
 
@@ -113,7 +102,6 @@ Exit criteria:
 
 - 10 or more commercial clients
 - Verified eFTI integration
-- 100,000 or more Evidence Packages per month
 - 1–2 insurers connected via API
 
 ---
@@ -122,28 +110,17 @@ Exit criteria:
 
 Timeline: 18 months and later.
 
-Entry condition: 100 or more clients, 1 million or more packages, stable revenue.
+Entry condition: 100 or more clients, stable revenue.
 
 Ideas by value:
 
 A. Marketplace on trust graph
 
-- Buy and sell verified data
-- Requires API, billing, legal base
-
 B. Insurance integrations
-
-- Automatic payouts based on valid claims
-- Requires proven claim statistics
 
 C. DePIN integrations
 
-- Trust infrastructure beyond logistics
-- Requires network, staking, economics
-
-D. HD maps, Citizen Science, MeshShield, Proof-of-Freeze
-
-- Research only until validated
+Research only until validated.
 
 ---
 
@@ -163,6 +140,6 @@ LogiQED must be ready when the market arrives.
 
 | Transition | Criteria |
 |-----------|----------|
-| Phase 0 to 1 | OpenAPI, demo, architecture specification |
+| Phase 0 to 1 | Demo, pilot partner identified |
 | Phase 1 to 2 | One dispute closed, pilot complete, 2–3 clients in pipeline |
-| Phase 2 to 3 | 100 or more clients, 1 million or more packages, stable revenue |
+| Phase 2 to 3 | 100 or more clients, stable revenue |

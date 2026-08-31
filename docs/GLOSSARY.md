@@ -59,20 +59,12 @@ Definitions of LogiQED concepts. For examples and diagrams, see ARCHITECTURE.md 
 
 - **ZK Proof**
   Cryptographic proof that a computation was performed correctly without revealing inputs.
-  Generated for high-value claims only.
+  Generated for disputed or exception-bound routes only.
 
 - **Aligned Layer**
   Primary proof backend. Fast, cheap ZK-verification as AVS on EigenLayer.
   Status: mock for MVP, integration in Phase 2.
   Official developer documentation: https://docs.alignedlayer.com/
-
-- **Lean 4**
-  Formal verification tool. Machine-checked proofs for claim rules and SLA mathematics.
-  Status: research. MVP uses deterministic rules with golden tests.
-  Official repository: https://github.com/leanprover/lean4
-
-- **Flock**
-  Hash-based proof system. Experimental backend in LogiQED. Not a critical dependency.
 
 - **EigenDA**
   Data availability layer. Optional in LogiQED. Added only when benchmark justifies the need.

@@ -122,7 +122,6 @@ Pilot overlaps with the last weeks of MVP.
 - Benchmarks for proof generation
 - Pilot report with case study
 - Legal assessment of evidence admissibility
-- Optional: Lean 4 formal proof for one claim rule, research only
 
 ## Next Step
 

@@ -20,7 +20,7 @@
   </g>
 
   <!-- Монолит -->
-  <rect x="350" y="80" width="380" height="530" rx="12" fill="#e3f2fd" stroke="#64b5f6" stroke-width="2"/>
+  <rect x="350" y="80" width="380" height="500" rx="12" fill="#e3f2fd" stroke="#64b5f6" stroke-width="2"/>
   <text x="540" y="105" font-size="14" font-weight="bold" text-anchor="middle" fill="#0b3d91">MODULAR MONOLITH</text>
 
   <g font-size="12" text-anchor="middle" fill="#212529">
@@ -47,10 +47,6 @@
     <rect x="370" y="450" width="340" height="45" rx="6" fill="#e9ecef" stroke="#adb5bd"/>
     <text x="540" y="470">Shared Kernel</text>
     <text x="540" y="486" font-size="10" fill="#6c757d">interfaces / domain events / common types</text>
-
-    <rect x="370" y="540" width="340" height="45" rx="6" fill="#f3e5f5" stroke="#ce93d8"/>
-    <text x="540" y="560" fill="#6a1b9a">Lean 4</text>
-    <text x="540" y="576" font-size="10" fill="#6a1b9a">Formal Verification</text>
   </g>
 
   <!-- Внешние сервисы -->
@@ -97,5 +93,5 @@
   </g>
 
   <!-- Примечание -->
-  <text x="540" y="630" font-size="10" font-style="italic" text-anchor="middle" fill="#6c757d">Redis is a cache/buffer, not the system of record. Arweave stores final Evidence Packages only.</text>
+  <text x="540" y="610" font-size="10" font-style="italic" text-anchor="middle" fill="#6c757d">Redis is a cache/buffer, not the system of record. Arweave stores final Evidence Packages only.</text>
 </svg>

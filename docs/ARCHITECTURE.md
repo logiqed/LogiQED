@@ -33,15 +33,15 @@ For a pilot MVP, a modular monolith is the right trade-off. Natural computationa
 
 ## Module Boundaries
 
-| Module 	    | Responsibility 																|
-|---------------|-------------------------------------------------------------------------------|
-| Telemetry     | Device registration, position ingest, track history 							|
-| Route         | Route state machine, segment/traffic events 									|
-| SLA           | Policies, calendars, exception rules, timers 									|
-| Evidence      | Event stream, graph, package builder, trust levels 							|
-| Identity      | Device keys, attestation, revocation 											|
-| Notifications | SignalR, webhooks, email/push 												|
-| Dispatcher    | Dashboard, manual incident resolution 										|
+| Module | Responsibility |
+|--------|----------------|
+| Telemetry | Device registration, position ingest, track history |
+| Route | Route state machine, segment/traffic events |
+| SLA | Policies, calendars, exception rules, timers |
+| Evidence | Event stream, graph, package builder, trust levels |
+| Identity | Device keys, attestation, revocation |
+| Notifications | SignalR, webhooks, email/push |
+| Dispatcher | Dashboard, manual incident resolution |
 
 Rule: modules expose interfaces, never internal DbContexts. Shared types live in SharedKernel.
 
@@ -124,9 +124,9 @@ SLA Engine, then Aligned Layer, then Evidence Package, then Arweave.
 
 ZK-proof is generated only for disputed or exception-bound routes. Clean routes are closed with signed events and Evidence Root only.
 
-Aligned Layer is the primary proof backend. It provides fast, cheap ZK-proofs by batching verification and anchoring to Ethereum. For MVP, integration is mocked.
+Aligned Layer is the primary proof backend. For MVP, integration is mocked.
 
-Alternative proof backends: Groth16, Plonk, STARK, Flock (experimental).
+Alternative proof backends: Groth16, Plonk, STARK.
 
 ## Telemetry Subsystem
 
@@ -264,14 +264,14 @@ LogiQED adds verifiable trust and claim evaluation on top of EPCIS.
 
 ## Trust Levels
 
-| Level | Source 								|
-|-------|---------------------------------------|
-| E0    | user input 							|
-| E1    | authenticated external API 			|
-| E2    | signed software source			    |
-| E3    | attested device 					    |
-| E4    | hardware-backed + corroborated source |
-| E5    | multiple independent trusted sources  |
+| Level | Source |
+|-------|--------|
+| E0 | user input |
+| E1 | authenticated external API |
+| E2 | signed software source |
+| E3 | attested device |
+| E4 | hardware-backed + corroborated source |
+| E5 | multiple independent trusted sources |
 
 Trust Levels are not just an enum. They become Trust Policy + Provenance Graph.
 
@@ -298,7 +298,7 @@ These patterns map to LogiQED trust levels E4–E5.
 
 Pluggable proof backend.
 
-Primary: Aligned Layer — fast, cheap ZK-verification as AVS on EigenLayer. Batches proofs and anchors to Ethereum. Cost: cents per proof. Speed: seconds. Status: mock for MVP, integration in Phase 2.
+Primary: Aligned Layer — fast, cheap ZK-verification as AVS on EigenLayer. Status: mock for MVP, integration in Phase 2.
 
 Official developer documentation: https://docs.alignedlayer.com/
 
@@ -307,90 +307,18 @@ Alternatives:
 - Groth16
 - Plonk
 - STARK
-- Flock-class proofs (experimental)
-
-Flock is an experimental proving backend. Not a critical dependency for commercial MVP.
 
 Crypto-agile architecture allows replacing proof backend without changing the product.
 
-## Formal Verification
-
-Primary tool: Lean 4.
-
-Machine-checked proofs for claim rules and SLA mathematics.
-
-Official repository: https://github.com/leanprover/lean4
-
-Learning resources:
-
-- Natural Number Game for beginners: https://adam.math.hhu.de
-- Functional Programming in Lean: https://lean-lang.org/functional_programming_in_lean/
-- Theorem Proving in Lean: https://lean-lang.org/theorem_proving_in_lean4/
-
-Status: research. MVP uses deterministic rules with golden tests.
-
-### What Can Be Formally Verified
-
-- Detention claim formula
-- Cargo condition range validation
-- SLA calendar calculations
-- Trust policy evaluation logic
-- Merkle tree and Evidence Root construction
-- Signature verification flow
-
-### Integration with Proof Engine
-
-| Layer | Role |
-|-------|------|
-| Lean 4 | Formal verification of rules and claim mathematics |
-| Groth16 / Plonk / STARK | ZK-proof generation and verification |
-| Flock | Experimental hash-based proof backend |
-
-### Why Lean 4
-
-- Machine-checked proofs cannot be misinterpreted
-- Rules become formal statements, not code comments
-- Open verification by any party
-- Aligns with better.codes and the fixed verifier plus open search model
-
-### MVP Status
-
-- Lean 4 verification is research
-- MVP uses deterministic rules with golden tests
-- Formal proofs are added for high-value claims after pilot
-
-### Related Research
-
-- better.codes: open search for mathematical proofs verified by Lean 4
-- Ethereum Foundation and zkSecurity collaboration
-
-### Interface Sketch
-
-```csharp
-public interface IProofProvider
-{
-    Task<ProofResult> GenerateAsync(byte[] evidenceRoot, CancellationToken ct);
-    Task<VerificationResult> VerifyAsync(byte[] proof, byte[] evidenceRoot, CancellationToken ct);
-}
-```
-
 ## Storage
 
-MVP storage: operational event storage, canonicalization, Merkle tree, Evidence Root, timestamp / external anchor, Evidence Package.
+MVP storage: operational event storage, canonicalization, Merkle tree, Evidence Root, external anchor, Evidence Package.
 
 EigenDA is added only when benchmark shows the need for a separate DA layer.
 
 ### Redis
 
 Purpose: speed, real-time, route state buffer.
-
-Use cases:
-
-- Hot cache for active shipments
-- Pub/Sub for GPS updates and status changes
-- Route state machine snapshots
-- Rate limiting for API
-- Job queues for event processing
 
 Redis is an operational cache and buffer. It is not a system of record.
 
@@ -400,21 +328,7 @@ If Redis is empty, the system reads from MS SQL and repopulates the cache.
 
 Purpose: system of record.
 
-Large enterprise database with a wide domain model.
-
 Covers shipments, users, contracts, SLA rules, warehouse operations, telemetry devices, audit and analytics.
-
-Use cases:
-
-- Shipments, users, contracts, SLA rules
-- Reports and analytics
-- Reference data
-- Warehouse operations
-- Audit journal
-
-MS SQL stores current state and business data.
-
-Analytical views and indexed queries for fast reporting and dashboards.
 
 Multi-provider support: MS SQL and PostgreSQL are both available via configuration.
 
@@ -422,17 +336,7 @@ Multi-provider support: MS SQL and PostgreSQL are both available via configurati
 
 Purpose: permanent evidence.
 
-Use cases:
-
-- Final Evidence Packages only
-- Proof roots
-- Audit records
-
-Arweave stores what must survive for years.
-
 Raw telemetry is never stored permanently. Only compact Evidence Packages, approximately 4 KB, are anchored.
-
-Pseudonymised data may remain personal data. Arweave is used carefully for commitments and proofs, not raw telemetry.
 
 ## Source Identity & Trust
 
@@ -451,7 +355,7 @@ Minimal attestation in MVP:
 ## Observability
 
 - Seq — structured logging.
-- Correlation ID — end-to-end tracing across all async flows.
+- Correlation ID — end-to-end tracing.
 - Grafana — dashboards and metrics.
 - OpenTelemetry — distributed tracing.
 
@@ -464,60 +368,41 @@ Metrics:
 - oracle_call_total
 - rabbitmq_consumer_lag
 
-Alert conditions:
-
-- SLA Pause greater than 15 minutes — dispatch notification.
-- Evidence build time greater than 500ms p95 — warning.
-- Oracle API 5xx rate greater than 1% — critical.
-
-Every evidence event traceable from ingest to Arweave. Data is not lost. Every packet can be traced in seconds.
-
 ## Error Handling & Idempotency
 
 - Deduplication key for telemetry: DeviceId + ClientTimestampUtc + SourceSequence.
-- Idempotent consumers — every RabbitMQ consumer checks ProcessedEvents table before applying.
-- Poison message queue — after N retries, dead-letter with original payload.
-- Outbox Pattern — outbound events committed with transaction, then published reliably.
+- Idempotent consumers.
+- Poison message queue.
+- Outbox Pattern.
 
 Fallback Policy:
 
-- Redis down — read from MS SQL projections, mark cache stale.
+- Redis down — read from MS SQL projections.
 - SQL down — telemetry buffer to filesystem, retry later.
 - Oracle API down — return NoExternalData with synthetic flag, notify dispatcher.
 
 ## Testing Strategy
 
-| Level         | Scope                                                       | Tools                  |
-|---------------|-------------------------------------------------------------|------------------------|
-| Unit          | SLA timer calculations, enrichment decider, FSM transitions | xUnit                  |
-| Integration   | RabbitMQ, SQL, Redis, SignalR hub                           | Testcontainers         |
-| API Contract  | OpenAPI schema compatibility                                | Schema Registry + Pact |
-| E2E           | Blazor UI, real telemetry stream, evidence package          | Playwright             |
-| Load          | 1000 devices, 1 packet/sec, check p95                       | k6                     |
-
-Property-based tests for geofence logic.
+| Level | Scope | Tools |
+|-------|-------|-------|
+| Unit | SLA timer calculations, enrichment decider, FSM transitions | xUnit |
+| Integration | RabbitMQ, SQL, Redis, SignalR hub | Testcontainers |
+| E2E | Blazor UI, real telemetry stream, evidence package | Playwright |
+| Load | 1000 devices, 1 packet/sec, check p95 | k6 |
 
 ## Scaling
 
 - MVP: monolith with background service, one server, MS SQL.
-- Phase 2: microservices for ingestion, event orchestration, prover workers. SignalR Redis backplane. Real Aligned Layer integration.
+- Phase 2: microservices for ingestion, event orchestration, prover workers.
 - Phase 3: geo-distribution, own EigenDA nodes.
-
-MVP sizing: 1 VM Standard_D4s_v3 + 1 SQL Managed Instance (2 vCore). Estimated maximum: 2000 active routes, 5000 devices.
 
 ## Risks & Mitigations
 
-| Risk 												  | Mitigation 																						 |
-|-----------------------------------------------------|--------------------------------------------------------------------------------------------------|
-| External Oracle API becomes slow/expensive          | Zero-call in normal mode. Caching of simple geofence lookups 								     |
-| SQL is bottleneck 						          | Projection tables for reads. Redis cache. Future CQRS read DB 									 |
-| Device key theft 						              | Hash storage + rotation. Attestation in Phase 2 									             |
-| Proof backend not ready (Aligned Layer)             | Mock with clear interface. Easy swap 															 |
-| EPCIS 2.0 too complex for MVP                       | Use minimal subset: EventType + raw JSON. Extend later 											 |
-| Driver app has no connectivity at geofence boundary | Events buffered and replayed with original timestamp. SLA uses event timestamp, not receive time |
-
-## AI-Friendly Foundation
-
-- Semantic tags on all entities.
-- OpenAPI / Swagger — documented API.
-- Webhooks — event-driven model for external agents.
+| Risk | Mitigation |
+|------|------------|
+| External Oracle API becomes slow/expensive | Zero-call in normal mode |
+| SQL is bottleneck | Projection tables, Redis cache |
+| Device key theft | Hash storage + rotation |
+| Proof backend not ready (Aligned Layer) | Mock with clear interface |
+| EPCIS 2.0 too complex for MVP | Use minimal subset |
+| No connectivity at geofence boundary | Events buffered and replayed |

@@ -82,7 +82,7 @@ Expected value for the pilot partner: at least one avoided dispute cost ($200–
 |----------|-----------------|
 | Features | AI copilot, Full blockchain settlement |
 | Integrations | Real Aligned Layer, EigenDA, Arweave for every package |
-| Research, not product | DePIN, Scientific marketplace, Soulbound badges, MeshShield, Proof-of-Freeze, HD maps, Warehouse marketplace, Lean 4 |
+| Research | DePIN, Scientific marketplace, Soulbound badges, MeshShield, Proof-of-Freeze, HD maps, Warehouse marketplace, Lean 4 |
 
 ## MVP Storage
 
@@ -130,7 +130,6 @@ Stretch:
 | Pilot partner not found | Run 3–5 negotiations in parallel |
 | SLA calendar complexity | Golden tests from day one |
 | Budget overrun | CI/CD from start, reserve included |
-| Lean 4 learning curve | Research only, does not block MVP |
 | Legal or regulatory delay in eFTI | Focus on voluntary SLA disputes first, they exist today regardless of eFTI |
 
 ## Success Criteria for Phase 2

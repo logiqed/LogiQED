@@ -27,7 +27,7 @@ Each dimension is evaluated independently. The final level is a combination of d
 
 ## Trust Policy
 
-```json
+```
 {
   "policyId": "E4_REQUIRED_V1",
   "version": 1,
@@ -75,14 +75,6 @@ External APIs are called only when an incident occurs.
 Each call adds a source to the claim.
 
 The Enrichment Decider determines whether external confirmation is required.
-
-## Formal Verification and Trust
-
-Lean 4 can formally verify trust policy evaluation logic.
-
-Status: research. MVP uses deterministic rules with golden tests.
-
-A formally verified trust policy is machine-checked and cannot be misinterpreted.
 
 ## MVP Implementation
 

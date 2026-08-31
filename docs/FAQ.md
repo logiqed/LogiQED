@@ -78,21 +78,11 @@ External APIs are called only when an incident occurs.
 
 In normal operation, external API costs are zero.
 
-## Marketplace
-
-LogiQED is evidence infrastructure. Marketplace may come later on top of the trust graph.
-
 ## Blockchain Role
 
 Blockchain is a trust anchor. It is not the product.
 
 MVP storage uses canonicalization, Merkle commitments, Evidence Root and external timestamp or anchor.
-
-This means:
-
-- Tamper-evident commitments
-- External anchoring
-- Optional ZK-proofs for disputed claims
 
 ## Proof Engine
 
@@ -102,31 +92,17 @@ Status: mock for MVP, integration in Phase 2.
 
 Official developer documentation: https://docs.alignedlayer.com/
 
-Alternatives: Groth16, Plonk, STARK, Flock.
-
-## Formal Verification
-
-Primary tool: Lean 4.
-
-Machine-checked proofs for claim rules and SLA mathematics.
-
-Status: research. MVP uses deterministic rules with golden tests.
-
-Official repository: https://github.com/leanprover/lean4
+Alternatives: Groth16, Plonk, STARK.
 
 ## EPCIS
 
 LogiQED uses GS1 EPCIS 2.0 as the logistics event language.
-
-EPCIS describes what, when, where and why in supply chain events.
 
 LogiQED adds verifiable trust and claim evaluation on top.
 
 ## eFTI Window
 
 From 9 July 2027, EU authorities must accept regulatory freight information submitted electronically through certified eFTI platforms.
-
-LogiQED positions as evidence infrastructure on top of eFTI.
 
 ## Target Pilot Partner
 
@@ -151,16 +127,15 @@ Excluded:
 - Real Aligned Layer integration, Phase 2
 - Device attestation, Phase 2
 - EigenDA, Phase 3
-- Lean 4 formal proofs in production, Phase 2
 
 ## Success Metrics for Pilot
 
 | Metric | Target |
 |--------|--------|
 | Pilot partners | 3–5 |
-| Evidence Packages per month | 10,000+ |
-| Disputes closed without lawyer | 100% |
-| Time from dispute to proof | Under 5 minutes |
+| Disputes resolved via Evidence Package | 10+ |
+| Disputes closed without lawyer | 90% |
+| Time from dispute to proof | Under 15 minutes |
 | NPS from pilot partners | 40+ |
 
 ## Why LogiQED vs Alternatives
@@ -169,7 +144,6 @@ Excluded:
 |-------------|---------|
 | Paper and email evidence | Weak, slow, contested |
 | TMS and screenshot culture | Not cryptographically binding |
-| General blockchain documents | No trust levels, no SLA logic, no geofence/telemetry |
 | Manual arbitration | Costly, slow, subjective |
 
 ## Contact

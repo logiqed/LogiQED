@@ -26,31 +26,28 @@ Example: a carrier with 20 vehicles pays $99 + $200 = $299/month base, plus $0.0
 
 ## Unit Economics
 
-### Pro: mid-sized carrier, 20 vehicles, 5,000 routes/month
+### Pro: mid-sized carrier, 20 vehicles
 
 | Metric | Value |
 |--------|-------|
-| ARPU | $299 + (5,000 × $0.08) = $699/month |
+| ARPU | $299/month base + packages |
 | Fixed COGS | $50/month infrastructure and support |
-| Variable COGS | $0.01 per package ZK verification + $0.005 per package archive |
-| Total COGS | $50 + (5,000 × $0.015) = $125/month |
+| Variable COGS | $0.015 per package |
 | Gross margin | ~82% |
-| CAC | ~$200 |
-| Payback period | Under 1 month |
 
-### Enterprise: 200 vehicles, 50,000 routes/month
+Packages are generated only for disputes and SLA exceptions. A carrier with 20 vehicles typically has 10–30 disputes per month, not 5,000.
+
+### Enterprise: 200 vehicles
 
 | Metric | Value |
 |--------|-------|
-| ARPU | $2,000 + (50,000 × $0.05) = $4,500/month |
-| Total COGS | $250 + (50,000 × $0.015) = $1,000/month |
+| ARPU | Custom base + packages |
+| Total COGS | $250/month + $0.015 per package |
 | Gross margin | ~78% |
 
 Cost per evidence package is approximately $0.01–0.03.
 
 Sale price per package is $0.05–0.15 depending on plan.
-
-Gross margin per package is 70–85%.
 
 ## Why Pricing Works
 
@@ -89,8 +86,6 @@ This creates a channel, not a conflict.
 - Partnerships: TMS integrations such as Trans.eu, CargoWise; telematics platforms such as Wialon.
 - Product-led growth: free Starter tier, upsell to Pro.
 
-Sales funnel target: 100 leads, 20 demos, 5 pilots, 2 paying clients.
-
 ## Competitive Advantage
 
 A single Evidence Package costs about $0.08.
@@ -99,7 +94,7 @@ That is cheaper than an SMS and thousands of times cheaper than one dispute.
 
 A client recovers the Pro subscription on the first resolved dispute.
 
-No TMS provider offers ZK-backed, post-quantum-ready evidence infrastructure.
+No TMS provider offers ZK-backed evidence infrastructure.
 
 ## Cost Structure
 
@@ -112,10 +107,9 @@ No TMS provider offers ZK-backed, post-quantum-ready evidence infrastructure.
 
 | Metric | Target |
 |--------|--------|
-| Pilot carriers | 5–10 |
-| Evidence Packages processed | 50,000 |
-| ARPU | $300/month |
-| Disputes resolved without legal | 90%, stretch 100% for clear SLA breaches |
+| Pilot carriers | 3–5 |
+| Disputes resolved via Evidence Package | 10+ |
+| Disputes resolved without legal | 90% |
 | NPS | Above 40 |
 
 ## Why Now
@@ -126,13 +120,11 @@ eFTI standardizes document formats but does not solve data trust.
 
 LogiQED adds the proof layer: who did what, when, and with what evidence.
 
-When a dispute arises about delay or damage, there is cryptographic proof, not just a document.
-
 ## Long-Term
 
-Phase 1: eFTI compliance tooling, 2026–2027. Target: 100 clients, 1M packages.
+Phase 1: eFTI compliance tooling, 2026–2027.
 
-Phase 2: Insurance API integrations, 2027–2028. Target: 5 insurance partners.
+Phase 2: Insurance API integrations, 2027–2028.
 
 Phase 3: Trust marketplace on top of the evidence graph, 2028+.
 

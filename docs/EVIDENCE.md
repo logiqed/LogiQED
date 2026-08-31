@@ -42,7 +42,6 @@ Evidence Package contains:
 | ruleRef | object | Rule ID, version, digest |
 | conclusion | object | Human-readable and machine-readable result |
 | proofRef | object | Proof backend, proof hash, status |
-| formalVerificationRef | object | Lean 4 proof reference, when available |
 | publicManifest | object | Privacy-minimized public summary |
 | evidenceRoot | string | Merkle root of canonical event hashes |
 | externalAnchorRef | string | Arweave transaction ID |
@@ -152,7 +151,6 @@ Checks:
 - Trust policy result matches source trust levels
 - Conclusion matches rule formula and input events
 - ZK-proof when present
-- Formal verification result when available
 
 ---
 

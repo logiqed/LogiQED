@@ -60,10 +60,6 @@ A rule defines how to calculate a claim. A result is generated separately by the
   },
   "enrichment": {
     "required": false
-  },
-  "formalVerification": {
-    "tool": "Lean 4",
-    "status": "research"
   }
 }
 ```
@@ -107,9 +103,11 @@ The SLA Engine produces a separate result object.
   },
   "status": "VALID"
 }
+```
 
 ## Cargo Condition
 
+```json
 {
   "ruleId": "CARGO_TEMP_V1",
   "version": 1,
@@ -139,10 +137,6 @@ The SLA Engine produces a separate result object.
   },
   "enrichment": {
     "required": false
-  },
-  "formalVerification": {
-    "tool": "Lean 4",
-    "status": "research"
   }
 }
 ```
@@ -179,10 +173,6 @@ The SLA Engine produces a separate result object.
     "required": true,
     "type": "TRAFFIC_API",
     "onEvent": "TrafficEntered"
-  },
-  "formalVerification": {
-    "tool": "Lean 4",
-    "status": "research"
   }
 }
 ```
@@ -232,4 +222,3 @@ The SLA Engine processes rules in this order:
 - Working calendars and carrier timezone are evaluated during SLA calculation.
 - External API calls happen only when an incident occurs.
 - DSL is machine-readable and AI-friendly.
-- Lean 4 formal verification is research only.

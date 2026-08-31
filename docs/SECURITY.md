@@ -101,7 +101,6 @@ MVP alternative: signed builds, recorded firmware version, signed update manifes
 - Claims are independently verifiable.
 - Verification does not require raw telemetry.
 - Verifier checks signature, Evidence Root, rule digest, trust policy result, and proof validity.
-- Formal verification result checked when available.
 
 ## Error Handling and Resilience
 

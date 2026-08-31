@@ -45,7 +45,6 @@ We are especially interested in feedback on:
 - SLA DSL grammar and semantics
 - Telemetry ingestion and deduplication logic
 - Event-Driven Route Monitoring
-- Lean 4 formal verification approach
 
 Use the issue label `improvement`.
 
@@ -63,45 +62,18 @@ Unsolicited pull requests are not accepted at this stage.
 
 ---
 
-## Pull Request Process
-
-For invited contributors:
-
-1. Fork the repository.
-2. Create a feature branch.
-3. Write clean, minimal code. Follow existing style.
-4. Add or update tests when relevant.
-5. Update documentation if behavior changes.
-6. Run the test suite locally.
-7. Open a pull request with a clear description:
-
-- What problem does it solve
-- How was it tested
-- Which issue does it close
-
-All pull requests require at least one maintainer approval.
-
----
-
 ## Development Setup
 
 LogiQED is a C# Blazor modular monolith.
 
-Prerequisites:
+Source code is private. Access after NDA.
 
-- .NET SDK
-- MS SQL Server or PostgreSQL
-- Redis 7+
-- RabbitMQ 3.12+
-
-Local run:
+Local run for invited contributors:
 
 git clone https://github.com/logiqed/logiqed.git
 cd logiqed
 dotnet restore
 dotnet run --project src/LogiQED.Web.API
-
-If Redis or RabbitMQ are unavailable, the system falls back to in-memory implementations for local development.
 
 See DEVELOPMENT.md for details.
 

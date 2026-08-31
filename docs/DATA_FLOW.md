@@ -97,7 +97,6 @@ Checks:
 - Evidence Root against Arweave
 - Signature
 - ZK-proof when generated
-- Formal verification result when available
 
 Raw telemetry is not required for verification.
 
@@ -142,7 +141,6 @@ Result:
 - EigenDA for evidence hashes at scale
 - Arweave for permanent commitments
 - L2 settlement
-- Lean 4 formal proofs in production
 
 ---
 
