@@ -515,95 +515,6 @@ Opened from Evidence Package via [View Proof], or from ZK Proofs menu.
 +---------------------------------------------------------------------------------------------------------------------------------+
 ```
 
-### 16. Dashboard
-
-Executive dashboard with KPI, disputes, trust distribution and anchors.
-
-```text
-+---------------------------------------------------------------------------------------------------------------------------------+
-| LogiQED    | Dashboard | Map | Registry | SLA Engine | Evidence | Chat                               | 🔔 [Operator] [EN]       |
-+---------------------------------------------------------------------------------------------------------------------------------+
-| Dashboard    [ Overview ] [ Disputes ] [ Trust ] [ Anchors ]                                              [ Last 30 Days ]      |
-+---------------------------------------------------------------------------------------------------------------------------------+
-| Overview                                                                                                                        |
-|   ┌────────────────────────┐  ┌────────────────────────┐  ┌────────────────────────┐  ┌────────────────────────┐                |
-|   │ Total Shipments: 1,420 │  │ Active in Transit: 142 │  │ Exceptions Resolved: 28│  │ Valid ZK Proofs: 1,392 │                |
-|   │ 🟢 +12% vs last month  │  │ 🚛 On schedule: 114    │  │ ⚠️ Auto-resolved: 28   │  │ 🔒 100% Verified       │                |
-|   └────────────────────────┘  └────────────────────────┘  └────────────────────────┘  └────────────────────────┘                |
-+---------------------------------------------------------------------------------------------------------------------------------+
-| [ Disputes ]                                                                                                                    |
-|   • Average Dispute Close Time: 12 minutes (down from 45 days)                                                                  |
-|   • Total Penalties Fairly Excluded: €34,500                                                                                    |
-|   • eFTI Compliance Rate: 99.8%                                                                                                 |
-+---------------------------------------------------------------------------------------------------------------------------------+
-| [ Trust ]                                                                                                                       |
-|   • E5 (Encrypted/Post-Q): 45%                                                                                                  |
-|   • E4 (Secure Onboard):  40%                                                                                                   |
-|   • E2-E3 (Standard GPS): 12%                                                                                                   |
-|   • E1 (Manual/Fallback):  3%                                                                                                   |
-+---------------------------------------------------------------------------------------------------------------------------------+
-| [ Anchors ]                                                                                                                     |
-|   [PKG-8821] Berlin->Warsaw | Hash: 0x8f4c...1a | Arweave TX: 0x12...99 | Status: Verified                                      |
-|   [PKG-8822] Paris->Lyon    | Hash: 0x3b1e...8c | Arweave TX: 0x44...55 | Status: Verified                                      |
-+---------------------------------------------------------------------------------------------------------------------------------+
-```
-
-### 17. Notification Rules Engine
-
-Rules for automatic notifications.
-
-```text
-+---------------------------------------------------------------------------------------------------------------------------------+
-| LogiQED    | Dashboard | Map | Registry | Workflow | Notifications | Telemetry | Chat    | 🔔 [EN] [Operator]                   |
-+---------------------------------------------------------------------------------------------------------------------------------+
-| Notifications > Notification Rules > Edit Notification Rule                              [ Save ] [ Save & Close ] [ Close ]    |
-+---------------------------------------------------------------------------------------------------------------------------------+
-| Name: Incident Report Notice — Driver & Carrier                                                                                   |
-| Description: Notifies responsible parties when an exception rule triggers and penalty protection is applied.                    |
-+---------------------------------------------------------------------------------------------------------------------------------+
-| Match conditions                                                                                                                |
-|   [ Page size: 20 ]  [ Combine filters: AND / OR ]                                         [ 🔄 Refresh ] [ ⚙️ Reset filters ]  |
-|   ----------------------------------------------------------------------------------------------------------------------------- |
-|   Attribute: incident_status == CONFIRMED                                                                                |
-+---------------------------------------------------------------------------------------------------------------------------------+
-| Recipients                                                                                                                      |
-|   Recipient kind: [ Responsible user / Carrier Dispatcher ]                                                      [ + Add ]      |
-+---------------------------------------------------------------------------------------------------------------------------------+
-| Delivery channels                                                                                                               |
-|   [✓] In-app notification     [✓] Email     [ ] SMS     [✓] Device push (Driver PWA)     [✓] External conversation (Chat)       |
-+---------------------------------------------------------------------------------------------------------------------------------+
-```
-
-### 18. Chat
-
-Communication with attachments and evidence packages.
-
-```text
-+----------------------------------------------------------------------------------------------------------------------------------+
-| LogiQED    | Dashboard | Map | Registry | SLA Engine | Evidence | Chat                      | Status: [🟢 Online] [Realtime ⚡]  |
-+----------------------------------------------------------------------------------------------------------------------------------+
-| Active Chats (4)                 | TRK-42: Berlin -> Warsaw (Driver: Hans Mueller)                           [📋 Trip #802 Info] |
-| [C+] [🔄]                        | --------------------------------------------------------------------------------------------- |
-| -------------------------------- |                                                                                               |
-| 🟢 TRK-42 (Berlin-Warsaw) [2]    |   [ Attachment: Warehouse Geofence Photo Entry ]                                              |
-|    Photo, 11:44                  |   [ 📁 Download Archive (2.4 MB) ]                       [ 22.08 11:44 ]                      |
-|                                  |                                                                                               |
-| ⚪ Victoria Weber (TransLog Sp.) |   🎵 Driver Voice Note: Delayed at Berlin loading dock due to heavy traffic.                  |
-|    Audio, 12:18                  |   [▶ ─────────●─────── 01:24 / 03:59 ] [🔊 ───●─]        [ 22.08 12:18 ]                      |
-|                                  |                                                                                               |
-| 🤖 SLA Support [Bot]             |   👤 Dispatcher:                                                                              |
-|    Image, 07:37                  |   Acknowledged. Automatically triggering SLA exception rule for queue delay.                  |
-|                                  |                                                                                               |
-| ⚪ Tetiana Bondarenko            |   📄 **eFTI_Consignment_Note_802.pdf**                                                        |
-|    Document, 22.05               |      304.3 KB · application/pdf                        [👁️ Preview] [📥 Download]             |
-|                                  |                                                                                               |
-|                                  |   📦 **Evidence_Package_PKG8821.json** [🔒 Verified]                                          |
-|                                  |      45.1 KB · cryptographic proof             [👁️ Preview] [📥 Download]                     |
-+----------------------------------------------------------------------------------------------------------------------------------+
-| 📎 [ + Attach Evidence ] [ Type a message or attach files... ]                                                 [ 🎤 ] [ ➡️ ]     |
-+----------------------------------------------------------------------------------------------------------------------------------+
-```
-
 ## How ZK Proofs Work in Demo
 
 ### Demo Remote Console
@@ -730,6 +641,95 @@ Verification Time: 42 ms
 | Confirm + Evidence | Created | Valid | SLA paused, penalty 0 |
 | Reject + Evidence | Created | Valid | SLA continued, penalty applied |
 | No Evidence clicked | Not created | Not created | No dispute package |
+
+### 16. Dashboard
+
+Executive dashboard with KPI, disputes, trust distribution and anchors.
+
+```text
++---------------------------------------------------------------------------------------------------------------------------------+
+| LogiQED    | Dashboard | Map | Registry | SLA Engine | Evidence | Chat                               | 🔔 [Operator] [EN]       |
++---------------------------------------------------------------------------------------------------------------------------------+
+| Dashboard    [ Overview ] [ Disputes ] [ Trust ] [ Anchors ]                                              [ Last 30 Days ]      |
++---------------------------------------------------------------------------------------------------------------------------------+
+| Overview                                                                                                                        |
+|   ┌────────────────────────┐  ┌────────────────────────┐  ┌────────────────────────┐  ┌────────────────────────┐                |
+|   │ Total Shipments: 1,420 │  │ Active in Transit: 142 │  │ Exceptions Resolved: 28│  │ Valid ZK Proofs: 1,392 │                |
+|   │ 🟢 +12% vs last month  │  │ 🚛 On schedule: 114    │  │ ⚠️ Auto-resolved: 28   │  │ 🔒 100% Verified       │                |
+|   └────────────────────────┘  └────────────────────────┘  └────────────────────────┘  └────────────────────────┘                |
++---------------------------------------------------------------------------------------------------------------------------------+
+| [ Disputes ]                                                                                                                    |
+|   • Average Dispute Close Time: 12 minutes (down from 45 days)                                                                  |
+|   • Total Penalties Fairly Excluded: €34,500                                                                                    |
+|   • eFTI Compliance Rate: 99.8%                                                                                                 |
++---------------------------------------------------------------------------------------------------------------------------------+
+| [ Trust ]                                                                                                                       |
+|   • E5 (Encrypted/Post-Q): 45%                                                                                                  |
+|   • E4 (Secure Onboard):  40%                                                                                                   |
+|   • E2-E3 (Standard GPS): 12%                                                                                                   |
+|   • E1 (Manual/Fallback):  3%                                                                                                   |
++---------------------------------------------------------------------------------------------------------------------------------+
+| [ Anchors ]                                                                                                                     |
+|   [PKG-8821] Berlin->Warsaw | Hash: 0x8f4c...1a | Arweave TX: 0x12...99 | Status: Verified                                      |
+|   [PKG-8822] Paris->Lyon    | Hash: 0x3b1e...8c | Arweave TX: 0x44...55 | Status: Verified                                      |
++---------------------------------------------------------------------------------------------------------------------------------+
+```
+
+### 17. Notification Rules Engine
+
+Rules for automatic notifications.
+
+```text
++---------------------------------------------------------------------------------------------------------------------------------+
+| LogiQED    | Dashboard | Map | Registry | Workflow | Notifications | Telemetry | Chat    | 🔔 [EN] [Operator]                   |
++---------------------------------------------------------------------------------------------------------------------------------+
+| Notifications > Notification Rules > Edit Notification Rule                              [ Save ] [ Save & Close ] [ Close ]    |
++---------------------------------------------------------------------------------------------------------------------------------+
+| Name: Incident Report Notice — Driver & Carrier                                                                                   |
+| Description: Notifies responsible parties when an exception rule triggers and penalty protection is applied.                    |
++---------------------------------------------------------------------------------------------------------------------------------+
+| Match conditions                                                                                                                |
+|   [ Page size: 20 ]  [ Combine filters: AND / OR ]                                         [ 🔄 Refresh ] [ ⚙️ Reset filters ]  |
+|   ----------------------------------------------------------------------------------------------------------------------------- |
+|   Attribute: incident_status == CONFIRMED                                                                                |
++---------------------------------------------------------------------------------------------------------------------------------+
+| Recipients                                                                                                                      |
+|   Recipient kind: [ Responsible user / Carrier Dispatcher ]                                                      [ + Add ]      |
++---------------------------------------------------------------------------------------------------------------------------------+
+| Delivery channels                                                                                                               |
+|   [✓] In-app notification     [✓] Email     [ ] SMS     [✓] Device push (Driver PWA)     [✓] External conversation (Chat)       |
++---------------------------------------------------------------------------------------------------------------------------------+
+```
+
+### 18. Chat
+
+Communication with attachments and evidence packages.
+
+```text
++----------------------------------------------------------------------------------------------------------------------------------+
+| LogiQED    | Dashboard | Map | Registry | SLA Engine | Evidence | Chat                      | Status: [🟢 Online] [Realtime ⚡]  |
++----------------------------------------------------------------------------------------------------------------------------------+
+| Active Chats (4)                 | TRK-42: Berlin -> Warsaw (Driver: Hans Mueller)                           [📋 Trip #802 Info] |
+| [C+] [🔄]                        | --------------------------------------------------------------------------------------------- |
+| -------------------------------- |                                                                                               |
+| 🟢 TRK-42 (Berlin-Warsaw) [2]    |   [ Attachment: Warehouse Geofence Photo Entry ]                                              |
+|    Photo, 11:44                  |   [ 📁 Download Archive (2.4 MB) ]                       [ 22.08 11:44 ]                      |
+|                                  |                                                                                               |
+| ⚪ Victoria Weber (TransLog Sp.) |   🎵 Driver Voice Note: Delayed at Berlin loading dock due to heavy traffic.                  |
+|    Audio, 12:18                  |   [▶ ─────────●─────── 01:24 / 03:59 ] [🔊 ───●─]        [ 22.08 12:18 ]                      |
+|                                  |                                                                                               |
+| 🤖 SLA Support [Bot]             |   👤 Dispatcher:                                                                              |
+|    Image, 07:37                  |   Acknowledged. Automatically triggering SLA exception rule for queue delay.                  |
+|                                  |                                                                                               |
+| ⚪ Tetiana Bondarenko            |   📄 **eFTI_Consignment_Note_802.pdf**                                                        |
+|    Document, 22.05               |      304.3 KB · application/pdf                        [👁️ Preview] [📥 Download]             |
+|                                  |                                                                                               |
+|                                  |   📦 **Evidence_Package_PKG8821.json** [🔒 Verified]                                          |
+|                                  |      45.1 KB · cryptographic proof             [👁️ Preview] [📥 Download]                     |
++----------------------------------------------------------------------------------------------------------------------------------+
+| 📎 [ + Attach Evidence ] [ Type a message or attach files... ]                                                 [ 🎤 ] [ ➡️ ]     |
++----------------------------------------------------------------------------------------------------------------------------------+
+```
 
 ## DRIVER Screens
 
