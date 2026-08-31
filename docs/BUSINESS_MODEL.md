@@ -10,7 +10,7 @@ A single dispute can cost a carrier $200–500 in legal fees, staff time, and lo
 
 LogiQED turns telemetry and trip events into signed Evidence Packages.
 
-A dispute closes by math in minutes, not by email threads over weeks.
+A dispute closes on evidence in minutes, not by email threads over weeks.
 
 ## Pricing
 

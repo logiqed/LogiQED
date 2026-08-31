@@ -11,7 +11,7 @@ A truck arrives at the warehouse. Geofence entry 11:54. Dock assignment 13:02. L
 
 Verified waiting: 68 minutes. Warehouse attributable: 68 minutes. Carrier attributable: 0 minutes.
 
-Disputes close by math, not by trust.
+Disputes close on evidence, not on negotiation.
 
 ---
 
@@ -153,3 +153,13 @@ Contact: LogiQED@gmail.com | [X / Twitter](https://x.com/LogiQED)
 - [Changelog](CHANGELOG.md)
 - [X / Twitter](https://x.com/LogiQED)
 - [License](../LICENSE.md)
+
+---
+
+## Future Directions
+
+Research and exploration beyond the core evidence layer.
+
+Marketplace, DePIN, scientific sensors, soulbound reputation, security modules, HD maps, AI agents.
+
+- [Future Product Ideas](../research/potential/README.md)

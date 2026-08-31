@@ -4,7 +4,7 @@
 
 LogiQED is the cryptographic evidence layer for physical logistics.
 
-Disputes close by math, not by trust.
+Disputes close on evidence, not on negotiation.
 
 ## What LogiQED Does
 

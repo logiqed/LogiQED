@@ -67,56 +67,18 @@ These screens are shown in the investor demo:
 19. Rules & Endpoints
 20. Audit Journal
 
-## MVP Screens
+## Short Demo
 
-These screens are part of MVP but not shown in the demo.
+Core screens for a carrier conversation: 1–5. Seven minutes.
 
-### DISPATCHER
+1. Driver Incident Reports — the result
+2. Registry — the context
+3. Map — the operation
+4. Evidence Package — the proof
+5. Disputes (ZK Proof Inspector) — the verification
 
-21. Workflow Diagram — visual lifecycle diagram.
-22. Goods Turnover — goods movement management.
+Screens 6–20 are shown only if the audience asks.
 
-### SHIFT_SUPERVISOR
-
-23. Appeals & Shift Handover — shift handover journal and incident registry.
-
-### AUDITOR
-
-24. Appeals Analytics — analytics for SLA breaches and dispute dynamics.
-
-### ADMIN
-
-25. Org Structure — organizational chart.
-
-## Roles
-
-Roles are fully configurable in the admin panel. Any role can be created with any set of permissions.
-
-Chat is available for all roles.
-
-### DISPATCHER
-
-Shipment registry, operational map, workflow management, Driver Incident Reports, chat, notifications. Creates routes and assigns drivers.
-
-### DRIVER
-
-Mobile interface, own trips, telemetry, status updates, chat with dispatcher. Own documents only.
-
-### SLA_ANALYST
-
-SLA policies, working calendars, holiday sets, Driver Incident Reports. Analytics and metrics.
-
-### AUDITOR
-
-Audit journal, reports, SLA compliance, Driver Incident Reports. Read-only access.
-
-### SHIFT_SUPERVISOR
-
-Deadline control, escalations, team management. Shift handovers.
-
-### ADMIN
-
-User, role and permission management. Access rules and endpoint configuration. Audit journal access.
 
 ## 1. Driver Incident Reports
 
@@ -259,6 +221,24 @@ Opened from the main navigation menu.
 +--------------------------------------------------------------------------------------------------+
 ```
 
+---
+
+## Demo Remote Console
+
+Separate Blazor project: LogiQED.DemoRemote.
+
+A dispatcher console for live demo simulation. Three actions per incident:
+
+- **Confirm** — SLA paused, penalty 0
+- **Reject** — SLA continues, penalty applied
+- **Evidence** — generate and verify Evidence Package
+
+The console talks to the main platform via API. Every decision is sent to the main system, not simulated locally.
+
+After Evidence is clicked, the console shows the package number, verification result, and real verification time in milliseconds.
+
+Used in the demo to show the full flow: driver reports → dispatcher decides → evidence generated → proof verified.
+
 ### ZK Proof View
 
 Inspection of a single cryptographic proof.
@@ -302,16 +282,6 @@ Opened from Evidence Package via [View Proof], or from ZK Proofs menu.
 
 ## How ZK Proofs Work in Demo
 
-### Demo Remote Console
-
-The demo remote console is a separate tool for the dispatcher.
-
-Three actions are available per incident:
-
-- **Confirm** — SLA paused, penalty 0
-- **Reject** — SLA continues, penalty applied
-- **Evidence** — generate Evidence Package
-
 ### Generation Flow
 
 1. Driver reports an incident, such as traffic.
@@ -340,14 +310,14 @@ Clean routes have no ZK proof. They close with signed events and Evidence Root o
 
 ### Where to See Results
 
-- **Evidence Package** — screen 14, shows the dispute package with proof reference
-- **ZK Proofs** — screen 15, shows all generated proofs
-- **ZK Proof Inspector** — screen 15.1, shows details of a single proof
+- **Evidence Package** — screen 4, shows the dispute package with proof reference
+- **Disputes (ZK Proof Inspector)** — screen 5, shows all generated proofs
+- **ZK Proof View** — details of a single proof
 
 ### Navigation
 
-- From Evidence Package (screen 14): click [View Proof] → opens ZK Proof Inspector (15.1)
-- From ZK Proofs (screen 15): click [View] → opens ZK Proof Inspector (15.1)
+- From Evidence Package (screen 4): click [View Proof] → opens ZK Proof View
+- From ZK Proofs (screen 5): click [View] → opens ZK Proof View
 
 ---
 

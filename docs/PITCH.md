@@ -2,7 +2,7 @@
 
 ## One Line
 
-LogiQED is the cryptographic evidence layer for physical logistics. Disputes close by math, not by trust.
+LogiQED is the cryptographic evidence layer for physical logistics. Disputes close on evidence, not on negotiation.
 
 ---
 
@@ -22,7 +22,7 @@ A truck arrives at the warehouse. Geofence entry 11:54. Dock assignment 13:02. L
 
 Verified waiting: 68 minutes. Warehouse attributable: 68 minutes. Carrier attributable: 0 minutes.
 
-The dispute closes in 12 minutes instead of 2 days.
+Target: the dispute closes in 12 minutes instead of 2 days.
 
 ---
 

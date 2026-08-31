@@ -15,9 +15,9 @@ Senior engineering team from Ukraine.
 - [Borys Mulev](https://www.linkedin.com/in/borysmulev/) — Senior C#/.NET Engineer
 - [Marenich](https://www.linkedin.com/in/marenich/) — Senior Engineer
 
-- 15+ years in C# / .NET
-- Worked together on logistics and cloud systems
-- Additional resumes on request
+15+ years in C# / .NET. Worked together on logistics and cloud systems.
+
+Additional team members: resumes on request.
 
 ---
 
@@ -27,10 +27,15 @@ Production-grade C# Blazor platform for logistics and verifiable freight infrast
 
 - Modular monolith, 120+ projects in solution
 - 1,300+ tests
-- Modules: Telemetry, Route, SLA, Evidence, Identity, Notifications, Dispatcher
-- Evidence Layer: Signed Event Stream, Evidence Graph, Evidence Package, Trust Levels E0–E5
-- Hybrid signatures: Ed25519 + ML-DSA
-- Proof Engine: Aligned Layer (mock for MVP, integration in Phase 2)
+- Azure DevOps read-only access for verification
+
+Modules: Telemetry, Route, SLA, Evidence, Identity, Notifications, Dispatcher.
+
+Evidence Layer: Signed Event Stream, Evidence Graph, Evidence Package, Trust Levels E0–E5.
+
+Hybrid signatures: Ed25519 + ML-DSA.
+
+Proof Engine: Aligned Layer (mock for MVP, integration in Phase 2).
 
 Source code is private. Access after NDA.
 

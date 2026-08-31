@@ -53,7 +53,7 @@ Stretch:
 
 | Metric | Before | After |
 |--------|--------|-------|
-| Time to resolve dispute | 2 days, 8 emails, 3 PDFs, 2 calls | 12 minutes |
+| Time to resolve dispute | 2 days, 8 emails, 3 PDFs, 2 calls | Target: 12 minutes |
 | Dispatcher hours per dispute | 4–8 hours | 15 minutes |
 | Cost | $500–2000 | $5–10 |
 | Transparency | Low | Full, Evidence Root, signature, anchor |
@@ -127,4 +127,4 @@ Pilot overlaps with the last weeks of MVP.
 
 Find pilot partner: shipper, 3PL, insurer or freight forwarder who makes penalty or payout decisions.
 
-Expected effect: pilot proves a dispute closes in 12 minutes instead of 2 days, with evidence admissible in court.
+Expected effect: pilot proves a dispute closes in minutes instead of days, with evidence admissible in court.

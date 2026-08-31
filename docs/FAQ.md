@@ -12,7 +12,7 @@ SLA disputes in freight cost $500–2,000 per case: lawyers, time, lost customer
 
 Paper evidence is weak. Coordination is slow. Disputes close by negotiation, not by data.
 
-LogiQED closes disputes by math.
+LogiQED closes disputes on evidence, not on negotiation.
 
 ## What LogiQED Proves
 
