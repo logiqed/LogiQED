@@ -2,7 +2,7 @@
   <rect width="1050" height="380" fill="#f8f9fa" rx="12"/>
   <text x="525" y="35" font-size="20" font-weight="bold" text-anchor="middle" fill="#212529">LogiQED — Event-Driven Route Monitoring Data Flow</text>
 
-  <!-- Pipeline -->
+    <!-- Pipeline -->
   <g font-size="13" font-weight="bold" text-anchor="middle">
     <rect x="20" y="100" width="140" height="50" rx="8" fill="#007bff"/>
     <text x="90" y="130" fill="#fff">Driver App</text>
@@ -21,6 +21,40 @@
 
     <rect x="870" y="100" width="140" height="50" rx="8" fill="#17a2b8"/>
     <text x="940" y="130" fill="#fff">Proof Engine</text>
+  </g>
+
+  <!-- Aux boxes -->
+  <g text-anchor="middle">
+    <rect x="175" y="240" width="170" height="50" rx="8" fill="#dc3545"/>
+    <text x="260" y="262" font-size="12" font-weight="bold" fill="#fff">SignalR</text>
+    <text x="260" y="278" font-size="10" fill="#fff">/hubs/telemetry</text>
+
+    <rect x="360" y="240" width="170" height="50" rx="8" fill="#4caf50"/>
+    <text x="445" y="262" font-size="12" font-weight="bold" fill="#fff">MS SQL</text>
+    <text x="445" y="278" font-size="10" fill="#fff">System of Record</text>
+
+    <rect x="555" y="240" width="160" height="50" rx="8" fill="#ff9800"/>
+    <text x="635" y="262" font-size="12" font-weight="bold" fill="#212529">Redis</text>
+    <text x="635" y="278" font-size="10" fill="#212529">Cache / Route Buffer</text>
+
+    <rect x="870" y="240" width="150" height="50" rx="8" fill="#607d8b"/>
+    <text x="945" y="262" font-size="12" font-weight="bold" fill="#fff">Arweave</text>
+    <text x="945" y="278" font-size="10" fill="#fff">Permanent Storage</text>
+
+    <rect x="870" y="310" width="150" height="50" rx="8" fill="#9c27b0"/>
+    <text x="945" y="332" font-size="12" font-weight="bold" fill="#fff">Aligned Layer</text>
+    <text x="945" y="348" font-size="10" fill="#fff">Mock for MVP</text>
+  </g>
+
+  <!-- dashed connectors -->
+  <g stroke="#6c757d" stroke-width="2" stroke-dasharray="6,4" fill="none">
+    <line x1="260" y1="150" x2="260" y2="240"/>
+    <polyline points="260,150 260,190 445,190 445,240"/>
+    <polyline points="260,150 260,225 635,225 635,240"/>
+    <polyline points="430,150 430,190 445,190 445,240"/>
+    <polyline points="430,150 430,215 635,215 635,240"/>
+    <line x1="940" y1="150" x2="940" y2="240"/>
+    <line x1="940" y1="150" x2="940" y2="310"/>
   </g>
 
   <defs>

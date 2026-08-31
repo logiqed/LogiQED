@@ -88,8 +88,8 @@
     <text x="780" y="230">Orchestrator</text>
     <text x="780" y="310">EF Core</text>
     <text x="780" y="390">OTEL / metrics</text>
-    <text x="780" y="470">Evidence</text>
-    <text x="780" y="550">Package + proof</text>
+	<text x="780" y="470">Evidence + proof</text>
+	<text x="780" y="550">Package</text>
   </g>
 
   <!-- Примечание -->
