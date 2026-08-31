@@ -82,7 +82,7 @@ Expected value for the pilot partner: at least one avoided dispute cost ($200–
 |----------|-----------------|
 | Features | AI copilot, Full blockchain settlement |
 | Integrations | Real Aligned Layer, EigenDA, Arweave for every package |
-| Research | DePIN, Scientific marketplace, Soulbound badges, MeshShield, Proof-of-Freeze, HD maps, Warehouse marketplace, Lean 4 |
+| Research | DePIN, Scientific marketplace, Soulbound badges, MeshShield, Proof-of-Freeze, HD maps, Warehouse marketplace |
 
 ## MVP Storage
 

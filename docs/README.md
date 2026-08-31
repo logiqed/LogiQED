@@ -5,17 +5,31 @@
 
 **Verifiable Freight Infrastructure.**
 
-LogiQED is a cryptographic evidence layer for physical logistics.
+LogiQED is the cryptographic evidence layer for physical logistics.
 
-Telemetry and trip events become signed Evidence Packages. SLA violations are explained. Disputes close by math, not by trust.
+A truck arrives at the warehouse. Geofence entry 11:54. Dock assignment 13:02. Loading start 13:18. Warehouse exit 14:11.
+
+Verified waiting: 68 minutes. Warehouse attributable: 68 minutes. Carrier attributable: 0 minutes.
+
+Disputes close by math, not by trust.
+
+---
+
+## The Result
+
+A late truck is explained by data:
+
+> Arrival 14:37, ETA 13:55, delay 42 min. Cause: traffic between A-B. Telemetry clean, events signed, hashes match, SLA rule v3, no penalty.
+
+One Evidence Package costs about $0.08. One SLA dispute costs $200–500.
+
+One won dispute pays for months of subscription.
 
 ---
 
 ## How It Works
 
 Sensor/device, attestation, timestamp, signature, provenance, Evidence Package.
-
-A late truck is explained by data: arrival 14:37, ETA 13:55, delay 42 min, cause: traffic between A-B, telemetry clean, events signed, hashes match, SLA rule v3, no penalty.
 
 <p align="center">
   <img src="images/diagram-flow.svg" alt="LogiQED Data Flow" width="850"/>
@@ -66,6 +80,19 @@ Source code is private. Access after NDA.
 
 ---
 
+## Team
+
+Senior engineering team from Ukraine.
+
+- [Borys Mulev](https://www.linkedin.com/in/borysmulev/) — Senior C#/.NET Engineer
+- [Marenich](https://www.linkedin.com/in/marenich/) — Senior Engineer
+
+15+ years in C# / .NET. Worked together on logistics and cloud systems.
+
+Additional team members: resumes on request.
+
+---
+
 ## Why Now
 
 From 9 July 2027, EU authorities must accept regulatory freight information submitted electronically through certified eFTI platforms.
@@ -84,6 +111,16 @@ Contact: LogiQED@gmail.com | [X / Twitter](https://x.com/LogiQED)
 
 ---
 
+## For Investors
+
+- [Investor Document](INVESTORS.md) — team, deal options, budget
+- [Business Model](BUSINESS_MODEL.md) — pricing and economics
+- [MVP](MVP.md) — 16-week plan and budget
+- [Pilot](PILOT.md) — proving value with real trucks
+- [Platform](PLATFORM.md) — full platform details
+
+---
+
 ## Docs
 
 - [Vision](VISION.md)
@@ -95,7 +132,8 @@ Contact: LogiQED@gmail.com | [X / Twitter](https://x.com/LogiQED)
 - [Webhooks](WEBHOOKS.md)
 - [Verification](VERIFY.md)
 - [SLA DSL](SLA_DSL.md)
-- [UI](UI.md)
+- [UI Demo](UI_DEMO.md)
+- [UI MVP](UI_MVP.md)
 - [Data Flow](DATA_FLOW.md)
 - [Security](SECURITY.md)
 - [Authorization](AUTHORIZATION.md)

@@ -4,7 +4,7 @@ Production-grade C# Blazor platform for logistics and verifiable freight infrast
 
 ## Executive Summary
 
-From 9 July 2027, every European logistics company must accept electronic freight transport information, eFTI, as the default.
+From 9 July 2027, EU authorities must accept electronic freight transport information, eFTI, as the default.
 
 LogiQED turns this obligation into competitive advantage through verifiable evidence infrastructure.
 
@@ -128,48 +128,18 @@ From 9 July 2027, EU authorities must accept electronic freight transport inform
 
 Senior engineering team from Ukraine.
 
-- 15+ years in C# / .NET
-- Worked together on logistics and cloud systems
-- Resumes on request
+- [Borys Mulev](https://www.linkedin.com/in/borysmulev/) — Senior C#/.NET Engineer
+- [Marenich](https://www.linkedin.com/in/marenich/) — Senior Engineer
+
+15+ years in C# / .NET. Worked together on logistics and cloud systems.
+
+Additional team members: resumes on request.
 
 ## Transparency
 
 The entire development process is visible in Azure DevOps.
 
 Source code is private. Access after NDA.
-
-## Deal Options
-
-### Option 1: Full Acquisition
-
-Price: Starting at $350K. Negotiable.
-
-Full transfer including source code, deployment scripts, CI/CD pipelines, marketing assets, and all registered domain names.
-
-### Option 2: Team + Platform + Equity
-
-The team invests 50% of the $350K valuation into the project.
-
-Remaining for the investor: $175K.
-
-| Parameter | Value |
-|-----------|-------|
-| Platform fee | 40% of $175K = $70K, paid upfront |
-| Remaining platform value | 60% of $175K = $105K, after MVP |
-| MVP development | $170–200K USDT, estimated |
-| Equity | 15% |
-
-Minimum investor commitment to start: $70K upfront + $35–40K first month of work = $105–110K.
-
-Payment flexibility for MVP:
-
-- 50% upfront: standard speed
-- 80% upfront: faster delivery
-- 100% upfront: maximum speed, 10% discount
-
-The monthly rate stays $35–40K regardless of team size.
-
-Code transfer after full platform payment.
 
 ## Contact
 
@@ -179,3 +149,13 @@ Email: LogiQED@gmail.com
 - [GitHub](https://github.com/logiqed/LogiQED)
 
 Domain: logiqed.tech
+
+---
+
+## More Details
+
+- [Investor Document](INVESTORS.md)
+- [BUSINESS_MODEL](BUSINESS_MODEL.md)
+- [MVP](MVP.md)
+- [PILOT](PILOT.md)
+- [ARCHITECTURE](ARCHITECTURE.md)

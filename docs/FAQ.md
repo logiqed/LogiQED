@@ -148,10 +148,12 @@ Excluded:
 
 ## Contact
 
-For investment, acquisition or pilot partnership:
+For pilot partnership:
 
 - Email: LogiQED@gmail.com
 - [X / Twitter](https://x.com/LogiQED)
+
+For investment: see [Investor Document](INVESTORS.md).
 
 ## Reference Documents
 

@@ -1,175 +1,114 @@
-# LogiQED Platform
+# LogiQED — Pitch
 
-Production-grade C# Blazor platform for logistics and verifiable freight infrastructure.
+## One Line
 
-## Executive Summary
+LogiQED is the cryptographic evidence layer for physical logistics. Disputes close by math, not by trust.
 
-From 9 July 2027, every European logistics company must accept electronic freight transport information, eFTI, as the default.
+---
 
-LogiQED turns this obligation into competitive advantage through verifiable evidence infrastructure.
+## Problem
 
-We are a senior engineering team from Ukraine with a production-ready platform.
+SLA disputes in freight cost $200–500 per case: lawyers, time, lost customers.
 
-## What It Is
+Paper evidence is weak. Coordination is slow. Disputes close by negotiation, not by data.
 
-A complete operational platform, not a prototype or MVP.
+---
 
-Built for real business processes: shipments, SLA, telemetry, warehouse, documents, communication and reporting.
+## Solution
 
-## Platform Metrics
+LogiQED turns telemetry and trip events into signed Evidence Packages.
 
-- 120+ projects in solution
-- 1,300+ tests
-- Source code is private, access after NDA
+A truck arrives at the warehouse. Geofence entry 11:54. Dock assignment 13:02. Loading start 13:18. Warehouse exit 14:11.
 
-## Architecture Overview
+Verified waiting: 68 minutes. Warehouse attributable: 68 minutes. Carrier attributable: 0 minutes.
 
-Modular monolith on C# Blazor / ASP.NET Core.
+The dispute closes in 12 minutes instead of 2 days.
 
-Modules communicate through interfaces, never through each other's database tables.
+---
 
-![System Architecture](images/diagram-system.svg)
+## How It Works
 
-See [ARCHITECTURE.md](ARCHITECTURE.md) for full details.
+1. **Signed Event Stream** — devices and APIs produce authenticated events.
+2. **Trust Levels E0–E5** — server evaluates source assurance, not client-supplied.
+3. **SLA Engine** — deterministic rules with working calendars and exception attribution.
+4. **Evidence Package** — immutable snapshot with claim, proof, and context.
+5. **Verification** — any party checks without raw telemetry.
 
-## Product Status
+ZK-proof is generated only for disputed or exception-bound routes. Clean routes close with signed events and Evidence Root only.
 
-| Component | Status |
-|-----------|--------|
-| Core platform | Production-ready |
-| Evidence Layer | MVP stage |
-| ZK Claims | MVP stage |
-| Post-quantum signatures | Hybrid: Ed25519 + ML-DSA |
+---
 
-## Core Modules
+## First Two Claims
 
-### Workflow Engine
+### Detention / Warehouse Waiting
 
-Fully configurable from admin panel.
+Appointment 12:00, geofence entry 11:54, dock assignment 13:02, loading start 13:18, exit 14:11.
 
-### SLA Engine
+Result: warehouse attributable 68 minutes.
 
-SLA policies, working calendars, holiday sets, exception attribution rules.
+### Cargo Condition
 
-### Hybrid Authentication and Authorization
+Contract 2–8°C, EU lane, temperature stayed in range.
 
-Stateful JWT with server sessions, 2FA, trusted devices, refresh rotation, RBAC and permissions.
+Result: VALID.
 
-### Admin Panel
+---
 
-User, role and permission management. Audit journal. Role-based UI. No hardcoded roles.
+## Market
 
-### Telemetry Subsystem
+- SLA disputes in freight cost $200–500 per case
+- One Evidence Package costs about $0.08
+- eFTI regulation effective 9 July 2027
+- Target: mid-sized carriers with temperature-sensitive or time-critical freight
 
-Position sources: browser, tracker app, external systems.
-
-Device identity: SourceCode + ExternalId.
-
-### Warehouse Operations
-
-- Receipts, issues, transfers, write-offs
-- Turnover sheet
-- Approval workflows
-- Transit warehouse support
-
-### Reporting Engine
-
-Export to PDF, CSV, XLSX. 200,000 rows × 60 columns in 5 seconds.
-
-### Evidence Layer
-
-- Signed Event Stream
-- Evidence Graph
-- Evidence Package
-- Trust Levels E0–E5
-- Hybrid signatures: Ed25519 + ML-DSA
-
-### Route Monitoring
-
-- Route State Machine
-- TrafficEntered and TrafficExited events
-- Event Orchestrator
-- On-Demand Oracle
-
-## Proof Engine
-
-Primary: Aligned Layer. Fast, cheap ZK-verification as AVS on EigenLayer.
-
-Status: mock for MVP, integration in Phase 2.
-
-Estimated cost: $0.01–0.05 per shipment.
-
-Fallback: Groth16 or Plonk.
-
-Official documentation: https://docs.alignedlayer.com/
+---
 
 ## Business Model
 
-See [BUSINESS_MODEL.md](BUSINESS_MODEL.md) for full details.
+| Plan | Who | Price |
+|------|-----|-------|
+| Starter | Small carrier, 1–3 vehicles | $0 base + $0.15/package |
+| Pro | Mid carrier, 10–100 vehicles | $99/mo + $10/vehicle + $0.08/package |
+| Enterprise | Logistics network | Custom + $0.05/package |
+
+Value scales with freight volume, not with UI users.
+
+---
 
 ## Why Now
 
-From 9 July 2027, EU authorities must accept electronic freight transport information as the default.
+From 9 July 2027, EU authorities must accept regulatory freight information submitted electronically through certified eFTI platforms.
 
-## Competitors
+LogiQED is positioned as evidence infrastructure on top of eFTI.
 
-| Competitor | Why LogiQED |
-|-----------|-------------|
-| Transporeon, FourKites, project44 | Visibility and dwell-time, but no cryptographic evidence layer |
-| Manual arbitration | Slow, costly, subjective |
-
-## Go-to-Market
-
-- Pilot with one European carrier
-- eFTI compliance as entry point
-- TMS integrations via API
+---
 
 ## Team
 
 Senior engineering team from Ukraine.
 
-- 15+ years in C# / .NET
-- Worked together on logistics and cloud systems
-- Resumes on request
+- [Borys Mulev](https://www.linkedin.com/in/borysmulev/) — Senior C#/.NET Engineer
+- [Marenich](https://www.linkedin.com/in/marenich/) — Senior Engineer
 
-## Transparency
+15+ years in C# / .NET. Worked together on logistics and cloud systems.
 
-The entire development process is visible in Azure DevOps.
+Additional team members: resumes on request.
+
+---
+
+## Status
+
+Blueprint public. Demo in progress. Looking for pilot partners.
 
 Source code is private. Access after NDA.
 
-## Deal Options
+---
 
-### Option 1: Full Acquisition
+## Next Step
 
-Price: Starting at $350K. Negotiable.
+Pilot with one European carrier. 3–5 vehicles, 50+ trips, one dispute closed.
 
-Full transfer including source code, deployment scripts, CI/CD pipelines, marketing assets, and all registered domain names.
-
-### Option 2: Team + Platform + Equity
-
-The team invests 50% of the $350K valuation into the project.
-
-Remaining for the investor: $175K.
-
-| Parameter | Value |
-|-----------|-------|
-| Platform fee | 40% of $175K = $70K, paid upfront |
-| Remaining platform value | 60% of $175K = $105K, after MVP |
-| MVP development | $170–200K USDT, estimated |
-| Equity | 15% |
-
-Minimum investor commitment to start: $70K upfront + $35–40K first month of work = $105–110K.
-
-Payment flexibility for MVP:
-
-- 50% upfront: standard speed
-- 80% upfront: faster delivery
-- 100% upfront: maximum speed, 10% discount
-
-The monthly rate stays $35–40K regardless of team size.
-
-Code transfer after full platform payment.
+---
 
 ## Contact
 
@@ -182,9 +121,10 @@ Domain: logiqed.tech
 
 ---
 
-## More Details
+## More
 
-- [BUSINESS_MODEL](BUSINESS_MODEL.md)
-- [MVP](MVP.md)
-- [PILOT](PILOT.md)
-- [ARCHITECTURE](ARCHITECTURE.md)
+- [Investor Document](INVESTORS.md) — deal options and budget
+- [Business Model](BUSINESS_MODEL.md) — pricing and economics
+- [MVP](MVP.md) — 16-week plan
+- [Pilot](PILOT.md) — proving value with real trucks
+- [Platform](PLATFORM.md) — full platform details
