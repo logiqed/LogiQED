@@ -429,7 +429,7 @@ Associated e-Documents and cryptographic evidence package.
 
 ```text
 +---------------------------------------------------------------------------------------------------------------------------------+
-| LogiQED    | Dashboard | Map | Registry | SLA Engine | Evidence | Chat                     | 🔔 [Operator] [EN]                 |
+| LogiQED    | Dashboard | Map | Registry | SLA Engine | Evidence | ZK Proofs | Chat         | 🔔 [Operator] [EN]                 |
 +---------------------------------------------------------------------------------------------------------------------------------+
 | Shipment SHP-802 > Documents & Evidence Package                 [ Export PDF ] [ View Proof ] [ Verify Package ]                |
 +---------------------------------------------------------------------------------------------------------------------------------+
@@ -452,9 +452,33 @@ Associated e-Documents and cryptographic evidence package.
 +---------------------------------------------------------------------------------------------------------------------------------+
 ```
 
-### 15. ZK Proof Inspector
+### 15. ZK Proofs
+
+List of all cryptographic proofs across shipments.
+
+Opened from the main navigation menu.
+
+```text
++--------------------------------------------------------------------------------------------------+
+| LogiQED | Dashboard | Map | Registry | SLA Engine | Evidence | ZK Proofs | Chat          |
++--------------------------------------------------------------------------------------------------+
+| ZK Proofs                                                                                        |
+|                                                                                                  |
+| Filter: [All] [Valid] [Pending] [Failed]                                                         |
+|                                                                                                  |
+| Shipment | Route              | Claim Type | Status  | Verification | Actions                    |
+|----------|-------------------|-----------|---------|-------------|----------------------------|
+| SHP-802  | Berlin → Warsaw   | Detention | Valid   | ✅ Verified  | [View] [Export]              |
+| SHP-803  | Paris → Lyon      | Traffic   | Valid   | ✅ Verified  | [View] [Export]              |
+| SHP-805  | Madrid → Valencia | Cargo     | Pending | ⏳ Pending   | —                            |
++--------------------------------------------------------------------------------------------------+
+```
+
+### 15.1 ZK Proof Inspector
 
 Inspection of a single cryptographic proof.
+
+Opened from Evidence Package via [View Proof], or from ZK Proofs menu.
 
 *Demo version:*
 
@@ -579,6 +603,133 @@ Communication with attachments and evidence packages.
 | 📎 [ + Attach Evidence ] [ Type a message or attach files... ]                                                 [ 🎤 ] [ ➡️ ]     |
 +----------------------------------------------------------------------------------------------------------------------------------+
 ```
+
+## How ZK Proofs Work in Demo
+
+### Demo Remote Console
+
+The demo remote console is a separate tool for the dispatcher.
+
+Three actions are available per incident:
+
+- **Confirm** — SLA paused, penalty 0
+- **Reject** — SLA continues, penalty applied
+- **Evidence** — generate Evidence Package
+
+### Generation Flow
+
+1. Driver reports an incident, such as traffic.
+2. The report appears in the demo remote console.
+3. Dispatcher clicks **Confirm** or **Reject**.
+4. The decision is sent to the main platform.
+5. Dispatcher clicks **Evidence**.
+6. The main platform generates an Evidence Package with a ZK proof.
+
+### What Is Generated
+
+| Action | Evidence Package | ZK Proof |
+|--------|-----------------|----------|
+| Confirm only | No | No |
+| Reject only | No | No |
+| Confirm + Evidence | Yes | Yes |
+| Reject + Evidence | Yes | Yes |
+
+### Key Rule
+
+ZK proofs exist only for disputes.
+
+If the dispatcher does not click Evidence, no dispute package is created.
+
+Clean routes have no ZK proof. They close with signed events and Evidence Root only.
+
+### Where to See Results
+
+- **Evidence Package** — screen 14, shows the dispute package with proof reference
+- **ZK Proofs** — screen 15, shows all generated proofs
+- **ZK Proof Inspector** — screen 15.1, shows details of a single proof
+
+### Navigation
+
+- From Evidence Package (screen 14): click [View Proof] → opens ZK Proof Inspector (15.1)
+- From ZK Proofs (screen 15): click [View] → opens ZK Proof Inspector (15.1)
+
+---
+
+## Examples: ZK Proofs and Evidence Packages
+
+### Example 1: Confirm Traffic
+
+Driver reports traffic on segment A-B.
+
+Dispatcher clicks **Confirm**.
+
+Dispatcher clicks **Evidence**.
+
+**Evidence Package:**
+```json
+{
+  "packageId": "pkg_981247190248192a",
+  "shipmentId": "SHP-802",
+  "claimType": "Traffic",
+  "decision": "Confirmed",
+  "slaResult": "Paused",
+  "penalty": 0,
+  "evidenceRoot": "0x8f4c21a9e7b13...1a",
+  "createdAt": "2026-08-22T14:15:00Z"
+}
+```
+
+**ZK Proof:**
+```text
+Claim Type: Traffic Exception
+Verification Result: SUCCESS (Valid Proof)
+Verification Time: 42 ms
+```
+
+**Conclusion:** SLA paused. Penalty 0. Driver protected.
+
+---
+
+### Example 2: Reject Traffic
+
+Driver reports traffic on segment A-B.
+
+Dispatcher clicks **Reject**.
+
+Dispatcher clicks **Evidence**.
+
+**Evidence Package:**
+```json
+{
+  "packageId": "pkg_981247190248193b",
+  "shipmentId": "SHP-803",
+  "claimType": "Traffic",
+  "decision": "Rejected",
+  "slaResult": "Continued",
+  "penalty": "Applied",
+  "evidenceRoot": "0x3b1e...8c",
+  "createdAt": "2026-08-22T16:45:00Z"
+}
+```
+
+**ZK Proof:**
+```text
+Claim Type: Traffic Exception
+Verification Result: SUCCESS (Valid Proof)
+Verification Time: 42 ms
+```
+
+**Conclusion:** SLA continued. Penalty applied. Driver not protected.
+
+---
+
+### Summary
+
+| Decision | Evidence Package | ZK Proof | Result |
+|----------|-----------------|----------|--------|
+| Confirm + Evidence | Created | Valid | SLA paused, penalty 0 |
+| Reject + Evidence | Created | Valid | SLA continued, penalty applied |
+| No Evidence clicked | Not created | Not created | No dispute package |
 
 ## DRIVER Screens
 
