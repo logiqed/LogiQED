@@ -24,11 +24,12 @@ Exit criteria:
 Demo access:
 
 - Public demo will be available soon at https://logiqed.tech/
-- Roles available for exploration:
+- Read-only roles for exploration:
   - Driver
   - Dispatcher
   - SLA Analyst
   - Admin
+- Full interactive access for investors and partners on request
 
 Output: investor pitch and pilot partner search.
 
@@ -59,9 +60,15 @@ Scope:
 
 Exit criteria:
 
+Must have:
+
 - 3 or more real vehicles and 50 or more trips
 - Route State Machine reacts to TrafficEntered and TrafficExited
 - Two claims verified end-to-end
+- Evidence Package accepted by pilot partner
+
+Stretch:
+
 - At least one real commercial dispute settled using Evidence Package
 
 Business result:
@@ -74,7 +81,9 @@ Business result:
 
 ## Phase 2 — Integrations and Scale
 
-Timeline: 6–9 months after pilot. Budget estimate: $300–500K.
+Timeline: 6–9 months after pilot. Budget estimate: $210–360K.
+
+Monthly rate stays $35–40K regardless of team size. The team self-manages and expands internally.
 
 Goal: turn pilot into a commercial product.
 
@@ -94,6 +103,7 @@ P1 Important:
 - Orchestrator extraction to microservice when load exceeds 5000 devices
 - Warehouse slot management pilot
 - Lean 4 formal proofs for high-value claims
+- AI module research to prototype
 
 P2 Optional:
 

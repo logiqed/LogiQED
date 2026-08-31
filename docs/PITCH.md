@@ -309,7 +309,7 @@ Remaining for the investor: $175K.
 | Platform fee | 40% of $175K = $70K, paid upfront |
 | Remaining platform value | 60% of $175K = $105K, after MVP |
 | MVP development | $170–200K USDT, estimated |
-| Team | 5–6 engineers, scalable to 8–10 |
+| Team | 5–10 engineers, self-managed |
 | Equity | 15% |
 | Token allocation | 15%, if launched |
 
@@ -323,9 +323,11 @@ See [MVP.md](MVP.md) for full scope.
 
 Payment flexibility for MVP:
 
-- 50% of MVP cost upfront, 50% after MVP
-- 80% upfront, 20% after MVP
-- 100% upfront: 10% discount and priority start within 1 week
+- 50% upfront: 5–6 engineers, standard speed
+- 80% upfront: 8 engineers, faster delivery
+- 100% upfront: 10 engineers, maximum speed, 10% discount
+
+The monthly rate stays $35–40K regardless of team size. The team self-manages and expands internally based on the payment level.
 
 After MVP: the team continues at the same monthly rate of $35–40K. The investor can reduce or expand the team based on roadmap priorities. If the investor stops development, a 2-month handover period ensures smooth transition.
 
