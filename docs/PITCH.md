@@ -300,16 +300,20 @@ Full transfer including source code, deployment scripts, CI/CD pipelines, market
 
 ### Option 2: Team + Platform + Equity
 
-The investor hires the team and pays a platform fee instead of full acquisition.
+The team invests 50% of the $350K valuation into the project.
+
+Remaining for the investor: $175K.
 
 | Parameter | Value |
 |-----------|-------|
-| Platform fee | 40% of acquisition price, $140K, paid upfront |
-| Remaining platform value | 60%, $210K, after MVP |
+| Platform fee | 40% of $175K = $70K, paid upfront |
+| Remaining platform value | 60% of $175K = $105K, after MVP |
 | MVP development | $170–200K USDT, estimated |
 | Team | 5–6 engineers, scalable to 8–10 |
 | Equity | 15% |
 | Token allocation | 15%, if launched |
+
+Minimum investor commitment to start: $70K upfront + $35–40K first month of work = $105–110K.
 
 Final price depends on the approved MVP scope and team composition.
 
@@ -317,12 +321,11 @@ MVP scope: Evidence Layer, ZK Claims, Route Monitoring, telemetry dashboards. AI
 
 See [MVP.md](MVP.md) for full scope.
 
-Payment flexibility:
+Payment flexibility for MVP:
 
-- 40% platform fee upfront
 - 50% of MVP cost upfront, 50% after MVP
-- 80% of MVP cost upfront, 20% after MVP
-- 100% of MVP cost upfront: 10% discount and priority start within 1 week
+- 80% upfront, 20% after MVP
+- 100% upfront: 10% discount and priority start within 1 week
 
 After MVP: the team continues at the same monthly rate of $35–40K. The investor can reduce or expand the team based on roadmap priorities. If the investor stops development, a 2-month handover period ensures smooth transition.
 
