@@ -105,9 +105,9 @@ Used by SLA Analyst, Dispatcher and Auditor to review all exception situations.
 +----------------------------------------------------------------------------------------------------------------------------------------------------------------+
 | 🟢 30 Confirmed     |   🔴 4 Rejected     |   🟠 1 Verifying     |   🟢 88% Success rate                                        		                         |
 +---------------------------------------------------------------------------------------------------------------------------------------0------------------------+
-| Page size 20 > | [ Combine filters: AND / OR ]                        			| [ 📊 Columns ] [ 🔄 Refresh ] [ ⚙️ Reset filters ] [ 🔀 Reset sorting ]   |
+| Page size 20 > | [ Combine filters: AND / OR ] |                       		   	 [ 📊 Columns ] [ 🔄 Refresh ] [ ⚙️ Reset filters ] [ 🔀 Reset sorting ]     |
 +----------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| 1. Trip         | 2. Driver       | 3. Reason       | 4. Reported  | 5. Confirmed | 6. Closed    | 7. Duration | 8. Status   | 9. Evidence     | 10. Result    |
+| Trip         	  | Driver          |  Reason         |    Reported  |    Confirmed |    Closed    |    Duration |    Status   |    Evidence     |     Result    |
 +-----------------+-----------------+-----------------+--------------+--------------+--------------+-------------+-------------+-----------------+---------------+
 | SHP-20260901-07 | Brooks Daniel J.| Traffic         | 01.09.2026   | 01.09.2026   | 01.09.2026   | 0 min       | 🟢 Closed   | pkg_6e973c75a35a| 🟢 Penalty 0  |
 | SHP-20260901-07 | Brooks Daniel J.| Vehicle breakdn | 01.09.2026   | —            | —            | —           | 🔴 Rejected | pkg_a4ea5b4b40d8| 🔴 Penalty app|
