@@ -238,7 +238,7 @@ Package statuses:
 +------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 | Page size 20 > | [ Combine filters: AND / OR ]                        | [ 📊 Columns ] [ 🔄 Refresh ] [ ⚙️ Reset filters ] [ 🔀 Reset sorting ]                        |
 +------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| Package         | Trip            | Claim           | Conclusion           | Trust    |  Trust policy   | Proof    |    Package status |    Assembled  | 10. Verified  |
+| Package         | Trip            | Claim           | Conclusion           | Trust    |  Trust policy   | Proof    |    Package status |    Assembled  |     Verified  |
 +-----------------+-----------------+-----------------+----------------------+----------+-----------------+----------+-------------------+---------------+---------------+
 | pkg_357d72ece685| SHP-20260719-01 | Cargo condition | Cargo condition. BREA| 🟢 E4    | 🟢 Pass         | 🟢 Valid | 🟢 Verified       | 01.09.2026    | 01.09.2026    |
 | pkg_ce2594372767| SHP-20260618-01 | Cargo condition | Cargo condition. BREA| 🟢 E4    | 🟢 Pass         | 🟢 Valid | 🟢 Verified       | 01.09.2026    | 01.09.2026    |
