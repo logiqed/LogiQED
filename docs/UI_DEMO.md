@@ -32,7 +32,7 @@ Demo roles:
 
 - ADMIN: Users, Roles, Permissions, Rules & Endpoints, Audit Journal, Chat
 - SLA_ANALYST: SLA Overview, SLA Policy, Working Calendar, Driver Incident Reports, Chat
-- DISPATCHER: Registry, Map, Workflow, Evidence Package, Disputes (ZK Proof Inspector), Dashboard, Notifications, Driver Incident Reports, Chat
+- DISPATCHER: Registry, Map, Workflow, Evidence Packages, Package View, Dashboard, Notifications, Driver Incident Reports, Chat
 - DRIVER: Mobile Driver View, Telemetry, Chat
 - AUDITOR: Audit Journal, Driver Incident Reports, Chat
 
@@ -49,8 +49,8 @@ These screens are shown in the investor demo:
 1. Driver Incident Reports
 2. Registry
 3. Map
-4. Evidence Package
-5. Disputes (ZK Proof Inspector)
+4. Evidence Packages
+5. Package View
 6. Dashboard
 7. Mobile Driver View
 8. Telemetry
@@ -74,19 +74,19 @@ Core screens for a carrier conversation: 1–5. Seven minutes.
 1. Driver Incident Reports — the result
 2. Registry — the context
 3. Map — the operation
-4. Evidence Package — the proof
-5. Disputes (ZK Proof Inspector) — the verification
+4. Evidence Packages — all proofs across shipments
+5. Package View — one package with ZK proof
 
 Screens 6–20 are shown only if the audience asks.
 
 
 ## 1. Driver Incident Reports
 
-Registry of all driver incident reports and SLA pauses.
+Registry of all driver incident reports.
 
-Each report shows trip, driver, reason, reported time, confirmed time, closed time, duration, status and result.
+Each report shows trip, driver, reason, reported time, confirmed time, closed time, duration, status, evidence package and result.
 
-Reasons: Traffic, Warehouse Queue, Weather, Vehicle Breakdown.
+Reasons: Traffic, Warehouse Queue, Geofence wait, Weather, Vehicle breakdown.
 
 Status:
 
@@ -100,18 +100,66 @@ Evidence Package is linked for every confirmed, rejected or closed case.
 Used by SLA Analyst, Dispatcher and Auditor to review all exception situations.
 
 ```text
-+----------------------------------------------------------------------------------------------------------------------------------------------+
-| LogiQED    |  Driver Incident Reports                                                                             [ 🔍 Filter ] [ Export ]   |
-+----------------------------------------------------------------------------------------------------------------------------------------------+
-| Trip     | Driver          | Reason           | Reported | Confirmed | Closed   | Duration | Status     | Evidence          | Result         |
-+----------------------------------------------------------------------------------------------------------------------------------------------+
-| SHP-803  | Hans Mueller    | Traffic          | 14:10    | 14:12     | 15:03    | 53 min   | Closed     | PKG-8821          | Penalty 0      |
-| SHP-805  | Michael Hoffmann| Warehouse Queue  | 09:20    | 09:25     | 11:45    | 2h 25m   | Closed     | PKG-8822          | Penalty 0      |
-| SHP-807  | Hans Mueller    | Traffic          | 16:05    | —         | —        | 10 min   | Rejected   | PKG-8823          | Penalty Applied|
-| SHP-808  | Michael Hoffmann| Weather          | 17:10    | —         | —        | —        | Verifying  | —                 | Pending        |
-+----------------------------------------------------------------------------------------------------------------------------------------------+
-| Summary: 28 confirmed, 3 rejected, 1 verifying, success rate 90%                                                                             |
-+----------------------------------------------------------------------------------------------------------------------------------------------+
++----------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Driver incident reports                                                                                       	   | [ Excel (.xlsx) > ] [ 📥 Download ]     |
++----------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| 🟢 30 Confirmed     |   🔴 4 Rejected     |   🟠 1 Verifying     |   🟢 88% Success rate                                        		                         |
++---------------------------------------------------------------------------------------------------------------------------------------0------------------------+
+| Page size 20 > | [ Combine filters: AND / OR ]                        			| [ 📊 Columns ] [ 🔄 Refresh ] [ ⚙️ Reset filters ] [ 🔀 Reset sorting ]   |
++----------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| 1. Trip         | 2. Driver       | 3. Reason       | 4. Reported  | 5. Confirmed | 6. Closed    | 7. Duration | 8. Status   | 9. Evidence     | 10. Result    |
++-----------------+-----------------+-----------------+--------------+--------------+--------------+-------------+-------------+-----------------+---------------+
+| SHP-20260901-07 | Brooks Daniel J.| Traffic         | 01.09.2026   | 01.09.2026   | 01.09.2026   | 0 min       | 🟢 Closed   | pkg_6e973c75a35a| 🟢 Penalty 0  |
+| SHP-20260901-07 | Brooks Daniel J.| Vehicle breakdn | 01.09.2026   | —            | —            | —           | 🔴 Rejected | pkg_a4ea5b4b40d8| 🔴 Penalty app|
+| SHP-20260901-07 | Brooks Daniel J.| Traffic         | 01.09.2026   | 01.09.2026   | 01.09.2026   | 2 min       | 🟢 Closed   | pkg_6ddcd7f77610| 🟢 Penalty 0  |
+| SHP-20260831-08 | Nowicki Rafal P.| Geofence wait   | 01.09.2026   | —            | —            | 25 min      | 🟠 Verifying| —               | ⚪ Pending    |
+| SHP-20260901-07 | Brooks Daniel J.| Traffic         | 01.09.2026   | 01.09.2026   | 01.09.2026   | 60 min      | 🟢 Closed   | pkg_d1ded753229f| 🟢 Penalty 0  |
+| SHP-20260829-01 | Petrauskas D. J.| Warehouse queue | 30.08.2026   | 30.08.2026   | 30.08.2026   | 68 min      | 🟢 Closed   | —               | 🟢 Penalty 0  |
+| SHP-20260829-05 | Melnyk Vadym Y. | Weather         | 30.08.2026   | 30.08.2026   | 30.08.2026   | 27 min      | 🟢 Closed   | pkg_f962281aabcc| 🟢 Penalty 0  |
+| SHP-20260829-02 | Sorensen Lars E.| Geofence wait   | 30.08.2026   | 30.08.2026   | 30.08.2026   | 34 min      | 🟢 Closed   | —               | 🟢 Penalty 0  |
+| SHP-20260829-06 | Costa Bruno Nun.| Vehicle breakdn | 29.08.2026   | 29.08.2026   | 30.08.2026   | 41 min      | 🟢 Closed   | pkg_0710430c797a| 🔴 Penalty app|
+| SHP-20260829-03 | Balog Zoltan G. | Warehouse queue | 29.08.2026   | 29.08.2026   | 30.08.2026   | 48 min      | 🟢 Closed   | pkg_04d7035efdda| 🟢 Penalty 0  |
++-----------------+-----------------+-----------------+--------------+--------------+--------------+-------------+-------------+-----------------+---------------+
+| Page 1 of 2 | 20 of 35 records                                                                                                  	         < [1] [2] >         |
++----------------------------------------------------------------------------------------------------------------------------------------------------------------+
+```
+
+## Incident View
+
+Opened from Driver Incident Reports by clicking a trip.
+
+Shows report details, review status, review rule with fingerprint, and review progress.
+
+Buttons: Open the trip, Evidence package, Close.
+
+```text
++----------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Freight > Incidents > View > SHP-20260901-00000007                                                      	   	 | [EN] [🌙] [🔔] [ 👤 Foster Emily Rose ] |
++----------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Trip Incident                                                                                       	| [ Open the trip ] [ Evidence package ] [ Close ] |
++----------------------------------------------------------------------------------------------------------------------------------------------------------+
+| 🔽 Report                                                                                                                                                |
+|   Trip           | SHP-20260901-00000007             | Reported             | 01.09.2026 22:21:09                                                        |
+|   Driver         | Brooks Daniel James               | Reported by          | Brooks Daniel James                                                        |
+|   Reason         | Traffic                           | Reported at location | 49.956000, 23.165000                                                       |
+|   Duration       | 0 min                             |                      |                                                                            |
+|   Reporter note  | zxc                               |                      |                                                                            |
++----------------------------------------------------------------------------------------------------------------------------------------------------------+
+| 🔽 Review                                                                                                                                                |
+|   Status         | 🟢 Closed                         | Result               | 🟢 Penalty 0                                                               |
+|   Confirmed      | 01.09.2026 22:21:19               | Reviewed by          | Harper Olivia Grace                                                        |
+|   Rejected       | —                                 | Credited             | 0 min                                                                      |
+|   Closed         | 01.09.2026 22:21:33               | Liable party         | External                                                                   |
+|   Decision reason| —                                 |                      |                                                                            |
++----------------------------------------------------------------------------------------------------------------------------------------------------------+
+| 🔽 Review rule                                                                                                                                           |
+|   Rule           | TRAFFIC_PAUSE_V1 v1                                                                                                                   |
+|   Fingerprint    | 1014f937fe0ab5a2d8362a250331ff4105c0ee12c459c466a7f899ba91e92e37                                                   | [ 📋 Copy ]      |
+|   *The code and version name the rule, the fingerprint proves its content was not swapped*                                                               |
++----------------------------------------------------------------------------------------------------------------------------------------------------------+
+| 🔽 Review progress                                                                                                                         [ 🟢 Closed ] |
+|   [ Confirm ] [ Reject ] [ Close ]                                                                                                                       |
++----------------------------------------------------------------------------------------------------------------------------------------------------------+
 ```
 
 ### 2. Registry
@@ -168,57 +216,43 @@ Operational control map with active trips queue, interactive map and selected tr
 +---------------------------------------------------------------------------------------------------------------------------------+
 ```
 
-### 4. Evidence Package
+### 5. Evidence Packages
 
-Associated e-Documents and cryptographic evidence package.
+Registry of all Evidence Packages across shipments.
 
-```text
-+---------------------------------------------------------------------------------------------------------------------------------+
-| LogiQED    | Dashboard | Map | Registry | SLA Engine | Evidence | ZK Proofs | Chat         | 🔔 [Operator] [EN]                 |
-+---------------------------------------------------------------------------------------------------------------------------------+
-| Shipment SHP-802 > Documents & Evidence Package                 [ Export PDF ] [ View Proof ] [ Verify Package ]                |
-+---------------------------------------------------------------------------------------------------------------------------------+
-| 📄 Associated e-Documents                       | 📦 Cryptographic Evidence Package (Immutable Snapshot)                        |
-| -------------------------                       | -------------------------------------------------------------                 |
-| • eFTI_Consignment_Note_802.pdf                 | • Package ID: pkg_981247190248192a                                            |
-|   Status: [ eFTI Compliant ]  [👁️ View]         | • Created: 22.08.2026 14:15 UTC                                               |
-| • Customs_Clearance_Declaration.xml             | • SLA Result: Chargeable Delay: 0 min. Penalty: Not Applied                   |
-|   Status: [ Verified ]        [👁️ View]         |                                                                               |
-| • Temperature_Log_2-8C.csv                      | Key Telemetry Events:                                                         |
-|   Status: [ Valid Range ]     [👁️ View]         | ├─ GPS_PING (Lat: 52.52, Lon: 13.40, Hash: 0x1f...a3)                         |
-| • Delivery_Receipt_Signed.pdf                   | ├─ GEOFENCE (Berlin Warehouse, Entry, Hash: 0x4e...b2)                        |
-|   Status: [ Signed ]          [👁️ View]         | └─ TEMP_READING (4.2°C, Normal, Hash: 0x9c...f1)                              |
-|                                                 |                                                                               |
-| [ + Upload Document ]                           | Signature Chain & Provenance:                                                 |
-|                                                 | ├─ Device Ed25519: [ Valid ]                                                  |
-|                                                 | └─ Gateway ML-DSA (Post-Quantum): [ Valid ]                                   |
-+---------------------------------------------------------------------------------------------------------------------------------+
-| 🔗 Arweave Tx: 0x8f4c21a9e7b13...1a  |  Package Hash: sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855   |
-+---------------------------------------------------------------------------------------------------------------------------------+
-```
+Shows package, trip, claim type, conclusion, trust level, trust policy result, proof status, package status, assembly date, verification date.
 
+Filters: All, Verified, Awaiting verification, Policy failed.
 
+Package statuses:
 
-### 5. Disputes (ZK Proof Inspector)
-
-List of all cryptographic proofs across shipments.
-
-Opened from the main navigation menu.
+- Verified — package assembled and proof checked
+- Anchored — package assembled, proof not yet verified
+- Policy failed — trust policy not satisfied
 
 ```text
-+--------------------------------------------------------------------------------------------------+
-| LogiQED | Dashboard | Map | Registry | SLA Engine | Evidence | ZK Proofs | Chat          |
-+--------------------------------------------------------------------------------------------------+
-| ZK Proofs                                                                                        |
-|                                                                                                  |
-| Filter: [All] [Valid] [Pending] [Failed]                                                         |
-|                                                                                                  |
-| Shipment | Route              | Claim Type | Status  | Verification | Actions                    |
-|----------|-------------------|-----------|---------|-------------|----------------------------|
-| SHP-802  | Berlin → Warsaw   | Detention | Valid   | ✅ Verified  | [View] [Export]              |
-| SHP-803  | Paris → Lyon      | Traffic   | Valid   | ✅ Verified  | [View] [Export]              |
-| SHP-805  | Madrid → Valencia | Cargo     | Pending | ⏳ Pending   | —                            |
-+--------------------------------------------------------------------------------------------------+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| LogiQED    | [ All ] [ Verified ] [ Awaiting verification ] [ Policy failed ]                                                                              [ 👁️ View ] |
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| 🟢 33 Policy passed     |   🔴 1 Failed     |   🟠 0 Insufficient data     |   🟢 97% Passed share     | Evidence packages for dispute resolution                      |
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Page size 20 > | [ Combine filters: AND / OR ]                        | [ 📊 Columns ] [ 🔄 Refresh ] [ ⚙️ Reset filters ] [ 🔀 Reset sorting ]                        |
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Package         | Trip            | Claim           | Conclusion           | Trust    |  Trust policy   | Proof    |    Package status |    Assembled  | 10. Verified  |
++-----------------+-----------------+-----------------+----------------------+----------+-----------------+----------+-------------------+---------------+---------------+
+| pkg_357d72ece685| SHP-20260719-01 | Cargo condition | Cargo condition. BREA| 🟢 E4    | 🟢 Pass         | 🟢 Valid | 🟢 Verified       | 01.09.2026    | 01.09.2026    |
+| pkg_ce2594372767| SHP-20260618-01 | Cargo condition | Cargo condition. BREA| 🟢 E4    | 🟢 Pass         | 🟢 Valid | 🟢 Verified       | 01.09.2026    | 01.09.2026    |
+| pkg_b0f2945a0f54| SHP-20260617-02 | Cargo condition | Cargo condition. BREA| 🟠 E3    | 🔴 Fail         | 🟢 Valid | 🟢 Verified       | 01.09.2026    | 01.09.2026    |
+| pkg_d4c42d15d58c| SHP-20260830-09 | Cargo condition | Cargo condition. BREA| 🟢 E4    | 🟢 Pass         | 🟢 Valid | ⚪ Anchored       | 01.09.2026    | —             |
+| pkg_5c5b77148ac7| SHP-20260827-04 | Road stop       | Road stop: 106 min   | 🟢 E4    | 🟢 Pass         | 🟢 Valid | ⚪ Anchored       | 01.09.2026    | —             |
+| pkg_9093b6d96157| SHP-20260827-01 | Road stop       | Road stop: 113 min   | 🟢 E4    | 🟢 Pass         | 🟢 Valid | ⚪ Anchored       | 01.09.2026    | —             |
+| pkg_af96f36c16f8| SHP-20260827-02 | Road stop       | Road stop: 127 min   | 🟢 E4    | 🟢 Pass         | 🟢 Valid | 🟢 Verified       | 01.09.2026    | 01.09.2026    |
+| pkg_9ebb525379a4| SHP-20260827-03 | Road stop       | Road stop: 141 min   | 🟢 E4    | 🟢 Pass         | 🟢 Valid | ⚪ Anchored       | 01.09.2026    | —             |
+| pkg_ad2aac24b6h2| SHP-20260819-00 | Road stop       | Road stop: 148 min   | 🟢 E4    | 🟢 Pass         | 🟢 Valid | ⚪ Anchored       | 01.09.2026    | —             |
+| pkg_0ca866e75eba| SHP-20260819-01 | Road stop       | Road stop: 155 min   | 🟢 E4    | 🟢 Pass         | 🟢 Valid | ⚪ Anchored       | 01.09.2026    | —             |
++-----------------+-----------------+-----------------+----------------------+----------+-----------------+----------+-------------------+---------------+---------------+
+| Page 1 of 2 | 20 of 34 records                                                                                                                      < [1] [2] >        |
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 ```
 
 ---
@@ -239,11 +273,11 @@ After Evidence is clicked, the console shows the package number, verification re
 
 Used in the demo to show the full flow: driver reports → dispatcher decides → evidence generated → proof verified.
 
-### ZK Proof View
+### Package View
 
-Inspection of a single cryptographic proof.
+Inspection of a single Evidence Package with embedded ZK proof.
 
-Opened from Evidence Package via [View Proof], or from ZK Proofs menu.
+Opened from Evidence Packages list via [View], or from Incident View via [Evidence package].
 
 *Demo version:*
 
@@ -310,14 +344,13 @@ Clean routes have no ZK proof. They close with signed events and Evidence Root o
 
 ### Where to See Results
 
-- **Evidence Package** — screen 4, shows the dispute package with proof reference
-- **Disputes (ZK Proof Inspector)** — screen 5, shows all generated proofs
-- **ZK Proof View** — details of a single proof
+- **Evidence Packages** — screen 4, shows all generated packages
+- **Package View** — screen 5, shows one package with ZK proof
 
 ### Navigation
 
-- From Evidence Package (screen 4): click [View Proof] → opens ZK Proof View
-- From ZK Proofs (screen 5): click [View] → opens ZK Proof View
+- From Evidence Packages (screen 4): click [View] → opens Package View
+- From Incident View: click [Evidence package] → opens Package View
 
 ---
 
