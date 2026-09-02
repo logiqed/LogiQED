@@ -39,14 +39,14 @@ Sensor/device, attestation, timestamp, signature, provenance, Evidence Package.
 
 ## What LogiQED Provides
 
-- **Signed Event Stream** — authenticated trip events from devices, APIs, and sources.
-- **Trust Levels E0–E5** — graded confidence for every source.
-- **Evidence Graph** — provenance DAG connecting events, sources, and rules.
-- **SLA Engine** — rule execution with automatic exception attribution.
-- **Route State Machine** — TrafficEntered pauses SLA, TrafficExited resumes it.
-- **On-Demand Oracle** — external APIs called only when an incident occurs.
-- **Evidence Package** — immutable snapshot of claim, proof, and context.
-- **Role-based UI** — navigation and screens generated from permissions.
+- **Signed Event Stream** - authenticated trip events from devices, APIs, and sources.
+- **Trust Levels E0–E5** - graded confidence for every source.
+- **Evidence Graph** - provenance DAG connecting events, sources, and rules.
+- **SLA Engine** - rule execution with automatic exception attribution.
+- **Route State Machine** - TrafficEntered pauses SLA, TrafficExited resumes it.
+- **On-Demand Oracle** - external APIs called only when an incident occurs.
+- **Evidence Package** - immutable snapshot of claim, proof, and context.
+- **Role-based UI** - navigation and screens generated from permissions.
 
 ---
 
@@ -84,8 +84,8 @@ Source code is private. Access after NDA.
 
 Senior engineering team from Ukraine.
 
-- [Borys Mulev](https://www.linkedin.com/in/borysmulev/) — Senior C#/.NET Engineer
-- [Marenich](https://www.linkedin.com/in/marenich/) — Senior Engineer
+- [Borys Mulev](https://www.linkedin.com/in/borysmulev/) - Senior C#/.NET Engineer
+- [Marenich](https://www.linkedin.com/in/marenich/) - Senior Engineer
 
 15+ years in C# / .NET. Worked together on logistics and cloud systems.
 
@@ -113,11 +113,11 @@ Contact: LogiQED@gmail.com | [X / Twitter](https://x.com/LogiQED)
 
 ## For Investors
 
-- [Investor Document](INVESTORS.md) — team, deal options, budget
-- [Business Model](BUSINESS_MODEL.md) — pricing and economics
-- [MVP](MVP.md) — 16-week plan and budget
-- [Pilot](PILOT.md) — proving value with real trucks
-- [Platform](PLATFORM.md) — full platform details
+- [Investor Document](INVESTORS.md) - team, deal options, budget
+- [Business Model](BUSINESS_MODEL.md) - pricing and economics
+- [MVP](MVP.md) - 16-week plan and budget
+- [Pilot](PILOT.md) - proving value with real trucks
+- [Platform](PLATFORM.md) - full platform details
 
 ---
 
