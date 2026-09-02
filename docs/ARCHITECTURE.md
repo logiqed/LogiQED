@@ -8,28 +8,28 @@ For a pilot MVP, a modular monolith is the right trade-off. Natural computationa
 
 ## Architectural Principles
 
-- **Modular Monolith First** — single deployment unit, modules strictly separated.
-- **CQRS / MediatR** — commands change state, queries read from projections.
-- **Idempotent Event Processing** — handlers safe to retry without side effects.
-- **Domain Events within Modules Only** — modules communicate via interfaces, not via each other's tables.
-- **Cost-Aware Design** — external APIs only when SLA exception occurs. Zero external calls in normal operation.
-- **Crypto-Agility** — signatures, proof backends, hashes are pluggable.
-- **Traceability** — every event traceable from ingest to permanent storage.
-- **Fail-Open vs Fail-Closed Policy** — telemetry continues when Redis is down; SLA decisions persist until SQL is available.
-- **Observability is not optional** — every component must expose metrics and structured logs from day one.
+- **Modular Monolith First** - single deployment unit, modules strictly separated.
+- **CQRS / MediatR** - commands change state, queries read from projections.
+- **Idempotent Event Processing** - handlers safe to retry without side effects.
+- **Domain Events within Modules Only** - modules communicate via interfaces, not via each other's tables.
+- **Cost-Aware Design** - external APIs only when SLA exception occurs. Zero external calls in normal operation.
+- **Crypto-Agility** - signatures, proof backends, hashes are pluggable.
+- **Traceability** - every event traceable from ingest to permanent storage.
+- **Fail-Open vs Fail-Closed Policy** - telemetry continues when Redis is down; SLA decisions persist until SQL is available.
+- **Observability is not optional** - every component must expose metrics and structured logs from day one.
 
 ## Backend & Frontend
 
-- C# Blazor Server / WebAssembly — single stack.
-- ASP.NET Core — REST API, OpenAPI, webhooks.
-- Entity Framework Core + MS SQL Server — operational data, analytics.
-- FluentValidation — request and domain validation.
-- MediatR + CQRS — command and query separation.
-- SignalR — real-time updates. Redis backplane for scale-out.
-- RabbitMQ — message bus for telemetry and event processing.
-- Redis — hot cache, pub/sub, route state buffer.
-- Seq — structured logging and tracing.
-- OpenTelemetry — distributed tracing.
+- C# Blazor Server / WebAssembly - single stack.
+- ASP.NET Core - REST API, OpenAPI, webhooks.
+- Entity Framework Core + MS SQL Server - operational data, analytics.
+- FluentValidation - request and domain validation.
+- MediatR + CQRS - command and query separation.
+- SignalR - real-time updates. Redis backplane for scale-out.
+- RabbitMQ - message bus for telemetry and event processing.
+- Redis - hot cache, pub/sub, route state buffer.
+- Seq - structured logging and tracing.
+- OpenTelemetry - distributed tracing.
 
 ## Module Boundaries
 
@@ -104,11 +104,11 @@ Reliability:
 
 External APIs are called only when an incident occurs.
 
-- GeofenceEntered — no external API
-- SegmentDelayDetected — Traffic API for the segment
-- TemperatureOutOfRange — no external API, E4 sensor
-- HarshBrake — no external API, accelerometer
-- RouteCompleted — no external API
+- GeofenceEntered - no external API
+- SegmentDelayDetected - Traffic API for the segment
+- TemperatureOutOfRange - no external API, E4 sensor
+- HarshBrake - no external API, accelerometer
+- RouteCompleted - no external API
 
 Rule: In normal operation, external API costs are zero.
 
@@ -298,7 +298,7 @@ These patterns map to LogiQED trust levels E4–E5.
 
 Pluggable proof backend.
 
-Primary: Aligned Layer — fast, cheap ZK-verification as AVS on EigenLayer. Status: mock for MVP, integration in Phase 2.
+Primary: Aligned Layer - fast, cheap ZK-verification as AVS on EigenLayer. Status: mock for MVP, integration in Phase 2.
 
 Official developer documentation: https://docs.alignedlayer.com/
 
@@ -354,10 +354,10 @@ Minimal attestation in MVP:
 
 ## Observability
 
-- Seq — structured logging.
-- Correlation ID — end-to-end tracing.
-- Grafana — dashboards and metrics.
-- OpenTelemetry — distributed tracing.
+- Seq - structured logging.
+- Correlation ID - end-to-end tracing.
+- Grafana - dashboards and metrics.
+- OpenTelemetry - distributed tracing.
 
 Metrics:
 
@@ -377,9 +377,9 @@ Metrics:
 
 Fallback Policy:
 
-- Redis down — read from MS SQL projections.
-- SQL down — telemetry buffer to filesystem, retry later.
-- Oracle API down — return NoExternalData with synthetic flag, notify dispatcher.
+- Redis down - read from MS SQL projections.
+- SQL down - telemetry buffer to filesystem, retry later.
+- Oracle API down - return NoExternalData with synthetic flag, notify dispatcher.
 
 ## Testing Strategy
 

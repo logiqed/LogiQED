@@ -4,13 +4,13 @@
 
 Source Assurance is a server-side evaluation of a source across seven dimensions:
 
-1. Identity — who the source is
-2. Authentication — how the source proves identity
-3. Integrity — data validity through hashes and signatures
-4. Attestation — hardware or software context confirmation
-5. Metrology — calibration and accuracy
-6. Time — clock accuracy and synchronization
-7. Provenance — origin of the data
+1. Identity - who the source is
+2. Authentication - how the source proves identity
+3. Integrity - data validity through hashes and signatures
+4. Attestation - hardware or software context confirmation
+5. Metrology - calibration and accuracy
+6. Time - clock accuracy and synchronization
+7. Provenance - origin of the data
 
 Each dimension is evaluated independently. The final level is a combination of dimensions, not a single value.
 

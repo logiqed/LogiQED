@@ -71,11 +71,11 @@ These screens are shown in the investor demo:
 
 Core screens for a carrier conversation: 1–5. Seven minutes.
 
-1. Driver Incident Reports — the result
-2. Registry — the context
-3. Map — the operation
-4. Evidence Packages — all proofs across shipments
-5. Package View — one package with ZK proof
+1. Driver Incident Reports - the result
+2. Registry - the context
+3. Map - the operation
+4. Evidence Packages - all proofs across shipments
+5. Package View - one package with ZK proof
 
 Screens 6–20 are shown only if the audience asks.
 
@@ -90,10 +90,10 @@ Reasons: Traffic, Warehouse Queue, Geofence wait, Weather, Vehicle breakdown.
 
 Status:
 
-- Verifying — system checks the report.
-- Confirmed — SLA paused, penalty 0.
-- Rejected — SLA continued, penalty applied.
-- Closed — driver closed the incident, SLA resumed.
+- Verifying - system checks the report.
+- Confirmed - SLA paused, penalty 0.
+- Rejected - SLA continued, penalty applied.
+- Closed - driver closed the incident, SLA resumed.
 
 Evidence Package is linked for every confirmed, rejected or closed case.
 
@@ -226,9 +226,9 @@ Filters: All, Verified, Awaiting verification, Policy failed.
 
 Package statuses:
 
-- Verified — package assembled and proof checked
-- Anchored — package assembled, proof not yet verified
-- Policy failed — trust policy not satisfied
+- Verified - package assembled and proof checked
+- Anchored - package assembled, proof not yet verified
+- Policy failed - trust policy not satisfied
 
 ```text
 +------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -263,9 +263,9 @@ Separate Blazor project: LogiQED.DemoRemote.
 
 A dispatcher console for live demo simulation. Three actions per incident:
 
-- **Confirm** — SLA paused, penalty 0
-- **Reject** — SLA continues, penalty applied
-- **Evidence** — generate and verify Evidence Package
+- **Confirm** - SLA paused, penalty 0
+- **Reject** - SLA continues, penalty applied
+- **Evidence** - generate and verify Evidence Package
 
 The console talks to the main platform via API. Every decision is sent to the main system, not simulated locally.
 
@@ -344,8 +344,8 @@ Clean routes have no ZK proof. They close with signed events and Evidence Root o
 
 ### Where to See Results
 
-- **Evidence Packages** — screen 4, shows all generated packages
-- **Package View** — screen 5, shows one package with ZK proof
+- **Evidence Packages** - screen 4, shows all generated packages
+- **Package View** - screen 5, shows one package with ZK proof
 
 ### Navigation
 
@@ -483,9 +483,9 @@ Opens the Report Incident form.
 
 After submit, button states:
 
-- Verifying... — system checks the report.
-- Close Incident — report confirmed, SLA paused.
-- Report Incident / Delay — report rejected, SLA remains active.
+- Verifying... - system checks the report.
+- Close Incident - report confirmed, SLA paused.
+- Report Incident / Delay - report rejected, SLA remains active.
 
 Driver receives notification for both confirmed and rejected cases.
 
@@ -564,10 +564,10 @@ When SLA is paused:
 Reason is required. Comment and photo are optional.
 
 Reason determines what the system verifies:
-- Traffic — GPS track and Traffic API.
-- Warehouse Queue — warehouse geofence.
-- Weather — weather data.
-- Vehicle Breakdown — vehicle telemetry.
+- Traffic - GPS track and Traffic API.
+- Warehouse Queue - warehouse geofence.
+- Weather - weather data.
+- Vehicle Breakdown - vehicle telemetry.
 
 ```text
 +---------------------------------------+

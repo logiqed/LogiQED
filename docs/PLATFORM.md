@@ -128,8 +128,8 @@ From 9 July 2027, EU authorities must accept electronic freight transport inform
 
 Senior engineering team from Ukraine.
 
-- [Borys Mulev](https://www.linkedin.com/in/borysmulev/) — Senior C#/.NET Engineer
-- [Marenich](https://www.linkedin.com/in/marenich/) — Senior Engineer
+- [Borys Mulev](https://www.linkedin.com/in/borysmulev/) - Senior C#/.NET Engineer
+- [Marenich](https://www.linkedin.com/in/marenich/) - Senior Engineer
 
 15+ years in C# / .NET. Worked together on logistics and cloud systems.
 

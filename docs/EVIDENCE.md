@@ -156,11 +156,11 @@ Checks:
 
 ## Lifecycle
 
-1. Created — package assembled from inputs, no anchor
-2. Signed — organization key signs canonical bytes
-3. Anchored — package and Evidence Root sent to Arweave
-4. Verified — external party checks the package
-5. Retired — raw deletable context deleted, proof package remains
+1. Created - package assembled from inputs, no anchor
+2. Signed - organization key signs canonical bytes
+3. Anchored - package and Evidence Root sent to Arweave
+4. Verified - external party checks the package
+5. Retired - raw deletable context deleted, proof package remains
 
 ---
 

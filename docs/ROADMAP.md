@@ -8,7 +8,7 @@ The real moat: validated source identities, evidence schemas, SLA claim library,
 
 ---
 
-## Phase 0 — Blueprint and Demo Preparation
+## Phase 0 - Blueprint and Demo Preparation
 
 Now.
 
@@ -26,7 +26,7 @@ Output: investor pitch and pilot partner search.
 
 ---
 
-## Phase 1 — Pilot MVP
+## Phase 1 - Pilot MVP
 
 Timeline: 3–4 months. Budget: $170–200K.
 
@@ -70,7 +70,7 @@ Business result:
 
 ---
 
-## Phase 2 — Integrations and Scale
+## Phase 2 - Integrations and Scale
 
 Timeline: 6–9 months after pilot. Budget estimate: $210–360K.
 
@@ -106,7 +106,7 @@ Exit criteria:
 
 ---
 
-## Phase 3 — Ecosystem
+## Phase 3 - Ecosystem
 
 Timeline: 18 months and later.
 

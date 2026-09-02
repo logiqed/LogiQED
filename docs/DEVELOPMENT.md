@@ -26,11 +26,11 @@ Azure DevOps for:
 
 Branches:
 
-- main — production-ready code
-- dev — integration branch, latest features
-- feature/* — new work, branched from dev
-- release/* — release preparation, branched from dev
-- hotfix/* — emergency fix, branched from main
+- main - production-ready code
+- dev - integration branch, latest features
+- feature/* - new work, branched from dev
+- release/* - release preparation, branched from dev
+- hotfix/* - emergency fix, branched from main
 
 Rules:
 
@@ -69,9 +69,9 @@ Semantic versioning.
 
 Example: 0.1.0, 0.2.0, 1.0.0.
 
-- MAJOR — breaking changes.
-- MINOR — new features, backward compatible.
-- PATCH — bug fixes.
+- MAJOR - breaking changes.
+- MINOR - new features, backward compatible.
+- PATCH - bug fixes.
 
 ## Build and Deploy
 

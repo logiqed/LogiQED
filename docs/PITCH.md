@@ -1,4 +1,4 @@
-# LogiQED — Pitch
+# LogiQED - Pitch
 
 ## One Line
 
@@ -28,11 +28,11 @@ Target: the dispute closes in 12 minutes instead of 2 days.
 
 ## How It Works
 
-1. **Signed Event Stream** — devices and APIs produce authenticated events.
-2. **Trust Levels E0–E5** — server evaluates source assurance, not client-supplied.
-3. **SLA Engine** — deterministic rules with working calendars and exception attribution.
-4. **Evidence Package** — immutable snapshot with claim, proof, and context.
-5. **Verification** — any party checks without raw telemetry.
+1. **Signed Event Stream** - devices and APIs produce authenticated events.
+2. **Trust Levels E0–E5** - server evaluates source assurance, not client-supplied.
+3. **SLA Engine** - deterministic rules with working calendars and exception attribution.
+4. **Evidence Package** - immutable snapshot with claim, proof, and context.
+5. **Verification** - any party checks without raw telemetry.
 
 ZK-proof is generated only for disputed or exception-bound routes. Clean routes close with signed events and Evidence Root only.
 
@@ -87,8 +87,8 @@ LogiQED is positioned as evidence infrastructure on top of eFTI.
 
 Senior engineering team from Ukraine.
 
-- [Borys Mulev](https://www.linkedin.com/in/borysmulev/) — Senior C#/.NET Engineer
-- [Marenich](https://www.linkedin.com/in/marenich/) — Senior Engineer
+- [Borys Mulev](https://www.linkedin.com/in/borysmulev/) - Senior C#/.NET Engineer
+- [Marenich](https://www.linkedin.com/in/marenich/) - Senior Engineer
 
 15+ years in C# / .NET. Worked together on logistics and cloud systems.
 
@@ -123,8 +123,8 @@ Domain: logiqed.tech
 
 ## More
 
-- [Investor Document](INVESTORS.md) — deal options and budget
-- [Business Model](BUSINESS_MODEL.md) — pricing and economics
-- [MVP](MVP.md) — 16-week plan
-- [Pilot](PILOT.md) — proving value with real trucks
-- [Platform](PLATFORM.md) — full platform details
+- [Investor Document](INVESTORS.md) - deal options and budget
+- [Business Model](BUSINESS_MODEL.md) - pricing and economics
+- [MVP](MVP.md) - 16-week plan
+- [Pilot](PILOT.md) - proving value with real trucks
+- [Platform](PLATFORM.md) - full platform details

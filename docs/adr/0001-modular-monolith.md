@@ -10,11 +10,11 @@ LogiQED starts as a pilot MVP for evidence infrastructure in physical logistics.
 
 Team:
 
-- 3 Senior .NET Engineers — platform and evidence pipeline
-- 2 Senior C++ Engineers — proof backend, performance
-- 2 QA Engineers — testing, quality
-- 1 DevOps — infrastructure, deployment, monitoring
-- 1 Project Manager — coordination
+- 3 Senior .NET Engineers - platform and evidence pipeline
+- 2 Senior C++ Engineers - proof backend, performance
+- 2 QA Engineers - testing, quality
+- 1 DevOps - infrastructure, deployment, monitoring
+- 1 Project Manager - coordination
 
 Total: 9 roles, 6 FTE at start.
 
@@ -36,13 +36,13 @@ Modules communicate through interfaces, not through each other's database tables
 
 ### Module List
 
-- Telemetry — ingest, normalization, deduplication, retention
-- Route — route state machine, segment and traffic events
-- SLA — policies, calendars, exception rules, timers
-- Evidence — package builder, trust levels, provenance graph
-- Identity — device keys, attestation, revocation
-- Notifications — SignalR, webhooks, email, push
-- Dispatcher — dashboard, manual incident resolution
+- Telemetry - ingest, normalization, deduplication, retention
+- Route - route state machine, segment and traffic events
+- SLA - policies, calendars, exception rules, timers
+- Evidence - package builder, trust levels, provenance graph
+- Identity - device keys, attestation, revocation
+- Notifications - SignalR, webhooks, email, push
+- Dispatcher - dashboard, manual incident resolution
 
 ## Consequences
 

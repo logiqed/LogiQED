@@ -1,4 +1,4 @@
-# LogiQED UI — MVP Screens
+# LogiQED UI - MVP Screens
 
 Full product screens beyond the investor demo.
 
@@ -12,20 +12,20 @@ These screens are part of MVP but not shown in the demo.
 
 ### DISPATCHER
 
-21. Workflow Diagram — visual lifecycle diagram.
-22. Goods Turnover — goods movement management.
+21. Workflow Diagram - visual lifecycle diagram.
+22. Goods Turnover - goods movement management.
 
 ### SHIFT_SUPERVISOR
 
-23. Appeals & Shift Handover — shift handover journal and incident registry.
+23. Appeals & Shift Handover - shift handover journal and incident registry.
 
 ### AUDITOR
 
-24. Appeals Analytics — analytics for SLA breaches and dispute dynamics.
+24. Appeals Analytics - analytics for SLA breaches and dispute dynamics.
 
 ### ADMIN
 
-25. Org Structure — organizational chart.
+25. Org Structure - organizational chart.
 
 ---
 
@@ -201,6 +201,6 @@ Organizational chart.
 
 ## Related
 
-- [UI_DEMO.md](UI_DEMO.md) — 20 screens shown in the investor demo
-- [ARCHITECTURE.md](ARCHITECTURE.md) — system architecture
-- [AUTHORIZATION.md](AUTHORIZATION.md) — roles and permissions model
+- [UI_DEMO.md](UI_DEMO.md) - 20 screens shown in the investor demo
+- [ARCHITECTURE.md](ARCHITECTURE.md) - system architecture
+- [AUTHORIZATION.md](AUTHORIZATION.md) - roles and permissions model
