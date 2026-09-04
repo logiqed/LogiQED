@@ -14,6 +14,7 @@ For a pilot MVP, a modular monolith is the right trade-off. Natural computationa
 - **Domain Events within Modules Only** - modules communicate via interfaces, not via each other's tables.
 - **Cost-Aware Design** - external APIs only when SLA exception occurs. Zero external calls in normal operation.
 - **Crypto-Agility** - signatures, proof backends, hashes are pluggable.
+- **Provider Abstraction** - proof backends, data availability, and attestation providers sit behind interfaces. EigenLayer is an integration choice, not an architectural dependency.
 - **Traceability** - every event traceable from ingest to permanent storage.
 - **Fail-Open vs Fail-Closed Policy** - telemetry continues when Redis is down; SLA decisions persist until SQL is available.
 - **Observability is not optional** - every component must expose metrics and structured logs from day one.
@@ -310,11 +311,15 @@ Alternatives:
 
 Crypto-agile architecture allows replacing proof backend without changing the product.
 
+EigenLayer is an integration choice, not an architectural dependency.
+
 ## Storage
 
 MVP storage: operational event storage, canonicalization, Merkle tree, Evidence Root, external anchor, Evidence Package.
 
 EigenDA is added only when benchmark shows the need for a separate DA layer.
+
+EigenDA is a provider choice behind the storage abstraction, not a core dependency.
 
 ### Redis
 
