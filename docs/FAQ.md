@@ -28,11 +28,15 @@ An Evidence Package is generated only when a dispute or SLA exception requires p
 
 Clean routes are closed with signed events and Evidence Root only.
 
+Events are created automatically, signed on the device, evaluated server-side for trust level, cross-checked with independent sources, hash-chained, and anchored in Arweave.
+
 ## Trust Levels
 
 Trust Levels E0–E5 describe Source Assurance.
 
 They are not an enum supplied by the client. The server evaluates source identity, key, attestation, firmware and revocation status.
+
+No special hardware required. Secure Enclave and TPM keys already exist in modern phones and telematics devices. LogiQED uses existing devices for MVP.
 
 ## Trust Policy
 
@@ -97,6 +101,8 @@ Alternatives: Groth16, Plonk, STARK.
 ## EPCIS
 
 LogiQED uses GS1 EPCIS 2.0 as the logistics event language.
+
+A truck entering a geofence, a temperature breach, a loading start — every event is recorded in a format that eFTI platforms understand.
 
 LogiQED adds verifiable trust and claim evaluation on top.
 

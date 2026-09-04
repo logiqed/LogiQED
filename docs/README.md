@@ -1,6 +1,6 @@
 # LogiQED
 
-![Status: Demo Preparation](https://img.shields.io/badge/status-demo_preparation-orange)
+![Status: Demo Available](https://img.shields.io/badge/status-demo_available-green)
 ![Stack: C#](https://img.shields.io/badge/stack-C%23%20Blazor-blue)
 
 **Verifiable Freight Infrastructure.**
@@ -64,6 +64,16 @@ Sensor/device, attestation, timestamp, signature, provenance, Evidence Package.
 
 ---
 
+## EPCIS and eFTI
+
+LogiQED uses **GS1 EPCIS 2.0** - the international logistics event language.
+
+A truck entering a geofence, a temperature breach, a loading start - every event is recorded in a format that eFTI platforms understand.
+
+When eFTI becomes mandatory for EU authorities on 9 July 2027, LogiQED Evidence Packages will already be in the correct format. No rework needed.
+
+---
+
 ## Tech Stack
 
 C# Blazor, MS SQL, Redis, RabbitMQ, SignalR, Aligned Layer, Arweave.
@@ -105,7 +115,9 @@ Official regulation: [Regulation (EU) 2020/1056](https://eur-lex.europa.eu/legal
 
 Core platform production-ready. Evidence Layer and claims are in MVP development.
 
-Demo in progress. Looking for pilot partners.
+**Demo available.** 32 screens, 6 roles, credentials included.
+
+Live walkthroughs available on request.
 
 Contact: LogiQED@gmail.com | [X / Twitter](https://x.com/LogiQED)
 
