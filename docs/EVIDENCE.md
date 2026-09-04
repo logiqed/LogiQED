@@ -201,3 +201,12 @@ Detention Package
 - Any step can be independently audited.
 - All consumers are idempotent.
 - Clean routes close with signed events and Evidence Root only.
+
+---
+
+## Related
+
+- [Evidence Flow](EVIDENCE_FLOW.md) — when each evidence level is generated
+- [Claims](CLAIMS.md) — claim definitions
+- [Trust Levels](TRUST_LEVELS.md) — source assurance levels
+- [Data Flow](DATA_FLOW.md) — event pipeline from ingest to verification
