@@ -2,7 +2,9 @@
 
 ## Status
 
-Research. Draft direction for LogiQED beyond the core evidence layer. Not part of the current MVP roadmap.
+Research. Draft direction. Not part of the current MVP roadmap.
+
+Detailed economics and timeline are provided so investors can evaluate the opportunity — not because this is scheduled for development.
 
 ---
 
@@ -22,10 +24,28 @@ A single border delay costs a carrier **$100–300** in direct costs plus downst
 
 ## Market Context
 
-- **eFTI Regulation (EU) 2020/1056**, application from **9 July 2027**
-- All EU member states must accept electronic freight transport information
-- Mid-sized carriers need compliant, verifiable data — not just tracking
+- **eFTI Regulation (EU) 2020/1056** — legal framework in force since August 2020
+- Full application: **9 July 2027** — Member State authorities must accept electronic freight data shared via certified eFTI platforms
+- eFTI is **voluntary for operators**: there is no obligation to go digital. But once an operator shares data via a certified platform, authorities are **legally required to accept it** — early adopters gain the advantage
+- Remaining implementing specifications (platform certification rules) to be adopted **by December 2026**
+- Anticipated savings: **€1 billion/year** in operational and administrative costs for the EU transport sector (European Commission estimate)
 - Cross-border disputes cost **$200–500 per case** to resolve manually
+
+Source: [European Commission — The eFTI Regulation](https://transport.ec.europa.eu/transport-themes/logistics-and-multimodal-transport/efti-regulation_en)
+
+---
+
+## Regulatory Timeline
+
+| Date | Milestone | Impact on LogiQED |
+|------|-----------|-------------------|
+| Aug 2020 | Regulation (EU) 2020/1056 enters into force | Legal foundation exists |
+| Jan 2025 | First implementing acts in force | Member States start building IT systems |
+| Jan 2026 | eFTI platforms may begin preparing for operations | Market entry window opens |
+| **Dec 2026** | **Remaining certification specs adopted** | **Certification requirements finalized — positioning must happen now** |
+| **9 Jul 2027** | **Full application** | **Authorities must accept eFTI-compliant data — demand spikes** |
+
+**Timing thesis:** certification rules land in 3 months. Carriers and brokers will spend 2027 scrambling for compliant evidence sources. LogiQED's Evidence Package (EPCIS 2.0 + eIDAS signatures) is designed to slot into this ecosystem before the scramble starts.
 
 ---
 
@@ -229,6 +249,15 @@ Border Ready Pack is **not a new module** — it's a **view** on existing eviden
 | Border Summary | Evidence Package, canonicalization | New template, no new logic |
 
 **Development effort: 2–3 weeks.** Not months. The core is already built.
+
+---
+
+## Open Questions
+
+1. Does the pack actually reduce border time, or just improve dispute resolution?
+2. Will customs authorities accept pre-arrival evidence, or is it only for the broker?
+3. What is the legal weight of signed evidence in EU transport law?
+4. Is eIDAS signature on events sufficient, or does the full package need it?
 
 ---
 
