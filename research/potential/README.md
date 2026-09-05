@@ -31,7 +31,7 @@ Idea statuses:
 
 | Category | Ideas |
 |----------|-------|
-| Marketplaces and Services | Marketplace, Warehouse Marketplace |
+| Marketplaces and Services | Border Ready Pack, Marketplace, Warehouse Marketplace |
 | Decentralization and DePIN | DePIN Integrations, Soulbound Reputation |
 | Physical Devices | MeshShield, Proof-of-Freeze, Black Box |
 | Data and AI | Scientific Sensors, HD Maps, AI Agents |
