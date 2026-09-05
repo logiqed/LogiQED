@@ -57,6 +57,7 @@ Idea statuses:
 
 ## Detailed Files
 
+- [Border Ready Pack](border-ready-pack.md)
 - [Marketplace](marketplace.md)
 - [DePIN Integrations](depin.md)
 - [Scientific Sensors](scientific-sensors.md)
