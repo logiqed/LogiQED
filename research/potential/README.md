@@ -42,6 +42,7 @@ Idea statuses:
 
 | Idea | Description | Category | Status | Priority | When relevant |
 |------|-------------|----------|--------|----------|---------------|
+| Border Ready Pack | Pre-arrival evidence for cross-border freight | Marketplaces and Services | Research | High | Already now, eFTI 2027 driver |
 | Marketplace | Verified data and proof marketplace | Marketplaces and Services | Research | Medium | After 100+ clients and 1M+ packages |
 | DePIN Integrations | Physical trust infrastructure beyond logistics | Decentralization and DePIN | Research | Low | After stable pilot |
 | Scientific Sensors | Verified scientific measurements | Data and AI | Research | Medium | When science or agriculture partners appear |
