@@ -95,7 +95,7 @@ Source code is private. Access after NDA.
 Senior engineering team from Ukraine.
 
 - [Borys Mulev](https://www.linkedin.com/in/borysmulev/) - Senior C#/.NET Engineer
-- [Marenich](https://www.linkedin.com/in/marenich/) - Senior Engineer
+- [Volodymyr Marenych](https://www.linkedin.com/in/marenich/) - Senior Engineer
 
 15+ years in C# / .NET. Worked together on logistics and cloud systems.
 
