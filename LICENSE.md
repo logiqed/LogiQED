@@ -13,7 +13,6 @@ By accessing the Software, you agree to the following terms:
 LogiQED grants you a non-exclusive, non-transferable, revocable right to:
 
 - View, read, and evaluate the Software for informational purposes.
-
 - Fork or clone the repository solely for personal evaluation and feedback.
 - Cite, reference, or quote excerpts of the Software in discussions, documentation, or reviews, provided that attribution to LogiQED is included.
 
