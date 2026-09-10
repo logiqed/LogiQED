@@ -32,7 +32,7 @@ info:
   description: Entry point for signed EPCIS events. Server evaluates source trust server-side.
 
 servers:
-  - url: https://api.logiqed.dev/v1
+  - url: https://api.logiqed.tech/v1
 
 paths:
   /evidence/ingest:

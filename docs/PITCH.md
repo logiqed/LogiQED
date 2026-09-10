@@ -98,7 +98,7 @@ Additional team members: resumes on request.
 
 ## Status
 
-Blueprint public. Demo in progress. Looking for pilot partners.
+Blueprint public. Demo available. Looking for pilot partners.
 
 Source code is private. Access after NDA.
 

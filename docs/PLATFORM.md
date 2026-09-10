@@ -30,7 +30,7 @@ Modules communicate through interfaces, never through each other's database tabl
 
 ![System Architecture](images/diagram-system.svg)
 
-See [ARCHITECTURE.md](ARCHITECTURE.md) for full details.
+See [Architecture](ARCHITECTURE.md) for full details.
 
 ## Product Status
 
@@ -99,13 +99,17 @@ Status: mock for MVP, integration in Phase 2.
 
 Estimated cost: $0.01–0.05 per shipment.
 
-Fallback: Groth16 or Plonk.
+Official website: https://alignedlayer.com/
 
-Official documentation: https://docs.alignedlayer.com/
+Alternatives: Groth16, Plonk, STARK.
+
+zkVM options: Lattice Jolt, SP1, RISC Zero.
+
+Crypto-agile architecture allows replacing proof backend without changing the product.
 
 ## Business Model
 
-See [BUSINESS_MODEL.md](BUSINESS_MODEL.md) for full details.
+See [Business Model](BUSINESS_MODEL.md) for full details.
 
 ## Why Now
 

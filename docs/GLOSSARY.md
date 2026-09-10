@@ -1,6 +1,6 @@
 # LogiQED Glossary
 
-Definitions of LogiQED concepts. For examples and diagrams, see ARCHITECTURE.md and EVIDENCE.md.
+Definitions of LogiQED concepts. For examples and diagrams, see [Architecture](ARCHITECTURE.md) and [Evidence Package](EVIDENCE.md).
 
 ## Core Concepts
 
@@ -60,14 +60,20 @@ Definitions of LogiQED concepts. For examples and diagrams, see ARCHITECTURE.md 
 - **ZK Proof**
   Cryptographic proof that a computation was performed correctly without revealing inputs.
   Generated for disputed or exception-bound routes only.
+  Proof backend is pluggable: Aligned Layer, Groth16, Plonk, STARK, or zkVM options (Lattice Jolt, SP1, RISC Zero).
 
 - **Aligned Layer**
   Primary proof backend. Fast, cheap ZK-verification as AVS on EigenLayer.
   Status: mock for MVP, integration in Phase 2.
-  Official developer documentation: https://docs.alignedlayer.com/
+  Official website: https://alignedlayer.com/
+
+- **zkVM**
+  Zero-knowledge virtual machine. Wraps program execution into a compact ZK proof.
+  Options: Lattice Jolt (post-quantum, lattice-based), SP1 (Rust, production-ready), RISC Zero (mature, RISC-V).
 
 - **EigenDA**
   Data availability layer. Optional in LogiQED. Added only when benchmark justifies the need.
+  Provider choice behind storage abstraction, not a core dependency.
 
 - **Arweave**
   Permanent storage for commitments and proofs.

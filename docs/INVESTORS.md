@@ -2,7 +2,7 @@
 
 ## Status
 
-Blueprint public. Demo in progress. Source code private, access after NDA.
+Blueprint public. Demo available. Source code private, access after NDA.
 
 Contact: LogiQED@gmail.com | [X / Twitter](https://x.com/LogiQED)
 
@@ -35,7 +35,7 @@ Evidence Layer: Signed Event Stream, Evidence Graph, Evidence Package, Trust Lev
 
 Hybrid signatures: Ed25519 + ML-DSA.
 
-Proof Engine: Aligned Layer (mock for MVP, integration in Phase 2).
+Proof Engine: pluggable backend. Aligned Layer (mock for MVP, integration in Phase 2). Alternatives: Groth16, Plonk, STARK, zkVM options (Lattice Jolt, SP1, RISC Zero).
 
 Source code is private. Access after NDA.
 

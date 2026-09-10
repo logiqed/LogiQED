@@ -181,6 +181,7 @@ Rate limit: 100 requests per minute per IP.
 - verifiedAt is set by the server.
 - Checks return PASS, FAIL, or SKIP.
 - SKIP is used when a check is not applicable.
+- Proof backend is pluggable: Aligned Layer, Groth16, Plonk, STARK, or zkVM options.
 - Verification results are logged for audit.
 - Aligned Layer is the primary proof backend. Mock for MVP.
 - Any party can verify independently.

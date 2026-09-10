@@ -136,11 +136,11 @@ Result:
 
 ---
 
-## Optional Later
+## Storage and Settlement
 
-- EigenDA for evidence hashes at scale
-- Arweave for permanent commitments
-- L2 settlement
+- Arweave — permanent evidence storage. Evidence Packages and proof roots are anchored here.
+- EigenDA — optional DA layer. Added only when benchmark shows the need. Provider choice behind storage abstraction, not a core dependency.
+- L2 settlement — future consideration, not in MVP scope.
 
 ---
 

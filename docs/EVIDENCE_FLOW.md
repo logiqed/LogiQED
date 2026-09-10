@@ -35,6 +35,8 @@ The package contains:
 - ZK proof
 - Arweave anchor
 
+The proof backend is pluggable: Aligned Layer, Groth16, Plonk, STARK, or zkVM (Lattice Jolt, SP1, RISC Zero). See [Architecture](ARCHITECTURE.md) for the proof pipeline.
+
 ## Evidence Root
 
 Evidence Root is the Merkle root of all canonical event hashes.

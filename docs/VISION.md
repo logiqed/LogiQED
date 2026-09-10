@@ -91,11 +91,11 @@ In normal operation, external API costs are zero.
 
 Pluggable proof backend.
 
-Primary: Aligned Layer. Fast, cheap ZK-verification.
+Primary: Aligned Layer. Fast, cheap ZK-verification as AVS on EigenLayer.
 
 Status: mock for MVP, integration in Phase 2.
 
-Alternatives: Groth16, Plonk, STARK.
+Alternatives: Groth16, Plonk, STARK, zkVM options (Lattice Jolt, SP1, RISC Zero).
 
 ## What Cryptography Proves
 

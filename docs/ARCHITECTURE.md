@@ -121,13 +121,11 @@ Event, then Enrichment Decider, then API needed, then Yes, then One call, or No,
 
 ### Proof Flow
 
-SLA Engine, then Aligned Layer, then Evidence Package, then Arweave.
+SLA Engine, then Proof Engine, then Evidence Package, then Arweave.
 
 ZK-proof is generated only for disputed or exception-bound routes. Clean routes are closed with signed events and Evidence Root only.
 
-Aligned Layer is the primary proof backend. For MVP, integration is mocked.
-
-Alternative proof backends: Groth16, Plonk, STARK.
+The Proof Engine is pluggable. See the Proof Engine section for backends and pipeline.
 
 ## Telemetry Subsystem
 
@@ -301,13 +299,27 @@ Pluggable proof backend.
 
 Primary: Aligned Layer - fast, cheap ZK-verification as AVS on EigenLayer. Status: mock for MVP, integration in Phase 2.
 
-Official developer documentation: https://docs.alignedlayer.com/
+Official website: https://alignedlayer.com/
 
-Alternatives:
+### Traditional proof systems
 
 - Groth16
 - Plonk
 - STARK
+
+### zkVM options
+
+- [Lattice Jolt](https://github.com/a16z/jolt) - post-quantum zkVM, lattice-based (a16z crypto). Newest experimental engine, runs on lattices.
+- [SP1](https://github.com/succinctlabs/sp1) - Rust-based, production-ready, strong EVM integration (Succinct Labs).
+- [RISC Zero](https://github.com/risc0/risc0) - mature, stable zkVM, full RISC-V emulation (RISC Zero).
+
+### Proof pipeline
+
+1. Business logic is written in pure Rust.
+2. Any zkVM (Jolt / SP1 / RISC Zero) wraps execution into a compact ZK proof.
+3. The proof is submitted to Aligned Layer, where the operator network verifies validity cheaply via an Ethereum smart contract.
+
+This pipeline closes the questions of scaling and transaction cost.
 
 Crypto-agile architecture allows replacing proof backend without changing the product.
 
@@ -317,9 +329,7 @@ EigenLayer is an integration choice, not an architectural dependency.
 
 MVP storage: operational event storage, canonicalization, Merkle tree, Evidence Root, external anchor, Evidence Package.
 
-EigenDA is added only when benchmark shows the need for a separate DA layer.
-
-EigenDA is a provider choice behind the storage abstraction, not a core dependency.
+EigenDA is a provider choice behind the storage abstraction, not a core dependency. It is added only when benchmark shows the need for a separate DA layer.
 
 ### Redis
 

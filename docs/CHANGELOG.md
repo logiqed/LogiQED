@@ -1,5 +1,29 @@
 # Changelog
 
+## [0.6.1] - 2026-09-10
+
+Proof Engine expanded. Investor and overview docs aligned.
+
+### Added
+
+- zkVM options to Proof Engine: Lattice Jolt, SP1, RISC Zero
+- Proof pipeline description: Rust logic → zkVM → Aligned Layer
+- Provider Abstraction reference to Proof Engine section
+- AUTHORS.md clarifying commit attribution
+
+### Changed
+
+- Aligned Layer link: docs.alignedlayer.com → alignedlayer.com
+- INVESTORS.md: status to Demo available, full name Volodymyr Marenych
+- PITCH.md: status to Demo available
+- OVERVIEW.md: Proof Engine updated with zkVM options
+- GLOSSARY.md: Aligned Layer link, zkVM term, ZK Proof pluggable backend
+- PLATFORM.md: Proof Engine updated, Architecture link fixed
+- VISION.md: Proof Engine updated with zkVM options
+- VERIFY.md: proof backend pluggable in Design Notes
+- ROADMAP.md: Phase 0 marked complete
+- OpenAPI and INGEST.md: domain api.logiqed.tech
+
 ## [0.6.0] - 2026-09-05
 
 Demo available. Documentation aligned with product state.

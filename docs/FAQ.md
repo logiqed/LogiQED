@@ -94,9 +94,15 @@ Primary proof backend: Aligned Layer. Fast, cheap ZK-verification as AVS on Eige
 
 Status: mock for MVP, integration in Phase 2.
 
-Official developer documentation: https://docs.alignedlayer.com/
+Official website: https://alignedlayer.com/
 
 Alternatives: Groth16, Plonk, STARK.
+
+zkVM options: Lattice Jolt, SP1, RISC Zero.
+
+Crypto-agile architecture allows replacing proof backend without changing the product.
+
+EigenLayer is an integration choice, not an architectural dependency.
 
 ## EPCIS
 

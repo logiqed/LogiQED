@@ -21,9 +21,9 @@ info:
     - Duplicate key returns the original response.
 
 servers:
-  - url: https://api.logiqed.io/v1
+  - url: https://api.logiqed.tech/v1
     description: Production API
-  - url: https://staging.api.logiqed.io/v1
+  - url: https://staging.api.logiqed.tech/v1
     description: Staging API
 
 tags:

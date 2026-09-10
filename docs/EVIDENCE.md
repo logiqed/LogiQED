@@ -137,6 +137,8 @@ The package is signed by the organization key, not a device key.
 
 Algorithm: Ed25519, hybrid with ML-DSA, crypto-agile.
 
+Proof backend is pluggable: Aligned Layer, Groth16, Plonk, STARK, or zkVM options (Lattice Jolt, SP1, RISC Zero). See [Architecture](ARCHITECTURE.md) for the proof pipeline.
+
 ---
 
 ## Verification

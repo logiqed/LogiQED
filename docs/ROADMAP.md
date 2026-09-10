@@ -8,21 +8,15 @@ The real moat: validated source identities, evidence schemas, SLA claim library,
 
 ---
 
-## Phase 0 - Blueprint and Demo Preparation
+## Phase 0 - Blueprint and Demo
 
-Now.
+Complete.
 
-Goal: finalize architecture and prepare a demo.
+Architecture, OpenAPI draft, Evidence Package specification, and demo are done.
 
-Exit criteria:
+Demo: 32 screens, 6 roles, credentials included.
 
-- OpenAPI draft
-- Two diagrams: data flow and system architecture
-- Evidence Package specification
-- Demo ready for a 10-minute presentation
-- Pilot partner identified
-
-Output: investor pitch and pilot partner search.
+Next: pilot partner search.
 
 ---
 
