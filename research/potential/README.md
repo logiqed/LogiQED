@@ -35,6 +35,7 @@ Idea statuses:
 | Decentralization and DePIN | DePIN Integrations, Soulbound Reputation |
 | Physical Devices | MeshShield, Proof-of-Freeze, Black Box |
 | Data and AI | Scientific Sensors, HD Maps, AI Agents |
+| Cryptography | Post-Quantum Proofs |
 
 ---
 
@@ -53,6 +54,7 @@ Idea statuses:
 | Warehouse Marketplace | Warehouse slots on evidence | Marketplaces and Services | Research | Medium | After stable SLA engine |
 | Black Box | Independent vehicle data recorder | Physical Devices | Research | Medium | Possibly in Phase 2 |
 | AI Agents | Agents for automatic dispute resolution | Data and AI | Research | High | After MVP, pilotable |
+| Post-Quantum Proofs | Lattice-based zkVM for post-quantum freight evidence | Cryptography | Research | Medium | After Lattice Jolt matures |
 
 ---
 
@@ -69,6 +71,7 @@ Idea statuses:
 - [Warehouse Marketplace](warehouse-marketplace.md)
 - [Black Box](black-box.md)
 - [AI Agents](ai-agents.md)
+- [Post-Quantum Proofs](post-quantum-proofs.md)
 
 ---
 
