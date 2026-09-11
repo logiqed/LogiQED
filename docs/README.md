@@ -35,6 +35,12 @@ Sensor/device, attestation, timestamp, signature, provenance, Evidence Package.
   <img src="images/diagram-flow.svg" alt="LogiQED Data Flow" width="850"/>
 </p>
 
+Verification is public and independent:
+
+<p align="center">
+  <img src="images/diagram-verification-flow.svg" alt="Verification flow" width="850"/>
+</p>
+
 ---
 
 ## What LogiQED Provides

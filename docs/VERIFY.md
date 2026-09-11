@@ -1,5 +1,7 @@
 # LogiQED Verification
 
+![Verification flow](images/diagram-verification-flow.svg)
+
 Verification allows any party to check an Evidence Package without accessing raw telemetry.
 
 ## What Can Be Verified

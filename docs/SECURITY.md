@@ -1,5 +1,7 @@
 # Security
 
+![LogiQED security layers](images/diagram-security-layers.svg)
+
 ## Roles and Access Matrix
 
 LogiQED uses fully configurable roles and permissions.

@@ -1,0 +1,176 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="1750"
+     height="1020"
+     viewBox="0 0 1750 1020">
+
+  <defs>
+    <marker id="arrowGreen"
+            markerWidth="8"
+            markerHeight="8"
+            refX="7"
+            refY="4"
+            orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#16A34A"/>
+    </marker>
+
+    <marker id="arrowBlue"
+            markerWidth="8"
+            markerHeight="8"
+            refX="7"
+            refY="4"
+            orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#0284C7"/>
+    </marker>
+
+    <marker id="arrowRed"
+            markerWidth="8"
+            markerHeight="8"
+            refX="7"
+            refY="4"
+            orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#DC2626"/>
+    </marker>
+
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8"
+                    flood-color="#0F172A" flood-opacity="0.08"/>
+    </filter>
+
+    <style>
+      .title { font: 700 48px Arial, sans-serif; fill: #0F172A; }
+      .subtitle { font: 400 24px Arial, sans-serif; fill: #475569; }
+      .heading { font: 700 28px Arial, sans-serif; fill: #0F172A; }
+      .body { font: 400 22px Arial, sans-serif; fill: #334155; }
+      .small { font: 400 19px Arial, sans-serif; fill: #64748B; }
+      .card { fill: #F8FAFC; stroke: #CBD5E1; stroke-width: 1.5; }
+      .greenCard { fill: #F0FDF4; stroke: #16A34A; stroke-width: 1.5; }
+      .blueCard { fill: #EFF6FF; stroke: #0284C7; stroke-width: 1.5; }
+      .green { fill: #16A34A; }
+      .blue { fill: #0284C7; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1750" height="1020" fill="#FFFFFF"/>
+
+  <!-- Header -->
+  <text x="80" y="78" class="title">LogiQED Evidence Verification</text>
+  <text x="80" y="122" class="subtitle">Verify the claim without exposing the raw telemetry</text>
+
+  <!-- Raw telemetry privacy boundary -->
+  <rect x="80" y="180" width="1590" height="92"
+        rx="20" fill="#F1F5F9" stroke="#94A3B8"
+        stroke-width="1.5" stroke-dasharray="10 8"/>
+  <text x="115" y="220" class="small">PRIVATE DATA LAYER</text>
+  <text x="115" y="252" class="body">Raw GPS, temperature and device telemetry stays private.</text>
+  <text x="1280" y="238" class="small">Not shared with every verifier</text>
+
+  <!-- ==================== Evidence Package ==================== -->
+  <rect x="80" y="340" width="380" height="460"
+        rx="24" class="greenCard" filter="url(#shadow)"/>
+  <text x="115" y="400" class="heading">Evidence Package</text>
+  <text x="115" y="445" class="body">Compact, shareable proof</text>
+
+  <circle cx="130" cy="510" r="7" class="green"/>
+  <text x="155" y="518" class="body">Signed events</text>
+
+  <circle cx="130" cy="565" r="7" class="green"/>
+  <text x="155" y="573" class="body">Evidence Root</text>
+
+  <circle cx="130" cy="620" r="7" class="green"/>
+  <text x="155" y="628" class="body">Rule digest</text>
+
+  <circle cx="130" cy="675" r="7" class="green"/>
+  <text x="155" y="683" class="body">Trust policy result</text>
+
+  <circle cx="130" cy="730" r="7" class="green"/>
+  <text x="155" y="738" class="body">Proof and anchor reference</text>
+
+  <!-- Arrow 1: Evidence Package → Public verifier -->
+  <line x1="460" y1="570" x2="580" y2="570"
+        stroke="#16A34A" stroke-width="5"
+        marker-end="url(#arrowGreen)"/>
+  <text x="520" y="525" text-anchor="middle" class="small">POST</text>
+
+  <!-- ==================== Public verifier ==================== -->
+  <rect x="590" y="340" width="380" height="460"
+        rx="24" class="blueCard" filter="url(#shadow)"/>
+  <text x="625" y="400" class="heading">Public verifier</text>
+  <text x="625" y="445" class="body">POST /v1/evidence/verify</text>
+
+  <rect x="625" y="500" width="310" height="60"
+        rx="12" fill="#FFFFFF" stroke="#0284C7" stroke-width="1.5"/>
+  <text x="780" y="538" text-anchor="middle" class="body">No API key required</text>
+
+  <rect x="625" y="585" width="310" height="60"
+        rx="12" fill="#FFFFFF" stroke="#0284C7" stroke-width="1.5"/>
+  <text x="780" y="623" text-anchor="middle" class="body">No raw telemetry required</text>
+
+  <text x="625" y="700" class="small">Independent verification</text>
+
+  <!-- Arrow 2: Public verifier → Verification checks (dashed = internal process) -->
+  <line x1="970" y1="570" x2="1190" y2="570"
+        stroke="#0284C7" stroke-width="5"
+        stroke-dasharray="14 10"
+        marker-end="url(#arrowBlue)"/>
+  <text x="1075" y="530" text-anchor="middle" class="small">INTERNAL CHECKS</text>
+
+  <!-- ==================== Verification checks ==================== -->
+  <rect x="1200" y="340" width="440" height="460"
+        rx="24" class="card" filter="url(#shadow)"/>
+  <text x="1235" y="400" class="heading">Verification checks</text>
+
+  <circle cx="1240" cy="465" r="7" class="blue"/>
+  <text x="1265" y="473" class="body">Signature</text>
+
+  <circle cx="1240" cy="515" r="7" class="blue"/>
+  <text x="1265" y="523" class="body">Evidence Root</text>
+
+  <circle cx="1240" cy="565" r="7" class="blue"/>
+  <text x="1265" y="573" class="body">Rule version and digest</text>
+
+  <circle cx="1240" cy="615" r="7" class="blue"/>
+  <text x="1265" y="623" class="body">Trust policy</text>
+
+  <circle cx="1240" cy="665" r="7" class="blue"/>
+  <text x="1265" y="673" class="body">Corroboration</text>
+
+  <circle cx="1240" cy="715" r="7" class="blue"/>
+  <text x="1265" y="723" class="body">Proof and external anchor</text>
+
+  <!-- ==================== Result arrows ==================== -->
+
+  <!-- Зелёная стрелка — ровно над центром VALID (1277) -->
+  <line x1="1277" y1="800" x2="1277" y2="870"
+        stroke="#16A34A" stroke-width="3.5"
+        marker-end="url(#arrowGreen)"/>
+
+  <!-- Красная стрелка — ровно над центром INVALID (1577) -->
+  <line x1="1577" y1="800" x2="1577" y2="870"
+        stroke="#DC2626" stroke-width="3.5"
+        marker-end="url(#arrowRed)"/>
+
+  <!-- VALID badge (центр 1277, ширина 230 → x=1162) -->
+  <rect x="1162" y="880" width="230" height="70"
+        rx="18" fill="#F0FDF4" stroke="#16A34A"
+        stroke-width="1.5"/>
+  <text x="1277" y="928" text-anchor="middle"
+        class="heading" fill="#15803D" font-size="26"
+        letter-spacing="1">
+    VALID
+  </text>
+
+  <!-- INVALID badge (центр 1577, ширина 230 → x=1462) -->
+  <rect x="1462" y="880" width="230" height="70"
+        rx="18" fill="#FEF2F2" stroke="#DC2626"
+        stroke-width="1.5"/>
+  <text x="1577" y="928" text-anchor="middle"
+        class="heading" fill="#B91C1C" font-size="26"
+        letter-spacing="1">
+    INVALID
+  </text>
+
+  <!-- Footer -->
+  <text x="80" y="905" class="small">LogiQED • Evidence travels. Raw telemetry stays protected.</text>
+  <text x="80" y="940" class="small">Demo proof backend: simulated / pluggable architecture</text>
+</svg>
