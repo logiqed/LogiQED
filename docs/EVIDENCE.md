@@ -1,10 +1,12 @@
 # LogiQED Evidence Package
 
-![From a GPS claim to verifiable evidence](images/diagram-gps-to-evidence.svg)
-
 Evidence Package is the core output of LogiQED.
 
 It is an immutable snapshot that connects a claim, its sources, the rule that evaluated it, and the proof that verifies it.
+
+From a GPS point to a verifiable package:
+
+![From a GPS claim to verifiable evidence](images/diagram-gps-to-evidence.svg)
 
 ---
 
