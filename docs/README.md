@@ -35,6 +35,12 @@ Sensor/device, attestation, timestamp, signature, provenance, Evidence Package.
   <img src="images/diagram-flow.svg" alt="LogiQED Data Flow" width="850"/>
 </p>
 
+From a GPS claim to verifiable evidence:
+
+<p align="center">
+  <img src="images/diagram-gps-to-evidence.svg" alt="From a GPS claim to verifiable evidence" width="1000"/>
+</p>
+
 Verification is public and independent:
 
 <p align="center">

@@ -1,0 +1,247 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="2180"
+     height="1030"
+     viewBox="0 0 2180 1030">
+
+  <defs>
+    <marker id="arrowYellow"
+            markerWidth="10" markerHeight="10"
+            refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#B87A00"/>
+    </marker>
+    <marker id="arrowGreen"
+            markerWidth="10" markerHeight="10"
+            refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#0A7A3D"/>
+    </marker>
+    <marker id="arrowBlue"
+            markerWidth="10" markerHeight="10"
+            refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#005A8C"/>
+    </marker>
+
+    <filter id="shadow"
+            x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="10"
+                    flood-color="#0A1A2A" flood-opacity="0.12"/>
+    </filter>
+
+    <style>
+      .title {
+        font: 700 46px system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        fill: #0A1A2A;
+      }
+      .subtitle {
+        font: 400 22px system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        fill: #4A5A6A;
+      }
+      .heading {
+        font: 700 24px system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        fill: #0A1A2A;
+      }
+      .body {
+        font: 400 20px system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        fill: #2A3A4A;
+      }
+      .small {
+        font: 400 18px system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        fill: #5A6A7A;
+      }
+      .tiny {
+        font: 400 15px system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        fill: #7A8A9A;
+      }
+
+      /* Text colors — high contrast on light backgrounds */
+      .yellow { fill: #8A5A00; }
+      .green  { fill: #0A7A3D; }
+      .blue   { fill: #005A8C; }
+      .red    { fill: #B3243C; }
+
+      /* Dots — brighter, visual markers only */
+      .yellowDot { fill: #E8A317; }
+      .greenDot  { fill: #27B85C; }
+      .blueDot   { fill: #0090D0; }
+
+      /* Card backgrounds */
+      .yellowCard {
+        fill: #FFF8E8;
+        stroke: #E8A317;
+        stroke-width: 2;
+      }
+      .greenCard {
+        fill: #EEF9F2;
+        stroke: #27B85C;
+        stroke-width: 2;
+      }
+      .blueCard {
+        fill: #EEF6FB;
+        stroke: #0090D0;
+        stroke-width: 2;
+      }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect width="2180" height="1030" fill="#FFFFFF"/>
+
+  <!-- Header -->
+  <text x="80" y="72" class="title">
+    From a GPS claim to verifiable evidence
+  </text>
+  <text x="80" y="115" class="subtitle">
+    A map pin is a claim. Evidence is a verifiable chain.
+  </text>
+
+  <!-- Privacy boundary -->
+  <rect x="80" y="165" width="2020" height="70"
+        rx="20" fill="#F4F6F8" stroke="#B0BCC8"
+        stroke-width="2" stroke-dasharray="10 8"/>
+  <text x="1090" y="208" text-anchor="middle" class="small">
+    Raw telemetry stays protected. The claim remains verifiable.
+  </text>
+
+  <!-- ================= Block 1: Raw claim ================= -->
+  <rect x="80" y="280" width="370" height="500"
+        rx="24" class="yellowCard" filter="url(#shadow)"/>
+  <text x="115" y="340" class="heading">1. Raw claim</text>
+  <text x="115" y="378" class="body">A GPS point alone</text>
+
+  <circle cx="128" cy="445" r="7" class="yellowDot"/>
+  <text x="152" y="453" class="body">Location</text>
+
+  <circle cx="128" cy="500" r="7" class="yellowDot"/>
+  <text x="152" y="508" class="body">Timestamp</text>
+
+  <circle cx="128" cy="555" r="7" class="yellowDot"/>
+  <text x="152" y="563" class="body">Source identity</text>
+
+  <text x="115" y="640" class="small">No identity binding</text>
+  <text x="115" y="672" class="small">No signature</text>
+  <text x="115" y="704" class="small">No verification</text>
+  <text x="115" y="745" class="small">Claim only</text>
+
+  <!-- ================= Arrow 1 ================= -->
+  <line x1="450" y1="530" x2="608" y2="530"
+        stroke="#B87A00" stroke-width="3"
+        marker-end="url(#arrowYellow)"/>
+  <text x="529" y="505" text-anchor="middle" class="small">
+    BIND + SIGN
+  </text>
+
+  <!-- ================= Block 2: Signed event ================= -->
+  <rect x="618" y="280" width="370" height="500"
+        rx="24" class="greenCard" filter="url(#shadow)"/>
+  <text x="653" y="340" class="heading">2. Signed event</text>
+  <text x="653" y="378" class="body">Evidence processing</text>
+
+  <circle cx="666" cy="445" r="7" class="greenDot"/>
+  <text x="690" y="453" class="body">Normalize timestamp</text>
+
+  <circle cx="666" cy="500" r="7" class="greenDot"/>
+  <text x="690" y="508" class="body">Bind known source</text>
+
+  <circle cx="666" cy="555" r="7" class="greenDot"/>
+  <text x="690" y="563" class="body">Sign event</text>
+
+  <circle cx="666" cy="610" r="7" class="greenDot"/>
+  <text x="690" y="618" class="body">Compute event hash</text>
+
+  <text x="653" y="690" class="small">Tamper-evident from here</text>
+  <text x="653" y="722" class="small">Provenance built in</text>
+
+  <!-- ================= Arrow 2 ================= -->
+  <line x1="988" y1="530" x2="1188" y2="530"
+        stroke="#0A7A3D" stroke-width="3"
+        marker-end="url(#arrowGreen)"/>
+  <text x="1088" y="505" text-anchor="middle" class="small">
+    APPLY RULE + BUILD
+  </text>
+
+  <!-- ================= Block 3: Evidence Package ================= -->
+  <rect x="1198" y="280" width="370" height="500"
+        rx="24" class="greenCard" filter="url(#shadow)"/>
+  <text x="1233" y="340" class="heading">3. Evidence Package</text>
+  <text x="1233" y="378" class="body">Compact and verifiable</text>
+
+  <circle cx="1246" cy="445" r="7" class="greenDot"/>
+  <text x="1270" y="453" class="body">Evidence Root</text>
+
+  <circle cx="1246" cy="500" r="7" class="greenDot"/>
+  <text x="1270" y="508" class="body">Trust policy result</text>
+
+  <circle cx="1246" cy="555" r="7" class="greenDot"/>
+  <text x="1270" y="563" class="body">Rule digest</text>
+
+  <circle cx="1246" cy="610" r="7" class="greenDot"/>
+  <text x="1270" y="618" class="body">Proof reference</text>
+
+  <circle cx="1246" cy="665" r="7" class="greenDot"/>
+  <text x="1270" y="673" class="body">Anchor reference</text>
+
+  <text x="1233" y="745" class="small">Shareable proof</text>
+
+  <!-- ================= Arrow 3 ================= -->
+  <line x1="1568" y1="530" x2="1706" y2="530"
+        stroke="#005A8C" stroke-width="3"
+        marker-end="url(#arrowBlue)"/>
+  <text x="1637" y="505" text-anchor="middle" class="small">
+    VERIFY
+  </text>
+
+  <!-- ================= Block 4: Verification result ================= -->
+  <rect x="1730" y="280" width="370" height="500"
+        rx="24" class="blueCard" filter="url(#shadow)"/>
+
+  <text x="1765" y="340" class="heading">4. Verification result</text>
+  <text x="1765" y="378" class="body">Independent verifier</text>
+
+  <circle cx="1778" cy="440" r="7" class="blueDot"/>
+  <text x="1802" y="448" class="body">Independent check</text>
+
+  <circle cx="1778" cy="490" r="7" class="blueDot"/>
+  <text x="1802" y="498" class="body">No API key</text>
+
+  <circle cx="1778" cy="540" r="7" class="blueDot"/>
+  <text x="1802" y="548" class="body">No raw telemetry access</text>
+
+  <text x="1915" y="598" text-anchor="middle" class="tiny">
+    POST /v1/evidence/verify
+  </text>
+
+  <text x="1915" y="628" text-anchor="middle" class="small">
+    Verification returns one of two outcomes
+  </text>
+
+  <!-- VALID badge -->
+  <rect x="1750" y="670" width="155" height="60"
+        rx="14" fill="#EEF9F2" stroke="#0A7A3D" stroke-width="1.5"/>
+  <text x="1827" y="710" text-anchor="middle"
+        class="green" font-size="24" font-weight="700">
+    VALID
+  </text>
+
+  <!-- INVALID badge -->
+  <rect x="1925" y="670" width="155" height="60"
+        rx="14" fill="#FDEEF1" stroke="#B3243C" stroke-width="1.5"/>
+  <text x="2002" y="710" text-anchor="middle"
+        class="red" font-size="22" font-weight="700">
+    INVALID
+  </text>
+
+  <!-- ================= Bottom comparison ================= -->
+  <rect x="80" y="830" width="2020" height="70"
+        rx="20" fill="#F4F6F8" stroke="#B0BCC8" stroke-width="2"/>
+  <text x="1090" y="875" text-anchor="middle" class="body">
+    A map shows where. The evidence layer shows what can be verified.
+  </text>
+
+  <!-- Footer -->
+  <text x="80" y="950" class="small">
+    LogiQED • Evidence travels. Raw telemetry stays protected.
+  </text>
+  <text x="80" y="980" class="small">
+    Demo uses simulated data. Architecture supports pluggable production integrations.
+  </text>
+
+</svg>
