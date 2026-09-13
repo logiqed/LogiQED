@@ -21,7 +21,7 @@ For a pilot MVP, a modular monolith is the right trade-off. Natural computationa
 
 ## Backend & Frontend
 
-- C# Blazor Server / WebAssembly - single stack.
+- C# Blazor Server / WebAssembly on .NET 10 - single stack.
 - ASP.NET Core - REST API, OpenAPI, webhooks.
 - Entity Framework Core + MS SQL Server - operational data, analytics.
 - FluentValidation - request and domain validation.

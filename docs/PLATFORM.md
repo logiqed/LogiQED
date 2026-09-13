@@ -24,7 +24,7 @@ Built for real business processes: shipments, SLA, telemetry, warehouse, documen
 
 ## Architecture Overview
 
-Modular monolith on C# Blazor / ASP.NET Core.
+Modular monolith on C# Blazor / ASP.NET Core, .NET 10.
 
 Modules communicate through interfaces, never through each other's database tables.
 

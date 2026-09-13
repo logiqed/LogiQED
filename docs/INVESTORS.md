@@ -23,7 +23,7 @@ Additional team members: resumes on request.
 
 ## What We Have
 
-Production-grade C# Blazor platform for logistics and verifiable freight infrastructure.
+Production-grade C# Blazor platform on .NET 10 for logistics and verifiable freight infrastructure.
 
 - Modular monolith, 120+ projects in solution
 - 1,300+ tests
