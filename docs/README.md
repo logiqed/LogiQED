@@ -29,19 +29,39 @@ One won dispute pays for months of subscription.
 
 ## How It Works
 
-Sensor/device, attestation, timestamp, signature, provenance, Evidence Package.
+A route is a finite state machine, not a stream of coordinates. Telemetry positions are normalized into route events. Each event is signed and processed through an event orchestration pipeline that evaluates SLA rules and produces verifiable evidence.
 
 <p align="center">
   <img src="images/diagram-flow.svg" alt="LogiQED Data Flow" width="850"/>
 </p>
 
-From a GPS claim to verifiable evidence:
+**The pipeline in short:**
+
+1. **Ingest** — signed Protobuf coordinate deltas arrive at Telemetry Ingest.
+2. **Orchestrate** — the Event Orchestrator maintains the Route State Machine per route.
+3. **Evaluate** — the SLA Engine computes deterministic results in the working calendar.
+4. **Build** — the Evidence Builder produces a compact package. ZK proof is generated only for disputed routes.
+5. **Anchor** — Evidence Packages and proof roots are anchored externally for permanent verification.
+
+---
+
+### From a GPS point to verifiable evidence
+
+A GPS point is not evidence. It is a claim: "something reported this location at this time." Evidence begins when that claim is authenticated, signed, evaluated against a trust policy, and included in an Evidence Root that any party can verify.
+
+The diagram shows the full chain: raw claim, signed event, Evidence Package, verification result. Raw telemetry stays protected — the verifier only needs the package.
 
 <p align="center">
   <img src="images/diagram-gps-to-evidence.svg" alt="From a GPS claim to verifiable evidence" width="1000"/>
 </p>
 
-Verification is public and independent:
+---
+
+### Public verification
+
+Verification is open. Any party — carrier, insurer, auditor, customs broker — can check an Evidence Package without an API key and without access to raw telemetry.
+
+The public endpoint validates the organization signature, recomputes the Evidence Root from canonical event hashes, checks the rule digest, evaluates the trust policy, and confirms the proof and external anchor. The result is explicit: **VALID** or **INVALID**, with every check reported.
 
 <p align="center">
   <img src="images/diagram-verification-flow.svg" alt="Verification flow" width="850"/>
