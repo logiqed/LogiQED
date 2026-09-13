@@ -25,7 +25,7 @@ For a pilot MVP, a modular monolith is the right trade-off. Natural computationa
 - ASP.NET Core - REST API, OpenAPI, webhooks.
 - Entity Framework Core + MS SQL Server - operational data, analytics.
 - FluentValidation - request and domain validation.
-- MediatR + CQRS - command and query separation.
+- Custom Mediator + CQRS - command and query separation. ValueTask-based, no reflection in the hot path, typed dispatch, prewarmed cache. See [Mediator](MEDIATOR.md).
 - SignalR - real-time updates. Redis backplane for scale-out.
 - RabbitMQ - message bus for telemetry and event processing.
 - Redis - hot cache, pub/sub, route state buffer.

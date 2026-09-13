@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.6.2] - 2026-09-14
+
+Custom Mediator documented.
+
+### Added
+
+- MEDIATOR.md — contracts, dispatch, registration, prewarm, advantages over MediatR
+- Custom Mediator section to PLATFORM.md Core Modules
+
+### Changed
+
+- ARCHITECTURE.md: MediatR → Custom Mediator with reference to MEDIATOR.md
+- README.md: Tech Stack updated with .NET 10 and Custom Mediator
+- INVESTORS.md: Custom Mediator added to What We Have
+
 ## [0.6.1] - 2026-09-10
 
 Proof Engine expanded. Investor and overview docs aligned.

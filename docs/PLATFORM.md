@@ -55,6 +55,18 @@ SLA policies, working calendars, holiday sets, exception attribution rules.
 
 Stateful JWT with server sessions, 2FA, trusted devices, refresh rotation, RBAC and permissions.
 
+### Custom Mediator
+
+Command and query separation on a custom ValueTask-based mediator.
+
+- No reflection in the hot path
+- Typed dispatch at compile time
+- Per-behavior ordering via attribute
+- Per-notification publish strategies
+- Cache prewarm before first request
+
+Replaces the standard MediatR package.
+
 ### Admin Panel
 
 User, role and permission management. Audit journal. Role-based UI. No hardcoded roles.

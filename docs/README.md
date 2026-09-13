@@ -108,7 +108,7 @@ When eFTI becomes mandatory for EU authorities on 9 July 2027, LogiQED Evidence 
 
 ## Tech Stack
 
-C# Blazor on .NET 10, MS SQL, Redis, RabbitMQ, SignalR, Aligned Layer, Arweave.
+C# Blazor on .NET 10, MS SQL, Redis, RabbitMQ, SignalR, Aligned Layer, Arweave. Custom ValueTask-based Mediator.
 
 Privacy-by-design. GDPR compliant.
 
@@ -169,6 +169,7 @@ Contact: LogiQED@gmail.com | [X / Twitter](https://x.com/LogiQED)
 
 - [Vision](VISION.md)
 - [Architecture](ARCHITECTURE.md)
+- [Mediator](MEDIATOR.md)
 - [Trust Levels](TRUST_LEVELS.md)
 - [Claims](CLAIMS.md)
 - [Evidence Package](EVIDENCE.md)
