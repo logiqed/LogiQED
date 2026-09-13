@@ -1,0 +1,175 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="1800"
+     height="900"
+     viewBox="0 0 1800 900">
+
+  <defs>
+    <marker id="arrowGreen"
+            markerWidth="12" markerHeight="12"
+            refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#16A34A"/>
+    </marker>
+    <marker id="arrowBlue"
+            markerWidth="12" markerHeight="12"
+            refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#0284C7"/>
+    </marker>
+
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="10"
+                    flood-color="#0F172A" flood-opacity="0.08"/>
+    </filter>
+
+    <style>
+      .title {
+        font: 700 48px system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        fill: #0F172A;
+      }
+      .subtitle {
+        font: 400 22px system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        fill: #526270;
+      }
+      .heading {
+        font: 700 22px system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        fill: #0F172A;
+      }
+      .body {
+        font: 400 19px system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        fill: #263746;
+      }
+      .small {
+        font: 400 17px system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        fill: #526270;
+      }
+      .tiny {
+        font: 400 15px system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        fill: #61717E;
+      }
+      .green { fill: #16A34A; }
+      .blue  { fill: #0284C7; }
+
+      .card      { fill: #FFFFFF; stroke: #D7E0E7; stroke-width: 2; }
+      .greenCard { fill: #F0FDF4; stroke: #16A34A; stroke-width: 2; }
+      .blueCard  { fill: #F0F9FF; stroke: #0284C7; stroke-width: 2; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1800" height="900" fill="#FFFFFF"/>
+
+  <!-- Header -->
+  <text x="80" y="78" class="title">LogiQED.MediatR</text>
+  <text x="80" y="122" class="subtitle">
+    Typed CQRS mediator. The request pipeline in one view.
+  </text>
+
+  <!-- ============ Pipeline flow ============ -->
+
+  <!-- 1. Request -->
+  <rect x="80" y="240" width="240" height="180"
+        rx="20" class="greenCard" filter="url(#shadow)"/>
+  <text x="200" y="305" text-anchor="middle" class="heading">Request</text>
+  <text x="200" y="345" text-anchor="middle" class="small">IRequest&lt;T&gt;</text>
+  <text x="200" y="375" text-anchor="middle" class="small">ICommand&lt;T&gt;</text>
+  <text x="200" y="405" text-anchor="middle" class="small">IQuery&lt;T&gt;</text>
+
+  <!-- Arrow -->
+  <line x1="320" y1="330" x2="405" y2="330"
+        stroke="#16A34A" stroke-width="3"
+        marker-end="url(#arrowGreen)"/>
+
+  <!-- 2. Pre-Processors -->
+  <rect x="415" y="240" width="240" height="180"
+        rx="20" class="card" filter="url(#shadow)"/>
+  <text x="535" y="305" text-anchor="middle" class="heading">Pre-Processors</text>
+  <text x="535" y="345" text-anchor="middle" class="small">Before the pipeline</text>
+  <text x="535" y="385" text-anchor="middle" class="tiny">IRequestPreProcessor&lt;T&gt;</text>
+
+  <!-- Arrow -->
+  <line x1="655" y1="330" x2="740" y2="330"
+        stroke="#16A34A" stroke-width="3"
+        marker-end="url(#arrowGreen)"/>
+
+  <!-- 3. Behaviors -->
+  <rect x="750" y="220" width="300" height="220"
+        rx="20" class="greenCard" filter="url(#shadow)"/>
+  <text x="900" y="285" text-anchor="middle" class="heading">Behaviors</text>
+  <text x="900" y="325" text-anchor="middle" class="small">Outer to inner</text>
+
+  <rect x="785" y="350" width="230" height="32" rx="8"
+        fill="#FFFFFF" stroke="#16A34A" stroke-width="1.5"/>
+  <text x="900" y="372" text-anchor="middle" class="tiny">[BehaviorOrder(-100)]</text>
+
+  <rect x="785" y="390" width="230" height="32" rx="8"
+        fill="#FFFFFF" stroke="#16A34A" stroke-width="1.5"/>
+  <text x="900" y="412" text-anchor="middle" class="tiny">order declared on the class</text>
+
+  <!-- Arrow -->
+  <line x1="1050" y1="330" x2="1135" y2="330"
+        stroke="#16A34A" stroke-width="3"
+        marker-end="url(#arrowGreen)"/>
+
+  <!-- 4. Handler -->
+  <rect x="1145" y="240" width="240" height="180"
+        rx="20" class="greenCard" filter="url(#shadow)"/>
+  <text x="1265" y="305" text-anchor="middle" class="heading">Handler</text>
+  <text x="1265" y="345" text-anchor="middle" class="small">IRequestHandler</text>
+  <text x="1265" y="385" text-anchor="middle" class="tiny">ValueTask&lt;TResponse&gt;</text>
+
+  <!-- Arrow -->
+  <line x1="1385" y1="330" x2="1470" y2="330"
+        stroke="#16A34A" stroke-width="3"
+        marker-end="url(#arrowGreen)"/>
+
+  <!-- 5. Post-Processors -->
+  <rect x="1480" y="240" width="240" height="180"
+        rx="20" class="card" filter="url(#shadow)"/>
+  <text x="1600" y="305" text-anchor="middle" class="heading">Post-Processors</text>
+  <text x="1600" y="345" text-anchor="middle" class="small">After the pipeline</text>
+  <text x="1600" y="385" text-anchor="middle" class="tiny">IRequestPostProcessor&lt;T&gt;</text>
+
+  <!-- Response arrow down -->
+  <line x1="1600" y1="420" x2="1600" y2="500"
+        stroke="#0284C7" stroke-width="3"
+        marker-end="url(#arrowBlue)"/>
+
+  <!-- Response -->
+  <rect x="1420" y="510" width="360" height="70"
+        rx="16" class="blueCard" filter="url(#shadow)"/>
+  <text x="1600" y="555" text-anchor="middle"
+        class="heading" fill="#0284C7" font-size="22">
+    Response returned
+  </text>
+
+  <!-- ============ Bottom: three features ============ -->
+
+  <!-- Feature 1: Cache prewarm -->
+  <rect x="80" y="600" width="540" height="200"
+        rx="20" class="card" filter="url(#shadow)"/>
+  <text x="115" y="660" class="heading">Cache prewarm</text>
+  <text x="115" y="700" class="small">Delegates are built at startup.</text>
+  <text x="115" y="730" class="small">Prewarm avoids the normal first-request</text>
+  <text x="115" y="760" class="small">pipeline assembly cost.</text>
+
+  <!-- Feature 2: Cached delegates -->
+  <rect x="640" y="600" width="540" height="200"
+        rx="20" class="card" filter="url(#shadow)"/>
+  <text x="675" y="660" class="heading">Cached delegates</text>
+  <text x="675" y="700" class="small">One delegate per request-response pair.</text>
+  <text x="675" y="730" class="small">Stored in ConcurrentDictionary.</text>
+  <text x="675" y="760" class="small">Hot path: lookup and invoke.</text>
+
+  <!-- Feature 3: Typed dispatch -->
+  <rect x="1200" y="600" width="520" height="200"
+        rx="20" class="card" filter="url(#shadow)"/>
+  <text x="1235" y="660" class="heading">Typed dispatch</text>
+  <text x="1235" y="700" class="small">Request and response types are</text>
+  <text x="1235" y="730" class="small">statically typed.</text>
+  <text x="1235" y="760" class="small">No reflection in the hot path.</text>
+
+  <!-- Footer -->
+  <text x="80" y="860" class="tiny">
+    LogiQED.MediatR • .NET 10 • C# 14 • designed with AOT compatibility in mind
+  </text>
+
+</svg>

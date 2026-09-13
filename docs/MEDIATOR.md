@@ -6,6 +6,8 @@ A custom mediator implementation for internal CQRS exchange in the LogiQED solut
 
 Fully replaces the MediatR package.
 
+![Mediator pipeline](images/diagram-mediator-pipeline.svg)
+
 ---
 
 ## Architecture
