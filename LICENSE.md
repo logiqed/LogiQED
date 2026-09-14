@@ -46,7 +46,7 @@ LogiQED may, at its sole discretion, release parts of the Software under an open
 
 For licensing inquiries, partnership opportunities, or permissions:
 
-- Email: LogiQED@gmail.com
+- Email: contact@logiqed.tech
 - [X / Twitter](https://x.com/LogiQED)
 
 © 2026 LogiQED. All rights reserved.

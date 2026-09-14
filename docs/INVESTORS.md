@@ -13,7 +13,7 @@ LogiQED is open to:
 
 **Minimum capital commitment to initiate delivery: $105–110K.**
 
-Contact: LogiQED@gmail.com
+Contact: invest@logiqed.tech
 
 - [Website / Live Demo](https://logiqed.tech)
 - [X / Twitter](https://x.com/LogiQED)

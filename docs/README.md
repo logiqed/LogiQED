@@ -151,7 +151,7 @@ Core platform production-ready. Evidence Layer and claims are in MVP development
 
 Live walkthroughs available on request.
 
-Contact: LogiQED@gmail.com | [X / Twitter](https://x.com/LogiQED)
+Contact: contact@logiqed.tech | [X / Twitter](https://x.com/LogiQED)
 
 ---
 

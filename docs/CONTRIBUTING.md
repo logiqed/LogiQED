@@ -90,7 +90,7 @@ This repository is currently not open source. A license will be added when the p
 ## Contact
 
 - GitHub Issues
-- Email: LogiQED@gmail.com
+- Email: contact@logiqed.tech
 - X / Twitter: @LogiQED
 
 Maintainers typically respond within 2–3 business days.

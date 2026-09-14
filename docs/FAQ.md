@@ -162,7 +162,7 @@ Excluded:
 
 For pilot partnership:
 
-- Email: LogiQED@gmail.com
+- Email: contact@logiqed.tech
 - [X / Twitter](https://x.com/LogiQED)
 
 For investment: see [Investor Document](INVESTORS.md).

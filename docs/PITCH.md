@@ -112,7 +112,7 @@ Pilot with one European carrier. 3–5 vehicles, 50+ trips, one dispute closed.
 
 ## Contact
 
-Email: LogiQED@gmail.com
+Email: contact@logiqed.tech
 
 - [X / Twitter](https://x.com/LogiQED)
 - [GitHub](https://github.com/logiqed/LogiQED)

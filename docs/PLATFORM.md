@@ -159,7 +159,7 @@ Source code is private. Access after NDA.
 
 ## Contact
 
-Email: LogiQED@gmail.com
+Email: contact@logiqed.tech
 
 - [X / Twitter](https://x.com/LogiQED)
 - [GitHub](https://github.com/logiqed/LogiQED)
