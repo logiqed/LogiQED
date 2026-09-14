@@ -17,7 +17,6 @@ Contact: invest@logiqed.tech
 
 - [Website / Live Demo](https://logiqed.tech)
 - [X / Twitter](https://x.com/LogiQED)
-- [LinkedIn — Borys Mulev](https://www.linkedin.com/in/borysmulev/)
 - [GitHub](https://github.com/logiqed/LogiQED)
 
 ---
