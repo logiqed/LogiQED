@@ -13,6 +13,8 @@ LogiQED is seeking:
 - Pilot partners
 - Strategic logistics and technology partners
 
+**Minimum commitment to start: $105–110K.**
+
 Contact: LogiQED@gmail.com
 
 - [X / Twitter](https://x.com/LogiQED)
@@ -229,6 +231,29 @@ The team continues working under a paid services agreement.
 | MVP development budget | $170-200K |
 | **Total indicative commitment** | **$345-375K** |
 
+### Payment Schedule
+
+| Stage | Amount | Trigger |
+|-------|--------|---------|
+| Platform — upfront | $70K | Signing + IP assignment |
+| MVP — month 1 | $35-40K | Project start |
+| **Minimum commitment to start** | **$105-110K** | |
+| Platform — remaining balance | 65% of remaining, monthly | During MVP development |
+| Platform — final balance | 35% of remaining | On MVP acceptance |
+| MVP — months 2-4 | $35-40K/month | Monthly, on milestone acceptance |
+| **Total over MVP** | **$345-375K** | |
+
+### Payment flexibility
+
+Payment terms are negotiable. The team is open to discussing:
+
+- Different upfront amounts
+- Different milestone structures
+- Extended payment schedules
+- Performance-based components
+
+A minimum commitment of $105-110K is required to start the project.
+
 ### Existing platform transfer
 
 The $175K platform component compensates the team for the existing platform and approximately one year of prior engineering work.
@@ -283,7 +308,7 @@ These assets can be transferred separately by negotiation.
 
 ### What the team receives
 
-- $175K compensation for prior platform development
+- $175K compensation for prior platform development, paid per the schedule above
 - Continued paid work during MVP development
 - Optional equity or performance-based participation, subject to separate agreement
 
@@ -300,6 +325,21 @@ This structure starts as Option 2 and gives the investor a later right to acquir
 - The team continues development during the MVP period.
 - After MVP delivery, the investor receives a 60-day conversion window.
 - During this window, the investor may convert to a full project acquisition.
+
+### Payment Schedule
+
+Same as Option 2:
+
+| Stage | Amount | Trigger |
+|-------|--------|---------|
+| Platform — upfront | $70K | Signing + IP assignment |
+| MVP — month 1 | $35-40K | Project start |
+| **Minimum commitment to start** | **$105-110K** | |
+| Platform — remaining balance | 65% of remaining, monthly | During MVP development |
+| Platform — final balance | 35% of remaining | On MVP acceptance |
+| MVP — months 2-4 | $35-40K/month | Monthly, on milestone acceptance |
+| **Total over MVP** | **$345-375K** | |
+| Conversion (domains, brand, accounts) | Agreed at signing | Within 60 days after MVP |
 
 ### Conversion
 
@@ -345,6 +385,7 @@ The team receives:
 | | Option 1: Acquisition | Option 2: Platform + MVP | Option 3: Hybrid |
 |---|---|---|---|
 | Indicative cost | $170-350K | $345-375K | Agreed at signing |
+| Minimum to start | Full payment | $105-110K | $105-110K |
 | Existing platform | Purchased | Purchased | Purchased |
 | MVP included | No | Yes | Yes |
 | Team continues | No | Yes | Yes during MVP |
@@ -411,8 +452,8 @@ For a continuing development structure, the team works under a written services 
 
 All prices, valuations, ownership rights, IP transfers, warranties, conversion terms, and payment conditions are indicative.
 
-They reflect the current view of the founding team, not legal advice.
+They reflect the current view of the founding team and do not constitute legal advice.
 
-Final structure, pricing, and terms are subject to legal, tax, corporate, and IP advice in the relevant jurisdiction — and to negotiation between the parties.
+Final structure, pricing, and terms are subject to legal, tax, corporate, and IP advice in the relevant jurisdiction — and open to negotiation.
 
-The team is open to restructuring the deal if the investor or their counsel proposes a cleaner or safer structure.
+The team is prepared to restructure the transaction if the investor or their legal counsel proposes a clearer, safer, or more standard structure.
