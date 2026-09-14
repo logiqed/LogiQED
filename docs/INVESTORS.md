@@ -1,459 +1,229 @@
-# LogiQED - Investor Document
+# LogiQED — Investor & Acquisition Memorandum
 
 ## Status
 
-Blueprint public. Demo available. Source code private, access after NDA.
+Blueprint public. Interactive demo live. Source code private (access granted under mutual NDA).
 
-Deal options below are indicative. Final structure, pricing, and terms are subject to legal, tax, and corporate advice — and to negotiation.
+LogiQED is open to:
 
-LogiQED is seeking:
+- Direct asset acquisition (platform or complete project)
+- MVP financing with founding team retention
+- Pilot carrier & 3PL partnerships
+- Strategic institutional integrations
 
-- Full acquisition discussions
-- MVP funding with team continuation
-- Pilot partners
-- Strategic logistics and technology partners
-
-**Minimum commitment to start: $105–110K.**
+**Minimum capital commitment to initiate delivery: $105–110K.**
 
 Contact: LogiQED@gmail.com
 
+- [Website / Live Demo](https://logiqed.tech)
 - [X / Twitter](https://x.com/LogiQED)
-- [LinkedIn](https://www.linkedin.com/in/borysmulev/)
+- [LinkedIn — Borys Mulev](https://www.linkedin.com/in/borysmulev/)
 - [GitHub](https://github.com/logiqed/LogiQED)
-- Website: [logiqed.tech](https://logiqed.tech)
+
+---
+
+## Executive Summary
+
+LogiQED is a cryptographic, verifiable evidence layer designed to automate and resolve commercial disputes in physical logistics without exposing raw corporate telemetry.
+
+- **Problem:** SLA and detention disputes cost carriers and 3PLs $200–500 per incident in manual investigation, legal friction, and idle fleet time.
+- **Solution:** Cryptographically signed, independently verifiable Evidence Packages designed to support algorithmic claim resolution at an estimated cost of $0.05–0.10 per package.
+- **Current State:** Fully engineered platform foundation built with C# / .NET 10 / Blazor, 120+ projects, 1,300+ automated tests, and an interactive demo with 32 UI screens across 6 operational roles.
 
 ---
 
 ## Team
 
-Senior engineering team from Ukraine.
+Senior engineering team based in Ukraine with 15+ years of production experience in high-load C#/.NET and distributed logistics architectures:
 
-- [Borys Mulev](https://www.linkedin.com/in/borysmulev/) - Senior C#/.NET Engineer
-- [Volodymyr Marenych](https://www.linkedin.com/in/marenich/) - Senior Engineer
+- **[Borys Mulev](https://www.linkedin.com/in/borysmulev/)** — Lead Architect & Senior .NET Engineer
+- **[Volodymyr Marenych](https://www.linkedin.com/in/marenich/)** — Senior Systems Engineer
 
-The core team has 15+ years of experience in C#/.NET and has worked together on logistics and cloud systems.
-
-Additional team members and resumes are available on request.
+*Full roster, engineering CVs, and references available upon request under NDA.*
 
 ---
 
-## What We Have
+## Platform Architecture & Technical Assets
 
-A working C#/.NET 10 and Blazor platform for logistics and verifiable freight infrastructure.
+The current platform foundation is an engineered modular monolith built on .NET 10 / C# 14:
 
-- Modular monolith with 120+ projects
-- 1,300+ tests
-- Azure DevOps read-only access available after NDA
-- Interactive demo with 32 screens and 6 roles
-- Custom Mediator — ValueTask-based, no reflection, prewarmed cache
-
-Core modules:
-
-- Telemetry
-- Route
-- SLA
-- Evidence
-- Identity
-- Notifications
-- Dispatcher
-- Workflow
-
-Evidence Layer:
-
-- Signed Event Stream
-- Evidence Graph
-- Evidence Package
-- Evidence Root
-- Trust Levels E0-E5
-- Independent verification flow
-
-Cryptography and proof architecture:
-
-- Ed25519 signatures
-- ML-DSA integration direction
-- Pluggable proof backend
-- Aligned Layer mock for MVP
-- Planned integration options: Groth16, Plonk, STARK, and zkVM backends
-
-The demo uses simulated evidence data. The architecture is designed for integration with real telemetry and production proof backends.
-
-Source code is private. Access is available after NDA and technical due diligence.
+- **Core Domains:** Telemetry Ingestion, Route State Machine, SLA Evaluation Engine, Evidence Engine, Identity & Role-Based Access, Dispatch Console, Workflow Engine.
+- **Proprietary Mediator (`LogiQED.MediatR`):** Custom `ValueTask`-based CQRS dispatch pipeline with startup cache prewarming, explicit behavior ordering, and no reflection in the hot dispatch path.
+- **Evidence Layer:** Signed Event Stream, Evidence Graph, canonical hash chains, Evidence Roots, and Trust Levels E0–E5.
+- **Cryptographic Primitives:** Ed25519 signatures with a defined architectural path for ML-DSA integration.
+- **Proof Engine:** Pluggable backend architecture (Aligned Layer mock for MVP; extensible to Groth16, PlonK, STARK, and zkVM backends including SP1 and RISC Zero).
+- **Audit & Security:** Dual-channel delivery auditing, SHA-256 tracker-key hashing (obliteration pattern), 30-day telemetry retention policies, and session-level revocation.
 
 ---
 
-## What We Are Building
+## Commercial Use Cases
 
-LogiQED is a verifiable evidence layer for physical logistics.
+### 1. Detention & Warehouse Dwell-Time Attribution
 
-### Claim 1: Detention and warehouse waiting
+- *Scenario:* Scheduled loading appointment at 12:00. Geofence arrival logged at 11:54. Dock assignment delayed until 13:02. Loading commences at 13:18 and completes at 14:11.
+- *Outcome:* Algorithmic calculation of 68 billable detention minutes attributed directly to facility operations according to contractual SLA rules.
 
-Example route:
+### 2. Cold-Chain Cargo Integrity
 
-- Appointment: 12:00
-- Geofence entry: 11:54
-- Dock assignment: 13:02
-- Loading starts: 13:18
-- Vehicle exits: 14:11
-
-The system calculates 68 minutes of waiting and attributes responsibility according to the configured SLA rule.
-
-### Claim 2: Cargo condition
-
-- Contract temperature range: 2-8°C
-- Route: EU lane
-- Temperature remains within the required range
-- Result: VALID
-
-The goal is to replace manual dispute resolution with signed, reproducible, independently verifiable evidence.
+- *Scenario:* High-value pharma transit requiring continuous 2–8°C compliance across EU transit corridors.
+- *Outcome:* Sensor telemetry evaluated against smart contract boundaries without exposing full GPS trails. Output: verifiable `VALID` assertion package.
 
 ---
 
-## Market
+## Market & Regulatory Tailwinds
 
-- Freight SLA disputes cost approximately $200-500 per case
-- An Evidence Package is designed to cost approximately $0.05-0.10
-- eFTI Regulation (EU) 2020/1056 applies in full from 9 July 2027
-- Target customers: mid-sized carriers, 3PLs, customs brokers, and eFTI platforms
-- Initial focus: temperature-sensitive and time-critical freight
+- **Dispute Economics:** Manual resolution currently costs $200–500 per claim. Automated cryptographic resolution is designed to reduce processing cost to $0.05–0.10 per package.
+- **Regulatory Mandate:** The **eFTI Regulation (EU) 2020/1056** enters full application on **9 July 2027**. EU member-state authorities must accept compliant electronic freight information shared through certified eFTI platforms.
+- **Target Market:** Mid-sized carriers (10–100 trucks), temperature-controlled reefers, cross-border 3PLs, and digital freight brokers.
 
 ---
 
-## Pilot
+## Pilot Framework
 
-### Goal
+**Objective:** Execute an operational pilot to resolve at least one live commercial dispute using signed Evidence Packages.
 
-Prove that an Evidence Package can help close a real commercial dispute.
-
-### Pilot profile
-
-- Carrier with 10-50 vehicles or a 3PL
-- 3-5 GPS trackers
-- 2-3 temperature sensors
-- 2-4 weeks of real trips
-
-### Success criteria
-
-- At least 3 vehicles
-- At least 50 trips
-- At least one real dispute documented and evaluated
-- Measurable reduction in dispute-resolution time
-- Validation of evidence requirements with the pilot partner
+- **Fleet Scope:** 1 partner carrier (10–50 trucks) or regional 3PL.
+- **Hardware Footprint:** 3–5 GPS trackers and 2–3 calibrated temperature sensors.
+- **Duration:** 2–4 weeks of live transit across 50+ commercial loads.
+- **Target Metrics:** >99.5% event ingestion integrity, automated generation of dispute packages, and partner acceptance of dispute outcomes.
 
 ---
 
-## MVP Budget
+## MVP Budget & Deployment Plan
 
-Estimated MVP budget: $170-200K.
+- **Estimated Budget:** $170,000–$200,000
+- **Delivery Timeline:** 3–4 months from funding
+- **Core Delivery Team:** up to 8 contributors across .NET, C++, QA, DevOps, and product/project management.
 
-Estimated development timeline: 3-4 months after funding and scope approval.
+### Budget Breakdown
 
-Initial delivery team may include:
+1. **Engineering & Delivery:** $140,000–$160,000. The $35,000–$40,000 monthly rate covers the planned delivery team, project management, and operational overhead over four months.
+2. **MVP Non-Engineering Costs:** $30,000–$40,000, including pilot hardware, proof integration environment, cloud infrastructure, legal review, onboarding, and operational reserve.
 
-- Senior .NET engineers
-- Senior C++ engineers
-- QA engineers
-- DevOps
-- Product/project management
-
-Estimated monthly delivery rate: $35-40K, subject to final scope and staffing plan.
-
-The MVP budget covers:
-
-- Core platform development
-- Real telemetry and device integrations
-- Proof-engine integration
-- Pilot hardware
-- Cloud deployment and operations
-- Legal review of evidence admissibility
-- Pilot partner acquisition
-- QA and security review
+The estimated MVP budget is therefore $170,000–$200,000.
 
 ---
 
-# Deal Options
+# Transaction Options
 
-## Option 1: Asset Acquisition
+## Overview
 
-This is a direct purchase of the existing project assets.
+Three transaction paths are available:
 
-### Tier 1: Core Platform
-
-**Indicative price: $170K**
-
-Includes:
-
-- Source code and repositories
-- Deployment scripts
-- CI/CD pipelines
-- Technical documentation
-- Test suite
-- Demo environment
-- Agreed platform IP
-
-This tier does not include the project brand, domains, social accounts, or project email accounts unless separately agreed.
-
-### Tier 2: Full Project Acquisition
-
-**Indicative price: $300-350K, negotiable**
-
-Includes everything in Tier 1, plus:
-
-- Registered domains
-- Project email accounts
-- Social media accounts
-- Brand and marketing assets
-- Website assets
-- Project documentation
-- All agreed project IP and materials
-
-### Transfer terms
-
-- Full transfer occurs after completion of payment.
-- Escrow or milestone-based closing may be used to protect both parties.
-- No continuing equity or operating relationship is required unless separately negotiated.
-- The final asset list, warranties, liabilities, and transfer conditions will be defined in the acquisition agreement.
+- **Option 1: Asset Acquisition** — direct purchase of platform or full project assets. $175K–$350K.
+- **Option 2: Platform + MVP** — purchase of platform IP plus funded MVP development with the founding team. $345K–$375K.
+- **Option 3: Hybrid Conversion** — Option 2 with a pre-agreed option to acquire the remaining project assets after MVP acceptance.
 
 ---
 
-## Option 2: Platform Sale + MVP Development
+## Option 1: Direct Asset Acquisition
 
-This structure is for an investor who wants the existing platform, the MVP, and the continued support of the team.
+Direct, clean-break acquisition of the codebase and intellectual property. Ideal for buyers with an established engineering team.
 
-The investor purchases the existing platform IP and separately funds MVP development.
+### Tier 1: Core Platform IP — $175,000
 
-The team continues working under a paid services agreement.
+- Full source code repository (120+ projects, clean commit history).
+- Complete automated test suite (1,300+ unit, integration, and architecture tests).
+- Deployment automation, container configurations, and CI/CD pipelines.
+- Technical architecture specifications, database schemas, and API documentation.
+- *Excludes:* Domains, trademarks, brand identity, and external social/email assets.
 
-### Investment structure
+### Tier 2: Complete Project Acquisition — $300,000–$350,000 (Negotiable)
 
-| Component | Amount |
-|-----------|-------:|
-| Existing platform and prior engineering work | $175K |
-| MVP development budget | $170-200K |
-| **Total indicative commitment** | **$345-375K** |
+- Everything in Tier 1.
+- Primary web domain (`logiqed.tech`) and associated defensive registrations.
+- Official organization email infrastructure, communication channels, and GitHub org.
+- Brand assets, presentation materials, diagrams, and investor collateral.
+- Clean handover of all technical and marketing footprints.
 
-### Payment Schedule
-
-| Stage | Amount | Trigger |
-|-------|--------|---------|
-| Platform — upfront | $70K | Signing + IP assignment |
-| MVP — month 1 | $35-40K | Project start |
-| **Minimum commitment to start** | **$105-110K** | |
-| Platform — remaining balance | 65% of remaining, monthly | During MVP development |
-| Platform — final balance | 35% of remaining | On MVP acceptance |
-| MVP — months 2-4 | $35-40K/month | Monthly, on milestone acceptance |
-| **Total over MVP** | **$345-375K** | |
-
-### Payment flexibility
-
-Payment terms are negotiable. The team is open to discussing:
-
-- Different upfront amounts
-- Different milestone structures
-- Extended payment schedules
-- Performance-based components
-
-A minimum commitment of $105-110K is required to start the project.
-
-### Existing platform transfer
-
-The $175K platform component compensates the team for the existing platform and approximately one year of prior engineering work.
-
-It includes:
-
-- Source code and repositories
-- Platform architecture
-- Evidence Layer
-- Telemetry subsystem
-- Workflow engine
-- SLA engine
-- Identity and security modules
-- Tests and CI/CD
-- Technical documentation
-- Demo environment
-
-### MVP development
-
-The separate $170-200K MVP budget funds:
-
-- Real telemetry integrations
-- Proof-engine integration
-- Pilot deployment
-- Hardware and sensors
-- QA and security review
-- Legal review
-- Product and project management
-
-The team remains available during MVP development at an estimated monthly rate of $35-40K, subject to final scope and staffing.
-
-### Assets not included by default
-
-The following are not included in the standard Option 2 platform transfer:
-
-- Registered domains
-- Project email accounts
-- Social media accounts
-- Brand and marketing assets
-- Full company acquisition
-
-These assets can be transferred separately by negotiation.
-
-### What the investor receives
-
-- Platform IP and source code
-- MVP development under an agreed scope
-- Continued access to the team that built the platform
-- Technical documentation and deployment materials
-- Milestone reporting
-- Optional governance and information rights
-
-### What the team receives
-
-- $175K compensation for prior platform development, paid per the schedule above
-- Continued paid work during MVP development
-- Optional equity or performance-based participation, subject to separate agreement
+*Closing Mechanism: Standard escrow arrangement with milestone-based code inspection.*
 
 ---
 
-## Option 3: Hybrid Conversion
+## Option 2: Platform Sale + MVP Development (Team Continues)
 
-This structure starts as Option 2 and gives the investor a later right to acquire the remaining project assets.
+Structured for an investor or logistics operator who wants the existing platform, full MVP delivery, and execution continuity from the team that architected the platform.
+
+### Investment Structure
+
+| Component | Capital Allocation | Description |
+|:---|---:|:---|
+| **Platform IP Acquisition** | **$175,000** | Existing codebase, architecture, tests, documentation, and foundational R&D. |
+| **MVP Development Funding** | **$170,000–$200,000** | Engineering, integrations, pilot, hardware, legal review, and operations. |
+| **Total Indicative Commitment** | **$345,000–$375,000** | Platform ownership plus MVP delivery. |
+
+### Capital Deployment and Payment Schedule
+
+| Milestone / Stage | Allocation | Trigger Condition |
+|:---|---:|:---|
+| **Platform Tranche 1** | **$70,000** | Definitive agreement execution, repository access, and exclusive commercial license. |
+| **MVP Month 1** | **$35,000–$40,000** | Project kickoff and team allocation. |
+| **Minimum Commitment to Start** | **$105,000–$110,000** | Required to mobilize the team. |
+| **MVP Months 2–4** | **$105,000–$120,000** | Monthly payments against agreed milestones. |
+| **MVP Non-Engineering Costs** | **$30,000–$40,000** | Hardware, infrastructure, legal review, onboarding, and reserve. |
+| **Platform Tranche 2** | **$105,000** | MVP acceptance and completion of the agreed platform IP transfer. |
+| **Total** | **$345,000–$375,000** | Subject to final scope and agreement. |
+
+### Intellectual Property and Risk Safeguards
+
+- **Initial access:** After receipt of the first $70,000 platform tranche, the investor receives repository access and an exclusive, non-transferable commercial license for the agreed evaluation and development scope.
+- **Title transfer:** Full legal ownership of the platform IP transfers to the investor's operating entity after payment of the final $105,000 platform tranche and completion of the agreed MVP acceptance conditions.
+- **MVP work product:** Work product created and paid for during MVP development is governed by the signed services and IP agreement.
+- **If funding stops:** The parties follow the termination, license, access, and work-product provisions agreed in the definitive contracts. No automatic transfer of full platform ownership occurs before the applicable payment and acceptance conditions are satisfied.
+- **Brand carve-out:** Registered domains, project email accounts, social accounts, and brand assets remain excluded from Option 2 unless separately agreed or acquired under Option 3.
+- **Long-term alignment:** The founding team may retain 5–10% performance-based equity or profit participation, subject to separate vesting and shareholder agreements.
+
+---
+
+## Option 3: Hybrid Conversion (De-Risked Staged Buyout)
+
+Designed for an investor who wants to evaluate the team and MVP before acquiring the complete project footprint.
 
 ### Structure
 
-- The investor commits to Option 2.
-- The platform transfer and MVP development proceed under signed agreements.
-- The team continues development during the MVP period.
-- After MVP delivery, the investor receives a 60-day conversion window.
-- During this window, the investor may convert to a full project acquisition.
+1. **Initial agreement:** Parties execute Option 2 with a minimum initial commitment of $105,000–$110,000.
+2. **Evaluation window:** The investor funds the MVP delivery cycle and reviews technical and pilot progress.
+3. **MVP acceptance:** The parties evaluate the agreed technical and commercial milestones.
+4. **Conversion window:** After MVP acceptance, the investor receives an exclusive 60-day option to acquire the remaining project assets.
+5. **Remaining assets:** The conversion may include domains, brand, project email accounts, social accounts, marketing assets, and full operational control.
+6. **Conversion price:** The price and included assets are agreed in writing at the beginning of the transaction.
 
-### Payment Schedule
+Any amounts already paid and any assets already transferred must be clearly credited in the final acquisition calculation.
 
-Same as Option 2:
-
-| Stage | Amount | Trigger |
-|-------|--------|---------|
-| Platform — upfront | $70K | Signing + IP assignment |
-| MVP — month 1 | $35-40K | Project start |
-| **Minimum commitment to start** | **$105-110K** | |
-| Platform — remaining balance | 65% of remaining, monthly | During MVP development |
-| Platform — final balance | 35% of remaining | On MVP acceptance |
-| MVP — months 2-4 | $35-40K/month | Monthly, on milestone acceptance |
-| **Total over MVP** | **$345-375K** | |
-| Conversion (domains, brand, accounts) | Agreed at signing | Within 60 days after MVP |
-
-### Conversion
-
-The conversion price and included assets are agreed in writing at the beginning of the transaction.
-
-The conversion agreement may include:
-
-- Domains
-- Brand
-- Project email accounts
-- Social media accounts
-- Marketing assets
-- Full operational control
-- Remaining project IP and commercial assets
-
-The conversion price can be:
-
-- fixed at signing; or
-- calculated according to an agreed formula.
-
-Any amounts already paid and any transferred assets must be clearly credited in the final acquisition calculation.
-
-### Purpose
-
-The hybrid structure allows the investor to:
-
-- evaluate the team during MVP development;
-- observe the platform under real pilot conditions;
-- review technical and commercial progress;
-- decide whether to continue with the team or acquire the full project.
-
-The team receives:
-
-- compensation for prior platform development;
-- funded MVP development;
-- paid engineering work during the evaluation period;
-- a clearly defined conversion mechanism.
+The hybrid structure gives the investor time to evaluate the team and MVP before committing to full project ownership.
 
 ---
 
-## Comparison
+## Comparison Matrix
 
-| | Option 1: Acquisition | Option 2: Platform + MVP | Option 3: Hybrid |
-|---|---|---|---|
-| Indicative cost | $170-350K | $345-375K | Agreed at signing |
-| Minimum to start | Full payment | $105-110K | $105-110K |
-| Existing platform | Purchased | Purchased | Purchased |
-| MVP included | No | Yes | Yes |
-| Team continues | No | Yes | Yes during MVP |
-| Domains and brand | Included in Tier 2 | Not included by default | Transferable on conversion |
-| Development risk | Buyer takes it | Shared through services agreement | Shared during evaluation |
-| Full ownership option | Immediate | Separate negotiation | Available after MVP |
-| Best for | Buyer with own team | Investor seeking team continuity | Investor wanting staged commitment |
-
-Option 2 costs more than a basic acquisition because it includes both the existing platform and funded MVP development with the engineering team.
+| Evaluation Dimension | Option 1: Asset Acquisition | Option 2: Platform + MVP | Option 3: Hybrid |
+|:---|:---:|:---:|:---:|
+| **Indicative total cost** | $175K–$350K | $345K–$375K | Option 2 plus agreed conversion price |
+| **Minimum capital to start** | According to closing terms | $105K–$110K | $105K–$110K |
+| **Existing platform** | Purchased | Purchased under staged transfer | Purchased under Option 2 |
+| **MVP included** | No | Yes | Yes |
+| **Team continuity** | No | Yes, during MVP | Yes, during evaluation |
+| **Domains and brand** | Included in Tier 2 | Excluded by default | Transferable under conversion |
+| **Engineering risk** | Buyer assumes development risk | Mitigated by founding team | Staged and shared |
+| **Time to MVP pilot** | Depends on buyer's team | 3–4 months | 3–4 months |
+| **Best for** | Buyer with an existing engineering team | Investor seeking execution continuity | Investor seeking staged commitment |
 
 ---
 
-## Investor Protection
+## Execution Roadmap
 
-The parties may use milestone payments or escrow.
-
-Possible structure:
-
-1. Mutual NDA
-2. Technical due diligence
-3. Azure DevOps read-only access
-4. Agreed MVP scope and milestones
-5. Signed acquisition, IP, services, and/or conversion agreements
-6. Initial funding released to the operating entity
-7. Monthly reporting on budget and progress
-8. Milestone acceptance based on agreed technical criteria
-9. Pilot deployment
-10. Commercial validation
-
-For an acquisition, escrow can protect source-code transfer and payment.
-
-For a continuing development structure, the team works under a written services agreement with defined deliverables, payment terms, IP provisions, and termination rights.
+1. **Mutual NDA** — signed before any code or data exchange.
+2. **Architecture & Codebase Review** — Azure DevOps read-only access.
+3. **Interactive Demo Walkthrough** — 32 UI screens, 6 operational roles.
+4. **Term Sheet & Option Selection** — Option 1, 2, or 3.
+5. **Definitive Agreements & Funding** — escrow setup and project mobilization.
 
 ---
 
-## Use of Funds
+## Legal & Formal Disclaimer
 
-- MVP development
-- Real telemetry and device integrations
-- Proof-engine integration
-- Pilot hardware: estimated $500-2,500
-- Cloud infrastructure and deployment
-- Legal review of evidence admissibility
-- Pilot partner acquisition
-- QA and security review
+*This document is an indicative commercial overview prepared by the founding engineering team of LogiQED for discussion purposes only. It does not constitute a binding legal offer, investment solicitation, or financial advice.*
 
----
+*All commercial valuations, ownership transfers, intellectual property assignments, and payment schedules remain subject to technical due diligence, mutual contract execution, and corporate, tax, and intellectual property legal counsel in the governing jurisdiction.*
 
-## Next Steps
-
-1. NDA
-2. Technical due diligence
-3. Azure DevOps read-only access
-4. Demo walkthrough
-5. MVP scope and milestones
-6. Pilot partner introduction
-7. Agreement on structure and terms
-8. Legal documentation
-9. Funding and project start
-
----
-
-## Legal Note
-
-All prices, valuations, ownership rights, IP transfers, warranties, conversion terms, and payment conditions are indicative.
-
-They reflect the current view of the founding team and do not constitute legal advice.
-
-Final structure, pricing, and terms are subject to legal, tax, corporate, and IP advice in the relevant jurisdiction — and open to negotiation.
-
-The team is prepared to restructure the transaction if the investor or their legal counsel proposes a clearer, safer, or more standard structure.
+*The team is prepared to restructure the transaction if the investor or their legal counsel proposes a clearer, safer, or more standard structure. Custom deal structures — including equity participation, revenue sharing, milestone-based models, or hybrid arrangements — are open for discussion.*
