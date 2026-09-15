@@ -1,4 +1,4 @@
-# LogiQED — Investor & Acquisition Memorandum
+# LogiQED - Investor & Acquisition Memorandum
 
 ## Status
 
