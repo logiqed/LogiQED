@@ -5,16 +5,24 @@
 Blueprint public. Interactive demo live. Source code private (access granted under mutual NDA).
 
 LogiQED is open to:
-- Direct asset acquisition (platform codebase or turnkey project)
-- MVP financing with founding team retention
-- Pilot carrier & 3PL partnerships
-- Strategic institutional integrations
+
+- **Immediate acquisition** — full or partial purchase of the platform, codebase, or turnkey project
+- **MVP financing with team retention** — funded development, followed by platform buyout
+- **Pilot carrier & 3PL partnerships**
+- **Strategic institutional integrations**
+
+Three transaction paths are documented below:
+
+- **Option 1: Direct Asset Acquisition** — $150K (codebase) or $175K (turnkey project). Immediate purchase, no development phase.
+- **Option 2: Milestone MVP Delivery + Platform Buyout** — $35K start, platform buyout on MVP acceptance.
+- **Option 3: Full Turnkey Post-MVP Acquisition** — Option 2 plus brand and commercial identity.
 
 **Minimum capital commitment to initiate MVP delivery: $35,000 (Month 1 funding).**
 
 **Accelerated option: $132,000 upfront for engineering and delivery targets a 2-month MVP.**
 
 Contacts:
+
 - Investment & M&A: invest@logiqed.tech
 - Partnerships & Commercial: hello@logiqed.tech
 - Legal & Media Inquiries: contact@logiqed.tech
