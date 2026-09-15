@@ -138,7 +138,7 @@ Direct, clean-break acquisition of the existing platform. Ideal for buyers with 
 
 - Everything included in Tier 1.
 - Primary web domain (`logiqed.tech`) and associated registrations.
-- Official corporate email accounts (`invest@`, `hello@`, `contact@logiqed.tech`).
+- Corporate email infrastructure (`invest@`, `hello@`, `contact@logiqed.tech`), subject to provider policies and migration terms.
 - Transferable project social accounts, GitHub organization, and community footprints, subject to platform terms and account-transfer restrictions.
 - Brand assets, presentation decks, interactive demo infrastructure, and marketing collateral.
 
@@ -185,7 +185,7 @@ Final scope, staffing, non-engineering costs, and acceptance conditions are subj
 ### Safeguards for Both Parties
 
 **For the Investor:**
-- Zero initial capital at risk for past development.
+- No upfront payment is required for the previously developed platform.
 - Real-time visibility into team velocity and code quality through Azure DevOps.
 - Access to a live staging environment throughout MVP development.
 - If the team fails milestones, funding can be stopped without having paid for the platform.
@@ -212,16 +212,16 @@ Because the brand, domain, and commercial footprint are significantly de-risked 
 
 - Platform Codebase Buyout: **$150,000**
 - Turnkey Brand & Domain Package Buyout: **$40,000**
-- *Total final settlement upon MVP delivery:* approximately **$190,000**
+- *Total final settlement upon formal MVP acceptance:* approximately **$190,000**
 - **Total Standard Option 3 outlay:** approximately **$310,000–$355,000**, depending on MVP duration, approved non-engineering costs, and the final conversion scope.
 
-The accelerated two-month option has a separate calculation based on the $132,000 engineering and delivery budget.
+The accelerated two-month option has a separate calculation based on the $132,000 engineering and delivery budget. The accelerated Option 3 total is approximately **$337,000–$347,000** before any scope changes.
 
 ### What Transfers Under Option 3
 
 - 100% of platform and MVP source code repositories.
 - `logiqed.tech` primary domain, DNS records, and defensive web assets.
-- Complete corporate email systems (`invest@`, `hello@`, `contact@logiqed.tech`).
+- Corporate email infrastructure (`invest@`, `hello@`, `contact@logiqed.tech`), subject to provider policies and migration terms.
 - All marketing collateral, website source files, and investor relations assets.
 - Transferable project social accounts, GitHub organization, and community footprints, subject to platform terms and account-transfer restrictions.
 
