@@ -13,7 +13,7 @@
 
 ## Executive Summary
 
-EigenDA is the largest AVS in the EigenLayer ecosystem by operator count. This research measures its weighted quorum stake directly from on-chain contracts and checks whether that stake is slashable through the AllocationManager.
+EigenDA is one of the largest AVSs in the EigenLayer ecosystem. This research measures its weighted quorum stake directly from on-chain contracts and checks whether that stake maps to confirmed slashable magnitudes through the inspected AllocationManager path.
 
 Key findings:
 
@@ -50,6 +50,11 @@ different definitions:
 This research uses on-chain non-zero weighted stake at block 25,990,607 
 as the operational definition.
 
+Revision note: an earlier draft used non-atomic latest-state reads for stake 
+values. Current figures are recomputed at fixed block 25,990,607 using blockTag 
+for all stake reads. Differences between drafts reflect the switch to an atomic 
+snapshot, not a change in the underlying on-chain data.
+
 ---
 
 ## 2. Data sources
@@ -79,8 +84,8 @@ as the operational definition.
 
 RegistryCoordinator reports quorumCount = 3 on the snapshot block. 
 The standard EigenDA CertVerifier at 0x61692e93b6B045c444e942A91EcD1527F23A3FB7 
-declares requiredQuorums = 0x0001, meaning quorums 0 and 1 are the ones 
-required for a standard certificate.
+declares requiredQuorums = 0x0001. This means q0 and q1 are jointly required 
+for a standard certificate, not independent alternatives.
 
 | Quorum | Type | Operators | In required set |
 |---|---|---:|---|
@@ -204,9 +209,11 @@ Notes:
 
 - Each required quorum (q0 and q1) must reach confirmationThreshold for 
   a valid certificate. The quorums are not OR-alternatives.
-- Liveness attack: prevent at least one required quorum from reaching 
-  confirmationThreshold. This requires withholding more than 
-  adversaryThreshold of that quorum.
+- A pure quorum liveness failure occurs if less than confirmationThreshold 
+  of weighted stake signs in a required quorum. Equivalently, more than 
+  45% of weighted stake is unavailable or withholding.
+- The 33% adversaryThreshold is a separate EigenDA security parameter. 
+  It should not be interpreted as the liveness-blocking fraction.
 - Safety attack: produce a valid certificate. This requires crossing 
   confirmationThreshold in every required quorum simultaneously.
 
@@ -266,7 +273,7 @@ Slashing events: 0.
 1. Within this research, EigenDA reports 59 active operators across 
    three quorums in the inspected RegistryCoordinator. 
    Comparative ranking against other AVSs was not performed.
-2. It runs three independent quorums: ETH/LST, EIGEN, and a third EigenDA-specific quorum.
+2. It runs three configured quorums: ETH/LST (q0), EIGEN (q1), and a third EigenDA-specific quorum (q2). q0 and q1 are jointly required for a standard certificate.
 3. The ETH quorum is severely concentrated: top-1 controls about 40.6%, top-3 about 67.6%, top-10 about 97.9% of weighted stake.
 4. The EIGEN quorum is also concentrated: top-1 controls about 20.8%, top-10 about 80.1%.
 5. Zero OperatorSlashed events over 3.7M blocks — slashing has never been executed in this range.
