@@ -368,11 +368,12 @@ Replace YOUR_KEY with a free SwiftNodes API key. Any RPC endpoint that supports 
 
 | File | Description |
 |---|---|
-| operators.txt | 59 operator addresses with non-zero stake |
-| v2-summary.json | Resolved contract addresses and quorum snapshot |
-| all-stakes.json | Weighted stake per operator per quorum |
-| check-slashing.js | OperatorSlashed event scanner |
-| eigen-da-security.md | This report |
+| [operators.txt](./data/operators.txt) | 59 operator addresses with non-zero stake |
+| [v2-summary.json](./data/v2-summary.json) | Resolved contract addresses and quorum snapshot |
+| [all-stakes.json](./data/all-stakes.json) | Weighted stake per operator per quorum |
+| [final-v2-operators.js](./scripts/final-v2-operators.js) | Resolve v2 contracts and fetch operator set |
+| [read-all-stakes.js](./scripts/read-all-stakes.js) | Read weighted stake via StakeRegistry |
+| [check-slashing.js](./scripts/check-slashing.js) | OperatorSlashed event scanner |
 
 ---
 
