@@ -4,7 +4,11 @@ const { ethers } = require('ethers');
 
 const RPC_URL = process.env.RPC_URL;
 if (!RPC_URL) throw new Error('Set RPC_URL');
+
 const provider = new ethers.JsonRpcProvider(RPC_URL);
+
+// Фиксированный snapshot block для атомарности
+const SNAPSHOT_BLOCK = Number(process.env.SNAPSHOT_BLOCK || 25990607);
 
 const STAKE_REGISTRY = '0x006124ae7976137266feebfb3f4d2be4c073139d';
 const ABI = [
@@ -14,10 +18,12 @@ const registry = new ethers.Contract(STAKE_REGISTRY, ABI, provider);
 
 async function safeWeight(quorum, addr) {
   try {
-    const v = await registry.weightOfOperatorForQuorum(quorum, addr);
+    const v = await registry.weightOfOperatorForQuorum(quorum, addr, {
+      blockTag: SNAPSHOT_BLOCK,
+    });
     return BigInt(v);
   } catch (e) {
-    return null; // revert или ошибка
+    return null;
   }
 }
 
@@ -27,10 +33,13 @@ function format18(x) {
 }
 
 async function main() {
-  const lines = fs.readFileSync('operators.txt', 'utf8')
+  console.log(`Snapshot block: ${SNAPSHOT_BLOCK}\n`);
+
+  const lines = fs
+    .readFileSync('operators.txt', 'utf8')
     .split('\n')
-    .map(l => l.trim())
-    .filter(l => l.startsWith('0x'));
+    .map((l) => l.trim())
+    .filter((l) => l.startsWith('0x'));
 
   console.log(`Loaded ${lines.length} operators\n`);
 
@@ -48,26 +57,50 @@ async function main() {
     }
   }
 
-  const valid = (field) => results.filter(r => r[field] !== null && r[field] > 0n);
+  const valid = (field) =>
+    results.filter((r) => r[field] !== null && r[field] > 0n);
 
   const totalQ0 = valid('q0').reduce((s, r) => s + r.q0, 0n);
   const totalQ1 = valid('q1').reduce((s, r) => s + r.q1, 0n);
   const totalQ2 = valid('q2').reduce((s, r) => s + r.q2, 0n);
 
   console.log('\n================ TOTALS ================');
-  console.log(`q0 (ETH/LST):  ${format18(totalQ0)} ETH  | non-zero operators: ${valid('q0').length}`);
-  console.log(`q1 (EIGEN):    ${format18(totalQ1)} EIGEN | non-zero operators: ${valid('q1').length}`);
-  console.log(`q2 (third):    ${format18(totalQ2)} units | non-zero operators: ${valid('q2').length}`);
+  console.log(
+    `q0 (ETH/LST):  ${format18(totalQ0)} ETH  | non-zero operators: ${valid('q0').length}`
+  );
+  console.log(
+    `q1 (EIGEN):    ${format18(totalQ1)} EIGEN | non-zero operators: ${valid('q1').length}`
+  );
+  console.log(
+    `q2 (third):    ${format18(totalQ2)} units | non-zero operators: ${valid('q2').length}`
+  );
 
-  // Сохраняем JSON
-  fs.writeFileSync('all-stakes.json', JSON.stringify(results.map(r => ({
-    address: r.address,
-    q0: r.q0 === null ? null : r.q0.toString(),
-    q1: r.q1 === null ? null : r.q1.toString(),
-    q2: r.q2 === null ? null : r.q2.toString(),
-  })), null, 2));
+  fs.writeFileSync(
+    'all-stakes.json',
+    JSON.stringify(
+      {
+        snapshotBlock: SNAPSHOT_BLOCK,
+        totals: {
+          q0: totalQ0.toString(),
+          q1: totalQ1.toString(),
+          q2: totalQ2.toString(),
+        },
+        operators: results.map((r) => ({
+          address: r.address,
+          q0: r.q0 === null ? null : r.q0.toString(),
+          q1: r.q1 === null ? null : r.q1.toString(),
+          q2: r.q2 === null ? null : r.q2.toString(),
+        })),
+      },
+      null,
+      2
+    )
+  );
 
   console.log('\nSaved: all-stakes.json');
 }
 
-main().catch(e => { console.error('Fatal:', e.shortMessage || e.message); process.exitCode = 1; });
+main().catch((e) => {
+  console.error('Fatal:', e.shortMessage || e.message);
+  process.exitCode = 1;
+});

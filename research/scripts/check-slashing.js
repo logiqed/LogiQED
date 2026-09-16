@@ -10,16 +10,15 @@ const ALLOCATION_MANAGER = '0x948a420b8cc1d6bfd0b6087c2e7c344a2cd0b6fa';
 const START_BLOCK = 22270000;
 
 const ABI = [
-  'event OperatorSlashed(address indexed operator, bytes32 indexed operatorSet, address[] strategies, uint256[] wadSlashed, string description)'
+  'event OperatorSlashed(address indexed operator, bytes32 indexed operatorSet, address[] strategies, uint256[] wadSlashed, string description)',
 ];
 
 async function main() {
-  const latestBlock = await provider.getBlockNumber();
-  // Отступаем 100 блоков — избегаем нефинализированных блоков
-  const currentBlock = latestBlock - 100;
+  // Реальный finalized block, а не latest - 100
+  const finalized = await provider.getBlock('finalized');
+  const currentBlock = finalized.number;
 
-  console.log(`Latest block: ${latestBlock}`);
-  console.log(`Scanning up to safe block: ${currentBlock}`);
+  console.log(`Finalized block: ${currentBlock} (hash ${finalized.hash})`);
   console.log(`AllocationManager: ${ALLOCATION_MANAGER}`);
   console.log(`Range: ${START_BLOCK} -> ${currentBlock}\n`);
 
@@ -54,9 +53,7 @@ async function main() {
         console.log(`  [${from}-${to}] found ${events.length}`);
       }
 
-      if (to === currentBlock) {
-        isFullyCompleted = true;
-      }
+      if (to === currentBlock) isFullyCompleted = true;
 
       from = to + 1;
       step = Math.min(step * 2, 50000);
@@ -64,7 +61,9 @@ async function main() {
     } catch (e) {
       retries++;
       if (retries > MAX_RETRIES) {
-        console.error(`  Too many retries at ${from}-${to}: ${e.shortMessage || e.message}`);
+        console.error(
+          `  Too many retries at ${from}-${to}: ${e.shortMessage || e.message}`
+        );
         break;
       }
       if (step > 200) {
@@ -81,9 +80,11 @@ async function main() {
   if (!isFullyCompleted) {
     console.log('❌ SCAN INTERRUPTED: result is NOT complete.');
   } else if (total === 0) {
-    console.log(`✅ 100% COMPLETE: scanned up to block ${currentBlock}`);
+    console.log(`✅ 100% COMPLETE: scanned up to finalized block ${currentBlock}`);
     console.log('   0 OperatorSlashed events found.');
-    console.log('   No automatic slashing executed on mainnet in this range.');
+    console.log(
+      '   No automatic slashing executed on mainnet in this range.'
+    );
   } else {
     console.log(`🚨 Found ${total} slashing events:`);
     for (const f of found) {
@@ -92,7 +93,7 @@ async function main() {
   }
 }
 
-main().catch(e => {
+main().catch((e) => {
   console.error('Fatal:', e.shortMessage || e.message);
   process.exitCode = 1;
 });
