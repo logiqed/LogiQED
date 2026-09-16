@@ -159,12 +159,12 @@ Range: 3.7 million blocks.
 Slashing events: 0.
 ```
 
-### What this proves
+### What this shows
 
 1. Slashing is technically enabled at the EigenLayer protocol level.
 2. It has never been executed on EigenDA or, in this scanned range, on any AVS whose events would appear in the same contract.
 3. EigenDA operates on M2 middleware, not on Operator Sets.
-4. Its weighted stake does not carry slashable magnitudes.
+4. Weighted stake in this path was not mapped to confirmed slashable magnitudes in this research.
 
 ---
 
