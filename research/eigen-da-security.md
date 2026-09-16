@@ -22,7 +22,7 @@ Key findings:
 3. Concentration in the ETH quorum is severe: one operator controls about 55% of weighted stake; two operators control about 85%.
 4. The EIGEN quorum is also concentrated: top-10 operators control about 75% of weighted stake.
 5. Zero OperatorSlashed events in the AllocationManager across 3.7 million blocks scanned since slashing activation.
-6. EigenDA uses M2 middleware, not Operator Sets. Its weighted stake does not carry slashable magnitudes.
+6. EigenDA uses M2 middleware, not Operator Sets. Its weighted quorum stake could not be mapped to slashable magnitudes through the inspected AllocationManager path.
 7. The slashable economic backstop for EigenDA is not independently verifiable from public on-chain data.
 
 ---
@@ -171,7 +171,7 @@ Slashing events: 0.
 ## 8. Limitations
 
 1. Weighted stake is not slashable stake. This report measures voting weight in quorums, not slashable magnitudes in AllocationManager.
-2. Zero OperatorSlashed events have been observed on EigenLayer mainnet in the scanned range (blocks 22,270,000–25,990,607).
+2. Zero OperatorSlashed events were observed on EigenLayer mainnet in the scanned range (blocks 22,270,000–25,990,607). This result does not by itself prove that no M2-specific slashing or enforcement mechanism exists.
 3. USD figures are indicative. ETH = $2,400, EIGEN = $0.19 at snapshot. Conversions scale linearly.
 4. RPC constraints. Public free RPCs do not serve archive eth_getLogs. This research used SwiftNodes (free tier, 250K requests per month) with adaptive chunking.
 
@@ -191,11 +191,11 @@ Slashing events: 0.
 
 ## 10. What can be claimed
 
-EigenDA's weighted quorum stake is not slashable.
+The inspected data exposes EigenDA's weighted quorum stake, but does not establish a verified slashable security budget.
 
-The protocol activated slashing on mainnet, but EigenDA has not migrated to Operator Sets. Its weighted stake exists in code but does not carry slashable magnitudes.
+Zero OperatorSlashed events were observed in AllocationManager over the scanned range. This result does not by itself prove that no M2-specific slashing or enforcement mechanism exists.
 
-The slashable economic backstop for EigenDA is not independently verifiable from public on-chain data.
+EigenDA's weighted quorum stake could not be mapped to slashable magnitudes through the inspected AllocationManager path.
 
 ---
 
@@ -379,7 +379,7 @@ Replace YOUR_KEY with a free SwiftNodes API key. Any RPC endpoint that supports 
 
 ## 14. Core claim
 
-EigenDA's weighted quorum stake is not slashable. The EigenLayer protocol enabled slashing on mainnet, but EigenDA still runs on M2 middleware and has not migrated to Operator Sets. Its 59 operators collectively hold 536,352 ETH-equivalent and 123,773,030 EIGEN-equivalent weighted units across three quorums, but none of it carries slashable magnitudes. Over 3.7 million blocks scanned, AllocationManager has emitted zero OperatorSlashed events. The slashable economic backstop for EigenDA is not independently verifiable from public on-chain data.
+EigenDA's AVS-level slashable economic backstop could not be independently verified from the inspected public contracts and event history. The analysis identified weighted quorum stake across three quorums, but could not map that stake to confirmed slashable magnitudes. EigenDA runs on M2 middleware rather than the inspected Operator Sets path, so its active enforcement mechanism requires further verification.
 
 ---
 
