@@ -50,10 +50,15 @@ different definitions:
 This research uses on-chain non-zero weighted stake at block 25,990,607 
 as the operational definition.
 
-Revision note: an earlier draft used non-atomic latest-state reads for stake 
-values. Current figures are recomputed at fixed block 25,990,607 using blockTag 
-for all stake reads. Differences between drafts reflect the switch to an atomic 
-snapshot, not a change in the underlying on-chain data.
+Revision note: earlier drafts differ from the current version in two 
+methodological respects. First, stake values were originally read from 
+latest state without a fixed blockTag; current figures are read at fixed 
+block 25,990,607. Second, earlier drafts aggregated weighted stake across 
+the union of all 59 operator addresses, which included residual weight in 
+quorums where an operator was no longer registered; current figures are 
+computed only for the set of operators returned by getOperatorState per 
+quorum. Both corrections change the reported totals and do not reflect 
+a change in the underlying on-chain state.
 
 ---
 
@@ -120,10 +125,10 @@ Implications:
 
 Note on operator counts: the per-quorum counts in the table above are the 
 counts of operators returned by getOperatorState at block 25,990,607, 
-which returns 32 / 55 / 4 for q0 / q1 / q2. All of these registered 
-operators have non-zero weighted stake, because EigenDA enforces a 
-minimum stake requirement for registration (32 ETH for q0, 1 EIGEN for 
-q1). The union of the three registered sets is 59 unique addresses.
+which returns 32 / 55 / 4 for q0 / q1 / q2. All operators returned for 
+these registered sets were independently verified to have non-zero 
+weighted stake at the snapshot block. The union of the three registered 
+sets is 59 unique addresses.
 
 An earlier draft also reported 46 / 58 / 15 non-zero weights per quorum. 
 That number came from reading weightOfOperatorForQuorum for the full 
@@ -145,10 +150,14 @@ All figures below are weighted quorum units as returned by StakeRegistry.weightO
 | q2 (third) | 649,206 units | 4 of 4 |
 
 Multiplier verification: StakeRegistry.strategyParamsByIndex(1, 0) 
-returns multiplier = 1e18 for the EIGEN strategy. This means 1 weighted 
-unit corresponds to 1 EIGEN share (assuming exchange rate = 1.0), and 
-weighted units for the EIGEN quorum can be directly compared with EIGEN 
-token amounts.
+returns multiplier = 1e18 for the EIGEN strategy. This confirms that 
+1 strategy share contributes weight equal to 1 share. It does not by 
+itself establish that 1 strategy share equals 1 underlying EIGEN token. 
+The underlying exchange rate (shares → EIGEN) is not verified in this 
+research. Threshold values are therefore reported in weighted quorum 
+units, which equal strategy shares under the inspected multiplier. USD 
+figures in Section 7 are indicative and assume an exchange rate of 1.0 
+between strategy shares and EIGEN tokens.
 
 ---
 
@@ -247,15 +256,17 @@ amounts, because weighted stake is not the same as slashable stake.
 
 The EIGEN strategy has multiplier = 1e18 in the inspected StakeRegistry, 
 verified via strategyParamsByIndex(1, 0). This means 1 weighted unit in the 
-EIGEN quorum corresponds to 1 EIGEN share (assuming exchange rate = 1.0). 
-Therefore the dollar-denominated quorum threshold scales linearly with the 
-market price of EIGEN.
+EIGEN quorum corresponds to 1 strategy share. The exchange rate between 
+strategy shares and underlying EIGEN tokens is not verified in this 
+research and is assumed to be 1.0 for the indicative USD figures below. 
+Under that assumption, the mark-to-market dollar value of the quorum 
+threshold scales linearly with the market price of EIGEN.
 
 The table below shows the confirmation (55%) and adversary (33%) thresholds 
 of the EIGEN quorum at several EIGEN prices. All values are computed from 
 the on-chain weighted stake at block 25,990,607.
 
-| EIGEN price | Adversary 33% (90,924,754 EIGEN) | Confirmation 55% (151,541,257 EIGEN) |
+| EIGEN price | Adversary 33% (90,924,754 shares) | Confirmation 55% (151,541,257 shares) |
 |---|---:|---:|
 | $0.10 | ~$9.1M | ~$15.2M |
 | $0.19 (snapshot) | ~$17.3M | ~$28.8M |
@@ -268,9 +279,14 @@ Interpretation:
 
 - The EIGEN quorum's dollar-denominated threshold is a direct function of 
   the market price of EIGEN. It is not fixed by the protocol.
-- A lower EIGEN price implies a lower dollar cost to reach the confirmation 
-  or adversary threshold in this quorum, all else equal.
-- A higher EIGEN price implies a higher dollar cost, all else equal.
+- A lower EIGEN price lowers the mark-to-market dollar value represented 
+  by a given quorum threshold, all else equal.
+- A higher EIGEN price raises the mark-to-market dollar value represented 
+  by a given quorum threshold, all else equal.
+- These figures should not be interpreted as the executable acquisition 
+  cost of controlling a quorum threshold. Acquiring the underlying stake 
+  in practice would involve market impact, liquidity constraints, operator 
+  registration, delegation, and time, none of which are captured here.
 
 Important caveats:
 
