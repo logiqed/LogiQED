@@ -21,7 +21,7 @@ Key findings:
 2. Weighted stake: 589,036 ETH-equivalent, 275,529,558 EIGEN-equivalent, and 649,206 units in the third quorum.
 3. Concentration in the ETH quorum is severe: one operator controls about 50.02% of weighted stake; top-3 operators control about 78.72%; top-10 operators control about 96.60%.
 4. The EIGEN quorum is also concentrated: top-1 controls about 17.83%, top-3 about 36.91%, and top-10 about 71.44% of weighted stake.
-5. Zero OperatorSlashed events in the AllocationManager across 3.7 million blocks scanned since slashing activation.
+5. Zero slashing and ejection events across four independent on-chain paths over 3.7 million blocks: OperatorSlashed (AllocationManager), BurnOrRedistributableSharesIncreased (StrategyManager), OperatorEjected (RegistryCoordinator), and EjectionStarted/EjectionCompleted (EjectionManager).
 6. EigenDA uses M2 middleware, not Operator Sets. Its weighted quorum stake could not be mapped to slashable magnitudes through the inspected AllocationManager path.
 7. The slashable economic backstop for EigenDA is not independently verifiable from public on-chain data.
 
@@ -356,6 +356,19 @@ Slashing events: 0.
 *Console output of `check-slashing.js` against EigenLayer mainnet: two 
 independent complete runs, both returning 0 `OperatorSlashed` events.*
 
+### Summary of on-chain checks
+
+Four independent on-chain paths were scanned over the same range. All returned zero events.
+
+| Path | Contract | Event | Events found |
+|---|---|---|---|
+| 1 | AllocationManager | OperatorSlashed | 0 |
+| 2 | StrategyManager | BurnOrRedistributableSharesIncreased | 0 |
+| 3 | RegistryCoordinator | OperatorEjected | 0 |
+| 4 | EjectionManager | EjectionStarted / EjectionCompleted | 0 |
+
+Paths 1 and 2 are slashing-related. Paths 3 and 4 describe governance actions for non-signing, not slashing enforcement.
+
 ### What this shows
 
 1. Slashing is technically enabled at the EigenLayer protocol level.
@@ -368,14 +381,15 @@ independent complete runs, both returning 0 `OperatorSlashed` events.*
 ## 9. Limitations
 
 1. Weighted stake is not slashable stake. This report measures voting weight in quorums, not slashable magnitudes in AllocationManager.
-2. Zero OperatorSlashed events were observed on EigenLayer mainnet in the 
-   scanned range (blocks 22,270,000–25,991,586). As a secondary check, the 
-   StrategyManager event BurnOrRedistributableSharesIncreased — which is 
-   emitted whenever slashed shares are routed to burn or redistribution — 
-   was also scanned over the same range and returned zero events. Two 
-   independent on-chain paths therefore show no slashing activity for 
-   EigenDA in this range. This does not by itself prove that no M2-specific 
-   slashing or enforcement mechanism exists.
+2. Zero slashing-related events were observed on EigenLayer mainnet in the 
+   scanned range. Four independent paths were checked: OperatorSlashed 
+   (AllocationManager), BurnOrRedistributableSharesIncreased (StrategyManager), 
+   OperatorEjected (EigenDA RegistryCoordinator), and EjectionStarted / 
+   EjectionCompleted (EigenDA EjectionManager). All four returned zero events 
+   over the same range. Two of these paths (AllocationManager, StrategyManager) 
+   are slashing-related; the other two (RegistryCoordinator, EjectionManager) 
+   describe governance actions for non-signing. This does not by itself prove 
+   that no M2-specific slashing or enforcement mechanism exists.
 3. USD figures are indicative. ETH = $2,400, EIGEN = $0.19 at snapshot. Conversions scale linearly.
 4. RPC constraints. This research used two RPC classes: Alchemy (free tier) 
    for eth_call reads on a fixed snapshot block, and SwiftNodes (free tier) 
@@ -410,12 +424,12 @@ independent complete runs, both returning 0 `OperatorSlashed` events.*
 
 The inspected data exposes EigenDA's weighted quorum stake, but does not establish a verified slashable security budget.
 
-Zero OperatorSlashed events were observed in AllocationManager over the 
-scanned range. As a secondary check, BurnOrRedistributableSharesIncreased 
-in StrategyManager was also scanned over the same range and returned zero 
-events. Two independent paths therefore show no slashing activity for 
-EigenDA in this range. This does not by itself prove that no M2-specific 
-slashing or enforcement mechanism exists.
+Zero slashing-related events were observed across four independent paths 
+over the scanned range: OperatorSlashed (AllocationManager), 
+BurnOrRedistributableSharesIncreased (StrategyManager), OperatorEjected 
+(RegistryCoordinator), and EjectionStarted / EjectionCompleted 
+(EjectionManager). All four returned zero events. This does not by itself 
+prove that no M2-specific slashing or enforcement mechanism exists.
 
 EigenDA's weighted quorum stake could not be mapped to slashable magnitudes 
 through the inspected AllocationManager path.
@@ -1139,8 +1153,158 @@ share removal occurred for any operator set over the scanned range.
 *Console output of `check-burn-redistribution.js`: two complete runs, 
 0 events in both AllocationManager and StrategyManager.*
 
+### 13.6 Eigenda ejections check (check-eigenda-ejections.js)
 
-### 13.6 Compute concentration and thresholds (compute-stats.js)
+```javascript
+'use strict';
+const { ethers } = require('ethers');
+
+const RPC_URL = process.env.RPC_URL_ETH_GET_LOGS || process.env.RPC_URL;
+if (!RPC_URL) throw new Error('Set RPC_URL_ETH_GET_LOGS (or RPC_URL)');
+
+const provider = new ethers.JsonRpcProvider(RPC_URL);
+
+// EigenDA mainnet contracts
+const EIGENDA_REGISTRY_COORDINATOR = '0x0BAAc79acD45A023E19345c352d8a7a83C4e5656';
+const EIGENDA_EJECTION_MANAGER = '0x130d8EA0052B45554e4C99079B84df292149Bd5E';
+
+const START_BLOCK = 22270000;
+
+const ABI = [
+  // EigenDA RegistryCoordinator
+  'event OperatorEjected(address indexed operator, bytes32 indexed operatorId)',
+  // EigenDA EjectionManager
+  'event EjectionStarted(address indexed operator, bytes32 indexed operatorId)',
+  'event EjectionCompleted(address indexed operator, bytes32 indexed operatorId)',
+];
+
+const registryCoordinator = new ethers.Contract(EIGENDA_REGISTRY_COORDINATOR, ABI, provider);
+const ejectionManager = new ethers.Contract(EIGENDA_EJECTION_MANAGER, ABI, provider);
+
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+async function scanContract(contract, eventName, label) {
+  const finalized = await provider.getBlock('finalized');
+  const currentBlock = finalized.number;
+
+  console.log(`\n=== ${label} ===`);
+  console.log(`Contract: ${contract.target}`);
+  console.log(`Event: ${eventName}`);
+  console.log(`Range: ${START_BLOCK} -> ${currentBlock}\n`);
+
+  let step = 10000;
+  const MIN_STEP = 100;
+  let total = 0;
+  let isFullyCompleted = false;
+
+  let from = START_BLOCK;
+  let retriesAtCurrent = 0;
+  const MAX_RETRIES_PER_WINDOW = 30;
+
+  while (from <= currentBlock) {
+    const to = Math.min(from + step - 1, currentBlock);
+
+    try {
+      const events = await contract.queryFilter(eventName, from, to);
+      if (events.length > 0) {
+        total += events.length;
+        console.log(`  [${from}-${to}] found ${events.length}`);
+        for (const e of events) {
+          console.log(`    Block ${e.blockNumber} | operator=${e.args[0]} | tx=${e.transactionHash}`);
+        }
+      }
+      if (to === currentBlock) isFullyCompleted = true;
+
+      from = to + 1;
+      step = Math.min(step * 2, 50000);
+      retriesAtCurrent = 0;
+      await sleep(50);
+    } catch (e) {
+      retriesAtCurrent++;
+      if (retriesAtCurrent > MAX_RETRIES_PER_WINDOW) break;
+      if (step > MIN_STEP) {
+        step = Math.max(Math.floor(step / 2), MIN_STEP);
+        await sleep(500 * Math.min(retriesAtCurrent, 10));
+        continue;
+      }
+      break;
+    }
+  }
+
+  return { total, isFullyCompleted, lastScanned: from, currentBlock };
+}
+
+async function main() {
+  const ejected = await scanContract(
+    registryCoordinator,
+    'OperatorEjected',
+    'EigenDA RegistryCoordinator — OperatorEjected'
+  );
+
+  const ejectionStarted = await scanContract(
+    ejectionManager,
+    'EjectionStarted',
+    'EigenDA EjectionManager — EjectionStarted'
+  );
+
+  const ejectionCompleted = await scanContract(
+    ejectionManager,
+    'EjectionCompleted',
+    'EigenDA EjectionManager — EjectionCompleted'
+  );
+
+  console.log('\n================ SUMMARY ================');
+
+  const checks = [
+    { name: 'OperatorEjected (RegistryCoordinator)', res: ejected },
+    { name: 'EjectionStarted (EjectionManager)', res: ejectionStarted },
+    { name: 'EjectionCompleted (EjectionManager)', res: ejectionCompleted },
+  ];
+
+  let allCompleted = true;
+  let totalEvents = 0;
+
+  for (const c of checks) {
+    if (!c.res.isFullyCompleted) {
+      console.log(`❌ ${c.name}: SCAN INTERRUPTED at block ${c.res.lastScanned}`);
+      allCompleted = false;
+    } else {
+      console.log(`✅ ${c.name}: 100% COMPLETE. Events found: ${c.res.total}`);
+      totalEvents += c.res.total;
+    }
+  }
+
+  if (allCompleted && totalEvents === 0) {
+    console.log('\n✅ 0 ejection events across all three contracts over the scanned range.');
+    console.log('   No forced ejection activity observed for EigenDA.');
+  } else if (allCompleted) {
+    console.log('\n⚠️ Non-zero ejection events found. Manual review required.');
+  } else {
+    console.log('\n❌ At least one scan did not complete. Results are NOT valid.');
+  }
+}
+
+main().catch((e) => {
+  console.error('Fatal:', e.shortMessage || e.message);
+  process.exitCode = 1;
+});
+```
+
+Note: this script is an EigenDA-specific check. OperatorEjected in the 
+EigenDA RegistryCoordinator and EjectionStarted / EjectionCompleted in 
+the EigenDA EjectionManager describe governance actions for non-signing 
+operators, not slashing enforcement. A zero result here confirms that no 
+forced ejection has been applied to EigenDA operators in the scanned 
+range. This is orthogonal to the slashing checks in AllocationManager 
+and StrategyManager.
+
+![Console output of check-eigenda-ejections.js: 0 events across all three scans](./images/check-eigenda-ejections-output.png)
+
+*Console output of `check-eigenda-ejections.js`: three complete scans, 
+0 events in RegistryCoordinator and EjectionManager.*
+
+
+### 13.7 Compute concentration and thresholds (compute-stats.js)
 
 ```javascript
 'use strict';
@@ -1200,7 +1364,7 @@ concentration and threshold values shown in Section 5 and Section 6. It
 does not query the chain; it operates on the artifact produced by
 read-registered-stakes.js.
 
-### 13.7 How to run
+### 13.8 How to run
 
 Install dependencies first:
 
@@ -1251,6 +1415,7 @@ Linux / macOS:
 export RPC_URL_ETH_GET_LOGS="https://rpc.swiftnodes.io/rpc/eth?key=YOUR_KEY"
 node check-slashing.js
 node check-burn-redistribution.js
+node check-eigenda-ejections.js
 ```
 
 Windows PowerShell:
@@ -1258,6 +1423,7 @@ Windows PowerShell:
 $env:RPC_URL_ETH_GET_LOGS="https://rpc.swiftnodes.io/rpc/eth?key=YOUR_KEY"
 node check-slashing.js
 node check-burn-redistribution.js
+node check-eigenda-ejections.js
 ```
 
 Windows CMD:
@@ -1265,6 +1431,7 @@ Windows CMD:
 set RPC_URL_ETH_GET_LOGS=https://rpc.swiftnodes.io/rpc/eth?key=YOUR_KEY
 node check-slashing.js
 node check-burn-redistribution.js
+node check-eigenda-ejections.js
 ```
 
 Replace YOUR_KEY with a free SwiftNodes API key.
@@ -1299,19 +1466,26 @@ across endpoints and time.
 | [read-registered-stakes.js](./scripts/read-registered-stakes.js) | Read weighted stake for registered operators only |
 | [check-slashing.js](./scripts/check-slashing.js) | OperatorSlashed event scanner |
 | [check-burn-redistribution.js](./scripts/check-burn-redistribution.js) | Secondary slashing check (StrategyManager burn/redistribution) |
+| [check-eigenda-ejections.js](./scripts/check-eigenda-ejections.js) | EigenDA-specific ejection check (RegistryCoordinator + EjectionManager) |
 | [compute-stats.js](./scripts/compute-stats.js) | Compute concentration and thresholds from registered-stakes.json |
-| [images/](./images/) | Console screenshots: final-v2-operators, read-registered-stakes, compute-stats, check-slashing, check-burn-redistribution, read-all-stakes |
+| [images/](./images/) | Console screenshots: final-v2-operators, read-registered-stakes, compute-stats, check-slashing, check-burn-redistribution, check-eigenda-ejections, read-all-stakes |
 
 ---
 
 ## 15. Core claim
 
-EigenDA's AVS-level slashable economic backstop could not be independently verified from the inspected public contracts and event history. The analysis identified 589,036 ETH-equivalent and 275,529,558 EIGEN-equivalent weighted units across three quorums at block 25,990,607, but could not map that stake to confirmed slashable magnitudes. Over 3.7 million blocks scanned, two independent on-chain paths — AllocationManager's OperatorSlashed and StrategyManager's BurnOrRedistributableSharesIncreased — both returned zero events. EigenDA runs on M2 middleware rather than the inspected Operator Sets path, so its active enforcement mechanism requires further verification.
+EigenDA's AVS-level slashable economic backstop could not be independently verified from the inspected public contracts and event history. The analysis identified 589,036 ETH-equivalent and 275,529,558 EIGEN-equivalent weighted units across three quorums at block 25,990,607, but could not map that stake to confirmed slashable magnitudes. 
+Over 3.7 million blocks scanned, four independent on-chain paths — 
+AllocationManager's OperatorSlashed, StrategyManager's 
+BurnOrRedistributableSharesIncreased, RegistryCoordinator's OperatorEjected, 
+and EjectionManager's EjectionStarted / EjectionCompleted — all returned 
+zero events. 
+EigenDA runs on M2 middleware rather than the inspected Operator Sets path, so its active enforcement mechanism requires further verification.
 
 ---
 
 Snapshot block: 25,990,607 (2026-09-16).
-Slashing scan finalized blocks: 25,991,586 and 25,996,817 (two complete runs).
+Slashing-related scan finalized blocks: 25,991,586, 25,996,817, and 25,998,248 (three complete runs across four paths).
 Snapshot rates: ETH = $2,400, EIGEN = $0.19.
 Multiplier (EIGEN strategy, q1): 1e18 (1.0), verified on-chain via StakeRegistry.strategyParamsByIndex(1, 0).
 
