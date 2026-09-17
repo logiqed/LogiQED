@@ -244,7 +244,11 @@ The table below shows the confirmation (55%) and adversary (33%) thresholds of t
 
 ### Method
 
-Scan AllocationManager (0x948a420b...b6fa) for OperatorSlashed events from slashing activation block (22,270,000) to the latest finalized block. Two independent complete runs were performed: one up to block 25,991,586 and one up to block 25,996,817. Both completed with status 100% COMPLETE.
+Scan AllocationManager (`0x948a420b...b6fa`) for `OperatorSlashed` events from slashing activation block (22,270,000) to the latest finalized block.
+
+Event scans are independent of the snapshot block. The snapshot (25,990,607) captures state at a fixed moment; event scans run up to the current finalized block at the time of each run.
+
+Two independent complete runs were performed: one up to block 25,991,586 and one up to block 25,996,817. Both completed with status **100% COMPLETE**.
 
 Event signature:
 
@@ -1410,9 +1414,9 @@ EigenDA runs on M2 middleware rather than the inspected Operator Sets path, so i
 
 ---
 
-**Snapshot block:** 25,990,607 (2026-09-16).
+**Snapshot block:** 25,990,607 (2026-09-16). All stake, operator, and concentration figures refer to this block.
 
-**Slashing-related scan finalized blocks:** 25,991,586, 25,996,817, 25,998,248 (three complete runs across four paths).
+**Slashing-related scan finalized blocks:** 25,991,586, 25,996,817, 25,998,248 (three complete runs across four paths). Event scans run to the current finalized block at the time of each run, independent of the snapshot block.
 
 **Snapshot rates:** ETH = \$2,400, EIGEN = \$0.19.
 
