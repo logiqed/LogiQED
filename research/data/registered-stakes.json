@@ -1,0 +1,639 @@
+{
+  "snapshotBlock": 25990607,
+  "registryCoordinator": "0x0BAAc79acD45A023E19345c352d8a7a83C4e5656",
+  "operatorStateRetriever": "0xEC35aa6521d23479318104E10B4aA216DBBE63Ce",
+  "stakeRegistry": "0x006124Ae7976137266feeBFb3F4D2BE4C073139D",
+  "perQuorum": [
+    {
+      "quorum": 0,
+      "registeredCount": 32,
+      "nonZeroCount": 32,
+      "totalWeightedStake": "589036279078864214063889",
+      "operators": [
+        {
+          "address": "0x3601bda2b72628da309ab9df7d310ada38cae44c",
+          "operatorId": "0x3bada6b94153d886dd48ea93946e83779a9e338cdd138b81106584a94ef6b247",
+          "registeredStake": "7715663405666770186147",
+          "weightedStake": "7872423896941770186147"
+        },
+        {
+          "address": "0xe5801326014db4f6729264db38f5f5430bc2fbfa",
+          "operatorId": "0x3a6f497e1db3dcc4aec8b8822f9bc3f35c8dccc361505cb308d0015c3793f567",
+          "registeredStake": "83513172668262789884",
+          "weightedStake": "83513172668262789884"
+        },
+        {
+          "address": "0xf80b7ba7e778abf08a63426886ca40189c7ef48a",
+          "operatorId": "0xedebd1222578e5cd75d76c8972ab5ee7439591ee667094aea695b092484877fb",
+          "registeredStake": "1163272532651982263992",
+          "weightedStake": "1163272532651982263992"
+        },
+        {
+          "address": "0x4ab936ed359a71b91b1ea1062d7bc9ba4e318405",
+          "operatorId": "0xaa2854f59d446537e7b349ca80646985c4bc296ee0a6ef4ae2e7ce2cfc6476e2",
+          "registeredStake": "225396442672377713500",
+          "weightedStake": "225396442672377713500"
+        },
+        {
+          "address": "0xa3ff1491088715d140bc821a28287cb3f71b43e4",
+          "operatorId": "0x35a645a980a13c0cb3024a5e78408ddde2b5affd306cd331ce2be9cd5968ca23",
+          "registeredStake": "138145313112473036499",
+          "weightedStake": "138145313112473036499"
+        },
+        {
+          "address": "0x2e68d03f2234895b3ba5899b80785e2598ed7fac",
+          "operatorId": "0x9451e780b7a82699a8a5345caf25822345920da114581a31b412b59694f13adc",
+          "registeredStake": "57021382401140792963",
+          "weightedStake": "57021382401140792963"
+        },
+        {
+          "address": "0xa026265a0f01a6e1a19b04655519429df0a57c4e",
+          "operatorId": "0xb523e0b4efdc2c267da48e837e419fda92085151dea3d59834da2dc153dc157c",
+          "registeredStake": "14905728289345162180700",
+          "weightedStake": "15901516570869162180700"
+        },
+        {
+          "address": "0x617b23c98b8992d60c9913cb4f8aefadbb70c9d2",
+          "operatorId": "0x2c785bd766946121479e4b017d543dcb3834c895b0aba4eb06c4d005ac0c598a",
+          "registeredStake": "75821362547958678084",
+          "weightedStake": "75821362547958678084"
+        },
+        {
+          "address": "0xdbed88d83176316fc46797b43adee927dc2ff2f5",
+          "operatorId": "0x0058fc08ccd6efbfa1b28be52f2f97a34e2168217f144bbb680a537d2ca18111",
+          "registeredStake": "294839950843938910678511",
+          "weightedStake": "294640548768721189589910"
+        },
+        {
+          "address": "0x7e3cede5c77cd4192d206c652db0023a89d7e5ec",
+          "operatorId": "0x2d92999b9b651916f60c7d28934b9b91d9c43c7a4474861340ccc09cadc29750",
+          "registeredStake": "148703052038956871398",
+          "weightedStake": "148703052038956871398"
+        },
+        {
+          "address": "0x39beca54f450fcc4b31729a85b3e9655ec0081d6",
+          "operatorId": "0x2aa77dfcccd51126c0affefa1235a2c53905fe864fccfd93ffe4d8d4f8912a8a",
+          "registeredStake": "53971952579219992884894",
+          "weightedStake": "53971952579219992884894"
+        },
+        {
+          "address": "0xc10c954332c0c17f1003bb2c77e8c0122ef9bdb8",
+          "operatorId": "0x043b00fe2b0b7af45acf2778eaf4fcd396c8549cb0876cc257f6c11e54ec6635",
+          "registeredStake": "192056161121000000000",
+          "weightedStake": "192056161121000000000"
+        },
+        {
+          "address": "0x794a15082bc31c81e370f6600fba047f7226dab4",
+          "operatorId": "0x42162fbd59503a09b5709d0e612b824cd12f92fa577ea993fd67e797df19415c",
+          "registeredStake": "2706952515683813971562",
+          "weightedStake": "2706952515683813971562"
+        },
+        {
+          "address": "0x3f98f47d302a3cfd3746fe35f7cf10c3217e5272",
+          "operatorId": "0x0a65b09f4cc1527b6dcf4dbf071cd42b941a1aa634d1a02c6a47c5324b345654",
+          "registeredStake": "17241974378576000000001",
+          "weightedStake": "17239974378576000000001"
+        },
+        {
+          "address": "0x46b3f7b5be0787765565a6d8a645266a9347ab82",
+          "operatorId": "0x2a5ccd8075a6e252f1448cd3fdbcde296d2f56aaf2d757c5863db608ae41b02e",
+          "registeredStake": "15739605389308408825881",
+          "weightedStake": "15739605389308408825881"
+        },
+        {
+          "address": "0x71c6f7ed8c2d4925d0baf16f6a85bb1736d412eb",
+          "operatorId": "0xd91c7c8888da9062e48e92d20813dfa8ce7f581d327b36237040354c5159db0e",
+          "registeredStake": "5184738761934548707548",
+          "weightedStake": "5183509483629881634927"
+        },
+        {
+          "address": "0xa5954756792f64ba7bcc4b5fd664b0843a7afe5b",
+          "operatorId": "0x3278d7a1fc5f9f6a342007f6efd5fba9f8713169ed4c448f39884925422552f7",
+          "registeredStake": "44792894164032143362",
+          "weightedStake": "44792894164032143362"
+        },
+        {
+          "address": "0xdde3d4e0d7705ff68d31009a2422425ae38810a6",
+          "operatorId": "0x29ef6b67feaaa31f210c9a7b8ef073a3fb35eeb5f6fe063f5e75247b884abd0a",
+          "registeredStake": "33825280425675208897",
+          "weightedStake": "33825280425675208897"
+        },
+        {
+          "address": "0xc27b425dd56827145d28ef5b5eebab867e338278",
+          "operatorId": "0x1c9b842872d119a38569314f96152c019f31f97f4f11b9b8f20331c7ff693e40",
+          "registeredStake": "63449037969749185607",
+          "weightedStake": "63449037969749185607"
+        },
+        {
+          "address": "0x18b305eca7305b92a56f6050e502df5e87c561a8",
+          "operatorId": "0xfdaa0fe4307b2e9f18c1211f08ba2613a2ec3002eaad3e2d61f87b9cb25e305d",
+          "registeredStake": "356910694847661142716",
+          "weightedStake": "354410162129474145140"
+        },
+        {
+          "address": "0x8beef538986aeb2ee1a80b5e1febc16d8643a23d",
+          "operatorId": "0x1147eac85c25bdcb35a3818f2fa98f753458208db9d7ec0753af3f0feaba49a3",
+          "registeredStake": "335550760841487024851",
+          "weightedStake": "335550760841487024851"
+        },
+        {
+          "address": "0x4cd2086e1d708e65db5d4f5712a9ca46ed4bbd0a",
+          "operatorId": "0x62fd7709add808809511fe2d3a230cd9cb7321cc2f47e2c35fd959d0449be8ee",
+          "registeredStake": "491440662673341773204",
+          "weightedStake": "488210064244509206702"
+        },
+        {
+          "address": "0x033bfb405e809a303df875a6e018f1a64e5dbae9",
+          "operatorId": "0x2e2ee953aa3c2a499640270eaaf2ba1973265f7e0d0b1e0ebef6ead13fcce307",
+          "registeredStake": "46917226881339672571",
+          "weightedStake": "46917226881339672571"
+        },
+        {
+          "address": "0xbe7d5f26f5d5f567d35a86dd4d7d02aced2d5bff",
+          "operatorId": "0x0496a1c5a3f9d2350177e1d3fc810b61acfcfd24e1d40e1d716524fd379e858a",
+          "registeredStake": "115097613243129024302328",
+          "weightedStake": "115068401904503024302328"
+        },
+        {
+          "address": "0x140dc7ef41b8ed01f340333045dc818947ca428d",
+          "operatorId": "0xe53ff57b72c0ea3dc215523a33d43340a5d1aadb25f8395de0bce768f17a84c5",
+          "registeredStake": "10179644514732410160550",
+          "weightedStake": "10149016350639410160550"
+        },
+        {
+          "address": "0x342e35a47dd213d4612f2e622cab5214798a4604",
+          "operatorId": "0xab5716b1b46c8c1d6eef9e2ba828f33fbbee735966f0d0e449c77727808154ba",
+          "registeredStake": "96022406180765640590",
+          "weightedStake": "96022406180765640590"
+        },
+        {
+          "address": "0x5accc90436492f24e6af278569691e2c942a676d",
+          "operatorId": "0x475ca3b08b5861bb0f8e49ebc14775847cf531c6c16a1473d4610d6f609f179c",
+          "registeredStake": "8077538471499717062964",
+          "weightedStake": "8066576408335804769256"
+        },
+        {
+          "address": "0x1c4b8717a3eff560c49d09e7409819cb81fece4b",
+          "operatorId": "0xe5f9b527a2b5ace562d7ad9e3e8ed8baa162ae5bd92ea66cdf7215c6b1b19759",
+          "registeredStake": "15648019376066000000001",
+          "weightedStake": "15648019376066000000001"
+        },
+        {
+          "address": "0x6573629204b65faac121c1b556b91a694d0e23c8",
+          "operatorId": "0x7bd201d192cd84f224b5fc8fd8b3ce7ce8009021d4253d57dc44e7276fc20ae0",
+          "registeredStake": "106324100886914976880",
+          "weightedStake": "106324100886914976880"
+        },
+        {
+          "address": "0x858dacb5accdb783c47b4debf30f96f2f0079f4b",
+          "operatorId": "0xf4d2e74aefcf9a4201e7fcd300f93faf1628fdf83397a950dd49c48cc5113aaf",
+          "registeredStake": "517239599949761932965",
+          "weightedStake": "517239599949761932965"
+        },
+        {
+          "address": "0xdfcb21ac9b99de986d99f4ce5fce2a6542efe3a1",
+          "operatorId": "0xe8f5cbf6ef8179b14b6378206d1006a38d9f749351955d4738cd515aa8559e5e",
+          "registeredStake": "22604490499550000000001",
+          "weightedStake": "22604490499550000000001"
+        },
+        {
+          "address": "0x3303fda11d6bafe0833d6a6c44c2b8edbab92e4d",
+          "operatorId": "0x9e9ac054de136666faca763435497280f286223f6d412e4ca844a7916d7d3fc2",
+          "registeredStake": "72620003931894273846",
+          "weightedStake": "72620003931894273846"
+        }
+      ]
+    },
+    {
+      "quorum": 1,
+      "registeredCount": 55,
+      "nonZeroCount": 55,
+      "totalWeightedStake": "275529557570004499027064791",
+      "operators": [
+        {
+          "address": "0xbe7d5f26f5d5f567d35a86dd4d7d02aced2d5bff",
+          "operatorId": "0x0496a1c5a3f9d2350177e1d3fc810b61acfcfd24e1d40e1d716524fd379e858a",
+          "registeredStake": "9447424862896284539357",
+          "weightedStake": "9447424862896284539357"
+        },
+        {
+          "address": "0x09e6eb09213bdd3698bd8afb43ec3cb0ecff683e",
+          "operatorId": "0x74e99d8b01a4e92c6c37961c04d1956cab258a9dd036696515961e751101b7db",
+          "registeredStake": "3480000000000000000000",
+          "weightedStake": "3480000000000000000000"
+        },
+        {
+          "address": "0xa3cf61a0def7bde1574a2bb139a1a7f28d4668aa",
+          "operatorId": "0x6b9d91f76e2c7d4fa17b0c498144cc857b43c1488f6f7a0cc7ed4a5f4c1fed5a",
+          "registeredStake": "70808279581510973931765",
+          "weightedStake": "70811279581510973931765"
+        },
+        {
+          "address": "0xf80b7ba7e778abf08a63426886ca40189c7ef48a",
+          "operatorId": "0xedebd1222578e5cd75d76c8972ab5ee7439591ee667094aea695b092484877fb",
+          "registeredStake": "10980120022916579084761838",
+          "weightedStake": "10980211950913623385936045"
+        },
+        {
+          "address": "0xe48c8e071857d1229fc94d73a0f25d1dbb99c04c",
+          "operatorId": "0x832c0fae231eb044c5f7ceb2f72a77caef174f46e60c8c257aab5160603b05b3",
+          "registeredStake": "9027511973757280005685",
+          "weightedStake": "9027511973757280005685"
+        },
+        {
+          "address": "0xa3ff1491088715d140bc821a28287cb3f71b43e4",
+          "operatorId": "0x35a645a980a13c0cb3024a5e78408ddde2b5affd306cd331ce2be9cd5968ca23",
+          "registeredStake": "23704313839313101537221495",
+          "weightedStake": "23436420300955894997818358"
+        },
+        {
+          "address": "0xd98edb52c7e73720926ce6ffc502f976af614541",
+          "operatorId": "0x2520bd4e689b56254392f79be8265dd92d712b27807a32214f9917aab329f466",
+          "registeredStake": "17333340000000000000000000",
+          "weightedStake": "17333340000000000000000000"
+        },
+        {
+          "address": "0x81a28c9f24fa19f3292178464427bd71c0dad411",
+          "operatorId": "0x442a057849f7fa68f8c34dc8b9475c6f8e50ee48b1f7e83e0229833761a7d6e3",
+          "registeredStake": "35931020186541768286",
+          "weightedStake": "35931020186541768286"
+        },
+        {
+          "address": "0xdde3d4e0d7705ff68d31009a2422425ae38810a6",
+          "operatorId": "0x29ef6b67feaaa31f210c9a7b8ef073a3fb35eeb5f6fe063f5e75247b884abd0a",
+          "registeredStake": "49119868123664324990006659",
+          "weightedStake": "49115582000213304990006659"
+        },
+        {
+          "address": "0x7e3cede5c77cd4192d206c652db0023a89d7e5ec",
+          "operatorId": "0x2d92999b9b651916f60c7d28934b9b91d9c43c7a4474861340ccc09cadc29750",
+          "registeredStake": "116793614520159630985520",
+          "weightedStake": "116455401795663327690479"
+        },
+        {
+          "address": "0x342e35a47dd213d4612f2e622cab5214798a4604",
+          "operatorId": "0xab5716b1b46c8c1d6eef9e2ba828f33fbbee735966f0d0e449c77727808154ba",
+          "registeredStake": "790008451819889243474660",
+          "weightedStake": "790008451819889243474660"
+        },
+        {
+          "address": "0x0750972588a6fa8655e6ca4bd14de030b8666a47",
+          "operatorId": "0x3b874990e71ab573e41e7807e8c884700858af957cb72c728369aaf7b1b7ef94",
+          "registeredStake": "5863109551952535726962481",
+          "weightedStake": "5863109551952535726962481"
+        },
+        {
+          "address": "0xcb08790dd36ed3cc2590682055d78cafe6c16c7f",
+          "operatorId": "0x195e5fe48195d84c6c32642c2b25f50299ac6b067ab3c52a833149e3dd357a9c",
+          "registeredStake": "9824623000000000000000000",
+          "weightedStake": "9824623000000000000000000"
+        },
+        {
+          "address": "0xc7162088e72556f71ba5fb3012a1dd9839a9fada",
+          "operatorId": "0x4104842f50e49ad930345cd0c3620b615730315b983118d55ddb256fb97ab0d8",
+          "registeredStake": "1339981657618869832678444",
+          "weightedStake": "1339978293676859832678444"
+        },
+        {
+          "address": "0x3601bda2b72628da309ab9df7d310ada38cae44c",
+          "operatorId": "0x3bada6b94153d886dd48ea93946e83779a9e338cdd138b81106584a94ef6b247",
+          "registeredStake": "182762494609219686645",
+          "weightedStake": "182762494609219686645"
+        },
+        {
+          "address": "0x18b305eca7305b92a56f6050e502df5e87c561a8",
+          "operatorId": "0xfdaa0fe4307b2e9f18c1211f08ba2613a2ec3002eaad3e2d61f87b9cb25e305d",
+          "registeredStake": "2803978405802520771594637",
+          "weightedStake": "2803978405802520771594637"
+        },
+        {
+          "address": "0xe5801326014db4f6729264db38f5f5430bc2fbfa",
+          "operatorId": "0x3a6f497e1db3dcc4aec8b8822f9bc3f35c8dccc361505cb308d0015c3793f567",
+          "registeredStake": "34202673246357653319499",
+          "weightedStake": "34202673246357653319499"
+        },
+        {
+          "address": "0xb589d37f390e0b8b76fd5ab1daa8f064ef44916e",
+          "operatorId": "0xc7c25d381c30da55ef484168d1f79238c119baf2c77f2b5dea18bb92140020df",
+          "registeredStake": "9614305000000000000000000",
+          "weightedStake": "9614305000000000000000000"
+        },
+        {
+          "address": "0x3c7ac79ad69c33130967d0afa6551d84646fba64",
+          "operatorId": "0xc1da25265bdf9211211ab9292667cf43e550adae43bae58470678918b0bd8bd3",
+          "registeredStake": "9909811613355193056532188",
+          "weightedStake": "9909811613355193056532188"
+        },
+        {
+          "address": "0x00107cfdeaddc0a3160ed2f6fedd627f313e7b1a",
+          "operatorId": "0x57309111be2293fbcfd77e8479a4f2570f8956aae8cd2ba3bcc0c58d65823fcb",
+          "registeredStake": "35083347538189379797533",
+          "weightedStake": "35083347538189379797533"
+        },
+        {
+          "address": "0x08d112be16ff37ca6dc8ea06efefd676a42502aa",
+          "operatorId": "0x0824ab32bfcda7b4e253823f2421891fe791cc95e3de2e55a310de6f4b2b1269",
+          "registeredStake": "160054698650682943266381",
+          "weightedStake": "135054698650682943266381"
+        },
+        {
+          "address": "0x794a15082bc31c81e370f6600fba047f7226dab4",
+          "operatorId": "0x42162fbd59503a09b5709d0e612b824cd12f92fa577ea993fd67e797df19415c",
+          "registeredStake": "5420802659402319059328",
+          "weightedStake": "5420802659402319059328"
+        },
+        {
+          "address": "0xa5954756792f64ba7bcc4b5fd664b0843a7afe5b",
+          "operatorId": "0x3278d7a1fc5f9f6a342007f6efd5fba9f8713169ed4c448f39884925422552f7",
+          "registeredStake": "6371527470701481727386",
+          "weightedStake": "6371527470701481727386"
+        },
+        {
+          "address": "0xdbed88d83176316fc46797b43adee927dc2ff2f5",
+          "operatorId": "0x0058fc08ccd6efbfa1b28be52f2f97a34e2168217f144bbb680a537d2ca18111",
+          "registeredStake": "29269217305370643008039997",
+          "weightedStake": "29147770872055319489435053"
+        },
+        {
+          "address": "0xc17988786fde76c161183730134b7437639c15b0",
+          "operatorId": "0xb0c2ad4df99ac14cc0859092c6391b88036a8d9940adfa1e091367999c50543b",
+          "registeredStake": "1799764530677799653834",
+          "weightedStake": "1799764530677799653834"
+        },
+        {
+          "address": "0x3e3233db1aba0a50e3ffc08d9dc345697a442a4a",
+          "operatorId": "0x4237db2359e8736fb9987c4c34707454ab3b0089c8ae1bd363decfa693d66c15",
+          "registeredStake": "1000000000000000000000",
+          "weightedStake": "1000000000000000000000"
+        },
+        {
+          "address": "0xa38d32d600e2599267dada0808360a20997f8f62",
+          "operatorId": "0x630472e82487862e241b1d1f8e26c62caf3497086c9bbbb8b917a4b9c215b1db",
+          "registeredStake": "8322519000000000000000000",
+          "weightedStake": "8322519000000000000000000"
+        },
+        {
+          "address": "0x52581facca3c4643eb1cbd4477b2925043911b5f",
+          "operatorId": "0x4776a2a65d4c3b3a25603e2d581837dded443b840bad2406642d5457d90afc2b",
+          "registeredStake": "7552350000000000000000000",
+          "weightedStake": "7552350000000000000000000"
+        },
+        {
+          "address": "0x2041f593de5f60d9af14655d5e2a64b4cb30509f",
+          "operatorId": "0xa2322c7ee765f262424419e095e6480da07962654f0f50d211b828f82283a3b2",
+          "registeredStake": "16333330000000000000000000",
+          "weightedStake": "16333330000000000000000000"
+        },
+        {
+          "address": "0x033bfb405e809a303df875a6e018f1a64e5dbae9",
+          "operatorId": "0x2e2ee953aa3c2a499640270eaaf2ba1973265f7e0d0b1e0ebef6ead13fcce307",
+          "registeredStake": "5545542702697880724729",
+          "weightedStake": "5545542702697880724729"
+        },
+        {
+          "address": "0x0523a2ca4cf2ba8c3d25a60f3df3579c65adfd92",
+          "operatorId": "0x88507c7e04a4995594d3c4c7ff7c798fc23807dce3fbb8de41ec641036d7d3b4",
+          "registeredStake": "13372626869412737260",
+          "weightedStake": "13372626869412737260"
+        },
+        {
+          "address": "0x858dacb5accdb783c47b4debf30f96f2f0079f4b",
+          "operatorId": "0xf4d2e74aefcf9a4201e7fcd300f93faf1628fdf83397a950dd49c48cc5113aaf",
+          "registeredStake": "51535827705262403624749",
+          "weightedStake": "51535827705262403624749"
+        },
+        {
+          "address": "0x24154100729e7eb626b1e4f31a61b30d74d465fb",
+          "operatorId": "0x2cb71ecfdae8149ef5d3c5ed547674e78fb0f4ee2c507da5153f618fd1ff0d1d",
+          "registeredStake": "9153377000000000000000000",
+          "weightedStake": "9153377000000000000000000"
+        },
+        {
+          "address": "0x71c6f7ed8c2d4925d0baf16f6a85bb1736d412eb",
+          "operatorId": "0xd91c7c8888da9062e48e92d20813dfa8ce7f581d327b36237040354c5159db0e",
+          "registeredStake": "1220410510127013545480300",
+          "weightedStake": "1217803508470713778852967"
+        },
+        {
+          "address": "0x4cd2086e1d708e65db5d4f5712a9ca46ed4bbd0a",
+          "operatorId": "0x62fd7709add808809511fe2d3a230cd9cb7321cc2f47e2c35fd959d0449be8ee",
+          "registeredStake": "975562238048260140824125",
+          "weightedStake": "975126006689701684859999"
+        },
+        {
+          "address": "0x2e68d03f2234895b3ba5899b80785e2598ed7fac",
+          "operatorId": "0x9451e780b7a82699a8a5345caf25822345920da114581a31b412b59694f13adc",
+          "registeredStake": "20519337783014904895531",
+          "weightedStake": "20519337783014904895531"
+        },
+        {
+          "address": "0xa026265a0f01a6e1a19b04655519429df0a57c4e",
+          "operatorId": "0xb523e0b4efdc2c267da48e837e419fda92085151dea3d59834da2dc153dc157c",
+          "registeredStake": "2725863476582017932536137",
+          "weightedStake": "2725863476582017932536137"
+        },
+        {
+          "address": "0x3f98f47d302a3cfd3746fe35f7cf10c3217e5272",
+          "operatorId": "0x0a65b09f4cc1527b6dcf4dbf071cd42b941a1aa634d1a02c6a47c5324b345654",
+          "registeredStake": "20000000000000000000",
+          "weightedStake": "20000000000000000000"
+        },
+        {
+          "address": "0xc10c954332c0c17f1003bb2c77e8c0122ef9bdb8",
+          "operatorId": "0x043b00fe2b0b7af45acf2778eaf4fcd396c8549cb0876cc257f6c11e54ec6635",
+          "registeredStake": "262078159326970218959",
+          "weightedStake": "262078159326970218959"
+        },
+        {
+          "address": "0x3eab8764e3303efb09481266e9558eded1d96984",
+          "operatorId": "0xd1bfc317efb9f0d3ae5a0bd8c3a6c1948d10e63cebd06250aa7d2d20fec2f851",
+          "registeredStake": "84715339794337534110478",
+          "weightedStake": "84715339794337534110478"
+        },
+        {
+          "address": "0xa759c39a5d7a8f7e1265f1eaf88cb1dc3f8d3fc4",
+          "operatorId": "0xc07a06bef2237cb01b3714510ea2d7e2b0f056081e8fe0ace4c8f3e00f1c2697",
+          "registeredStake": "1500000000000000000",
+          "weightedStake": "1500000000000000000"
+        },
+        {
+          "address": "0x4ab936ed359a71b91b1ea1062d7bc9ba4e318405",
+          "operatorId": "0xaa2854f59d446537e7b349ca80646985c4bc296ee0a6ef4ae2e7ce2cfc6476e2",
+          "registeredStake": "224302414830703122178",
+          "weightedStake": "224302414830703122178"
+        },
+        {
+          "address": "0x5accc90436492f24e6af278569691e2c942a676d",
+          "operatorId": "0x475ca3b08b5861bb0f8e49ebc14775847cf531c6c16a1473d4610d6f609f179c",
+          "registeredStake": "14572430646183288929924334",
+          "weightedStake": "12751319364801158437284477"
+        },
+        {
+          "address": "0xd46a884d30a1eed1ad8e250675a1e8c8fe07e2d7",
+          "operatorId": "0x02ec809f7c2f0a87e7c911de414416230e2f2aef9526b1efb32e4f8d16bdbce8",
+          "registeredStake": "9947288000000000000000000",
+          "weightedStake": "9947288000000000000000000"
+        },
+        {
+          "address": "0xa6c3f159242855ba09d9f445679ed0b244c22062",
+          "operatorId": "0xed3e75b0d95c82ef333aa13929a00b8e6c4e04c812006b21f3743c78f774992a",
+          "registeredStake": "4070217386451608530191",
+          "weightedStake": "4070217386451608530191"
+        },
+        {
+          "address": "0x1c4b8717a3eff560c49d09e7409819cb81fece4b",
+          "operatorId": "0xe5f9b527a2b5ace562d7ad9e3e8ed8baa162ae5bd92ea66cdf7215c6b1b19759",
+          "registeredStake": "6056824079614363162493772",
+          "weightedStake": "6056824079614363162493772"
+        },
+        {
+          "address": "0xc27b425dd56827145d28ef5b5eebab867e338278",
+          "operatorId": "0x1c9b842872d119a38569314f96152c019f31f97f4f11b9b8f20331c7ff693e40",
+          "registeredStake": "6184906238916865958736",
+          "weightedStake": "6184906238916865958736"
+        },
+        {
+          "address": "0x8beef538986aeb2ee1a80b5e1febc16d8643a23d",
+          "operatorId": "0x1147eac85c25bdcb35a3818f2fa98f753458208db9d7ec0753af3f0feaba49a3",
+          "registeredStake": "5000000000000000000000",
+          "weightedStake": "5000000000000000000000"
+        },
+        {
+          "address": "0x39beca54f450fcc4b31729a85b3e9655ec0081d6",
+          "operatorId": "0x2aa77dfcccd51126c0affefa1235a2c53905fe864fccfd93ffe4d8d4f8912a8a",
+          "registeredStake": "11459130760159949929210520",
+          "weightedStake": "11459130760159949929210520"
+        },
+        {
+          "address": "0x9b4909a257ba830bb1560ff458b0c4deb696bb6c",
+          "operatorId": "0x2e8be17a9566a25a30c37aaaa57a870a922d9713833cd401a0d59d9e67fa9dcc",
+          "registeredStake": "474743920818602378586662",
+          "weightedStake": "474743920818602378586662"
+        },
+        {
+          "address": "0xc0500f785802e10396ea8b1d2244d44fed9cb603",
+          "operatorId": "0x1575fdaf8270ce19550bb9e152c9bcf36434cbc40d88ac9cfca2bb3825dc8427",
+          "registeredStake": "16333330000000000000000000",
+          "weightedStake": "16333330000000000000000000"
+        },
+        {
+          "address": "0x140dc7ef41b8ed01f340333045dc818947ca428d",
+          "operatorId": "0xe53ff57b72c0ea3dc215523a33d43340a5d1aadb25f8395de0bce768f17a84c5",
+          "registeredStake": "1268630601411061470172",
+          "weightedStake": "1268630601411061470172"
+        },
+        {
+          "address": "0x9f55f922e05438e57e60755ca9670337950b68b1",
+          "operatorId": "0x6da56349059cb0ec5c810d0eb2ef43e048f7713dccbd786247f47bd65fc9039f",
+          "registeredStake": "100022090000000000000000",
+          "weightedStake": "100022090000000000000000"
+        },
+        {
+          "address": "0x6573629204b65faac121c1b556b91a694d0e23c8",
+          "operatorId": "0x7bd201d192cd84f224b5fc8fd8b3ce7ce8009021d4253d57dc44e7276fc20ae0",
+          "registeredStake": "1307211922408992483539300",
+          "weightedStake": "1303468626304820998241394"
+        },
+        {
+          "address": "0x46b3f7b5be0787765565a6d8a645266a9347ab82",
+          "operatorId": "0x2a5ccd8075a6e252f1448cd3fdbcde296d2f56aaf2d757c5863db608ae41b02e",
+          "registeredStake": "56188114580274680721177",
+          "weightedStake": "56188114580274680721177"
+        }
+      ]
+    },
+    {
+      "quorum": 2,
+      "registeredCount": 4,
+      "nonZeroCount": 4,
+      "totalWeightedStake": "649205757273700124815753",
+      "operators": [
+        {
+          "address": "0x71c6f7ed8c2d4925d0baf16f6a85bb1736d412eb",
+          "operatorId": "0xd91c7c8888da9062e48e92d20813dfa8ce7f581d327b36237040354c5159db0e",
+          "registeredStake": "343925424646374058188393",
+          "weightedStake": "343925424646374058188393"
+        },
+        {
+          "address": "0xd9dddc21d4a07968d45c7ae0b57d2f71b0136c07",
+          "operatorId": "0xb8da985da602277762b88bf534754cde59fc01f1dbbb780c76a2725d4e63e83d",
+          "registeredStake": "213865803002191259853",
+          "weightedStake": "213865803002191259853"
+        },
+        {
+          "address": "0x5accc90436492f24e6af278569691e2c942a676d",
+          "operatorId": "0x475ca3b08b5861bb0f8e49ebc14775847cf531c6c16a1473d4610d6f609f179c",
+          "registeredStake": "305046466824323875367507",
+          "weightedStake": "305046466824323875367507"
+        },
+        {
+          "address": "0x6573629204b65faac121c1b556b91a694d0e23c8",
+          "operatorId": "0x7bd201d192cd84f224b5fc8fd8b3ce7ce8009021d4253d57dc44e7276fc20ae0",
+          "registeredStake": "20000000000000000000",
+          "weightedStake": "20000000000000000000"
+        }
+      ]
+    }
+  ],
+  "uniqueOperators": [
+    "0x00107cfdeaddc0a3160ed2f6fedd627f313e7b1a",
+    "0x033bfb405e809a303df875a6e018f1a64e5dbae9",
+    "0x0523a2ca4cf2ba8c3d25a60f3df3579c65adfd92",
+    "0x0750972588a6fa8655e6ca4bd14de030b8666a47",
+    "0x08d112be16ff37ca6dc8ea06efefd676a42502aa",
+    "0x09e6eb09213bdd3698bd8afb43ec3cb0ecff683e",
+    "0x140dc7ef41b8ed01f340333045dc818947ca428d",
+    "0x18b305eca7305b92a56f6050e502df5e87c561a8",
+    "0x1c4b8717a3eff560c49d09e7409819cb81fece4b",
+    "0x2041f593de5f60d9af14655d5e2a64b4cb30509f",
+    "0x24154100729e7eb626b1e4f31a61b30d74d465fb",
+    "0x2e68d03f2234895b3ba5899b80785e2598ed7fac",
+    "0x3303fda11d6bafe0833d6a6c44c2b8edbab92e4d",
+    "0x342e35a47dd213d4612f2e622cab5214798a4604",
+    "0x3601bda2b72628da309ab9df7d310ada38cae44c",
+    "0x39beca54f450fcc4b31729a85b3e9655ec0081d6",
+    "0x3c7ac79ad69c33130967d0afa6551d84646fba64",
+    "0x3e3233db1aba0a50e3ffc08d9dc345697a442a4a",
+    "0x3eab8764e3303efb09481266e9558eded1d96984",
+    "0x3f98f47d302a3cfd3746fe35f7cf10c3217e5272",
+    "0x46b3f7b5be0787765565a6d8a645266a9347ab82",
+    "0x4ab936ed359a71b91b1ea1062d7bc9ba4e318405",
+    "0x4cd2086e1d708e65db5d4f5712a9ca46ed4bbd0a",
+    "0x52581facca3c4643eb1cbd4477b2925043911b5f",
+    "0x5accc90436492f24e6af278569691e2c942a676d",
+    "0x617b23c98b8992d60c9913cb4f8aefadbb70c9d2",
+    "0x6573629204b65faac121c1b556b91a694d0e23c8",
+    "0x71c6f7ed8c2d4925d0baf16f6a85bb1736d412eb",
+    "0x794a15082bc31c81e370f6600fba047f7226dab4",
+    "0x7e3cede5c77cd4192d206c652db0023a89d7e5ec",
+    "0x81a28c9f24fa19f3292178464427bd71c0dad411",
+    "0x858dacb5accdb783c47b4debf30f96f2f0079f4b",
+    "0x8beef538986aeb2ee1a80b5e1febc16d8643a23d",
+    "0x9b4909a257ba830bb1560ff458b0c4deb696bb6c",
+    "0x9f55f922e05438e57e60755ca9670337950b68b1",
+    "0xa026265a0f01a6e1a19b04655519429df0a57c4e",
+    "0xa38d32d600e2599267dada0808360a20997f8f62",
+    "0xa3cf61a0def7bde1574a2bb139a1a7f28d4668aa",
+    "0xa3ff1491088715d140bc821a28287cb3f71b43e4",
+    "0xa5954756792f64ba7bcc4b5fd664b0843a7afe5b",
+    "0xa6c3f159242855ba09d9f445679ed0b244c22062",
+    "0xa759c39a5d7a8f7e1265f1eaf88cb1dc3f8d3fc4",
+    "0xb589d37f390e0b8b76fd5ab1daa8f064ef44916e",
+    "0xbe7d5f26f5d5f567d35a86dd4d7d02aced2d5bff",
+    "0xc0500f785802e10396ea8b1d2244d44fed9cb603",
+    "0xc10c954332c0c17f1003bb2c77e8c0122ef9bdb8",
+    "0xc17988786fde76c161183730134b7437639c15b0",
+    "0xc27b425dd56827145d28ef5b5eebab867e338278",
+    "0xc7162088e72556f71ba5fb3012a1dd9839a9fada",
+    "0xcb08790dd36ed3cc2590682055d78cafe6c16c7f",
+    "0xd46a884d30a1eed1ad8e250675a1e8c8fe07e2d7",
+    "0xd98edb52c7e73720926ce6ffc502f976af614541",
+    "0xd9dddc21d4a07968d45c7ae0b57d2f71b0136c07",
+    "0xdbed88d83176316fc46797b43adee927dc2ff2f5",
+    "0xdde3d4e0d7705ff68d31009a2422425ae38810a6",
+    "0xdfcb21ac9b99de986d99f4ce5fce2a6542efe3a1",
+    "0xe48c8e071857d1229fc94d73a0f25d1dbb99c04c",
+    "0xe5801326014db4f6729264db38f5f5430bc2fbfa",
+    "0xf80b7ba7e778abf08a63426886ca40189c7ef48a"
+  ]
+}

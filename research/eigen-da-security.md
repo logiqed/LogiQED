@@ -17,9 +17,9 @@ EigenDA is one of the largest AVSs in the EigenLayer ecosystem. This research me
 
 Key findings:
 
-1. 59 active operators across 3 configured quorums: ETH/LST (46), EIGEN (58), and a third quorum (15).
-2. Weighted stake: 589,092 ETH-equivalent, 275,540,246 EIGEN-equivalent, and 765,150 units in the third quorum.
-3. Concentration in the ETH quorum is severe: one operator controls about 50.02% of weighted stake; top-3 operators control about 78.71%; top-10 operators control about 96.59%.
+1. 59 active operators across 3 configured quorums: ETH/LST (32), EIGEN (55), and a third quorum (4).
+2. Weighted stake: 589,036 ETH-equivalent, 275,529,558 EIGEN-equivalent, and 649,206 units in the third quorum.
+3. Concentration in the ETH quorum is severe: one operator controls about 50.02% of weighted stake; top-3 operators control about 78.72%; top-10 operators control about 96.60%.
 4. The EIGEN quorum is also concentrated: top-1 controls about 17.83%, top-3 about 36.91%, and top-10 about 71.44% of weighted stake.
 5. Zero OperatorSlashed events in the AllocationManager across 3.7 million blocks scanned since slashing activation.
 6. EigenDA uses M2 middleware, not Operator Sets. Its weighted quorum stake could not be mapped to slashable magnitudes through the inspected AllocationManager path.
@@ -89,9 +89,9 @@ for a standard certificate, not independent alternatives.
 
 | Quorum | Type | Operators | In required set |
 |---|---|---:|---|
-| q0 | ETH / LST | 46 | yes |
-| q1 | EIGEN | 58 | yes |
-| q2 | Third quorum (not in standard requiredQuorums) | 15 | no |
+| q0 | ETH / LST | 32 | yes |
+| q1 | EIGEN | 55 | yes |
+| q2 | Third quorum (not in standard requiredQuorums) | 4 | no |
 | Unique total (getOperatorState) | | 59 | |
 
 Quorum semantics from the CertVerifier source and constructor parameters:
@@ -111,13 +111,19 @@ Implications:
 - q2 exists in the RegistryCoordinator but is not part of the standard 
   requiredQuorums for the inspected CertVerifier.
 
-Note on operator counts: the per-quorum counts in the table above refer 
-to operators with non-zero weighted stake in each quorum at the snapshot 
-block. getOperatorState returns all registered operators, including 
-entries with zero weight, and reports 32 / 55 / 4 for q0 / q1 / q2 at 
-block 25,990,607. After filtering to non-zero weighted stake, the 
-per-quorum counts are 46 / 58 / 15. The union of these three sets is 59 unique addresses, 
-which is the total used throughout this report.
+Note on operator counts: the per-quorum counts in the table above are the 
+counts of operators returned by getOperatorState at block 25,990,607, 
+which returns 32 / 55 / 4 for q0 / q1 / q2. All of these registered 
+operators have non-zero weighted stake, because EigenDA enforces a 
+minimum stake requirement for registration (32 ETH for q0, 1 EIGEN for 
+q1). The union of the three registered sets is 59 unique addresses.
+
+An earlier draft also reported 46 / 58 / 15 non-zero weights per quorum. 
+That number came from reading weightOfOperatorForQuorum for the full 
+59-address universe across all three quorums, which includes operators 
+that hold residual weight in a quorum they are no longer registered in. 
+This research uses only the registered set, because only registered 
+operators participate in the confirmation of a certificate.
 
 ---
 
@@ -127,9 +133,9 @@ All figures below are weighted quorum units as returned by StakeRegistry.weightO
 
 | Quorum | Total weighted stake | Operators (non-zero) |
 |---|---:|---:|
-| q0 (ETH/LST) | 589,092 ETH-equivalent units | 46 of 59 |
-| q1 (EIGEN) | 275,540,246 EIGEN-equivalent units | 58 of 59 |
-| q2 (third) | 765,150 units | 15 of 59 |
+| q0 (ETH/LST) | 589,036 ETH-equivalent units | 32 of 32 |
+| q1 (EIGEN) | 275,529,558 EIGEN-equivalent units | 55 of 55 |
+| q2 (third) | 649,206 units | 4 of 4 |
 
 Multiplier verification: StakeRegistry.strategyParamsByIndex(1, 0) 
 returns multiplier = 1e18 for the EIGEN strategy. This means 1 weighted 
@@ -141,23 +147,23 @@ token amounts.
 
 ## 5. Concentration
 
-### Quorum 0 (ETH/LST) — 589,092 weighted units
+### Quorum 0 (ETH/LST) — 589,036 weighted units
 
 | Position | Share of weighted quorum stake | Address |
 |---|---:|---|
 | Top-1 | about 50.02% | 0xdbed88d83176316fc46797b43adee927dc2ff2f5 |
-| Top-3 | about 78.71% | |
-| Top-10 | about 96.59% | |
+| Top-3 | about 78.72% | |
+| Top-10 | about 96.60% | |
 
 Top-1 operator holds 294,640 ETH-equivalent weighted units.
-Top-3 operators collectively hold 463,681 ETH-equivalent weighted units.
+Top-3 operators collectively hold 463,680 ETH-equivalent weighted units.
 
 The top-1 operator alone is below confirmationThreshold = 55, but the top-3 
 collectively exceed both confirmationThreshold (55%) and adversaryThreshold (33%). 
 The quorum's confirmation condition is substantially dependent on a small group 
 of three operators.
 
-### Quorum 1 (EIGEN) — 275,540,246 weighted units
+### Quorum 1 (EIGEN) — 275,529,558 weighted units
 
 | Position | Share of weighted quorum stake | Address |
 |---|---:|---|
@@ -171,17 +177,18 @@ Top-3 operators collectively hold 101,715,773 EIGEN-equivalent weighted units.
 Distribution is more even than q0, but top-10 still control about 71% of 
 weighted stake.
 
-### Quorum 2 (third) — 765,150 weighted units
+### Quorum 2 (third) — 649,206 weighted units
 
 | Position | Share of weighted quorum stake | Address |
 |---|---:|---|
-| Top-1 | about 44.95% | 0x71c6f7ed8c2d4925d0baf16f6a85bb1736d412eb |
-| Top-3 | about 92.60% | |
-| Top-10 | about 99.76% | |
+| Top-1 | about 52.98% | 0x71c6f7ed8c2d4925d0baf16f6a85bb1736d412eb |
+| Top-3 | about 100.00% | |
+| Top-10 | about 100.00% | |
 
 Quorum 2 is not part of the standard requiredQuorums for the inspected 
-CertVerifier, but its concentration is severe: top-3 operators control 
-about 92.6% of weighted stake.
+CertVerifier. It has only 4 registered operators, and the top-2 operators 
+control about 99.97% of weighted stake. Concentration is severe even 
+compared to q0.
 
 ---
 
@@ -198,19 +205,19 @@ at 0x61692e93b6B045c444e942A91EcD1527F23A3FB7):
 - adversaryThreshold = 33
 - requiredQuorums = 0x0001 (q0 and q1)
 
-### Quorum 0 (ETH) — 589,092 weighted units
+### Quorum 0 (ETH) — 589,036 weighted units
 
 | Threshold | Weighted units | Share |
 |---|---:|---:|
-| Confirmation 55% | 324,001 | 55% |
-| Adversary 33% | 194,400 | 33% |
+| Confirmation 55% | 323,970 | 55% |
+| Adversary 33% | 194,382 | 33% |
 
-### Quorum 1 (EIGEN) — 275,540,246 weighted units
+### Quorum 1 (EIGEN) — 275,529,558 weighted units
 
 | Threshold | Weighted units | Share |
 |---|---:|---:|
-| Confirmation 55% | 151,547,135 | 55% |
-| Adversary 33% | 90,928,281 | 33% |
+| Confirmation 55% | 151,541,257 | 55% |
+| Adversary 33% | 90,924,754 | 33% |
 
 Notes:
 
@@ -241,13 +248,13 @@ The table below shows the confirmation (55%) and adversary (33%) thresholds
 of the EIGEN quorum at several EIGEN prices. All values are computed from 
 the on-chain weighted stake at block 25,990,607.
 
-| EIGEN price | Adversary 33% (90,928,281 EIGEN) | Confirmation 55% (151,547,135 EIGEN) |
+| EIGEN price | Adversary 33% (90,924,754 EIGEN) | Confirmation 55% (151,541,257 EIGEN) |
 |---|---:|---:|
 | $0.10 | ~$9.1M | ~$15.2M |
 | $0.19 (snapshot) | ~$17.3M | ~$28.8M |
 | $0.50 | ~$45.5M | ~$75.8M |
 | $1.00 | ~$90.9M | ~$151.5M |
-| $2.00 | ~$181.9M | ~$303.1M |
+| $2.00 | ~$181.8M | ~$303.1M |
 | $3.00 | ~$272.8M | ~$454.6M |
 
 Interpretation:
@@ -334,7 +341,7 @@ Slashing events: 0.
    three quorums in the inspected RegistryCoordinator. 
    Comparative ranking against other AVSs was not performed.
 2. It runs three configured quorums: ETH/LST (q0), EIGEN (q1), and a third EigenDA-specific quorum (q2). q0 and q1 are jointly required for a standard certificate.
-3. The ETH quorum is severely concentrated: top-1 controls about 50.02%, top-3 about 78.71%, top-10 about 96.59% of weighted stake.
+3. The ETH quorum is severely concentrated: top-1 controls about 50.02%, top-3 about 78.72%, top-10 about 96.60% of weighted stake.
 4. The EIGEN quorum is also concentrated: top-1 controls about 17.83%, top-10 about 71.44%.
 5. Zero OperatorSlashed events over 3.7M blocks — slashing has never been executed in this range.
 6. EigenDA runs on M2 middleware, not Operator Sets. No slashable 
@@ -664,7 +671,158 @@ human-readable totals (in ETH / EIGEN / units) to stdout, so the
 console output and the JSON file are consistent — the JSON is the 
 canonical artifact, and the log is a convenience view.
 
-### 13.3 Slashing check (check-slashing.js)
+### 13.3 Read registered weighted stakes (read-registered-stakes.js)
+
+```javascript
+'use strict';
+const fs = require('node:fs');
+const { ethers } = require('ethers');
+
+const RPC_URL = process.env.RPC_URL;
+if (!RPC_URL) throw new Error('Set RPC_URL');
+
+const provider = new ethers.JsonRpcProvider(RPC_URL);
+
+// Fixed snapshot block for atomicity
+const SNAPSHOT_BLOCK = Number(process.env.SNAPSHOT_BLOCK || 25990607);
+
+const STAKE_REGISTRY = '0x006124Ae7976137266feeBFb3F4D2BE4C073139D';
+const REGISTRY_COORDINATOR = '0x0BAAc79acD45A023E19345c352d8a7a83C4e5656';
+const OPERATOR_STATE_RETRIEVER = '0xEC35aa6521d23479318104E10B4aA216DBBE63Ce';
+
+const STAKE_REGISTRY_ABI = [
+  'function weightOfOperatorForQuorum(uint8 quorumNumber, address operator) view returns (uint96)',
+];
+
+const RETRIEVER_ABI = [
+  'function getOperatorState(address registryCoordinator, bytes quorumNumbers, uint32 blockNumber) view returns (tuple(address operator, bytes32 operatorId, uint96 stake)[][])',
+];
+
+const stakeRegistry = new ethers.Contract(STAKE_REGISTRY, STAKE_REGISTRY_ABI, provider);
+const retriever = new ethers.Contract(OPERATOR_STATE_RETRIEVER, RETRIEVER_ABI, provider);
+
+async function safeWeight(quorum, addr) {
+  try {
+    const v = await stakeRegistry.weightOfOperatorForQuorum(quorum, addr, {
+      blockTag: SNAPSHOT_BLOCK,
+    });
+    return BigInt(v);
+  } catch {
+    return null; // revert or error
+  }
+}
+
+function format18(x) {
+  if (x === null) return 'null';
+  return (Number(x) / 1e18).toFixed(6);
+}
+
+async function main() {
+  console.log(`Snapshot block: ${SNAPSHOT_BLOCK}`);
+  console.log(`RegistryCoordinator: ${REGISTRY_COORDINATOR}`);
+  console.log(`OperatorStateRetriever: ${OPERATOR_STATE_RETRIEVER}`);
+  console.log(`StakeRegistry: ${STAKE_REGISTRY}\n`);
+
+  // 1. Read registered operators per quorum
+  const quorumNumbers = '0x000102'; // q0, q1, q2
+  const state = await retriever.getOperatorState(
+    REGISTRY_COORDINATOR,
+    quorumNumbers,
+    SNAPSHOT_BLOCK
+  );
+
+  const perQuorum = [];
+
+  for (let q = 0; q < state.length; q++) {
+    const registered = state[q];
+    console.log(`\n=== Quorum ${q}: ${registered.length} registered operators ===`);
+
+    const operators = [];
+    let total = 0n;
+
+    for (const op of registered) {
+      const weight = await safeWeight(q, op.operator);
+      if (weight !== null && weight > 0n) {
+        total += weight;
+        operators.push({
+          address: op.operator.toLowerCase(),
+          operatorId: op.operatorId,
+          registeredStake: op.stake.toString(),
+          weightedStake: weight.toString(),
+        });
+      } else {
+        operators.push({
+          address: op.operator.toLowerCase(),
+          operatorId: op.operatorId,
+          registeredStake: op.stake.toString(),
+          weightedStake: null,
+        });
+      }
+    }
+
+    const nonZero = operators.filter((o) => o.weightedStake !== null);
+    console.log(`  registered: ${operators.length}`);
+    console.log(`  non-zero weighted stake: ${nonZero.length}`);
+    console.log(`  total weighted stake: ${format18(total)}`);
+
+    perQuorum.push({
+      quorum: q,
+      registeredCount: operators.length,
+      nonZeroCount: nonZero.length,
+      totalWeightedStake: total.toString(),
+      operators,
+    });
+  }
+
+  // 2. Unique operators across all quorums
+  const unique = new Set();
+  for (const q of perQuorum) {
+    for (const op of q.operators) unique.add(op.address);
+  }
+
+  console.log(`\n================ SUMMARY ================`);
+  for (const q of perQuorum) {
+    console.log(
+      `q${q.quorum}: registered=${q.registeredCount} | non-zero=${q.nonZeroCount} | total=${format18(BigInt(q.totalWeightedStake))}`
+    );
+  }
+  console.log(`Unique operators across all quorums: ${unique.size}`);
+
+  // 3. Save artifact
+  const artifact = {
+    snapshotBlock: SNAPSHOT_BLOCK,
+    registryCoordinator: REGISTRY_COORDINATOR,
+    operatorStateRetriever: OPERATOR_STATE_RETRIEVER,
+    stakeRegistry: STAKE_REGISTRY,
+    perQuorum: perQuorum.map((q) => ({
+      quorum: q.quorum,
+      registeredCount: q.registeredCount,
+      nonZeroCount: q.nonZeroCount,
+      totalWeightedStake: q.totalWeightedStake,
+      operators: q.operators,
+    })),
+    uniqueOperators: Array.from(unique).sort(),
+  };
+
+  fs.writeFileSync(
+    'registered-stakes.json',
+    JSON.stringify(artifact, null, 2)
+  );
+
+  console.log('\nSaved: registered-stakes.json');
+}
+
+main().catch((e) => {
+  console.error('Fatal:', e.shortMessage || e.message);
+  process.exitCode = 1;
+});
+```
+Note: registered-stakes.json stores per-quorum totals as raw wei-format
+strings, and per-operator weighted stakes as raw wei-format strings. Divide
+by 1e18 to get human-readable amounts. The script also prints human-readable
+totals (in ETH / EIGEN / units) to stdout, so the JSON and log are consistent.
+
+### 13.4 Slashing check (check-slashing.js)
 
 ```javascript
 'use strict';
@@ -796,7 +954,7 @@ main().catch((e) => {
 });
 ```
 
-### 13.4 How to run
+### 13.5 How to run
 
 Install dependencies first:
 
@@ -814,6 +972,7 @@ export RPC_URL="https://eth-mainnet.g.alchemy.com/v2/YOUR_ALCHEMY_KEY"
 export SNAPSHOT_BLOCK="25990607"
 node final-v2-operators.js
 node read-all-stakes.js
+node read-registered-stakes.js
 ```
 
 Windows PowerShell:
@@ -822,6 +981,7 @@ $env:RPC_URL="https://eth-mainnet.g.alchemy.com/v2/YOUR_ALCHEMY_KEY"
 $env:SNAPSHOT_BLOCK="25990607"
 node final-v2-operators.js
 node read-all-stakes.js
+node read-registered-stakes.js
 ```
 
 Windows CMD:
@@ -830,6 +990,7 @@ set RPC_URL=https://eth-mainnet.g.alchemy.com/v2/YOUR_ALCHEMY_KEY
 set SNAPSHOT_BLOCK=25990607
 node final-v2-operators.js
 node read-all-stakes.js
+node read-registered-stakes.js
 ```
 
 #### 2. For eth_getLogs on archive blocks (slashing scan)
@@ -872,16 +1033,18 @@ Slashing scan: the scan was performed through SwiftNodes and completed with stat
 |---|---|
 | [operators.txt](./data/operators.txt) | 59 operator addresses with non-zero stake |
 | [v2-summary.json](./data/v2-summary.json) | Resolved contract addresses and quorum snapshot |
-| [all-stakes.json](./data/all-stakes.json) | Weighted stake per operator per quorum |
+| [all-stakes.json](./data/all-stakes.json) | Weighted stake per operator per quorum (all 59 addresses) |
+| [registered-stakes.json](./data/registered-stakes.json) | Weighted stake per registered operator per quorum |
 | [final-v2-operators.js](./scripts/final-v2-operators.js) | Resolve v2 contracts and fetch operator set |
-| [read-all-stakes.js](./scripts/read-all-stakes.js) | Read weighted stake via StakeRegistry |
+| [read-all-stakes.js](./scripts/read-all-stakes.js) | Read weighted stake via StakeRegistry (all 59 addresses) |
+| [read-registered-stakes.js](./scripts/read-registered-stakes.js) | Read weighted stake for registered operators only |
 | [check-slashing.js](./scripts/check-slashing.js) | OperatorSlashed event scanner |
 
 ---
 
 ## 15. Core claim
 
-EigenDA's AVS-level slashable economic backstop could not be independently verified from the inspected public contracts and event history. The analysis identified 589,092 ETH-equivalent and 275,540,246 EIGEN-equivalent weighted units across three quorums at block 25,990,607, but could not map that stake to confirmed slashable magnitudes. EigenDA runs on M2 middleware rather than the inspected Operator Sets path, so its active enforcement mechanism requires further verification.
+EigenDA's AVS-level slashable economic backstop could not be independently verified from the inspected public contracts and event history. The analysis identified 589,036 ETH-equivalent and 275,529,558 EIGEN-equivalent weighted units across three quorums at block 25,990,607, but could not map that stake to confirmed slashable magnitudes. EigenDA runs on M2 middleware rather than the inspected Operator Sets path, so its active enforcement mechanism requires further verification.
 
 ---
 
