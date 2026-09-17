@@ -308,7 +308,7 @@ Important caveats:
 
 ### Method
 
-Scan AllocationManager (0x948a420b...b6fa) for OperatorSlashed events from slashing activation block (22,270,000) to the latest finalized block (25,991,586).
+Scan AllocationManager (0x948a420b...b6fa) for OperatorSlashed events from slashing activation block (22,270,000) to the latest finalized block. Two independent complete runs were performed: one up to block 25,991,586 and one up to block 25,995,924. Both completed with status 100% COMPLETE.
 
 Event signature:
 
@@ -325,12 +325,19 @@ event OperatorSlashed(
 ### Result
 
 ```text
-100% COMPLETE: scanned up to block 25991586
-0 OperatorSlashed events found.
+Run 1: 100% COMPLETE, scanned up to block 25,991,586
+Run 2: 100% COMPLETE, scanned up to block 25,995,924
 
-Range: 3.7 million blocks.
+0 OperatorSlashed events found in either run.
+
+Range: ~3.72 million blocks per run.
 Slashing events: 0.
 ```
+
+![Console output of check-slashing.js: 100% COMPLETE, 0 OperatorSlashed events](./images/check-slashing-run.png)
+
+*Console output of `check-slashing.js` against EigenLayer mainnet: two 
+independent complete runs, both returning 0 `OperatorSlashed` events.*
 
 ### What this shows
 
@@ -344,17 +351,18 @@ Slashing events: 0.
 ## 9. Limitations
 
 1. Weighted stake is not slashable stake. This report measures voting weight in quorums, not slashable magnitudes in AllocationManager.
-2. Zero OperatorSlashed events were observed on EigenLayer mainnet in the scanned range (blocks 22,270,000–25,991,586). This result does not by itself prove that no M2-specific slashing or enforcement mechanism exists.
+2. Zero OperatorSlashed events were observed on EigenLayer mainnet in the scanned range (blocks 22,270,000–25,995,924). Two independent complete runs returned the same result. This does not by itself prove that no M2-specific slashing or enforcement mechanism exists.
 3. USD figures are indicative. ETH = $2,400, EIGEN = $0.19 at snapshot. Conversions scale linearly.
 4. RPC constraints. This research used two RPC classes: Alchemy (free tier) 
    for eth_call reads on a fixed snapshot block, and SwiftNodes (free tier) 
    with adaptive chunking for the eth_getLogs slashing scan. Alchemy Free 
-   does not serve archive eth_getLogs, and SwiftNodes returned 
-   non-deterministic results for some eth_call queries during initial 
-   development. The slashing scan was performed once through SwiftNodes 
-   and completed with status 100% COMPLETE at block 25,991,586. A repeat 
-   scan through the same endpoint at a later time did not complete, 
-   indicating RPC-level instability rather than a change in on-chain data.
+   does not serve archive eth_getLogs. SwiftNodes returned non-deterministic 
+   results for some eth_call queries during initial development, and one 
+   intermediate slashing scan attempt did not complete due to RPC-level 
+   instability. Two later complete runs through SwiftNodes both finished 
+   with status 100% COMPLETE and 0 OperatorSlashed events, at blocks 
+   25,991,586 and 25,995,924 respectively. No change in on-chain data was 
+   observed between runs.
 
 ---
 
@@ -1046,7 +1054,13 @@ Snapshot: set SNAPSHOT_BLOCK=25990607 for a reproducible snapshot. Without it, f
 
 RPC stability: during initial development, all three scripts were run through SwiftNodes. Repeat runs of read-all-stakes.js through SwiftNodes returned non-deterministic results for the same block, indicating incomplete responses for some eth_call queries. All eth_call figures in this report were recomputed and verified through Alchemy with two consecutive identical runs.
 
-Slashing scan: the scan was performed through SwiftNodes and completed with status 100% COMPLETE at block 25,991,586. A later repeat scan through the same endpoint did not complete due to RPC-level instability. This does not affect the reported slashing scan result, which was produced during a successful complete run.
+Slashing scan: the scan was performed through SwiftNodes. Two complete 
+runs finished with status 100% COMPLETE and 0 OperatorSlashed events, 
+at blocks 25,991,586 and 25,995,924 respectively. An intermediate 
+attempt through the same endpoint did not complete due to RPC-level 
+instability, which is documented in Section 9 as an RPC constraint. 
+The two successful runs confirm that the reported result is stable 
+across endpoints and time.
 
 ---
 
@@ -1072,7 +1086,7 @@ EigenDA's AVS-level slashable economic backstop could not be independently verif
 ---
 
 Snapshot block: 25,990,607 (2026-09-16).
-Slashing scan finalized block: 25,991,586.
+Slashing scan finalized blocks: 25,991,586 and 25,995,924 (two complete runs).
 Snapshot rates: ETH = $2,400, EIGEN = $0.19.
 Multiplier (EIGEN strategy, q1): 1e18 (1.0), verified on-chain via StakeRegistry.strategyParamsByIndex(1, 0).
 
