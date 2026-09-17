@@ -168,6 +168,7 @@ between strategy shares and EIGEN tokens.
 
 *Weighted stake totals for registered operators only at block 25,990,607. 
 Counts: 32 / 55 / 4 registered operators in q0 / q1 / q2.*
+
 ---
 
 ## 5. Concentration
