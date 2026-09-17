@@ -1,0 +1,15 @@
+=== AllocationManager — OperatorSlashed ===
+Range: 22270000 -> 25996817
+(no events found)
+
+=== StrategyManager — BurnOrRedistributableSharesIncreased ===
+Range: 22270000 -> 25996817
+Node error. Step -> 25000 (retry 1)
+Node error. Step -> 25000 (retry 1)
+
+================ SUMMARY ================
+✅ OperatorSlashed scan: 100% COMPLETE. Events found: 0
+✅ BurnOrRedistributableSharesIncreased scan: 100% COMPLETE. Events found: 0
+
+✅ 0 events in both contracts over the scanned range.
+   No slashing or burn/redistribution activity observed.

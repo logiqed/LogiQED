@@ -324,7 +324,8 @@ Important caveats:
 
 ### Method
 
-Scan AllocationManager (0x948a420b...b6fa) for OperatorSlashed events from slashing activation block (22,270,000) to the latest finalized block. Two independent complete runs were performed: one up to block 25,991,586 and one up to block 25,995,924. Both completed with status 100% COMPLETE.
+Scan AllocationManager (0x948a420b...b6fa) for OperatorSlashed events from slashing activation block (22,270,000) to the latest finalized block. 
+Two independent complete runs were performed: one up to block 25,991,586 and one up to block 25,996,817. Both completed with status 100% COMPLETE.
 
 Event signature:
 
@@ -342,7 +343,7 @@ event OperatorSlashed(
 
 ```text
 Run 1: 100% COMPLETE, scanned up to block 25,991,586
-Run 2: 100% COMPLETE, scanned up to block 25,995,924
+Run 2: 100% COMPLETE, scanned up to block 25,996,817
 
 0 OperatorSlashed events found in either run.
 
@@ -367,7 +368,14 @@ independent complete runs, both returning 0 `OperatorSlashed` events.*
 ## 9. Limitations
 
 1. Weighted stake is not slashable stake. This report measures voting weight in quorums, not slashable magnitudes in AllocationManager.
-2. Zero OperatorSlashed events were observed on EigenLayer mainnet in the scanned range (blocks 22,270,000–25,995,924). Two independent complete runs returned the same result. This does not by itself prove that no M2-specific slashing or enforcement mechanism exists.
+2. Zero OperatorSlashed events were observed on EigenLayer mainnet in the 
+   scanned range (blocks 22,270,000–25,991,586). As a secondary check, the 
+   StrategyManager event BurnOrRedistributableSharesIncreased — which is 
+   emitted whenever slashed shares are routed to burn or redistribution — 
+   was also scanned over the same range and returned zero events. Two 
+   independent on-chain paths therefore show no slashing activity for 
+   EigenDA in this range. This does not by itself prove that no M2-specific 
+   slashing or enforcement mechanism exists.
 3. USD figures are indicative. ETH = $2,400, EIGEN = $0.19 at snapshot. Conversions scale linearly.
 4. RPC constraints. This research used two RPC classes: Alchemy (free tier) 
    for eth_call reads on a fixed snapshot block, and SwiftNodes (free tier) 
@@ -375,9 +383,9 @@ independent complete runs, both returning 0 `OperatorSlashed` events.*
    does not serve archive eth_getLogs. SwiftNodes returned non-deterministic 
    results for some eth_call queries during initial development, and one 
    intermediate slashing scan attempt did not complete due to RPC-level 
-   instability. Two later complete runs through SwiftNodes both finished 
-   with status 100% COMPLETE and 0 OperatorSlashed events, at blocks 
-   25,991,586 and 25,995,924 respectively. No change in on-chain data was 
+   instability. Two complete runs through SwiftNodes both finished with status 100% 
+   COMPLETE and 0 OperatorSlashed events, at blocks 25,991,586 and 25,996,817 respectively. 
+   No change in on-chain data was 
    observed between runs.
 
 ---
@@ -402,9 +410,15 @@ independent complete runs, both returning 0 `OperatorSlashed` events.*
 
 The inspected data exposes EigenDA's weighted quorum stake, but does not establish a verified slashable security budget.
 
-Zero OperatorSlashed events were observed in AllocationManager over the scanned range. This result does not by itself prove that no M2-specific slashing or enforcement mechanism exists.
+Zero OperatorSlashed events were observed in AllocationManager over the 
+scanned range. As a secondary check, BurnOrRedistributableSharesIncreased 
+in StrategyManager was also scanned over the same range and returned zero 
+events. Two independent paths therefore show no slashing activity for 
+EigenDA in this range. This does not by itself prove that no M2-specific 
+slashing or enforcement mechanism exists.
 
-EigenDA's weighted quorum stake could not be mapped to slashable magnitudes through the inspected AllocationManager path.
+EigenDA's weighted quorum stake could not be mapped to slashable magnitudes 
+through the inspected AllocationManager path.
 
 ---
 
@@ -1010,7 +1024,123 @@ main().catch((e) => {
 });
 ```
 
-### 13.5 Compute concentration and thresholds (compute-stats.js)
+### 13.5 Burn / redistribution check (check-burn-redistribution.js)
+
+```javascript
+'use strict';
+const { ethers } = require('ethers');
+
+const RPC_URL = process.env.RPC_URL_ETH_GET_LOGS || process.env.RPC_URL;
+if (!RPC_URL) throw new Error('Set RPC_URL_ETH_GET_LOGS (or RPC_URL)');
+
+const provider = new ethers.JsonRpcProvider(RPC_URL);
+
+const ALLOCATION_MANAGER = '0x948a420b8cc1d6bfd0b6087c2e7c344a2cd0b6fa';
+const STRATEGY_MANAGER = '0x858646372CC42E1A627fcE94aa7A7033e7CF075A';
+
+const START_BLOCK = 22270000;
+
+const ABI = [
+  'event OperatorSlashed(address indexed operator, bytes32 indexed operatorSet, address[] strategies, uint256[] wadSlashed, string description)',
+  'event BurnOrRedistributableSharesIncreased(bytes32 indexed operatorSetKey, uint256 indexed slashId, address indexed strategy, uint256 shares)',
+];
+
+const allocationManager = new ethers.Contract(ALLOCATION_MANAGER, ABI, provider);
+const strategyManager = new ethers.Contract(STRATEGY_MANAGER, ABI, provider);
+
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+async function scanContract(contract, eventName, label) {
+  const finalized = await provider.getBlock('finalized');
+  const currentBlock = finalized.number;
+
+  console.log(`\n=== ${label} ===`);
+  console.log(`Contract: ${contract.target}`);
+  console.log(`Event: ${eventName}`);
+  console.log(`Range: ${START_BLOCK} -> ${currentBlock}\n`);
+
+  let step = 10000;
+  const MIN_STEP = 100;
+  let total = 0;
+  let isFullyCompleted = false;
+
+  let from = START_BLOCK;
+  let retriesAtCurrent = 0;
+  const MAX_RETRIES_PER_WINDOW = 30;
+
+  while (from <= currentBlock) {
+    const to = Math.min(from + step - 1, currentBlock);
+
+    try {
+      const events = await contract.queryFilter(eventName, from, to);
+      if (events.length > 0) total += events.length;
+      if (to === currentBlock) isFullyCompleted = true;
+
+      from = to + 1;
+      step = Math.min(step * 2, 50000);
+      retriesAtCurrent = 0;
+      await sleep(50);
+    } catch (e) {
+      retriesAtCurrent++;
+      if (retriesAtCurrent > MAX_RETRIES_PER_WINDOW) break;
+      if (step > MIN_STEP) {
+        step = Math.max(Math.floor(step / 2), MIN_STEP);
+        await sleep(500 * Math.min(retriesAtCurrent, 10));
+        continue;
+      }
+      break;
+    }
+  }
+
+  return { total, isFullyCompleted, lastScanned: from, currentBlock };
+}
+
+async function main() {
+  const slashed = await scanContract(allocationManager, 'OperatorSlashed', 'AllocationManager — OperatorSlashed');
+  const burned = await scanContract(strategyManager, 'BurnOrRedistributableSharesIncreased', 'StrategyManager — BurnOrRedistributableSharesIncreased');
+
+  console.log('\n================ SUMMARY ================');
+
+  if (!slashed.isFullyCompleted) {
+    console.log(`❌ OperatorSlashed scan: SCAN INTERRUPTED at block ${slashed.lastScanned}`);
+  } else {
+    console.log(`✅ OperatorSlashed scan: 100% COMPLETE. Events found: ${slashed.total}`);
+  }
+
+  if (!burned.isFullyCompleted) {
+    console.log(`❌ BurnOrRedistributableSharesIncreased scan: SCAN INTERRUPTED at block ${burned.lastScanned}`);
+  } else {
+    console.log(`✅ BurnOrRedistributableSharesIncreased scan: 100% COMPLETE. Events found: ${burned.total}`);
+  }
+
+  if (slashed.isFullyCompleted && burned.isFullyCompleted && slashed.total === 0 && burned.total === 0) {
+    console.log('\n✅ 0 events in both contracts over the scanned range.');
+    console.log('   No slashing or burn/redistribution activity observed.');
+  } else if (slashed.isFullyCompleted && burned.isFullyCompleted) {
+    console.log('\n⚠️ Non-zero events found. Manual review required.');
+  } else {
+    console.log('\n❌ At least one scan did not complete. Results are NOT valid.');
+  }
+}
+
+main().catch((e) => {
+  console.error('Fatal:', e.shortMessage || e.message);
+  process.exitCode = 1;
+});
+```
+
+Note: this script is a secondary check. BurnOrRedistributableSharesIncreased 
+is emitted by StrategyManager whenever slashed shares are routed to burn 
+or redistribution. A zero result here confirms that no slashing-related 
+share removal occurred for any operator set over the scanned range.
+
+![Console output of check-burn-redistribution.js: 0 events in both contracts](./images/check-burn-redistribution-output.png)
+
+*Console output of `check-burn-redistribution.js`: two complete runs, 
+0 events in both AllocationManager and StrategyManager.*
+
+
+### 13.6 Compute concentration and thresholds (compute-stats.js)
 
 ```javascript
 'use strict';
@@ -1070,7 +1200,7 @@ concentration and threshold values shown in Section 5 and Section 6. It
 does not query the chain; it operates on the artifact produced by
 read-registered-stakes.js.
 
-### 13.6 How to run
+### 13.7 How to run
 
 Install dependencies first:
 
@@ -1120,18 +1250,21 @@ Linux / macOS:
 ```bash
 export RPC_URL_ETH_GET_LOGS="https://rpc.swiftnodes.io/rpc/eth?key=YOUR_KEY"
 node check-slashing.js
+node check-burn-redistribution.js
 ```
 
 Windows PowerShell:
 ```powershell
 $env:RPC_URL_ETH_GET_LOGS="https://rpc.swiftnodes.io/rpc/eth?key=YOUR_KEY"
 node check-slashing.js
+node check-burn-redistribution.js
 ```
 
 Windows CMD:
 ```cmd
 set RPC_URL_ETH_GET_LOGS=https://rpc.swiftnodes.io/rpc/eth?key=YOUR_KEY
 node check-slashing.js
+node check-burn-redistribution.js
 ```
 
 Replace YOUR_KEY with a free SwiftNodes API key.
@@ -1144,7 +1277,7 @@ RPC stability: during initial development, all three scripts were run through Sw
 
 Slashing scan: the scan was performed through SwiftNodes. Two complete 
 runs finished with status 100% COMPLETE and 0 OperatorSlashed events, 
-at blocks 25,991,586 and 25,995,924 respectively. An intermediate 
+at blocks 25,991,586 and 25,996,817 respectively. An intermediate 
 attempt through the same endpoint did not complete due to RPC-level 
 instability, which is documented in Section 9 as an RPC constraint. 
 The two successful runs confirm that the reported result is stable 
@@ -1160,23 +1293,25 @@ across endpoints and time.
 | [v2-summary.json](./data/v2-summary.json) | Resolved contract addresses and quorum snapshot |
 | [all-stakes.json](./data/all-stakes.json) | Weighted stake per operator per quorum (all 59 addresses) |
 | [registered-stakes.json](./data/registered-stakes.json) | Weighted stake per registered operator per quorum |
+| [check-burn-redistribution-output.txt](./data/check-burn-redistribution-output.txt) | Console output of the burn/redistribution scan |
 | [final-v2-operators.js](./scripts/final-v2-operators.js) | Resolve v2 contracts and fetch operator set |
 | [read-all-stakes.js](./scripts/read-all-stakes.js) | Read weighted stake via StakeRegistry (all 59 addresses) |
 | [read-registered-stakes.js](./scripts/read-registered-stakes.js) | Read weighted stake for registered operators only |
 | [check-slashing.js](./scripts/check-slashing.js) | OperatorSlashed event scanner |
+| [check-burn-redistribution.js](./scripts/check-burn-redistribution.js) | Secondary slashing check (StrategyManager burn/redistribution) |
 | [compute-stats.js](./scripts/compute-stats.js) | Compute concentration and thresholds from registered-stakes.json |
-| [images/](./images/) | Console screenshots for key scripts (see Sections 3, 4, 5, 8, 13.2) |
+| [images/](./images/) | Console screenshots: final-v2-operators, read-registered-stakes, compute-stats, check-slashing, check-burn-redistribution, read-all-stakes |
 
 ---
 
 ## 15. Core claim
 
-EigenDA's AVS-level slashable economic backstop could not be independently verified from the inspected public contracts and event history. The analysis identified 589,036 ETH-equivalent and 275,529,558 EIGEN-equivalent weighted units across three quorums at block 25,990,607, but could not map that stake to confirmed slashable magnitudes. EigenDA runs on M2 middleware rather than the inspected Operator Sets path, so its active enforcement mechanism requires further verification.
+EigenDA's AVS-level slashable economic backstop could not be independently verified from the inspected public contracts and event history. The analysis identified 589,036 ETH-equivalent and 275,529,558 EIGEN-equivalent weighted units across three quorums at block 25,990,607, but could not map that stake to confirmed slashable magnitudes. Over 3.7 million blocks scanned, two independent on-chain paths — AllocationManager's OperatorSlashed and StrategyManager's BurnOrRedistributableSharesIncreased — both returned zero events. EigenDA runs on M2 middleware rather than the inspected Operator Sets path, so its active enforcement mechanism requires further verification.
 
 ---
 
 Snapshot block: 25,990,607 (2026-09-16).
-Slashing scan finalized blocks: 25,991,586 and 25,995,924 (two complete runs).
+Slashing scan finalized blocks: 25,991,586 and 25,996,817 (two complete runs).
 Snapshot rates: ETH = $2,400, EIGEN = $0.19.
 Multiplier (EIGEN strategy, q1): 1e18 (1.0), verified on-chain via StakeRegistry.strategyParamsByIndex(1, 0).
 
