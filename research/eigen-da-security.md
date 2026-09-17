@@ -82,10 +82,17 @@ snapshot, not a change in the underlying on-chain data.
 
 ## 3. Quorums
 
-RegistryCoordinator reports quorumCount = 3 on the snapshot block. 
-The standard EigenDA CertVerifier at 0x61692e93b6B045c444e942A91EcD1527F23A3FB7 
-declares requiredQuorums = 0x0001. This means q0 and q1 are jointly required 
-for a standard certificate, not independent alternatives.
+RegistryCoordinator reports quorumCount = 3 on the snapshot block. The 
+standard EigenDA CertVerifier at 0x61692e93b6B045c444e942A91EcD1527F23A3FB7 
+declares requiredQuorums = 0x0001 (quorums 0 and 1), with:
+
+- confirmationThreshold = 55
+- adversaryThreshold = 33
+
+A valid certificate requires each required quorum (q0 and q1) to reach 
+confirmationThreshold. The required quorums are jointly required, not 
+independent alternatives — an attacker must cross the threshold in every 
+required quorum simultaneously to forge a certificate.
 
 | Quorum | Type | Operators | In required set |
 |---|---|---:|---|
