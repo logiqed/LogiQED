@@ -32,7 +32,7 @@ async function retry(fn, label, attempts = 5) {
       const msg = e.shortMessage || e.message;
       console.warn(`  ${label}: attempt ${i}/${attempts} failed — ${msg}`);
       if (i === attempts) throw e;
-      await sleep(1000 * i); // экспоненциальная пауза
+      await sleep(1000 * i); // exponential backoff
     }
   }
 }
@@ -42,7 +42,7 @@ async function main() {
 
   const dir = new ethers.Contract(DIRECTORY, DIRECTORY_ABI, provider);
 
-  // getAllNames — без blockTag (читаем актуальный справочник)
+  // getAllNames — without blockTag (read the current directory)
   const names = await retry(
     () => dir.getAllNames(),
     'getAllNames'

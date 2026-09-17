@@ -17,10 +17,10 @@ EigenDA is one of the largest AVSs in the EigenLayer ecosystem. This research me
 
 Key findings:
 
-1. 59 active operators across 3 independent quorums: ETH/LST (33), EIGEN (47), and a third quorum (11).
-2. Weighted stake: 283,387 ETH-equivalent, 236,150,309 EIGEN-equivalent, and 412,085 units in the third quorum.
-3. Concentration in the ETH quorum is severe: one operator controls about 40.6% of weighted stake; top-3 operators control about 67.6%; top-10 operators control about 97.9%.
-4. The EIGEN quorum is also concentrated: top-1 controls about 20.8%, top-3 about 43.1%, and top-10 about 80.1% of weighted stake.
+1. 59 active operators across 3 configured quorums: ETH/LST (46), EIGEN (58), and a third quorum (15).
+2. Weighted stake: 589,092 ETH-equivalent, 275,540,246 EIGEN-equivalent, and 765,150 units in the third quorum.
+3. Concentration in the ETH quorum is severe: one operator controls about 50.02% of weighted stake; top-3 operators control about 78.71%; top-10 operators control about 96.59%.
+4. The EIGEN quorum is also concentrated: top-1 controls about 17.83%, top-3 about 36.91%, and top-10 about 71.44% of weighted stake.
 5. Zero OperatorSlashed events in the AllocationManager across 3.7 million blocks scanned since slashing activation.
 6. EigenDA uses M2 middleware, not Operator Sets. Its weighted quorum stake could not be mapped to slashable magnitudes through the inspected AllocationManager path.
 7. The slashable economic backstop for EigenDA is not independently verifiable from public on-chain data.
@@ -89,9 +89,9 @@ for a standard certificate, not independent alternatives.
 
 | Quorum | Type | Operators | In required set |
 |---|---|---:|---|
-| q0 | ETH / LST | 33 | yes |
-| q1 | EIGEN | 47 | yes |
-| q2 | Third quorum (not in standard requiredQuorums) | 11 | no |
+| q0 | ETH / LST | 46 | yes |
+| q1 | EIGEN | 58 | yes |
+| q2 | Third quorum (not in standard requiredQuorums) | 15 | no |
 | Unique total (getOperatorState) | | 59 | |
 
 Quorum semantics from the CertVerifier source and constructor parameters:
@@ -115,7 +115,8 @@ Note on operator counts: the per-quorum counts in the table above refer
 to operators with non-zero weighted stake in each quorum at the snapshot 
 block. getOperatorState returns all registered operators, including 
 entries with zero weight, and reports 32 / 55 / 4 for q0 / q1 / q2 at 
-block 25,990,607. The union of these three sets is 59 unique addresses, 
+block 25,990,607. After filtering to non-zero weighted stake, the 
+per-quorum counts are 46 / 58 / 15. The union of these three sets is 59 unique addresses, 
 which is the total used throughout this report.
 
 ---
@@ -126,55 +127,61 @@ All figures below are weighted quorum units as returned by StakeRegistry.weightO
 
 | Quorum | Total weighted stake | Operators (non-zero) |
 |---|---:|---:|
-| q0 (ETH/LST) | 283,387 ETH-equivalent units | 33 of 59 |
-| q1 (EIGEN) | 236,150,309 EIGEN-equivalent units | 47 of 59 |
-| q2 (third) | 412,085 units | 11 of 59 |
+| q0 (ETH/LST) | 589,092 ETH-equivalent units | 46 of 59 |
+| q1 (EIGEN) | 275,540,246 EIGEN-equivalent units | 58 of 59 |
+| q2 (third) | 765,150 units | 15 of 59 |
+
+Multiplier verification: StakeRegistry.strategyParamsByIndex(1, 0) 
+returns multiplier = 1e18 for the EIGEN strategy. This means 1 weighted 
+unit corresponds to 1 EIGEN share (assuming exchange rate = 1.0), and 
+weighted units for the EIGEN quorum can be directly compared with EIGEN 
+token amounts.
 
 ---
 
 ## 5. Concentration
 
-### Quorum 0 (ETH/LST) — 283,387 weighted units
+### Quorum 0 (ETH/LST) — 589,092 weighted units
 
 | Position | Share of weighted quorum stake | Address |
 |---|---:|---|
-| Top-1 | about 40.60% | 0xbe7d5f26f5d5f567d35a86dd4d7d02aced2d5bff |
-| Top-3 | about 67.63% | |
-| Top-10 | about 97.85% | |
+| Top-1 | about 50.02% | 0xdbed88d83176316fc46797b43adee927dc2ff2f5 |
+| Top-3 | about 78.71% | |
+| Top-10 | about 96.59% | |
 
-Top-1 operator holds 115,068 ETH-equivalent weighted units.
-Top-3 operators collectively hold 191,645 ETH-equivalent weighted units.
+Top-1 operator holds 294,640 ETH-equivalent weighted units.
+Top-3 operators collectively hold 463,681 ETH-equivalent weighted units.
 
 The top-1 operator alone is below confirmationThreshold = 55, but the top-3 
 collectively exceed both confirmationThreshold (55%) and adversaryThreshold (33%). 
 The quorum's confirmation condition is substantially dependent on a small group 
 of three operators.
 
-### Quorum 1 (EIGEN) — 236,150,309 weighted units
+### Quorum 1 (EIGEN) — 275,540,246 weighted units
 
 | Position | Share of weighted quorum stake | Address |
 |---|---:|---|
-| Top-1 | about 20.80% | 0xdde3d4e0d7705ff68d31009a2422425ae38810a6 |
-| Top-3 | about 43.07% | |
-| Top-10 | about 80.07% | |
+| Top-1 | about 17.83% | 0xdde3d4e0d7705ff68d31009a2422425ae38810a6 |
+| Top-3 | about 36.91% | |
+| Top-10 | about 71.44% | |
 
 Top-1 operator holds 49,115,582 EIGEN-equivalent weighted units.
 Top-3 operators collectively hold 101,715,773 EIGEN-equivalent weighted units.
 
-Distribution is more even than q0, but top-10 still control about 80% of 
+Distribution is more even than q0, but top-10 still control about 71% of 
 weighted stake.
 
-### Quorum 2 (third) — 412,085 weighted units
+### Quorum 2 (third) — 765,150 weighted units
 
 | Position | Share of weighted quorum stake | Address |
 |---|---:|---|
-| Top-1 | about 74.03% | 0x5accc90436492f24e6af278569691e2c942a676d |
-| Top-3 | about 96.07% | |
-| Top-10 | about 100.00% | |
+| Top-1 | about 44.95% | 0x71c6f7ed8c2d4925d0baf16f6a85bb1736d412eb |
+| Top-3 | about 92.60% | |
+| Top-10 | about 99.76% | |
 
 Quorum 2 is not part of the standard requiredQuorums for the inspected 
-CertVerifier, but its concentration is severe: one operator controls 
-about 74% of weighted stake.
+CertVerifier, but its concentration is severe: top-3 operators control 
+about 92.6% of weighted stake.
 
 ---
 
@@ -191,19 +198,19 @@ at 0x61692e93b6B045c444e942A91EcD1527F23A3FB7):
 - adversaryThreshold = 33
 - requiredQuorums = 0x0001 (q0 and q1)
 
-### Quorum 0 (ETH) — 283,387 weighted units
+### Quorum 0 (ETH) — 589,092 weighted units
 
 | Threshold | Weighted units | Share |
 |---|---:|---:|
-| Confirmation 55% | 155,863 | 55% |
-| Adversary 33% | 93,518 | 33% |
+| Confirmation 55% | 324,001 | 55% |
+| Adversary 33% | 194,400 | 33% |
 
-### Quorum 1 (EIGEN) — 236,150,309 weighted units
+### Quorum 1 (EIGEN) — 275,540,246 weighted units
 
 | Threshold | Weighted units | Share |
 |---|---:|---:|
-| Confirmation 55% | 129,882,670 | 55% |
-| Adversary 33% | 77,929,602 | 33% |
+| Confirmation 55% | 151,547,135 | 55% |
+| Adversary 33% | 90,928,281 | 33% |
 
 Notes:
 
@@ -222,7 +229,52 @@ amounts, because weighted stake is not the same as slashable stake.
 
 ---
 
-## 7. Slashing check on AllocationManager
+## 7. Price sensitivity of the EIGEN quorum
+
+The EIGEN strategy has multiplier = 1e18 in the inspected StakeRegistry, 
+verified via strategyParamsByIndex(1, 0). This means 1 weighted unit in the 
+EIGEN quorum corresponds to 1 EIGEN share (assuming exchange rate = 1.0). 
+Therefore the dollar-denominated quorum threshold scales linearly with the 
+market price of EIGEN.
+
+The table below shows the confirmation (55%) and adversary (33%) thresholds 
+of the EIGEN quorum at several EIGEN prices. All values are computed from 
+the on-chain weighted stake at block 25,990,607.
+
+| EIGEN price | Adversary 33% (90,928,281 EIGEN) | Confirmation 55% (151,547,135 EIGEN) |
+|---|---:|---:|
+| $0.10 | ~$9.1M | ~$15.2M |
+| $0.19 (snapshot) | ~$17.3M | ~$28.8M |
+| $0.50 | ~$45.5M | ~$75.8M |
+| $1.00 | ~$90.9M | ~$151.5M |
+| $2.00 | ~$181.9M | ~$303.1M |
+| $3.00 | ~$272.8M | ~$454.6M |
+
+Interpretation:
+
+- The EIGEN quorum's dollar-denominated threshold is a direct function of 
+  the market price of EIGEN. It is not fixed by the protocol.
+- A lower EIGEN price implies a lower dollar cost to reach the confirmation 
+  or adversary threshold in this quorum, all else equal.
+- A higher EIGEN price implies a higher dollar cost, all else equal.
+
+Important caveats:
+
+- These figures represent weighted quorum thresholds. They are not proven 
+  slashable amounts. The relationship between weighted quorum stake and 
+  confirmed slashable magnitudes through the inspected AllocationManager 
+  path was not established in this research.
+- The 33% adversaryThreshold is a separate EigenDA security parameter. It 
+  should not be interpreted as the liveness-blocking fraction (that is 
+  >45% unavailable stake in a required quorum).
+- USD figures are indicative. ETH = $2,400, EIGEN = $0.19 at snapshot.
+- If the EIGEN strategy exchange rate diverges from 1.0 in the future, the 
+  weighted units and EIGEN token amounts would no longer correspond 1:1, 
+  and the table would require recalculation.
+
+---
+
+## 8. Slashing check on AllocationManager
 
 ### Method
 
@@ -259,23 +311,31 @@ Slashing events: 0.
 
 ---
 
-## 8. Limitations
+## 9. Limitations
 
 1. Weighted stake is not slashable stake. This report measures voting weight in quorums, not slashable magnitudes in AllocationManager.
 2. Zero OperatorSlashed events were observed on EigenLayer mainnet in the scanned range (blocks 22,270,000–25,991,586). This result does not by itself prove that no M2-specific slashing or enforcement mechanism exists.
 3. USD figures are indicative. ETH = $2,400, EIGEN = $0.19 at snapshot. Conversions scale linearly.
-4. RPC constraints. Public free RPCs do not serve archive eth_getLogs. This research used SwiftNodes (free tier, 250K requests per month) with adaptive chunking.
+4. RPC constraints. This research used two RPC classes: Alchemy (free tier) 
+   for eth_call reads on a fixed snapshot block, and SwiftNodes (free tier) 
+   with adaptive chunking for the eth_getLogs slashing scan. Alchemy Free 
+   does not serve archive eth_getLogs, and SwiftNodes returned 
+   non-deterministic results for some eth_call queries during initial 
+   development. The slashing scan was performed once through SwiftNodes 
+   and completed with status 100% COMPLETE at block 25,991,586. A repeat 
+   scan through the same endpoint at a later time did not complete, 
+   indicating RPC-level instability rather than a change in on-chain data.
 
 ---
 
-## 9. Conclusions
+## 10. Conclusions
 
 1. Within this research, EigenDA reports 59 active operators across 
    three quorums in the inspected RegistryCoordinator. 
    Comparative ranking against other AVSs was not performed.
 2. It runs three configured quorums: ETH/LST (q0), EIGEN (q1), and a third EigenDA-specific quorum (q2). q0 and q1 are jointly required for a standard certificate.
-3. The ETH quorum is severely concentrated: top-1 controls about 40.6%, top-3 about 67.6%, top-10 about 97.9% of weighted stake.
-4. The EIGEN quorum is also concentrated: top-1 controls about 20.8%, top-10 about 80.1%.
+3. The ETH quorum is severely concentrated: top-1 controls about 50.02%, top-3 about 78.71%, top-10 about 96.59% of weighted stake.
+4. The EIGEN quorum is also concentrated: top-1 controls about 17.83%, top-10 about 71.44%.
 5. Zero OperatorSlashed events over 3.7M blocks — slashing has never been executed in this range.
 6. EigenDA runs on M2 middleware, not Operator Sets. No slashable 
    allocation corresponding to the observed EigenDA quorum weights was 
@@ -284,7 +344,7 @@ Slashing events: 0.
 
 ---
 
-## 10. What can be claimed
+## 11. What can be claimed
 
 The inspected data exposes EigenDA's weighted quorum stake, but does not establish a verified slashable security budget.
 
@@ -294,7 +354,7 @@ EigenDA's weighted quorum stake could not be mapped to slashable magnitudes thro
 
 ---
 
-## 11. What cannot be claimed
+## 12. What cannot be claimed
 
 - "EigenDA can be attacked for $11.8M." Weighted stake is not slashable, so this is not proven.
 - "The economic barrier is $0." Too categorical. The correct framing is "not slashable", not "zero".
@@ -302,159 +362,441 @@ EigenDA's weighted quorum stake could not be mapped to slashable magnitudes thro
 
 ---
 
-## 12. Reproducible scripts
+## 13. Reproducible scripts
 
-### 12.1 Fetch operator set (get-operators.js)
+### 13.1 Fetch operator set (final-v2-operators.js)
+
 ```javascript
+'use strict';
 const fs = require('node:fs');
 const { ethers } = require('ethers');
 
-const provider = new ethers.JsonRpcProvider(process.env.RPC_URL);
+const RPC_URL = process.env.RPC_URL;
+if (!RPC_URL) throw new Error('Set RPC_URL');
 
-const REGISTRY_COORDINATOR = '0x0baac79acd45a023e19345c352d8a7a83c4e5656';
-const OPERATOR_STATE_RETRIEVER = '0xEC35aa6521d23479318104E10B4aA216DBBE63Ce';
-
-const ABI = [
-  'function getOperatorState(address registryCoordinator, bytes quorumNumbers, uint32 blockNumber) view returns (tuple(address operator, bytes32 operatorId, uint96 stake)[][])'
-];
-
-async function main() {
-  const retriever = new ethers.Contract(OPERATOR_STATE_RETRIEVER, ABI, provider);
-  const blockNumber = await provider.getBlockNumber();
-  const result = await retriever.getOperatorState(
-    REGISTRY_COORDINATOR,
-    '0x000102',
-    blockNumber
-  );
-
-  const all = new Set();
-  for (const ops of result) for (const op of ops) all.add(op.operator.toLowerCase());
-  fs.writeFileSync('operators.txt', Array.from(all).sort().join('\n'));
-}
-
-main();
-```
-### 12.2 Read weighted stakes (read-all-stakes.js)
-
-```javascript
-const fs = require('node:fs');
-const { ethers } = require('ethers');
-
-const provider = new ethers.JsonRpcProvider(process.env.RPC_URL);
-const STAKE_REGISTRY = '0x006124ae7976137266feebfb3f4d2be4c073139d';
-const ABI = ['function weightOfOperatorForQuorum(uint8,address) view returns (uint96)'];
-const registry = new ethers.Contract(STAKE_REGISTRY, ABI, provider);
+const provider = new ethers.JsonRpcProvider(RPC_URL);
 
 const SNAPSHOT_BLOCK = Number(process.env.SNAPSHOT_BLOCK || 25990607);
+const DIRECTORY = '0x64AB2e9A86FA2E183CB6f01B2D4050c1c2dFAad4';
 
-async function safeWeight(quorum, address) {
-  try {
-    const v = await registry.weightOfOperatorForQuorum(quorum, address, {
-      blockTag: SNAPSHOT_BLOCK,
-    });
-    return BigInt(v);
-  } catch {
-    return null;
+const DIRECTORY_ABI = [
+  'function getAllNames() view returns (string[] memory)',
+  'function getAddress(bytes32 key) view returns (address)',
+  'function getAddress(string name) view returns (address)',
+];
+
+const REGISTRY_ABI = ['function quorumCount() view returns (uint8)'];
+
+const RETRIEVER_ABI = [
+  'function getOperatorState(address registryCoordinator, bytes quorumNumbers, uint32 blockNumber) view returns (tuple(address operator, bytes32 operatorId, uint96 stake)[][])',
+];
+
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+async function retry(fn, label, attempts = 5) {
+  for (let i = 1; i <= attempts; i++) {
+    try {
+      return await fn();
+    } catch (e) {
+      const msg = e.shortMessage || e.message;
+      console.warn(`  ${label}: attempt ${i}/${attempts} failed — ${msg}`);
+      if (i === attempts) throw e;
+      // exponential backoff
+      await sleep(1000 * i);
+    }
   }
 }
 
 async function main() {
+  console.log(`Snapshot block: ${SNAPSHOT_BLOCK}\n`);
+
+  const dir = new ethers.Contract(DIRECTORY, DIRECTORY_ABI, provider);
+
+  // getAllNames — without blockTag (read the current directory)
+  const names = await retry(() => dir.getAllNames(), 'getAllNames');
+  console.log(`Directory names (${names.length}):`);
+  for (const n of names) console.log(`  - ${n}`);
+
+  console.log('\n=== Resolving addresses (bytes32 variant, with retry) ===');
+  const resolved = {};
+
+  for (const name of names) {
+    const key = ethers.keccak256(ethers.toUtf8Bytes(name));
+    let addr = null;
+    try {
+      addr = await retry(
+        () => dir['getAddress(bytes32)'](key),
+        `getAddress(${name})`
+      );
+    } catch (e) {
+      console.warn(`  ${name}: SKIPPED — ${e.shortMessage || e.message}`);
+      addr = null;
+    }
+    resolved[name] = addr;
+    console.log(`  ${name} = ${addr || 'ERROR'}`);
+    await sleep(300); // small pause between requests
+  }
+
+  const rcAddr = resolved['REGISTRY_COORDINATOR'];
+  if (!rcAddr || rcAddr.toLowerCase() === DIRECTORY.toLowerCase()) {
+    console.error('\n❌ REGISTRY_COORDINATOR not resolved.');
+    process.exit(1);
+  }
+
+  console.log(`\n=== v2 RegistryCoordinator: ${rcAddr} ===`);
+
+  const coordinator = new ethers.Contract(rcAddr, REGISTRY_ABI, provider);
+  const quorumCount = Number(
+    await retry(
+      () => coordinator.quorumCount({ blockTag: SNAPSHOT_BLOCK }),
+      'quorumCount'
+    )
+  );
+  console.log(`quorumCount = ${quorumCount}`);
+
+  const quorumNumbers =
+    '0x' +
+    Array.from({ length: quorumCount }, (_, i) =>
+      i.toString(16).padStart(2, '0')
+    ).join('');
+  console.log(`quorumNumbers = ${quorumNumbers}`);
+
+  const retrieverAddr = resolved['OPERATOR_STATE_RETRIEVER'];
+  if (!retrieverAddr) {
+    console.error('\n❌ OPERATOR_STATE_RETRIEVER not resolved.');
+    process.exit(1);
+  }
+  console.log(`\n=== OperatorStateRetriever: ${retrieverAddr} ===`);
+
+  const retriever = new ethers.Contract(retrieverAddr, RETRIEVER_ABI, provider);
+  const result = await retry(
+    () => retriever.getOperatorState(rcAddr, quorumNumbers, SNAPSHOT_BLOCK),
+    'getOperatorState'
+  );
+
+  const allOps = new Set();
+  for (let q = 0; q < result.length; q++) {
+    console.log(`  Quorum ${q}: ${result[q].length} operators`);
+    for (const op of result[q]) allOps.add(op.operator.toLowerCase());
+  }
+
+  console.log(`\nTotal unique v2 operators: ${allOps.size}`);
+
+  fs.writeFileSync('operators-v2.txt', Array.from(allOps).sort().join('\n'));
+  fs.writeFileSync(
+    'v2-summary.json',
+    JSON.stringify(
+      {
+        snapshotBlock: SNAPSHOT_BLOCK,
+        resolvedAddresses: resolved,
+        registryCoordinator: rcAddr,
+        operatorStateRetriever: retrieverAddr,
+        quorumCount,
+        totalUniqueOperators: allOps.size,
+        operators: Array.from(allOps).sort(),
+      },
+      null,
+      2
+    )
+  );
+
+  console.log('\nSaved: operators-v2.txt');
+  console.log('Saved: v2-summary.json');
+}
+
+main().catch((e) => {
+  console.error('Fatal:', e.shortMessage || e.message);
+  process.exitCode = 1;
+});
+```
+
+### 13.2 Read weighted stakes (read-all-stakes.js)
+
+```javascript
+'use strict';
+const fs = require('node:fs');
+const { ethers } = require('ethers');
+
+const RPC_URL = process.env.RPC_URL;
+if (!RPC_URL) throw new Error('Set RPC_URL');
+
+const provider = new ethers.JsonRpcProvider(RPC_URL);
+
+// Fixed snapshot block for atomicity
+const SNAPSHOT_BLOCK = Number(process.env.SNAPSHOT_BLOCK || 25990607);
+
+const STAKE_REGISTRY = '0x006124ae7976137266feebfb3f4d2be4c073139d';
+
+const ABI = [
+  'function weightOfOperatorForQuorum(uint8 quorumNumber, address operator) view returns (uint96)',
+  'function strategyParamsLength(uint8 quorumNumber) view returns (uint256)',
+  'function strategyParamsByIndex(uint8 quorumNumber, uint256 index) view returns (tuple(address strategy, uint96 multiplier))',
+];
+
+const registry = new ethers.Contract(STAKE_REGISTRY, ABI, provider);
+
+async function safeWeight(quorum, addr) {
+  try {
+    const v = await registry.weightOfOperatorForQuorum(quorum, addr, {
+      blockTag: SNAPSHOT_BLOCK,
+    });
+    return BigInt(v);
+  } catch {
+    return null; // revert or error
+  }
+}
+
+async function readQuorumConfig(quorum) {
+  console.log(`\n=== Quorum ${quorum} strategy config ===`);
+  let len = 0n;
+  try {
+    len = BigInt(
+      await registry.strategyParamsLength(quorum, { blockTag: SNAPSHOT_BLOCK })
+    );
+  } catch (e) {
+    console.log(`  strategyParamsLength failed: ${e.shortMessage || e.message}`);
+    return;
+  }
+
+  console.log(`  strategies in quorum: ${len.toString()}`);
+
+  for (let i = 0n; i < len; i++) {
+    try {
+      const p = await registry.strategyParamsByIndex(quorum, i, {
+        blockTag: SNAPSHOT_BLOCK,
+      });
+      console.log(
+        `  [${i}] strategy=${p.strategy} multiplier=${p.multiplier.toString()}`
+      );
+    } catch (e) {
+      console.log(`  [${i}] failed: ${e.shortMessage || e.message}`);
+    }
+  }
+}
+
+async function main() {
+  console.log(`Snapshot block: ${SNAPSHOT_BLOCK}`);
+  console.log(`StakeRegistry: ${STAKE_REGISTRY}`);
+
+  // 1. Read strategy config for all three quorums
+  await readQuorumConfig(0);
+  await readQuorumConfig(1);
+  await readQuorumConfig(2);
+
+  // 2. Read weighted stake per operator
+  console.log(`\n=== Reading weighted stake per operator ===\n`);
+
   const lines = fs
     .readFileSync('operators.txt', 'utf8')
     .split('\n')
     .map((l) => l.trim())
     .filter((l) => l.startsWith('0x'));
 
-  const operators = [];
-  for (const address of lines) {
-    const q0 = await safeWeight(0, address);
-    const q1 = await safeWeight(1, address);
-    const q2 = await safeWeight(2, address);
-    operators.push({
-      address,
-      q0: q0 === null ? null : q0.toString(),
-      q1: q1 === null ? null : q1.toString(),
-      q2: q2 === null ? null : q2.toString(),
-    });
+  console.log(`Loaded ${lines.length} operators\n`);
+
+  const results = [];
+  for (let i = 0; i < lines.length; i++) {
+    const addr = lines[i];
+    const q0 = await safeWeight(0, addr);
+    const q1 = await safeWeight(1, addr);
+    const q2 = await safeWeight(2, addr);
+
+    results.push({ address: addr, q0, q1, q2 });
+
+    if (i % 10 === 0 || i === lines.length - 1) {
+      console.log(`[${i + 1}/${lines.length}] ${addr}`);
+    }
   }
 
-  const sumNonZero = (field) =>
-    operators
-      .map((o) => o[field])
-      .filter((v) => v !== null)
-      .map((v) => BigInt(v))
-      .filter((v) => v > 0n)
-      .reduce((s, v) => s + v, 0n);
+  const valid = (field) =>
+    results.filter((r) => r[field] !== null && r[field] > 0n);
 
-  const totals = {
-    q0: sumNonZero('q0').toString(),
-    q1: sumNonZero('q1').toString(),
-    q2: sumNonZero('q2').toString(),
-  };
+  const totalQ0 = valid('q0').reduce((s, r) => s + r.q0, 0n);
+  const totalQ1 = valid('q1').reduce((s, r) => s + r.q1, 0n);
+  const totalQ2 = valid('q2').reduce((s, r) => s + r.q2, 0n);
+
+  console.log('\n================ TOTALS ================');
+  console.log(
+    `q0 (ETH/LST):  ${(Number(totalQ0) / 1e18).toFixed(6)} ETH  | non-zero: ${valid('q0').length}`
+  );
+  console.log(
+    `q1 (EIGEN):    ${(Number(totalQ1) / 1e18).toFixed(6)} EIGEN | non-zero: ${valid('q1').length}`
+  );
+  console.log(
+    `q2 (third):    ${(Number(totalQ2) / 1e18).toFixed(6)} units | non-zero: ${valid('q2').length}`
+  );
 
   fs.writeFileSync(
     'all-stakes.json',
-    JSON.stringify({ snapshotBlock: SNAPSHOT_BLOCK, totals, operators }, null, 2)
+    JSON.stringify(
+      {
+        snapshotBlock: SNAPSHOT_BLOCK,
+        totals: {
+          q0: totalQ0.toString(),
+          q1: totalQ1.toString(),
+          q2: totalQ2.toString(),
+        },
+        operators: results.map((r) => ({
+          address: r.address,
+          q0: r.q0 === null ? null : r.q0.toString(),
+          q1: r.q1 === null ? null : r.q1.toString(),
+          q2: r.q2 === null ? null : r.q2.toString(),
+        })),
+      },
+      null,
+      2
+    )
   );
 
-  console.log('Saved: all-stakes.json');
+  console.log('\nSaved: all-stakes.json');
 }
 
-main();
+main().catch((e) => {
+  console.error('Fatal:', e.shortMessage || e.message);
+  process.exitCode = 1;
+});
 ```
 
-### 12.3 Slashing check (check-slashing.js)
+Note: `all-stakes.json` stores q0 / q1 / q2 as raw wei-format strings. 
+Divide by 1e18 to get human-readable amounts (ETH-equivalent for q0, 
+EIGEN-equivalent for q1, units for q2). The same script also prints 
+human-readable totals (in ETH / EIGEN / units) to stdout, so the 
+console output and the JSON file are consistent — the JSON is the 
+canonical artifact, and the log is a convenience view.
+
+### 13.3 Slashing check (check-slashing.js)
 
 ```javascript
+'use strict';
 const { ethers } = require('ethers');
 
-const provider = new ethers.JsonRpcProvider(process.env.RPC_URL);
+// Dedicated env var for eth_getLogs (SwiftNodes etc.)
+// Falls back to RPC_URL if not set.
+const RPC_URL = process.env.RPC_URL_ETH_GET_LOGS || process.env.RPC_URL;
+if (!RPC_URL) throw new Error('Set RPC_URL_ETH_GET_LOGS (or RPC_URL)');
+
+const provider = new ethers.JsonRpcProvider(RPC_URL);
+
 const ALLOCATION_MANAGER = '0x948a420b8cc1d6bfd0b6087c2e7c344a2cd0b6fa';
+
+// Full range: from slashing activation block to current finalized block
 const START_BLOCK = 22270000;
 
 const ABI = [
-  'event OperatorSlashed(address indexed operator, bytes32 indexed operatorSet, address[] strategies, uint256[] wadSlashed, string description)'
+  'event OperatorSlashed(address indexed operator, bytes32 indexed operatorSet, address[] strategies, uint256[] wadSlashed, string description)',
 ];
+
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 async function main() {
   const finalized = await provider.getBlock('finalized');
   const currentBlock = finalized.number;
 
+  console.log(`RPC: ${RPC_URL.replace(/(key|apikey|api_key)=[^&]+/i, '$1=REDACTED')}`);
+  console.log(`Finalized block: ${currentBlock} (hash ${finalized.hash})`);
+  console.log(`AllocationManager: ${ALLOCATION_MANAGER}`);
+  console.log(`Range: ${START_BLOCK} -> ${currentBlock}\n`);
+
   const contract = new ethers.Contract(ALLOCATION_MANAGER, ABI, provider);
 
   let step = 10000;
+  const MIN_STEP = 100;
   let total = 0;
+  const found = [];
   let isFullyCompleted = false;
-  let retries = 0;
-  const MAX_RETRIES = 20;
 
   let from = START_BLOCK;
+  let retriesAtCurrent = 0;
+  const MAX_RETRIES_PER_WINDOW = 30;
+
   while (from <= currentBlock) {
     const to = Math.min(from + step - 1, currentBlock);
+
     try {
       const events = await contract.queryFilter('OperatorSlashed', from, to);
-      total += events.length;
+
+      if (events.length > 0) {
+        total += events.length;
+        for (const e of events) {
+          found.push({
+            block: e.blockNumber,
+            operator: e.args.operator,
+            operatorSet: e.args.operatorSet,
+            description: e.args.description,
+            tx: e.transactionHash,
+          });
+        }
+        console.log(`  [${from}-${to}] found ${events.length}`);
+      }
+
       if (to === currentBlock) isFullyCompleted = true;
+
       from = to + 1;
       step = Math.min(step * 2, 50000);
-      retries = 0;
+      retriesAtCurrent = 0;
+
+      // Small delay to avoid hammering the RPC
+      await sleep(50);
     } catch (e) {
-      retries++;
-      if (retries > MAX_RETRIES) break;
-      if (step > 200) { step = Math.floor(step / 2); continue; }
-      break;
+      retriesAtCurrent++;
+      const msg = e.shortMessage || e.message;
+
+      if (retriesAtCurrent > MAX_RETRIES_PER_WINDOW) {
+        console.error(
+          `  Too many retries at ${from}-${to} (${retriesAtCurrent}). Aborting.`
+        );
+        console.error(`  Last error: ${msg}`);
+        break;
+      }
+
+      if (step > MIN_STEP) {
+        // Reduce window size on range limit errors
+        step = Math.max(Math.floor(step / 2), MIN_STEP);
+        console.warn(`  Node error. Step -> ${step} (retry ${retriesAtCurrent})`);
+        await sleep(500 * Math.min(retriesAtCurrent, 10));
+        continue;
+      }
+
+      // At minimum step: one last attempt before giving up
+      console.error(`  Fatal at ${from}-${to}: ${msg}`);
+      await sleep(2000);
+      try {
+        const events = await contract.queryFilter('OperatorSlashed', from, to);
+        total += events.length;
+        if (to === currentBlock) isFullyCompleted = true;
+        from = to + 1;
+        retriesAtCurrent = 0;
+        continue;
+      } catch (e2) {
+        console.error(`  Fatal retry also failed: ${e2.shortMessage || e2.message}`);
+        break;
+      }
     }
   }
 
-  if (!isFullyCompleted) console.log('SCAN INTERRUPTED');
-  else if (total === 0) console.log('100% COMPLETE: 0 OperatorSlashed events found.');
-  else console.log('Found ' + total + ' slashing events.');
+  console.log('\n================ RESULT ================');
+  if (!isFullyCompleted) {
+    console.log('❌ SCAN INTERRUPTED: result is NOT complete.');
+    console.log(`   Scanned up to block ${from}. Target was ${currentBlock}.`);
+  } else if (total === 0) {
+    console.log(`✅ 100% COMPLETE: scanned up to finalized block ${currentBlock}`);
+    console.log('   0 OperatorSlashed events found.');
+    console.log('   No automatic slashing executed on mainnet in this range.');
+  } else {
+    console.log(`🚨 Found ${total} slashing events:`);
+    for (const f of found) {
+      console.log(`   Block ${f.block} | ${f.operator} | ${f.description}`);
+    }
+  }
 }
 
-main();
+main().catch((e) => {
+  console.error('Fatal:', e.shortMessage || e.message);
+  process.exitCode = 1;
+});
 ```
 
-### 12.4 How to run
+### 13.4 How to run
 
 Install dependencies first:
 
@@ -462,39 +804,69 @@ Install dependencies first:
 npm install ethers
 ```
 
-Linux / macOS:
+Two RPC types are needed for this research.
 
+#### 1. For eth_call reads (operator set, weighted stake)
+
+Linux / macOS:
 ```bash
-export RPC_URL="https://rpc.swiftnodes.io/rpc/eth?key=YOUR_KEY"
-node get-operators.js
+export RPC_URL="https://eth-mainnet.g.alchemy.com/v2/YOUR_ALCHEMY_KEY"
+export SNAPSHOT_BLOCK="25990607"
+node final-v2-operators.js
 node read-all-stakes.js
+```
+
+Windows PowerShell:
+```powershell
+$env:RPC_URL="https://eth-mainnet.g.alchemy.com/v2/YOUR_ALCHEMY_KEY"
+$env:SNAPSHOT_BLOCK="25990607"
+node final-v2-operators.js
+node read-all-stakes.js
+```
+
+Windows CMD:
+```cmd
+set RPC_URL=https://eth-mainnet.g.alchemy.com/v2/YOUR_ALCHEMY_KEY
+set SNAPSHOT_BLOCK=25990607
+node final-v2-operators.js
+node read-all-stakes.js
+```
+
+#### 2. For eth_getLogs on archive blocks (slashing scan)
+
+Free public RPCs that do not restrict eth_getLogs on archive blocks are required for this step. Alchemy Free does not serve archive eth_getLogs, so a different endpoint must be used.
+
+Linux / macOS:
+```bash
+export RPC_URL_ETH_GET_LOGS="https://rpc.swiftnodes.io/rpc/eth?key=YOUR_KEY"
 node check-slashing.js
 ```
 
 Windows PowerShell:
-
 ```powershell
-$env:RPC_URL="https://rpc.swiftnodes.io/rpc/eth?key=YOUR_KEY"
-node get-operators.js
-node read-all-stakes.js
+$env:RPC_URL_ETH_GET_LOGS="https://rpc.swiftnodes.io/rpc/eth?key=YOUR_KEY"
 node check-slashing.js
 ```
 
 Windows CMD:
-
 ```cmd
-set RPC_URL=https://rpc.swiftnodes.io/rpc/eth?key=YOUR_KEY
-node get-operators.js
-node read-all-stakes.js
+set RPC_URL_ETH_GET_LOGS=https://rpc.swiftnodes.io/rpc/eth?key=YOUR_KEY
 node check-slashing.js
 ```
 
-Replace YOUR_KEY with a free SwiftNodes API key. Any RPC endpoint that supports eth_call and eth_getLogs on archive blocks will work.
-Set `SNAPSHOT_BLOCK=25990607` for a reproducible snapshot. Without it, the script defaults to 25990607.
+Replace YOUR_KEY with a free SwiftNodes API key.
+
+#### Reproducibility notes
+
+Snapshot: set SNAPSHOT_BLOCK=25990607 for a reproducible snapshot. Without it, final-v2-operators.js and read-all-stakes.js default to block 25990607.
+
+RPC stability: during initial development, all three scripts were run through SwiftNodes. Repeat runs of read-all-stakes.js through SwiftNodes returned non-deterministic results for the same block, indicating incomplete responses for some eth_call queries. All eth_call figures in this report were recomputed and verified through Alchemy with two consecutive identical runs.
+
+Slashing scan: the scan was performed through SwiftNodes and completed with status 100% COMPLETE at block 25,991,586. A later repeat scan through the same endpoint did not complete due to RPC-level instability. This does not affect the reported slashing scan result, which was produced during a successful complete run.
 
 ---
 
-## 13. Artifacts
+## 14. Artifacts
 
 | File | Description |
 |---|---|
@@ -507,14 +879,15 @@ Set `SNAPSHOT_BLOCK=25990607` for a reproducible snapshot. Without it, the scrip
 
 ---
 
-## 14. Core claim
+## 15. Core claim
 
-EigenDA's AVS-level slashable economic backstop could not be independently verified from the inspected public contracts and event history. The analysis identified 283,387 ETH-equivalent and 236,150,309 EIGEN-equivalent weighted units across three quorums at block 25,990,607, but could not map that stake to confirmed slashable magnitudes. EigenDA runs on M2 middleware rather than the inspected Operator Sets path, so its active enforcement mechanism requires further verification.
+EigenDA's AVS-level slashable economic backstop could not be independently verified from the inspected public contracts and event history. The analysis identified 589,092 ETH-equivalent and 275,540,246 EIGEN-equivalent weighted units across three quorums at block 25,990,607, but could not map that stake to confirmed slashable magnitudes. EigenDA runs on M2 middleware rather than the inspected Operator Sets path, so its active enforcement mechanism requires further verification.
 
 ---
 
 Snapshot block: 25,990,607 (2026-09-16).
 Slashing scan finalized block: 25,991,586.
 Snapshot rates: ETH = $2,400, EIGEN = $0.19.
+Multiplier (EIGEN strategy, q1): 1e18 (1.0), verified on-chain via StakeRegistry.strategyParamsByIndex(1, 0).
 
 This research is reproducible. All contracts, blocks, and scripts are listed above. Readers are encouraged to independently verify the on-chain data.

@@ -7,13 +7,16 @@ if (!RPC_URL) throw new Error('Set RPC_URL');
 
 const provider = new ethers.JsonRpcProvider(RPC_URL);
 
-// Фиксированный snapshot block для атомарности
 const SNAPSHOT_BLOCK = Number(process.env.SNAPSHOT_BLOCK || 25990607);
 
 const STAKE_REGISTRY = '0x006124ae7976137266feebfb3f4d2be4c073139d';
+
 const ABI = [
   'function weightOfOperatorForQuorum(uint8 quorumNumber, address operator) view returns (uint96)',
+  'function strategyParamsLength(uint8 quorumNumber) view returns (uint256)',
+  'function strategyParamsByIndex(uint8 quorumNumber, uint256 index) view returns (tuple(address strategy, uint96 multiplier))',
 ];
+
 const registry = new ethers.Contract(STAKE_REGISTRY, ABI, provider);
 
 async function safeWeight(quorum, addr) {
@@ -22,18 +25,46 @@ async function safeWeight(quorum, addr) {
       blockTag: SNAPSHOT_BLOCK,
     });
     return BigInt(v);
-  } catch (e) {
+  } catch {
     return null;
   }
 }
 
-function format18(x) {
-  if (x === null) return 'null';
-  return (Number(x) / 1e18).toFixed(6);
+async function readQuorumConfig(quorum) {
+  console.log(`\n=== Quorum ${quorum} strategy config ===`);
+  let len = 0n;
+  try {
+    len = BigInt(await registry.strategyParamsLength(quorum, { blockTag: SNAPSHOT_BLOCK }));
+  } catch (e) {
+    console.log(`  strategyParamsLength failed: ${e.shortMessage || e.message}`);
+    return;
+  }
+
+  console.log(`  strategies in quorum: ${len.toString()}`);
+
+  for (let i = 0n; i < len; i++) {
+    try {
+      const p = await registry.strategyParamsByIndex(quorum, i, {
+        blockTag: SNAPSHOT_BLOCK,
+      });
+      console.log(`  [${i}] strategy=${p.strategy} multiplier=${p.multiplier.toString()}`);
+    } catch (e) {
+      console.log(`  [${i}] failed: ${e.shortMessage || e.message}`);
+    }
+  }
 }
 
 async function main() {
-  console.log(`Snapshot block: ${SNAPSHOT_BLOCK}\n`);
+  console.log(`Snapshot block: ${SNAPSHOT_BLOCK}`);
+  console.log(`StakeRegistry: ${STAKE_REGISTRY}`);
+
+  // 1. Read strategy config for all three quorums
+  await readQuorumConfig(0);
+  await readQuorumConfig(1);
+  await readQuorumConfig(2);
+
+  // 2. Read weighted stake per operator
+  console.log(`\n=== Reading weighted stake per operator ===\n`);
 
   const lines = fs
     .readFileSync('operators.txt', 'utf8')
@@ -66,13 +97,13 @@ async function main() {
 
   console.log('\n================ TOTALS ================');
   console.log(
-    `q0 (ETH/LST):  ${format18(totalQ0)} ETH  | non-zero operators: ${valid('q0').length}`
+    `q0 (ETH/LST):  ${(Number(totalQ0) / 1e18).toFixed(6)} ETH  | non-zero: ${valid('q0').length}`
   );
   console.log(
-    `q1 (EIGEN):    ${format18(totalQ1)} EIGEN | non-zero operators: ${valid('q1').length}`
+    `q1 (EIGEN):    ${(Number(totalQ1) / 1e18).toFixed(6)} EIGEN | non-zero: ${valid('q1').length}`
   );
   console.log(
-    `q2 (third):    ${format18(totalQ2)} units | non-zero operators: ${valid('q2').length}`
+    `q2 (third):    ${(Number(totalQ2) / 1e18).toFixed(6)} units | non-zero: ${valid('q2').length}`
   );
 
   fs.writeFileSync(
