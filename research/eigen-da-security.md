@@ -106,6 +106,11 @@ required quorum simultaneously to forge a certificate.
 | q2 | Third quorum (not in standard requiredQuorums) | 4 | no |
 | Unique total (getOperatorState) | | 59 | |
 
+![Registered operator set per quorum](./images/final-v2-operators-output.png)
+
+*Registered operator set per quorum, resolved through EigenDADirectory 
+and read via OperatorStateRetriever at block 25,990,607.*
+
 Quorum semantics from the CertVerifier source and constructor parameters:
 
 - requiredQuorums = 0x0001 (quorums 0 and 1)
@@ -159,6 +164,10 @@ units, which equal strategy shares under the inspected multiplier. USD
 figures in Section 7 are indicative and assume an exchange rate of 1.0 
 between strategy shares and EIGEN tokens.
 
+![Registered operator weighted stake totals](./images/read-registered-stakes-output.png)
+
+*Weighted stake totals for registered operators only at block 25,990,607. 
+Counts: 32 / 55 / 4 registered operators in q0 / q1 / q2.*
 ---
 
 ## 5. Concentration
@@ -205,6 +214,12 @@ Quorum 2 is not part of the standard requiredQuorums for the inspected
 CertVerifier. It has only 4 registered operators, and the top-2 operators 
 control about 99.97% of weighted stake. Concentration is severe even 
 compared to q0.
+
+![Concentration analysis by quorum](./images/compute-stats-output.png)
+
+*Per-quorum concentration from `compute-stats.js` at block 25,990,607. 
+Top-1, top-3, and top-10 shares are computed over registered operators 
+with non-zero weighted stake.*
 
 ---
 
@@ -702,6 +717,15 @@ human-readable totals (in ETH / EIGEN / units) to stdout, so the
 console output and the JSON file are consistent — the JSON is the 
 canonical artifact, and the log is a convenience view.
 
+![Weighted stake across all 59 operator addresses](./images/read-all-stakes-output.png)
+
+*Weighted stake read across the full 59-address universe. This run is 
+informational and includes residual weight in quorums where an operator 
+is no longer registered. The canonical registered-only numbers are in 
+Section 4 and Section 5. Both runs produce nearly identical totals, which 
+confirms that the choice of operator universe does not materially affect 
+the reported concentration or thresholds.*
+
 ### 13.3 Read registered weighted stakes (read-registered-stakes.js)
 
 ```javascript
@@ -985,7 +1009,67 @@ main().catch((e) => {
 });
 ```
 
-### 13.5 How to run
+### 13.5 Compute concentration and thresholds (compute-stats.js)
+
+```javascript
+'use strict';
+const fs = require('node:fs');
+
+const data = JSON.parse(fs.readFileSync('registered-stakes.json', 'utf8'));
+
+function toEther(x) {
+  return Number(BigInt(x)) / 1e18;
+}
+
+function formatPct(part, total) {
+  return ((part / total) * 100).toFixed(2) + '%';
+}
+
+function statsForQuorum(quorum) {
+  const q = data.perQuorum.find((x) => x.quorum === quorum);
+
+  const rows = q.operators
+    .map((op) => ({
+      address: op.address,
+      value: op.weightedStake === null ? 0n : BigInt(op.weightedStake),
+    }))
+    .filter((r) => r.value > 0n)
+    .sort((a, b) => (a.value === b.value ? 0 : a.value > b.value ? -1 : 1));
+
+  const total = rows.reduce((s, r) => s + r.value, 0n);
+
+  const top1 = rows.slice(0, 1).reduce((s, r) => s + r.value, 0n);
+  const top3 = rows.slice(0, 3).reduce((s, r) => s + r.value, 0n);
+  const top10 = rows.slice(0, 10).reduce((s, r) => s + r.value, 0n);
+
+  console.log(`\n=== q${quorum} ===`);
+  console.log(`Total: ${toEther(total).toFixed(6)}`);
+  console.log(`Non-zero operators: ${rows.length}`);
+  console.log(`Top-1:  ${formatPct(Number(top1), Number(total))} — ${rows[0].address}`);
+  console.log(`Top-3:  ${formatPct(Number(top3), Number(total))}`);
+  console.log(`Top-10: ${formatPct(Number(top10), Number(total))}`);
+
+  const conf55 = (total * 55n) / 100n;
+  const adv33 = (total * 33n) / 100n;
+  console.log(`Confirmation 55%: ${toEther(conf55).toFixed(6)}`);
+  console.log(`Adversary 33%:    ${toEther(adv33).toFixed(6)}`);
+
+  console.log('\nTop-5 operators:');
+  for (const r of rows.slice(0, 5)) {
+    console.log(`  ${r.address} | ${toEther(r.value).toFixed(6)} | ${formatPct(Number(r.value), Number(total))}`);
+  }
+}
+
+statsForQuorum(0);
+statsForQuorum(1);
+statsForQuorum(2);
+```
+Note: compute-stats.js reads registered-stakes.json and produces the
+concentration and threshold values shown in Section 5 and Section 6. It
+does not query the chain; it operates on the artifact produced by
+read-registered-stakes.js.
+
+### 13.6 How to run
 
 Install dependencies first:
 
@@ -1004,6 +1088,7 @@ export SNAPSHOT_BLOCK="25990607"
 node final-v2-operators.js
 node read-all-stakes.js
 node read-registered-stakes.js
+node compute-stats.js
 ```
 
 Windows PowerShell:
@@ -1013,6 +1098,7 @@ $env:SNAPSHOT_BLOCK="25990607"
 node final-v2-operators.js
 node read-all-stakes.js
 node read-registered-stakes.js
+node compute-stats.js
 ```
 
 Windows CMD:
@@ -1022,6 +1108,7 @@ set SNAPSHOT_BLOCK=25990607
 node final-v2-operators.js
 node read-all-stakes.js
 node read-registered-stakes.js
+node compute-stats.js
 ```
 
 #### 2. For eth_getLogs on archive blocks (slashing scan)
@@ -1076,6 +1163,8 @@ across endpoints and time.
 | [read-all-stakes.js](./scripts/read-all-stakes.js) | Read weighted stake via StakeRegistry (all 59 addresses) |
 | [read-registered-stakes.js](./scripts/read-registered-stakes.js) | Read weighted stake for registered operators only |
 | [check-slashing.js](./scripts/check-slashing.js) | OperatorSlashed event scanner |
+| [compute-stats.js](./scripts/compute-stats.js) | Compute concentration and thresholds from registered-stakes.json |
+| [images/](./images/) | Console screenshots for key scripts (see Sections 3, 4, 5, 8, 13.2) |
 
 ---
 
