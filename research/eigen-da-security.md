@@ -163,7 +163,7 @@ token amounts.
 | Top-10 | about 96.60% | |
 
 Top-1 operator holds 294,640 ETH-equivalent weighted units.
-Top-3 operators collectively hold 463,680 ETH-equivalent weighted units.
+Top-3 operators collectively hold 463,681 ETH-equivalent weighted units.
 
 The top-1 operator alone is below confirmationThreshold = 55, but the top-3 
 collectively exceed both confirmationThreshold (55%) and adversaryThreshold (33%). 
@@ -179,7 +179,7 @@ of three operators.
 | Top-10 | about 71.44% | |
 
 Top-1 operator holds 49,115,582 EIGEN-equivalent weighted units.
-Top-3 operators collectively hold 101,715,773 EIGEN-equivalent weighted units.
+Top-3 operators collectively hold 101,699,773 EIGEN-equivalent weighted units.
 
 Distribution is more even than q0, but top-10 still control about 71% of 
 weighted stake.
