@@ -29,42 +29,26 @@ Key findings:
 
 ## 1. Objective
 
-Determine the real economic security budget of EigenDA and evaluate whether 
-it can be independently priced from public data.
+Determine the real economic security budget of EigenDA and evaluate whether it can be independently priced from public data.
 
-Methodological principle: only active operators with non-zero stake are 
-counted. Zero-stake, deregistered, and abandoned addresses do not affect 
-consensus and are excluded.
+Only active operators with non-zero stake are counted. Zero-stake, deregistered, and abandoned addresses do not affect consensus and are excluded.
 
-Operator count note: this research reports 59 unique operators with 
-non-zero weighted stake at the snapshot block, across the three quorums 
-of the inspected RegistryCoordinator. L2BEAT reports 71 operators as of 
-the same period. The two numbers are not contradictory; they reflect 
-different definitions:
+**Operator count note.** 59 unique operators with non-zero weighted stake at the snapshot block, across three quorums. L2BEAT reports 71 operators for the same period. The numbers reflect different definitions:
 
 - registered operators (including zero-weight entries),
 - operators visible through Eigen API,
 - operators with non-zero effective weight,
 - operators across selected quorums at a specific reference block.
 
-This research uses on-chain non-zero weighted stake at block 25,990,607 
-as the operational definition.
+This research uses on-chain non-zero weighted stake at block 25,990,607 as the operational definition.
 
-Revision note: earlier drafts differ from the current version in two 
-methodological respects. First, stake values were originally read from 
-latest state without a fixed blockTag; current figures are read at fixed 
-block 25,990,607. Second, earlier drafts aggregated weighted stake across 
-the union of all 59 operator addresses, which included residual weight in 
-quorums where an operator was no longer registered; current figures are 
-computed only for the set of operators returned by getOperatorState per 
-quorum. Both corrections change the reported totals and do not reflect 
-a change in the underlying on-chain state.
+**Revision note.** Earlier drafts differ in two methodological respects. First, stake values were originally read from latest state without a fixed blockTag; current figures are read at fixed block 25,990,607. Second, earlier drafts aggregated weighted stake across the union of all 59 operator addresses, including residual weight in quorums where an operator was no longer registered; current figures are computed only for the set returned by getOperatorState per quorum. Both corrections change the totals and do not reflect a change in the underlying on-chain state.
 
 ---
 
 ## 2. Data sources
 
-### 2.1 Contracts
+### Contracts
 
 | Contract | Address |
 |---|---|
@@ -75,7 +59,7 @@ a change in the underlying on-chain state.
 | ServiceManager | 0x870679E138bCdf293b7Ff14dD44b70FC97e12fc0 |
 | AllocationManager | 0x948a420b8CC1d6BFd0B6087C2E7c344a2CD0b6fA |
 
-### 2.2 Method
+### Method
 
 1. EigenDADirectory.getAllNames() — enumerate registered contracts.
 2. EigenDADirectory.getAddress(keccak256(name)) — resolve actual addresses.
@@ -87,66 +71,42 @@ a change in the underlying on-chain state.
 
 ## 3. Quorums
 
-RegistryCoordinator reports quorumCount = 3 on the snapshot block. The 
-standard EigenDA CertVerifier at 0x61692e93b6B045c444e942A91EcD1527F23A3FB7 
-declares requiredQuorums = 0x0001 (quorums 0 and 1), with:
+RegistryCoordinator reports quorumCount = 3. The standard EigenDA CertVerifier at 0x61692e93b6B045c444e942A91EcD1527F23A3FB7 declares:
 
+- requiredQuorums = 0x0001 (q0 and q1)
 - confirmationThreshold = 55
 - adversaryThreshold = 33
 
-A valid certificate requires each required quorum (q0 and q1) to reach 
-confirmationThreshold. The required quorums are jointly required, not 
-independent alternatives — an attacker must cross the threshold in every 
-required quorum simultaneously to forge a certificate.
+A valid certificate requires each required quorum to reach confirmationThreshold. The required quorums are jointly required, not independent alternatives — an attacker must cross the threshold in every required quorum simultaneously.
 
 | Quorum | Type | Operators | In required set |
 |---|---|---:|---|
 | q0 | ETH / LST | 32 | yes |
 | q1 | EIGEN | 55 | yes |
-| q2 | Third quorum (not in standard requiredQuorums) | 4 | no |
-| Unique total (getOperatorState) | | 59 | |
+| q2 | Third quorum (not in requiredQuorums) | 4 | no |
+| Unique total | | 59 | |
 
 ![Registered operator set per quorum](./images/final-v2-operators-output.png)
 
-*Registered operator set per quorum, resolved through EigenDADirectory 
-and read via OperatorStateRetriever at block 25,990,607.*
-
-Quorum semantics from the CertVerifier source and constructor parameters:
-
-- requiredQuorums = 0x0001 (quorums 0 and 1)
-- confirmationThreshold = 55
-- adversaryThreshold = 33
+*Registered operator set per quorum at block 25,990,607.*
 
 Verifier relation: requiredQuorums ⊆ blobQuorums ⊆ confirmedQuorums ⊆ signedQuorums.
 
 Implications:
 
-- A valid certificate requires each required quorum (q0 and q1) to reach 
-  confirmationThreshold.
-- A liveness attack requires preventing at least one required quorum 
-  from reaching confirmationThreshold.
-- q2 exists in the RegistryCoordinator but is not part of the standard 
-  requiredQuorums for the inspected CertVerifier.
+- A valid certificate requires each required quorum (q0 and q1) to reach confirmationThreshold.
+- A liveness attack requires preventing at least one required quorum from reaching confirmationThreshold.
+- q2 exists in the RegistryCoordinator but is not part of the standard requiredQuorums.
 
-Note on operator counts: the per-quorum counts in the table above are the 
-counts of operators returned by getOperatorState at block 25,990,607, 
-which returns 32 / 55 / 4 for q0 / q1 / q2. All operators returned for 
-these registered sets were independently verified to have non-zero 
-weighted stake at the snapshot block. The union of the three registered 
-sets is 59 unique addresses.
+**Note on operator counts.** Per-quorum counts are taken from getOperatorState at block 25,990,607: 32 / 55 / 4 for q0 / q1 / q2. All operators returned for these registered sets were independently verified to have non-zero weighted stake. The union is 59 unique addresses.
 
-An earlier draft also reported 46 / 58 / 15 non-zero weights per quorum. 
-That number came from reading weightOfOperatorForQuorum for the full 
-59-address universe across all three quorums, which includes operators 
-that hold residual weight in a quorum they are no longer registered in. 
-This research uses only the registered set, because only registered 
-operators participate in the confirmation of a certificate.
+An earlier draft reported 46 / 58 / 15 non-zero weights per quorum. That number came from reading weightOfOperatorForQuorum for the full 59-address universe across all quorums, including residual weight in quorums where an operator is no longer registered. This research uses only the registered set, because only registered operators participate in the confirmation of a certificate.
 
 ---
 
 ## 4. Weighted stake per quorum
 
-All figures below are weighted quorum units as returned by StakeRegistry.weightOfOperatorForQuorum. They are not necessarily equal to underlying token balances, because quorum strategy multipliers may scale the weight.
+All figures are weighted quorum units as returned by StakeRegistry.weightOfOperatorForQuorum. They are not necessarily equal to underlying token balances, because quorum strategy multipliers may scale the weight.
 
 | Quorum | Total weighted stake | Operators (non-zero) |
 |---|---:|---:|
@@ -154,20 +114,11 @@ All figures below are weighted quorum units as returned by StakeRegistry.weightO
 | q1 (EIGEN) | 275,529,558 EIGEN-equivalent units | 55 of 55 |
 | q2 (third) | 649,206 units | 4 of 4 |
 
-Multiplier verification: StakeRegistry.strategyParamsByIndex(1, 0) 
-returns multiplier = 1e18 for the EIGEN strategy. This confirms that 
-1 strategy share contributes weight equal to 1 share. It does not by 
-itself establish that 1 strategy share equals 1 underlying EIGEN token. 
-The underlying exchange rate (shares → EIGEN) is not verified in this 
-research. Threshold values are therefore reported in weighted quorum 
-units, which equal strategy shares under the inspected multiplier. USD 
-figures in Section 7 are indicative and assume an exchange rate of 1.0 
-between strategy shares and EIGEN tokens.
+**Multiplier verification.** StakeRegistry.strategyParamsByIndex(1, 0) returns multiplier = 1e18 for the EIGEN strategy. This confirms that 1 strategy share contributes weight equal to 1 share. It does not by itself establish that 1 strategy share equals 1 underlying EIGEN token — the exchange rate (shares → EIGEN) is not verified here. Threshold values are reported in weighted quorum units, which equal strategy shares under the inspected multiplier. USD figures in Section 7 assume an exchange rate of 1.0 between strategy shares and EIGEN tokens.
 
 ![Registered operator weighted stake totals](./images/read-registered-stakes-output.png)
 
-*Weighted stake totals for registered operators only at block 25,990,607. 
-Counts: 32 / 55 / 4 registered operators in q0 / q1 / q2.*
+*Weighted stake totals for registered operators only at block 25,990,607.*
 
 ---
 
@@ -175,63 +126,49 @@ Counts: 32 / 55 / 4 registered operators in q0 / q1 / q2.*
 
 ### Quorum 0 (ETH/LST) — 589,036 weighted units
 
-| Position | Share of weighted quorum stake | Address |
+| Position | Share | Address |
 |---|---:|---|
 | Top-1 | about 50.02% | 0xdbed88d83176316fc46797b43adee927dc2ff2f5 |
 | Top-3 | about 78.72% | |
 | Top-10 | about 96.60% | |
 
-Top-1 operator holds 294,640 ETH-equivalent weighted units.
-Top-3 operators collectively hold 463,681 ETH-equivalent weighted units.
+Top-1 holds 294,640 ETH-equivalent weighted units. Top-3 collectively hold 463,681 ETH-equivalent weighted units.
 
-The top-1 operator alone is below confirmationThreshold = 55, but the top-3 
-collectively exceed both confirmationThreshold (55%) and adversaryThreshold (33%). 
-The quorum's confirmation condition is substantially dependent on a small group 
-of three operators.
+The top-1 operator is below confirmationThreshold = 55, but top-3 collectively exceed both confirmationThreshold (55%) and adversaryThreshold (33%). The quorum's confirmation condition is substantially dependent on a small group of three operators.
 
 ### Quorum 1 (EIGEN) — 275,529,558 weighted units
 
-| Position | Share of weighted quorum stake | Address |
+| Position | Share | Address |
 |---|---:|---|
 | Top-1 | about 17.83% | 0xdde3d4e0d7705ff68d31009a2422425ae38810a6 |
 | Top-3 | about 36.91% | |
 | Top-10 | about 71.44% | |
 
-Top-1 operator holds 49,115,582 EIGEN-equivalent weighted units.
-Top-3 operators collectively hold 101,699,773 EIGEN-equivalent weighted units.
+Top-1 holds 49,115,582 EIGEN-equivalent weighted units. Top-3 collectively hold 101,699,773 EIGEN-equivalent weighted units.
 
-Distribution is more even than q0, but top-10 still control about 71% of 
-weighted stake.
+Distribution is more even than q0, but top-10 still control about 71% of weighted stake.
 
 ### Quorum 2 (third) — 649,206 weighted units
 
-| Position | Share of weighted quorum stake | Address |
+| Position | Share | Address |
 |---|---:|---|
 | Top-1 | about 52.98% | 0x71c6f7ed8c2d4925d0baf16f6a85bb1736d412eb |
 | Top-3 | about 100.00% | |
 | Top-10 | about 100.00% | |
 
-Quorum 2 is not part of the standard requiredQuorums for the inspected 
-CertVerifier. It has only 4 registered operators, and the top-2 operators 
-control about 99.97% of weighted stake. Concentration is severe even 
-compared to q0.
+q2 is not part of the standard requiredQuorums. It has only 4 registered operators, and the top-2 control about 99.97% of weighted stake. Concentration is severe even compared to q0.
 
 ![Concentration analysis by quorum](./images/compute-stats-output.png)
 
-*Per-quorum concentration from `compute-stats.js` at block 25,990,607. 
-Top-1, top-3, and top-10 shares are computed over registered operators 
-with non-zero weighted stake.*
+*Per-quorum concentration at block 25,990,607, over registered operators with non-zero weighted stake.*
 
 ---
 
 ## 6. Threshold exposure (weighted)
 
-Thresholds below are computed from the on-chain weighted quorum units 
-reported by StakeRegistry at block 25,990,607. They are not proven 
-slashable amounts.
+Thresholds are computed from on-chain weighted quorum units at block 25,990,607. They are not proven slashable amounts.
 
-On-chain CertVerifier parameters (from the deployed EigenDA CertVerifier 
-at 0x61692e93b6B045c444e942A91EcD1527F23A3FB7):
+CertVerifier parameters:
 
 - confirmationThreshold = 55
 - adversaryThreshold = 33
@@ -253,34 +190,18 @@ at 0x61692e93b6B045c444e942A91EcD1527F23A3FB7):
 
 Notes:
 
-- Each required quorum (q0 and q1) must reach confirmationThreshold for 
-  a valid certificate. The quorums are not OR-alternatives.
-- A pure quorum liveness failure occurs if less than confirmationThreshold 
-  of weighted stake signs in a required quorum. Equivalently, more than 
-  45% of weighted stake is unavailable or withholding.
-- The 33% adversaryThreshold is a separate EigenDA security parameter. 
-  It should not be interpreted as the liveness-blocking fraction.
-- Safety attack: produce a valid certificate. This requires crossing 
-  confirmationThreshold in every required quorum simultaneously.
+- Each required quorum (q0 and q1) must reach confirmationThreshold for a valid certificate. The quorums are not OR-alternatives.
+- A pure quorum liveness failure occurs if less than confirmationThreshold of weighted stake signs in a required quorum. Equivalently, more than 45% of weighted stake is unavailable or withholding.
+- The 33% adversaryThreshold is a separate EigenDA security parameter. It should not be interpreted as the liveness-blocking fraction.
+- A safety attack — producing a valid certificate — requires crossing confirmationThreshold in every required quorum simultaneously.
 
-These are weighted quorum thresholds. They are not proven slashable 
-amounts, because weighted stake is not the same as slashable stake.
+These are weighted quorum thresholds. They are not proven slashable amounts, because weighted stake is not the same as slashable stake.
 
 ---
 
 ## 7. Price sensitivity of the EIGEN quorum
 
-The EIGEN strategy has multiplier = 1e18 in the inspected StakeRegistry, 
-verified via strategyParamsByIndex(1, 0). This means 1 weighted unit in the 
-EIGEN quorum corresponds to 1 strategy share. The exchange rate between 
-strategy shares and underlying EIGEN tokens is not verified in this 
-research and is assumed to be 1.0 for the indicative USD figures below. 
-Under that assumption, the mark-to-market dollar value of the quorum 
-threshold scales linearly with the market price of EIGEN.
-
-The table below shows the confirmation (55%) and adversary (33%) thresholds 
-of the EIGEN quorum at several EIGEN prices. All values are computed from 
-the on-chain weighted stake at block 25,990,607.
+The EIGEN strategy has multiplier = 1e18, verified via strategyParamsByIndex(1, 0). This means 1 weighted unit corresponds to 1 strategy share. The exchange rate between strategy shares and underlying EIGEN tokens is not verified and is assumed to be 1.0 for the indicative USD figures below. Under that assumption, the mark-to-market dollar value of the quorum threshold scales linearly with the market price of EIGEN.
 
 | EIGEN price | Adversary 33% (90,924,754 shares) | Confirmation 55% (151,541,257 shares) |
 |---|---:|---:|
@@ -293,30 +214,17 @@ the on-chain weighted stake at block 25,990,607.
 
 Interpretation:
 
-- The EIGEN quorum's dollar-denominated threshold is a direct function of 
-  the market price of EIGEN. It is not fixed by the protocol.
-- A lower EIGEN price lowers the mark-to-market dollar value represented 
-  by a given quorum threshold, all else equal.
-- A higher EIGEN price raises the mark-to-market dollar value represented 
-  by a given quorum threshold, all else equal.
-- These figures should not be interpreted as the executable acquisition 
-  cost of controlling a quorum threshold. Acquiring the underlying stake 
-  in practice would involve market impact, liquidity constraints, operator 
-  registration, delegation, and time, none of which are captured here.
+- The EIGEN quorum's dollar-denominated threshold is a direct function of the market price of EIGEN. It is not fixed by the protocol.
+- A lower EIGEN price lowers the mark-to-market dollar value represented by a given quorum threshold, all else equal.
+- A higher EIGEN price raises the mark-to-market dollar value represented by a given quorum threshold, all else equal.
+- These figures should not be interpreted as the executable acquisition cost of controlling a quorum threshold. Acquiring the underlying stake in practice would involve market impact, liquidity constraints, operator registration, delegation, and time, none of which are captured here.
 
 Important caveats:
 
-- These figures represent weighted quorum thresholds. They are not proven 
-  slashable amounts. The relationship between weighted quorum stake and 
-  confirmed slashable magnitudes through the inspected AllocationManager 
-  path was not established in this research.
-- The 33% adversaryThreshold is a separate EigenDA security parameter. It 
-  should not be interpreted as the liveness-blocking fraction (that is 
-  >45% unavailable stake in a required quorum).
+- These figures represent weighted quorum thresholds. They are not proven slashable amounts. The relationship between weighted quorum stake and confirmed slashable magnitudes through the inspected AllocationManager path was not established in this research.
+- The 33% adversaryThreshold is a separate EigenDA security parameter. It should not be interpreted as the liveness-blocking fraction (that is >45% unavailable stake in a required quorum).
 - USD figures are indicative. ETH = $2,400, EIGEN = $0.19 at snapshot.
-- If the EIGEN strategy exchange rate diverges from 1.0 in the future, the 
-  weighted units and EIGEN token amounts would no longer correspond 1:1, 
-  and the table would require recalculation.
+- If the EIGEN strategy exchange rate diverges from 1.0 in the future, the weighted units and EIGEN token amounts would no longer correspond 1:1, and the table would require recalculation.
 
 ---
 
@@ -324,8 +232,7 @@ Important caveats:
 
 ### Method
 
-Scan AllocationManager (0x948a420b...b6fa) for OperatorSlashed events from slashing activation block (22,270,000) to the latest finalized block. 
-Two independent complete runs were performed: one up to block 25,991,586 and one up to block 25,996,817. Both completed with status 100% COMPLETE.
+Scan AllocationManager (0x948a420b...b6fa) for OperatorSlashed events from slashing activation block (22,270,000) to the latest finalized block. Two independent complete runs were performed: one up to block 25,991,586 and one up to block 25,996,817. Both completed with status 100% COMPLETE.
 
 Event signature:
 
