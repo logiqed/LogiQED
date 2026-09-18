@@ -4,17 +4,14 @@
 
 Blueprint public. Interactive demo live. Source code private (access granted under mutual NDA).
 
-LogiQED is open to:
+**Preferred path: MVP financing with the founding team.**
 
-- **MVP financing with team retention** — preferred path
-- **Full turnkey acquisition after MVP**
+LogiQED is raising MVP funding to build the evidence layer and prove it with real trucks.
+
+- **MVP financing with team retention** — primary direction
+- **Pilot carrier & 3PL partnerships** — after MVP delivery
+- **Full turnkey acquisition after MVP** — optional structure
 - **Direct asset acquisition** — fallback for buyers with existing teams
-- **Pilot carrier & 3PL partnerships**
-- **Strategic institutional integrations**
-
-**Preferred path: MVP financing with the founding team.** The primary direction is to build the MVP together and prove it with real trucks.
-
-Acquisition options are available as fallback structures for buyers who have their own engineering team and want to move immediately.
 
 **Minimum capital commitment to initiate MVP delivery: $35,000 (Month 1 funding).**
 
