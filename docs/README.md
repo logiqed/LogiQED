@@ -149,6 +149,8 @@ Core platform production-ready. Evidence Layer and claims are in MVP development
 
 **Demo available.** 32 screens, 6 roles, credentials included.
 
+Access and credentials: [Demo Access](docs/DEMO.md)
+
 Live walkthroughs available on request.
 
 Contact: contact@logiqed.tech | [X / Twitter](https://x.com/LogiQED)

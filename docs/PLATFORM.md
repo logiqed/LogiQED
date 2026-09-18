@@ -41,6 +41,8 @@ See [Architecture](ARCHITECTURE.md) for full details.
 | ZK Claims | MVP stage |
 | Post-quantum signatures | Hybrid: Ed25519 + ML-DSA |
 
+**Interactive demo:** [DEMO.md](DEMO.md) — credentials and recommended flow
+
 ## Core Modules
 
 ### Workflow Engine

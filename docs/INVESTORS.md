@@ -4,6 +4,8 @@
 
 Blueprint public. Interactive demo live. Source code private (access granted under mutual NDA).
 
+**Demo access and credentials:** [DEMO.md](DEMO.md)
+
 **Preferred path: MVP financing with the founding team.**
 
 LogiQED is raising MVP funding to build the evidence layer and prove it with real trucks.
