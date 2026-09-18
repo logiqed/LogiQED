@@ -67,6 +67,6 @@ Six seeded roles show how navigation and permissions are generated rather than h
 
 ## Related
 
-- [README](../README.md) — project overview
+- [README](README.md) — project overview
 - [Architecture](ARCHITECTURE.md) — technical foundation
 - [Investor Memorandum](INVESTORS.md) — capital allocation and deal options
