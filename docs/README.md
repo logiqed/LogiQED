@@ -147,9 +147,9 @@ Official regulation: [Regulation (EU) 2020/1056](https://eur-lex.europa.eu/legal
 
 Core platform production-ready. Evidence Layer and claims are in MVP development.
 
-**Demo available.** 32 screens, 6 roles, credentials included.
+**Demo available.** 32 screens, 6 roles.
 
-Access and credentials: [Demo Access](docs/DEMO.md)
+**Interactive demo:** [DEMO Access](docs/DEMO.md) — credentials and recommended flow
 
 Live walkthroughs available on request.
 

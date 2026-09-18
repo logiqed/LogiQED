@@ -15,7 +15,7 @@ The demo is the working system, not a mockup.
 - Log in as any of six roles
 - Open Evidence Packages
 - Verify signed events, Evidence Root, rule digest, trust policy result, proof reference
-- Run the full flow: driver reports incident → dispatcher confirms → SLA pauses → Evidence Package generated → auditor verifies
+- Run the full flow: driver reports incident -> dispatcher confirms -> SLA pauses -> Evidence Package generated -> auditor verifies
 
 The auditor view is the strongest demo — it shows independent verification of the package without access to raw telemetry.
 
@@ -23,17 +23,16 @@ The auditor view is the strongest demo — it shows independent verification of 
 
 ## Credentials
 
-All demo accounts use the same password pattern.
+| User | Password | Role | Access |
+|------|----------|------|--------|
+| administrator@test.local | 1qazXSW@ | Administrator | Main, Administration, Telemetry Devices |
+| sla.analyst@test.local | 1qazXSW@ | SLA Analyst | Main, SLA |
+| dispatcher@test.local | 1qazXSW@ | Dispatcher | Main, Incidents, Resources, Notifications, Workflow |
+| driver@test.local | 1qazXSW@ | Driver | Main, Incidents, My Position |
+| shift.supervisor@test.local | 1qazXSW@ | Shift Supervisor | Main, Incidents, Shift Handover, Resources, Org Structure |
+| auditor@test.local | 1qazXSW@ | Auditor | Main, Incidents, Audit Journal |
 
-| Role | Email | Password |
-|------|-------|----------|
-| Super Administrator | admin@test.local | P@ssw0rd! |
-| Administrator | administrator@test.local | 1qazXSW@ |
-| SLA Analyst | sla.analyst@test.local | 1qazXSW@ |
-| Dispatcher | dispatcher@test.local | 1qazXSW@ |
-| Driver | driver@test.local | 1qazXSW@ |
-| Shift Supervisor | shift.supervisor@test.local | 1qazXSW@ |
-| Auditor | auditor@test.local | 1qazXSW@ |
+Six seeded roles show how navigation and permissions are generated rather than hardcoded. Each account sees a different application.
 
 ---
 
@@ -59,10 +58,10 @@ All demo accounts use the same password pattern.
 
 ## Notes
 
-- All data is synthetic. The demo runs on simulated evidence data.
+- This is a demo environment. All data is synthetic.
 - The architecture is designed for real signed events from attested hardware — that's what the pilot stage covers.
 - No personal data. No live telemetry.
-- Live walkthroughs available on request: contact@logiqed.tech
+- For a guided walkthrough with your own scenario, contact contact@logiqed.tech — we run live demos for pilot partners and investors.
 
 ---
 

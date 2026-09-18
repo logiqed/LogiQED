@@ -4,7 +4,7 @@
 
 Blueprint public. Interactive demo live. Source code private (access granted under mutual NDA).
 
-**Demo access and credentials:** [DEMO.md](DEMO.md)
+**Interactive demo:** [DEMO Access](DEMO.md) — credentials and recommended flow
 
 **Preferred path: MVP financing with the founding team.**
 
