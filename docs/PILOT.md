@@ -4,6 +4,20 @@
 
 Prove that LogiQED produces trustworthy evidence and settles a real commercial dispute.
 
+## Position in the Delivery Program
+
+The pilot is the final phase of MVP delivery, not a separate project.
+
+| Phase | Weeks | Focus |
+|-------|-------|-------|
+| MVP delivery | 1–13 | Build the system |
+| Pilot preparation | 10–12 | Partner search, hardware, legal review |
+| Pilot execution | 13–16 | Real trips, evidence, dispute |
+
+The pilot overlaps with the last weeks of MVP. This is intentional — the system is validated against real data before MVP acceptance.
+
+See [MVP Plan](MVP.md) for the full program.
+
 ## Scope
 
 - Partner: carrier with 10–50 vehicles or a 3PL that pays penalties for delays or transports temperature-sensitive freight.
@@ -60,14 +74,17 @@ Stretch:
 
 ## Budget
 
+Pilot costs are part of the MVP non-engineering budget, covered in the [Investor Memorandum](INVESTORS.md).
+
 | Item | Estimate |
 |------|----------|
 | GPS trackers, 3–5 | $300–500 |
 | Temperature sensors, 2–3 | $150–300 |
 | Traffic and Weather API | $0–100 |
 | Partner compensation, optional | $0–1500 |
+| Legal review of evidence admissibility | $5,000–$10,000 |
 
-Total: $500–2500. Not included in MVP budget.
+Total: approximately $5,500–$12,500 within the MVP non-engineering budget.
 
 ## Team and Responsibilities
 
@@ -93,7 +110,7 @@ Total: $500–2500. Not included in MVP budget.
 
 ## Pilot Timeline
 
-Pilot overlaps with the last weeks of MVP.
+The pilot overlaps with the last weeks of MVP delivery.
 
 | Weeks | Focus | Output |
 |-------|-------|--------|
@@ -128,3 +145,12 @@ Pilot overlaps with the last weeks of MVP.
 Find pilot partner: shipper, 3PL, insurer or freight forwarder who makes penalty or payout decisions.
 
 Expected effect: pilot proves a dispute closes in minutes instead of days, with evidence admissible in court.
+
+---
+
+## Related
+
+- [MVP Plan](MVP.md) — full delivery program
+- [Investor Memorandum](INVESTORS.md) — capital allocation and non-engineering budget
+- [Evidence Package](EVIDENCE.md) — package structure and verification
+- [Trust Levels](TRUST_LEVELS.md) — source assurance E0–E5

@@ -4,15 +4,41 @@
 
 Build the core evidence layer and prove it with real trucks.
 
+## Position in the Delivery Program
+
+The MVP and the pilot are one continuous program, not two separate projects.
+
+Phase A — MVP delivery (months 1–3.5):
+- Shipment and trip domain model
+- Telemetry ingestion and signed event stream
+- Route State Machine, SLA Engine, Event Orchestrator
+- Evidence Package Builder with mock proof backend
+- Two ZK claims verified end-to-end
+- OpenAPI and webhooks
+
+Phase B — Pilot (last 2–4 weeks of MVP, overlaps with final delivery):
+- 3+ vehicles, 50+ trips with real signed events
+- At least one real commercial dispute closed with an Evidence Package
+- Legal assessment of admissibility
+- Case study and pilot report
+
+The MVP produces the system. The pilot proves it works with real trucks.
+
+See [Pilot Plan](PILOT.md) for the pilot framework.
+
 ## Timeline
 
-3–4 months.
+3–4 months total (MVP delivery + pilot execution).
 
 ## Budget
 
-$170–200K.
+- **Engineering:** $105,000–$140,000 (3–4 months at $35,000/month)
+- **Non-engineering** (hardware, cloud, legal, pilot): $15,000–$25,000
+- **Total:** $120,000–$165,000
 
-Budget covers MVP scope only. Phase 2 is funded separately based on progress and agreed roadmap.
+Budget covers MVP delivery and pilot execution. Phase 2 is funded separately based on progress and agreed roadmap.
+
+See [Investor Memorandum](INVESTORS.md) for the full capital allocation.
 
 ## Team
 
@@ -21,10 +47,6 @@ Budget covers MVP scope only. Phase 2 is funded separately based on progress and
 - 2 QA Engineers
 - 1 DevOps
 - 1 Project Manager
-
-Total: 9 roles, 6 FTE at start. Scalable to 8–10 FTE from month 2.
-
-C++ and QA are shared part-time in the first month.
 
 Core principle: senior people, small team, fast execution.
 
@@ -36,7 +58,7 @@ Core principle: senior people, small team, fast execution.
 | Tracking and Events | Week 3–6 | Telemetry, signatures, Evidence Graph, deduplication | Setup |
 | SLA and Orchestrator | Week 7–10 | Route State Machine, SLA Engine, Enrichment Decider, On-Demand Oracle | Tracking |
 | Claims and Proof | Week 11–13 | Two ZK claims with mock backend, Evidence Package, Arweave integration for disputed claims only | Evidence Graph, SLA |
-| Pilot | Week 14–16 | Pilot launch, real trucks, commercial dispute, final report | Claims |
+| Pilot execution | Week 13–16 | Real trucks, commercial dispute, case study | Claims |
 
 ## Existing Platform
 
@@ -60,6 +82,8 @@ Ideal first pilot partner:
 Expected value for the pilot partner: at least one avoided dispute cost ($200–500) and documentation of process improvement.
 
 3–5 negotiations run in parallel.
+
+See [Pilot Plan](PILOT.md) for the full pilot framework.
 
 ## MVP Scope
 
@@ -139,4 +163,13 @@ MVP success unlocks Phase 2:
 - Real Aligned Layer integration
 - Insurance API
 - AI module
-- Device attestation
+- Expanded device attestation
+
+---
+
+## Related
+
+- [Pilot Plan](PILOT.md) — pilot framework and execution
+- [Investor Memorandum](INVESTORS.md) — capital allocation and deal options
+- [Architecture](ARCHITECTURE.md) — technical foundation
+- [Evidence Flow](EVIDENCE_FLOW.md) — evidence levels from clean route to dispute

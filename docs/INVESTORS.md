@@ -110,6 +110,35 @@ The current platform foundation is an engineered modular monolith built on .NET 
 
 ---
 
+## From MVP to Pilot
+
+The MVP and the pilot are one continuous program, not two separate projects.
+
+**Phase A — MVP delivery (months 1–3.5):**
+
+- Shipment and trip domain model
+- Telemetry ingestion and signed event stream
+- Route State Machine, SLA Engine, Event Orchestrator
+- Evidence Package Builder with mock proof backend
+- Two ZK claims verified end-to-end
+- OpenAPI and webhooks
+
+**Phase B — Pilot execution (weeks 13–16, overlaps with MVP final delivery):**
+
+- 3+ vehicles, 50+ trips with real signed events
+- At least one real commercial dispute closed with an Evidence Package
+- Legal assessment of admissibility
+- Case study and pilot report
+
+The MVP produces the system. The pilot proves it works with real trucks.
+
+Full details:
+
+- [MVP Plan](MVP.md) — full delivery program
+- [Pilot Plan](PILOT.md) — pilot framework and execution
+
+---
+
 # Transaction Options
 
 ## Overview
