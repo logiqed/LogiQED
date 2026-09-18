@@ -149,7 +149,7 @@ Core platform production-ready. Evidence Layer and claims are in MVP development
 
 **Demo available.** 32 screens, 6 roles.
 
-**Interactive demo:** [DEMO Access](docs/DEMO.md) — credentials and recommended flow
+**Interactive demo:** [DEMO Access](DEMO.md) — credentials and recommended flow
 
 Live walkthroughs available on request.
 
