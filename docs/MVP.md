@@ -18,7 +18,7 @@ Phase A — MVP delivery (months 1–3.5):
 
 Phase B — Pilot (last 2–4 weeks of MVP, overlaps with final delivery):
 - 3+ vehicles, 50+ trips with real signed events
-- At least one real commercial dispute closed with an Evidence Package
+- At least one real commercial dispute prepared for settlement using an Evidence Package
 - Legal assessment of admissibility
 - Case study and pilot report
 
@@ -122,7 +122,7 @@ EigenDA is added only when benchmark shows the need for a separate DA layer.
 
 ## MVP Definition of Done
 
-Must have:
+**Must have:**
 
 - Real trucks produce signed events. At least 3 vehicles and 50 trips.
 - Route State Machine reacts to TrafficEntered and TrafficExited.
@@ -134,9 +134,14 @@ Must have:
   - p95 under 200 ms for API reads.
 - Error rate below 1 percent.
 
-Stretch:
+**Shared goal with pilot partner:**
 
-- At least one real commercial dispute or SLA exception settled using the Evidence Package instead of the legacy manual process, documented as a case study.
+- At least one real commercial dispute or SLA exception prepared for settlement using the Evidence Package.
+- Documentation of the outcome as a case study.
+
+The dispute closure depends on the pilot partner's commercial situation, not only on the system. It is treated as a shared goal, not a one-sided commitment.
+
+---
 
 ## Collaboration Tools
 

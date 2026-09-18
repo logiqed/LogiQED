@@ -51,17 +51,20 @@ See [MVP Plan](MVP.md) for the full program.
 
 ## Success Criteria
 
-Must have:
+**Must have:**
 
 - 3 or more vehicles and 50 or more trips with signed events.
 - Route State Machine reacts to TrafficEntered and TrafficExited.
 - SLA engine resolves exceptions automatically.
 - Two claims verified end-to-end with mock proof backend.
-- Evidence Package exported for external review, accepted by pilot partner, and documented for potential legal challenge.
+- Evidence Package exported for external review and accepted by pilot partner as valid evidence.
 
-Stretch:
+**Shared goal with pilot partner:**
 
-- At least one real commercial dispute settled using Evidence Package instead of the legacy manual process.
+- At least one real commercial dispute settled or prepared for settlement using the Evidence Package.
+- Case study documenting the outcome and the pilot partner's feedback.
+
+Dispute closure depends on the pilot partner's commercial situation, not only on the system. It is treated as a shared goal, not a one-sided commitment.
 
 ### Before and After
 
@@ -117,7 +120,7 @@ The pilot overlaps with the last weeks of MVP delivery.
 | 1–2 | Preparation | Partner found, NDA signed, hardware installed, legal review completed |
 | 3–6 | Integration | Data flowing, route state machine working, Evidence Root publishing daily |
 | 7–10 | Claims | Detention and Cargo Condition verified end-to-end |
-| 11–14 | Pilot | 50 or more trips, at least one dispute closed |
+| 11–14 | Pilot | 50 or more trips, at least one dispute prepared for settlement |
 | 15–16 | Report | Case study, metrics, legal assessment |
 
 ## Risks and Mitigations
