@@ -8,7 +8,9 @@
 
 **Snapshot block:** 25,990,607
 
-**Reference rates:** ETH = \$2,400, EIGEN = \$0.19
+**Scan range:** Block 22,270,000 (slashing activation) → current finalized
+
+**Reference rates:** ETH = $2,400, EIGEN = $0.19
 
 **Method:** Direct on-chain reads via official contracts
 
@@ -246,6 +248,8 @@ The table below shows the confirmation (55%) and adversary (33%) thresholds of t
 
 Scan AllocationManager (`0x948a420b...b6fa`) for `OperatorSlashed` events from slashing activation block (22,270,000) to the latest finalized block.
 
+**Range rationale.** Block 22,270,000 is the approximate activation block for slashing on Ethereum mainnet (April 2025). Before this block, slashing was technically not active, and no `OperatorSlashed` event could have been emitted. The scan therefore covers the full period in which slashing was possible: from activation to the current finalized block at the time of each run.
+
 Event scans are independent of the snapshot block. The snapshot (25,990,607) captures state at a fixed moment; event scans run up to the current finalized block at the time of each run.
 
 Two independent complete runs were performed: one up to block 25,991,586 and one up to block 25,996,817. Both completed with status **100% COMPLETE**.
@@ -265,12 +269,12 @@ event OperatorSlashed(
 ### Result
 
 ```text
-Run 1: 100% COMPLETE, scanned up to block 25,991,586
-Run 2: 100% COMPLETE, scanned up to block 25,996,817
+Run 1: 100% COMPLETE, scanned block 22,270,000 → 25,991,586
+Run 2: 100% COMPLETE, scanned block 22,270,000 → 25,996,817
 
 0 OperatorSlashed events found in either run.
 
-Range: ~3.72 million blocks per run.
+Range per run: ~3.72 million blocks (~17 months).
 Slashing events: 0.
 ```
 
