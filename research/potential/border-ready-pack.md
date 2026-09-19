@@ -142,9 +142,11 @@ An investor who does the math will ask this question. The answer has three parts
 
 1. **The cost is invisible until it lands.** A carrier does not book a "$200–500 dispute" line item. It shows up as a dispatcher losing half a day, a claim negotiated down, a customer who quietly stops tendering the lane. Nobody owns that number internally.
 
-2. **The fix requires a standard that does not exist yet.** Every tool today produces data the carrier controls. That data has no standing in a dispute. The other side does not accept it.
+2. **The fix requires a standard that does not exist yet.** Every tool today produces data the carrier controls. Counterparties and insurers do not accept it as a basis for settlement. That is why disputes get negotiated rather than settled by data.
 
-3. **The blocker is not willingness - it is standing.** Self-reported data cannot settle a dispute. LogiQED provides independently verifiable evidence that both sides can check.
+3. **The blocker is not willingness - it is credibility.** Self-reported data does not carry the same weight as evidence that both sides can independently verify. LogiQED provides that verifiable evidence.
+
+Note: whether signed evidence has formal legal standing is a matter for legal review and depends on jurisdiction. The commercial point above is what drives the market decision today.
 
 ### What the Pilot Proves
 
