@@ -32,7 +32,7 @@ One won dispute pays for months of subscription.
 A route is a finite state machine, not a stream of coordinates. Telemetry positions are normalized into route events. Each event is signed and processed through an event orchestration pipeline that evaluates SLA rules and produces verifiable evidence.
 
 <p align="center">
-  <img src="https://github.com/logiqed/LogiQED/blob/main/images/diagram-flow.svg" alt="LogiQED Data Flow" width="850"/>
+  <img src="https://github.com/logiqed/LogiQED/blob/main/docs/diagram-flow.svg" alt="LogiQED Data Flow" width="850"/>
 </p>
 
 **The pipeline in short:**
