@@ -125,7 +125,7 @@ See [Workflow](WORKFLOW.md) for how statuses and transitions integrate with perm
 | Device | Write-only: events and telemetry |
 | Driver | Read own trips, SLA status, Penalty Protection |
 | Dispatcher | Read all trips in organization, comments |
-| Auditor | Read Evidence Packages, Incident Reports, Incident View, verify, export |
+| Auditor | Home, Incidents (read-only), Evidence Packages, Trust sources, Audit Journal. Verify, export. |
 | Admin | Manage devices, keys, SLA rules, users |
 
 ## Security Properties

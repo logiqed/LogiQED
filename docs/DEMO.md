@@ -30,7 +30,7 @@ The auditor view is the strongest demo — it shows independent verification of 
 | dispatcher@test.local | 1qazXSW@ | Dispatcher | Main, Incidents, Resources, Notifications, Workflow |
 | driver@test.local | 1qazXSW@ | Driver | Main, Incidents, My Position |
 | shift.supervisor@test.local | 1qazXSW@ | Shift Supervisor | Main, Incidents, Shift Handover, Resources, Org Structure |
-| auditor@test.local | 1qazXSW@ | Auditor | Main, Incidents, Evidence Packages, Audit Journal |
+| auditor@test.local | 1qazXSW@ | Auditor | Home, Incidents, Evidence Packages, Trust sources, Audit Journal |
 
 Six seeded roles show how navigation and permissions are generated rather than hardcoded. Each account sees a different application.
 

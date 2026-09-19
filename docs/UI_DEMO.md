@@ -34,7 +34,7 @@ Demo roles:
 - SLA_ANALYST: SLA Overview, SLA Policy, Working Calendar, Driver Incident Reports, Chat
 - DISPATCHER: Registry, Map, Workflow, Evidence Packages, Package View, Dashboard, Notifications, Driver Incident Reports, Chat
 - DRIVER: Mobile Driver View, Telemetry, Chat
-- AUDITOR: Audit Journal, Driver Incident Reports (read-only), Evidence Packages, Chat
+- AUDITOR: Home (Executive Summary), Incidents (read-only), Evidence Packages, Trust sources, Audit Journal, Chat
 
 The demo starts with DRIVER reporting a traffic incident. DISPATCHER confirms the report. System pauses SLA and generates Evidence Package. AUDITOR reviews the case.
 
