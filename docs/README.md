@@ -32,7 +32,7 @@ One won dispute pays for months of subscription.
 A route is a finite state machine, not a stream of coordinates. Telemetry positions are normalized into route events. Each event is signed and processed through an event orchestration pipeline that evaluates SLA rules and produces verifiable evidence.
 
 <p align="center">
-  <img src="images/diagram-flow.svg" alt="LogiQED Data Flow" width="850"/>
+  <img src="https://github.com/logiqed/LogiQED/blob/main/docs/images/diagram-flow.svg" alt="LogiQED Data Flow" width="850"/>
 </p>
 
 **The pipeline in short:**
@@ -52,7 +52,7 @@ A GPS point is not evidence. It is a claim: "something reported this location at
 The diagram shows the full chain: raw claim, signed event, Evidence Package, verification result. Raw telemetry stays protected - the verifier only needs the package.
 
 <p align="center">
-  <img src="images/diagram-gps-to-evidence.svg" alt="From a GPS claim to verifiable evidence" width="1000"/>
+  <img src="https://github.com/logiqed/LogiQED/blob/main/docs/images/diagram-gps-to-evidence.svg" alt="From a GPS claim to verifiable evidence" width="1000"/>
 </p>
 
 ---
@@ -64,7 +64,7 @@ Verification is open. Any party - carrier, insurer, auditor, customs broker - ca
 The public endpoint validates the organization signature, recomputes the Evidence Root from canonical event hashes, checks the rule digest, evaluates the trust policy, and confirms the proof and external anchor. The result is explicit: **VALID** or **INVALID**, with every check reported.
 
 <p align="center">
-  <img src="images/diagram-verification-flow.svg" alt="Verification flow" width="850"/>
+  <img src="https://github.com/logiqed/LogiQED/blob/main/docs/images/diagram-verification-flow.svg" alt="Verification flow" width="850"/>
 </p>
 
 ---
@@ -170,7 +170,7 @@ Post-quantum ready: hybrid signatures Ed25519 + ML-DSA.
 Source code is private. Access after NDA.
 
 <p align="center">
-  <img src="images/diagram-system.svg" alt="LogiQED System Architecture" width="850"/>
+  <img src="https://github.com/logiqed/LogiQED/blob/main/docs/images/diagram-system.svg" alt="LogiQED System Architecture" width="850"/>
 </p>
 
 ---
@@ -208,7 +208,7 @@ Core platform production-ready. Evidence Layer and claims are in MVP development
 
 **Demo available.** 32 screens, 6 roles.
 
-**Interactive demo:** [DEMO Access](DEMO.md) - credentials and recommended flow
+**Interactive demo:** [DEMO Access](https://github.com/logiqed/LogiQED/blob/main/docs/DEMO.md) - credentials and recommended flow
 
 Live walkthroughs available on request.
 
@@ -218,50 +218,50 @@ Contact: contact@logiqed.tech | [X / Twitter](https://x.com/LogiQED)
 
 ## For Investors
 
-- [Investor Document](INVESTORS.md) - team, deal options, budget
-- [Business Model](BUSINESS_MODEL.md) - pricing and economics
-- [MVP](MVP.md) - 16-week plan and budget
-- [Pilot](PILOT.md) - proving value with real trucks
-- [Platform](PLATFORM.md) - full platform details
+- [Investor Document](https://github.com/logiqed/LogiQED/blob/main/docs/INVESTORS.md) - team, deal options, budget
+- [Business Model](https://github.com/logiqed/LogiQED/blob/main/docs/BUSINESS_MODEL.md) - pricing and economics
+- [MVP](https://github.com/logiqed/LogiQED/blob/main/docs/MVP.md) - 16-week plan and budget
+- [Pilot](https://github.com/logiqed/LogiQED/blob/main/docs/PILOT.md) - proving value with real trucks
+- [Platform](https://github.com/logiqed/LogiQED/blob/main/docs/PLATFORM.md) - full platform details
 
 ---
 
 ## Docs
 
-- [Vision](VISION.md)
-- [Architecture](ARCHITECTURE.md)
-- [Mediator](MEDIATOR.md)
-- [Trust Levels](TRUST_LEVELS.md)
-- [Claims](CLAIMS.md)
-- [Evidence Package](EVIDENCE.md)
-- [Evidence Flow](EVIDENCE_FLOW.md)
-- [Ingest API](INGEST.md)
-- [Communication](COMMUNICATION.md)
-- [Workflow](WORKFLOW.md)
-- [Webhooks](WEBHOOKS.md)
-- [Verification](VERIFY.md)
-- [SLA DSL](SLA_DSL.md)
-- [UI Demo](UI_DEMO.md)
-- [UI MVP](UI_MVP.md)
-- [Data Flow](DATA_FLOW.md)
-- [Security](SECURITY.md)
-- [Authorization](AUTHORIZATION.md)
-- [Glossary](GLOSSARY.md)
+- [Vision](https://github.com/logiqed/LogiQED/blob/main/docs/VISION.md)
+- [Architecture](https://github.com/logiqed/LogiQED/blob/main/docs/ARCHITECTURE.md)
+- [Mediator](https://github.com/logiqed/LogiQED/blob/main/docs/MEDIATOR.md)
+- [Trust Levels](https://github.com/logiqed/LogiQED/blob/main/docs/TRUST_LEVELS.md)
+- [Claims](https://github.com/logiqed/LogiQED/blob/main/docs/CLAIMS.md)
+- [Evidence Package](https://github.com/logiqed/LogiQED/blob/main/docs/EVIDENCE.md)
+- [Evidence Flow](https://github.com/logiqed/LogiQED/blob/main/docs/EVIDENCE_FLOW.md)
+- [Ingest API](https://github.com/logiqed/LogiQED/blob/main/docs/INGEST.md)
+- [Communication](https://github.com/logiqed/LogiQED/blob/main/docs/COMMUNICATION.md)
+- [Workflow](https://github.com/logiqed/LogiQED/blob/main/docs/WORKFLOW.md)
+- [Webhooks](https://github.com/logiqed/LogiQED/blob/main/docs/WEBHOOKS.md)
+- [Verification](https://github.com/logiqed/LogiQED/blob/main/docs/VERIFY.md)
+- [SLA DSL](https://github.com/logiqed/LogiQED/blob/main/docs/SLA_DSL.md)
+- [UI Demo](https://github.com/logiqed/LogiQED/blob/main/docs/UI_DEMO.md)
+- [UI MVP](https://github.com/logiqed/LogiQED/blob/main/docs/UI_MVP.md)
+- [Data Flow](https://github.com/logiqed/LogiQED/blob/main/docs/DATA_FLOW.md)
+- [Security](https://github.com/logiqed/LogiQED/blob/main/docs/SECURITY.md)
+- [Authorization](https://github.com/logiqed/LogiQED/blob/main/docs/AUTHORIZATION.md)
+- [Glossary](https://github.com/logiqed/LogiQED/blob/main/docs/GLOSSARY.md)
 - [Development Process](DEVELOPMENT.md)
-- [OpenAPI](OPENAPI.yaml)
-- [ADR 0001](adr/0001-modular-monolith.md)
-- [ADR 0002](adr/0002-storage-and-commitments.md)
+- [OpenAPI](https://github.com/logiqed/LogiQED/blob/main/docs/OPENAPI.yaml)
+- [ADR 0001](https://github.com/logiqed/LogiQED/blob/main/adr/0001-modular-monolith.md)
+- [ADR 0002](https://github.com/logiqed/LogiQED/blob/main/adr/0002-storage-and-commitments.md)
 
 ---
 
 ## More
 
-- [Roadmap](ROADMAP.md)
-- [FAQ](FAQ.md)
-- [Contributing](CONTRIBUTING.md)
-- [Changelog](CHANGELOG.md)
+- [Roadmap](https://github.com/logiqed/LogiQED/blob/main/docs/ROADMAP.md)
+- [FAQ](https://github.com/logiqed/LogiQED/blob/main/docs/FAQ.md)
+- [Contributing](https://github.com/logiqed/LogiQED/blob/main/docs/CONTRIBUTING.md)
+- [Changelog](https://github.com/logiqed/LogiQED/blob/main/docs/CHANGELOG.md)
 - [X / Twitter](https://x.com/LogiQED)
-- [License](../LICENSE.md)
+- [License](https://github.com/logiqed/LogiQED/blob/main/LICENSE.md)
 
 ---
 
@@ -271,4 +271,4 @@ Research and exploration beyond the core evidence layer.
 
 Marketplace, DePIN, scientific sensors, soulbound reputation, security modules, HD maps, AI agents.
 
-- [Future Product Ideas](../research/potential/README.md)
+- [Future Product Ideas](https://github.com/logiqed/LogiQED/blob/main/research/potential/README.md)
