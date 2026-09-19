@@ -182,7 +182,9 @@ Senior engineering team from Ukraine.
 - [Borys Mulev](https://www.linkedin.com/in/borysmulev/) - Senior C#/.NET Engineer
 - [Volodymyr Marenych](https://www.linkedin.com/in/marenich/) - Senior Engineer
 
-15+ years in C# / .NET. Worked together on logistics and cloud systems.
+15+ years in C# / .NET across multiple domains. Worked together on several production systems.
+
+Research and documentation contributors are not listed publicly. Their work is visible in the commit history.
 
 Planned MVP delivery team: up to 8 contributors across .NET, C++, QA, DevOps, and product management.
 
