@@ -40,9 +40,9 @@ Modules communicate through interfaces, not through each other's database tables
 - Route - route state machine, segment and traffic events
 - SLA - policies, calendars, exception rules, timers
 - Evidence - package builder, trust levels, provenance graph
-- Identity - device keys, attestation, revocation
+- Identity - device keys, attestation, revocation, sessions, roles and permissions
 - Workflow - configurable process engine, statuses, transitions, timers
-- Communication - chats, notifications, delivery journal, IP telephony
+- Communication - chats, notifications, delivery journal, audit
 - Dispatcher - dashboard, manual incident resolution
 - Shared Kernel - common types and interfaces
 
@@ -106,5 +106,7 @@ Rejected for MVP.
 - [Architecture](../ARCHITECTURE.md)
 - [MVP](../MVP.md)
 - [Pilot](../PILOT.md)
+- [Workflow](../WORKFLOW.md)
+- [Communication](../COMMUNICATION.md)
 - [Development Process](../DEVELOPMENT.md)
 - [ADR 0002: Storage and Commitments](0002-storage-and-commitments.md)
