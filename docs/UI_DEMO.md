@@ -34,7 +34,7 @@ Demo roles:
 - SLA_ANALYST: SLA Overview, SLA Policy, Working Calendar, Driver Incident Reports, Chat
 - DISPATCHER: Registry, Map, Workflow, Evidence Packages, Package View, Dashboard, Notifications, Driver Incident Reports, Chat
 - DRIVER: Mobile Driver View, Telemetry, Chat
-- AUDITOR: Audit Journal, Driver Incident Reports, Chat
+- AUDITOR: Audit Journal, Driver Incident Reports (read-only), Evidence Packages, Chat
 
 The demo starts with DRIVER reporting a traffic incident. DISPATCHER confirms the report. System pauses SLA and generates Evidence Package. AUDITOR reviews the case.
 
@@ -124,7 +124,7 @@ Used by SLA Analyst, Dispatcher and Auditor to review all exception situations.
 +----------------------------------------------------------------------------------------------------------------------------------------------------------------+
 ```
 
-## Incident View
+## 1.1 Incident View
 
 Opened from Driver Incident Reports by clicking a trip.
 
@@ -216,7 +216,7 @@ Operational control map with active trips queue, interactive map and selected tr
 +---------------------------------------------------------------------------------------------------------------------------------+
 ```
 
-### 5. Evidence Packages
+### 4. Evidence Packages
 
 Registry of all Evidence Packages across shipments.
 
@@ -273,7 +273,7 @@ After Evidence is clicked, the console shows the package number, verification re
 
 Used in the demo to show the full flow: driver reports → dispatcher decides → evidence generated → proof verified.
 
-### Package View
+### 5. Package View
 
 Inspection of a single Evidence Package with embedded ZK proof.
 
