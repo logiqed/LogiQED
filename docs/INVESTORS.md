@@ -4,7 +4,7 @@
 
 Blueprint public. Interactive demo live. Source code private (access granted under mutual NDA).
 
-**Interactive demo:** [DEMO Access](DEMO.md) - credentials and recommended flow
+Demo credentials and recommended flow: [DEMO Access](DEMO.md).
 
 **Preferred path: MVP financing with the founding team.**
 
@@ -36,7 +36,7 @@ LogiQED is a cryptographic, verifiable evidence layer designed to automate and r
 
 - **Problem:** SLA and detention disputes cost carriers and 3PLs $200–500 per incident in manual investigation, legal friction, and idle fleet time.
 - **Solution:** Cryptographically signed, independently verifiable Evidence Packages designed to support algorithmic claim resolution at an estimated marginal cost of $0.05–0.10 per package.
-- **Current State:** Engineered platform foundation built with C# / .NET 10 / Blazor, 120+ projects, 1,300+ automated tests, and an interactive demo with 32 UI screens across 6 operational roles.
+- **Current State:** Engineered platform foundation built with C# / .NET 10 / Blazor, 120+ projects, 1,300+ automated tests, and an interactive demo with 32 UI screens across 6 operational roles. The platform also includes a configurable Workflow Engine, a full Identity and Authorization layer, and an auditable Communication trail.
 
 ---
 
@@ -61,6 +61,44 @@ The current platform foundation is an engineered modular monolith built on .NET 
 - **Cryptographic Primitives:** Ed25519 signatures with an established architectural path for post-quantum ML-DSA integration.
 - **Proof Engine:** Pluggable backend architecture (Aligned Layer mock for MVP; extensible to Groth16, PLONK, STARK, and zkVM backends including SP1 and RISC Zero).
 - **Audit & Security:** Dual-channel delivery auditing, SHA-256 tracker-key hashing (obliteration pattern), 30-day telemetry retention policies, and session-level revocation.
+
+---
+
+## Operational Platform
+
+Beyond the evidence layer, the platform already includes the operational surface a carrier runs on.
+
+### Configurable Workflow Engine
+
+Trip lifecycle is a visual state machine: statuses, user/system/backward transitions, timers with escalation steps, and nested AND/OR/NOT condition groups.
+
+Dispatchers and admins change processes from the admin panel - no rebuild, no deploy.
+
+Every rule change is versioned, and Evidence Packages reference the rule version active at the time of the events. A package stays verifiable after the rules move.
+
+See [Workflow](https://github.com/logiqed/LogiQED/blob/main/docs/WORKFLOW.md).
+
+### Identity and Authorization
+
+Custom identity subsystem with server-managed sessions, multi-stage login, adaptive policies, TOTP/SMS/email second factors, trusted devices, and refresh-token rotation with reuse detection.
+
+Roles and permissions are fully configurable - no hardcoded roles. Navigation, screens, and backend endpoints are generated from effective permissions.
+
+A new role such as Border Control is created in the admin panel, and the UI adapts without a separate build.
+
+See [Authorization](https://github.com/logiqed/LogiQED/blob/main/docs/AUTHORIZATION.md).
+
+### Communication and Delivery Audit
+
+Direct, trip-group, and ad-hoc group chats with sent / delivered / read status, attachments, and reactions.
+
+Notifications across device push, in-app, and optional email and SMS.
+
+Every notification carries a delivery record: channel, status, attempts, timestamp, and skip or fail reason. Every communication action is audited into the evidence layer.
+
+A dispute that opens with "I didn't receive the warning" is answered with a verifiable record, not a claim.
+
+See [Communication](https://github.com/logiqed/LogiQED/blob/main/docs/COMMUNICATION.md).
 
 ---
 
