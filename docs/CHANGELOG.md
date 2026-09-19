@@ -1,5 +1,43 @@
 # Changelog
 
+## [0.7.0] - 2026-09-19
+
+Operational platform documented. Research restructured. Investor memo finalized.
+
+### Added
+
+- WORKFLOW.md — configurable process engine, visual editor, condition groups, permission-driven UI
+- COMMUNICATION.md — chats, IP telephony, notifications, delivery journal, audit
+- TELEMETRY.md — full subsystem specification
+- DEMO.md — credentials, recommended flow, auditor view guide
+- Operational Platform section in INVESTORS.md (Workflow, Identity, Communication)
+- "Beyond the MVP" section in INVESTORS.md
+- "From MVP to Pilot" bridge section in INVESTORS.md
+- Priority Tiers in research/potential/README.md (near-term, mid-term, long-term)
+- "Why Hasn't the Carrier Already Fixed This?" in border-ready-pack.md
+- "What the Pilot Proves" section in border-ready-pack.md
+- Modules section in README.md with descriptions of all core subsystems
+- Demo Access link in INVESTORS.md Status
+
+### Changed
+
+- INVESTORS.md: raise-first framing, preferred path in Status, three options reordered
+- INVESTORS.md: Execution Roadmap step 3 now reflects workflow, identity, communication
+- border-ready-pack.md: ROI split into sourced per-route and modeled fleet-level
+- border-ready-pack.md: commercial/legal framing separated
+- ROADMAP.md: Phase 1 budget $120–165K, Phase 2 $35K/mo and $210–315K
+- ROADMAP.md: Phase 1 dispute "prepared for settlement" as shared goal
+- AUTHORIZATION.md: Permission-Driven UI moved under Authorization, Border Control example added
+- MVP.md: linked to Pilot as one delivery program, budget aligned
+- PILOT.md: linked to MVP as final phase, budget linked to MVP non-engineering
+- README.md: Modules section added, Docs list cleaned
+- ADR 0001: budget updated to $120–165K, Workflow and Communication modules added
+- ADR 0002: pluggable proof backend note added
+
+### Removed
+
+- API section from COMMUNICATION.md (endpoints not yet in OpenAPI)
+
 ## [0.6.2] - 2026-09-14
 
 Custom Mediator documented.
