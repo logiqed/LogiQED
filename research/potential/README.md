@@ -20,10 +20,10 @@ This document is a navigation map. Each idea is described in its own file.
 
 Idea statuses:
 
-- Research — studying, no active development
-- Prototype — minimal validation exists
-- Not planned — outside the near roadmap
-- On hold — waiting for an external factor
+- Research - studying, no active development
+- Prototype - minimal validation exists
+- Not planned - outside the near roadmap
+- On hold - waiting for an external factor
 
 ---
 
@@ -39,23 +39,33 @@ Idea statuses:
 
 ---
 
-## Ideas Overview
+## Priority Tiers
 
-| Idea | Description | Category | Status | Priority | When relevant |
-|------|-------------|----------|--------|----------|---------------|
-| Border Ready Pack | Pre-arrival evidence for cross-border freight | Marketplaces and Services | Research | High | Already now, eFTI 2027 driver |
-| Marketplace | Verified data and proof marketplace | Marketplaces and Services | Research | Medium | After 100+ clients and 1M+ packages |
-| DePIN Integrations | Physical trust infrastructure beyond logistics | Decentralization and DePIN | Research | Low | After stable pilot |
-| Scientific Sensors | Verified scientific measurements | Data and AI | Research | Medium | When science or agriculture partners appear |
-| Soulbound Reputation | Driver and company reputation from evidence | Decentralization and DePIN | On hold | Low | After client pool forms |
-| MeshShield | Secure mesh network between devices | Physical Devices | Research | Medium | When offline connectivity is needed |
-| Proof-of-Freeze | Cold chain compliance proof | Physical Devices | Research | High | Already now, fast claim candidate |
-| HD Maps | Maps for autonomous logistics | Data and AI | Not planned | Low | Not before Phase 3 |
-| Warehouse Marketplace | Warehouse slots on evidence | Marketplaces and Services | Research | Medium | After stable SLA engine |
-| Black Box | Independent vehicle data recorder | Physical Devices | Research | Medium | Possibly in Phase 2 |
-| AI Agents | Agents for automatic dispute resolution | Data and AI | Research | High | After MVP, pilotable |
-| Post-Quantum Proofs | Lattice-based zkVM for post-quantum freight evidence | Cryptography | Research | Medium | After Lattice Jolt matures |
+### Near-Term (Phase 1–2)
 
+Closest to the core, buildable on current architecture.
+
+- **Border Ready Pack** - pre-arrival evidence for cross-border freight. View on existing evidence, 2–3 week build.
+- **Proof-of-Freeze** - cold chain compliance proof. Fast claim candidate.
+- **AI Agents** - automatic dispute resolution. Pilotable after MVP.
+
+### Mid-Term (Phase 2–3)
+
+Requires client base and operational scale.
+
+- **Marketplace** - verified data and proof marketplace. After 100+ clients and 1M+ packages.
+- **Warehouse Marketplace** - warehouse slots on evidence. After stable SLA engine.
+
+### Long-Term (Phase 3+)
+
+Requires fleet scale, new expertise, or ecosystem partnerships.
+
+- **HD Maps** - trucks build high-definition maps for autonomous vehicles. Requires thousands of trucks, CV pipeline, AV relationships.
+- **DePIN Integrations** - physical trust infrastructure beyond logistics.
+- **Soulbound Reputation** - driver and company reputation from evidence.
+- **MeshShield** - secure mesh network between devices.
+- **Black Box** - independent vehicle data recorder.
+- **Scientific Sensors** - verified scientific measurements.
 ---
 
 ## Detailed Files
@@ -77,11 +87,11 @@ Idea statuses:
 
 ## Principles
 
-1. Evidence first. Marketplace later. Autonomy last.
-2. Every idea connects to the existing Trust Graph.
-3. No idea should require replacing the core.
-4. Priority is driven by external demand and regulation.
-5. Every idea is evaluated by cost and potential revenue.
+- Evidence first. Marketplace later. Autonomy last.
+- Every idea connects to the existing Trust Graph.
+- No idea should require replacing the core.
+- Priority is driven by external demand and regulation.
+- Every idea is evaluated by cost and potential revenue.
 
 ---
 

@@ -175,6 +175,18 @@ Full details:
 
 ---
 
+## Beyond the MVP
+
+Research directions available on request:
+
+- **Border Ready Pack** - pre-arrival evidence for cross-border freight. View on existing evidence, 2–3 week build, aligned with eFTI certification timeline.
+- **Proof-of-Freeze** - cold chain compliance proof. Fast claim candidate.
+- **AI Agents** - automatic dispute resolution. Pilotable after MVP.
+
+Long-term directions include HD Maps, Marketplace, and DePIN integrations.
+
+Full research map: [Research](https://github.com/logiqed/LogiQED/blob/main/research/potential/README.md)
+
 # Transaction Options
 
 ## Overview
