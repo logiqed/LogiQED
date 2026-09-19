@@ -24,7 +24,7 @@ When a dispute starts with "I didn't receive the warning", the system answers wi
 
 When a trip is created, a group chat is automatically created between the assigned driver and dispatcher.
 
-The dispatcher can then invite additional participants — for example, a warehouse worker for loading coordination, a customs broker for cross-border trips, or a mechanic for vehicle issues.
+The dispatcher can then invite additional participants - for example, a warehouse worker for loading coordination, a customs broker for cross-border trips, or a mechanic for vehicle issues.
 
 ### Message Status
 
@@ -58,7 +58,7 @@ LogiQED chat is a complete messenger, not a limited comment box:
 - Attachments and media
 - Reactions and GIFs
 - Full message history
-- Integration with trip context — every chat is linked to the trip it belongs to
+- Integration with trip context - every chat is linked to the trip it belongs to
 
 ---
 
@@ -66,7 +66,7 @@ LogiQED chat is a complete messenger, not a limited comment box:
 
 LogiQED includes a pluggable IP telephony module.
 
-The module is provider-agnostic. The current integration is with [CallWay](https://callway.com.ua/) — a Ukrainian contact-center platform with 15+ years of experience and 200+ deployed projects.
+The module is provider-agnostic. The current integration is with [CallWay](https://callway.com.ua/) - a Ukrainian contact-center platform with 15+ years of experience and 200+ deployed projects.
 
 ### Current Status
 
@@ -79,7 +79,7 @@ Reason: the system is already complex, and voice communication is not part of th
 - Inbound and outbound calls
 - Call recording
 - Agent queue management
-- Multichannel support — call can continue in chat or email
+- Multichannel support - call can continue in chat or email
 - CRM integration
 - Analytics and performance tracking
 
@@ -150,7 +150,7 @@ Example:
 | Event | Recipient | Channel | Status | Attempts | Reason |
 |-------|-----------|---------|--------|----------|--------|
 | Trip deadline breached | driver@test.local | Device push | Skipped | 1 | Recipient not authorized |
-| Trip deadline breached | driver@test.local | In-app | Sent | 1 | — |
+| Trip deadline breached | driver@test.local | In-app | Sent | 1 | - |
 
 ---
 
@@ -158,13 +158,13 @@ Example:
 
 Every communication action is auditable:
 
-- Notification sent — logged with timestamp and channel
-- Notification delivered — logged with recipient and time
-- Notification read — logged with timestamp
-- Notification skipped or failed — logged with reason
-- Chat message sent, delivered, read — logged per participant
-- Attachment uploaded — logged with type and size
-- Reaction added — logged per message
+- Notification sent - logged with timestamp and channel
+- Notification delivered - logged with recipient and time
+- Notification read - logged with timestamp
+- Notification skipped or failed - logged with reason
+- Chat message sent, delivered, read - logged per participant
+- Attachment uploaded - logged with type and size
+- Reaction added - logged per message
 
 The audit trail is part of the evidence layer. Any delivery claim can be independently verified.
 
@@ -200,7 +200,7 @@ External systems can subscribe to communication events. See [Webhooks](WEBHOOKS.
 
 ## Related
 
-- [Architecture](ARCHITECTURE.md) — overall system
-- [Evidence Package](EVIDENCE.md) — how communication becomes evidence
-- [Webhooks](WEBHOOKS.md) — external event delivery
-- [UI Demo](UI_DEMO.md) — chat and notification screens
+- [Architecture](ARCHITECTURE.md) - overall system
+- [Evidence Package](EVIDENCE.md) - how communication becomes evidence
+- [Webhooks](WEBHOOKS.md) - external event delivery
+- [UI Demo](UI_DEMO.md) - chat and notification screens

@@ -41,7 +41,7 @@ See [Architecture](ARCHITECTURE.md) for full details.
 | ZK Claims | MVP stage |
 | Post-quantum signatures | Hybrid: Ed25519 + ML-DSA |
 
-**Interactive demo:** [DEMO Access](DEMO.md) — credentials and recommended flow
+**Interactive demo:** [DEMO Access](DEMO.md) - credentials and recommended flow
 
 ## Core Modules
 
@@ -146,8 +146,8 @@ From 9 July 2027, EU authorities must accept electronic freight transport inform
 
 Senior engineering team from Ukraine.
 
-- [Borys Mulev](https://www.linkedin.com/in/borysmulev/) — Senior C#/.NET Engineer
-- [Volodymyr Marenych](https://www.linkedin.com/in/marenich/) — Senior Engineer
+- [Borys Mulev](https://www.linkedin.com/in/borysmulev/) - Senior C#/.NET Engineer
+- [Volodymyr Marenych](https://www.linkedin.com/in/marenich/) - Senior Engineer
 
 15+ years in C# / .NET. Worked together on logistics and cloud systems.
 

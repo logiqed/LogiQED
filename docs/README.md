@@ -37,11 +37,11 @@ A route is a finite state machine, not a stream of coordinates. Telemetry positi
 
 **The pipeline in short:**
 
-1. **Ingest** — signed Protobuf coordinate deltas arrive at Telemetry Ingest.
-2. **Orchestrate** — the Event Orchestrator maintains the Route State Machine per route.
-3. **Evaluate** — the SLA Engine computes deterministic results in the working calendar.
-4. **Build** — the Evidence Builder produces a compact package. ZK proof is generated only for disputed routes.
-5. **Anchor** — Evidence Packages and proof roots are anchored externally for permanent verification.
+1. **Ingest** - signed Protobuf coordinate deltas arrive at Telemetry Ingest.
+2. **Orchestrate** - the Event Orchestrator maintains the Route State Machine per route.
+3. **Evaluate** - the SLA Engine computes deterministic results in the working calendar.
+4. **Build** - the Evidence Builder produces a compact package. ZK proof is generated only for disputed routes.
+5. **Anchor** - Evidence Packages and proof roots are anchored externally for permanent verification.
 
 ---
 
@@ -49,7 +49,7 @@ A route is a finite state machine, not a stream of coordinates. Telemetry positi
 
 A GPS point is not evidence. It is a claim: "something reported this location at this time." Evidence begins when that claim is authenticated, signed, evaluated against a trust policy, and included in an Evidence Root that any party can verify.
 
-The diagram shows the full chain: raw claim, signed event, Evidence Package, verification result. Raw telemetry stays protected — the verifier only needs the package.
+The diagram shows the full chain: raw claim, signed event, Evidence Package, verification result. Raw telemetry stays protected - the verifier only needs the package.
 
 <p align="center">
   <img src="images/diagram-gps-to-evidence.svg" alt="From a GPS claim to verifiable evidence" width="1000"/>
@@ -59,7 +59,7 @@ The diagram shows the full chain: raw claim, signed event, Evidence Package, ver
 
 ### Public verification
 
-Verification is open. Any party — carrier, insurer, auditor, customs broker — can check an Evidence Package without an API key and without access to raw telemetry.
+Verification is open. Any party - carrier, insurer, auditor, customs broker - can check an Evidence Package without an API key and without access to raw telemetry.
 
 The public endpoint validates the organization signature, recomputes the Evidence Root from canonical event hashes, checks the rule digest, evaluates the trust policy, and confirms the proof and external anchor. The result is explicit: **VALID** or **INVALID**, with every check reported.
 
@@ -93,7 +93,7 @@ Unified infrastructure for ingesting, normalizing, storing, and distributing mob
 - Tracker application (background reporting, screen-off)
 - External tracking systems (via adapters)
 
-**Device identity:** SourceCode + ExternalId. Owners are extensible — Employee is built-in, Vehicles and other kinds are added by domains.
+**Device identity:** SourceCode + ExternalId. Owners are extensible - Employee is built-in, Vehicles and other kinds are added by domains.
 
 **Tracker keys:** Admin issues a key for a tracker app. Only the SHA-256 hash is stored. The key is shown once and never recoverable. Rotation and revocation supported.
 
@@ -123,7 +123,7 @@ Device keys, hardware attestation, key rotation, and revocation. Hybrid signatur
 
 ### Workflow
 
-Configurable process engine. Statuses, transitions, timers, condition groups. Dispatcher and admin configure workflows from the visual editor — no rebuild, no deploy.
+Configurable process engine. Statuses, transitions, timers, condition groups. Dispatcher and admin configure workflows from the visual editor - no rebuild, no deploy.
 
 ### Communication
 
@@ -202,7 +202,7 @@ Core platform production-ready. Evidence Layer and claims are in MVP development
 
 **Demo available.** 32 screens, 6 roles.
 
-**Interactive demo:** [DEMO Access](DEMO.md) — credentials and recommended flow
+**Interactive demo:** [DEMO Access](DEMO.md) - credentials and recommended flow
 
 Live walkthroughs available on request.
 

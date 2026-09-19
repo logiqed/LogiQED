@@ -26,8 +26,8 @@ Several independent message families, each with its own pipeline:
 
 Additional:
 
-- `IRequestPreProcessor<TRequest>` and `IRequestPostProcessor<TRequest, TResponse>` — steps before and after the pipeline
-- `ISaga<TData>` — process step with a `CompensateAsync` rollback method
+- `IRequestPreProcessor<TRequest>` and `IRequestPostProcessor<TRequest, TResponse>` - steps before and after the pipeline
+- `ISaga<TData>` - process step with a `CompensateAsync` rollback method
 
 ### Dispatch
 
@@ -43,7 +43,7 @@ The delegate is stored in a `ConcurrentDictionary` and reused on all subsequent 
 
 ### Registration
 
-`AddMediatRModule(assemblies)` scans assemblies in a single pass and registers handlers, behaviors, validators, and processors — including open generic types. No manual registration per handler is required.
+`AddMediatRModule(assemblies)` scans assemblies in a single pass and registers handlers, behaviors, validators, and processors - including open generic types. No manual registration per handler is required.
 
 ### Prewarm
 
@@ -55,13 +55,13 @@ A hosted service calls `PrewarmCacheAsync` at application start and builds deleg
 
 ### 1. ValueTask Throughout the Chain
 
-All contracts — handler, behavior, processor — return `ValueTask` or `ValueTask<T>`.
+All contracts - handler, behavior, processor - return `ValueTask` or `ValueTask<T>`.
 
 MediatR is built on `Task`. The difference shows where a handler completes synchronously: cache reads, permission denials, short validation failures. On those paths, `Task` allocates on the heap every time; `ValueTask` does not.
 
 ### 2. Fully Typed Dispatch
 
-`SendAsync<TRequest, TResponse>` receives both types statically, at compile time. MediatR accepts `IRequest<TResponse>` and determines the handler type at runtime — through a reflection-built wrapper and a virtual call through a non-generic base class.
+`SendAsync<TRequest, TResponse>` receives both types statically, at compile time. MediatR accepts `IRequest<TResponse>` and determines the handler type at runtime - through a reflection-built wrapper and a virtual call through a non-generic base class.
 
 Consequences:
 
@@ -71,7 +71,7 @@ Consequences:
 
 ### 3. Behavior Order Is Declared by the Behavior Itself
 
-`[BehaviorOrder(-100)]` sits on the class next to what the class does. In MediatR, order is the registration order in the container — set at the composition point and not visible from the behavior.
+`[BehaviorOrder(-100)]` sits on the class next to what the class does. In MediatR, order is the registration order in the container - set at the composition point and not visible from the behavior.
 
 Practical difference: a new module registering its own behavior cannot accidentally run before request validation. Order is read where the behavior code is written, not in the startup file.
 
@@ -98,7 +98,7 @@ The difference is significant: notification broadcast and audit-record write do 
 
 This is a decision, not an accident.
 
-`Sequential` executes all subscribers, collects exceptions, and throws an `AggregateException` at the end: one failed listener does not deprive the event of the others. When the opposite is required, `StopOnError` is available — it stops on the first error.
+`Sequential` executes all subscribers, collects exceptions, and throws an `AggregateException` at the end: one failed listener does not deprive the event of the others. When the opposite is required, `StopOnError` is available - it stops on the first error.
 
 ### 6. Command and Query Are Separated at the Type Level
 

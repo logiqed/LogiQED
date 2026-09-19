@@ -102,9 +102,9 @@ The UI adapts to the role automatically:
 
 An administrator creates a role **Border Control** with permissions:
 
-- `Registry.Read` — view trip registry, read-only
-- `Evidence.Read` — view Evidence Packages
-- `Incidents.Read` — view incident reports
+- `Registry.Read` - view trip registry, read-only
+- `Evidence.Read` - view Evidence Packages
+- `Incidents.Read` - view incident reports
 
 Result:
 

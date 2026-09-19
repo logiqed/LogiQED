@@ -6,7 +6,7 @@ Configurable process engine for logistics operations.
 
 A workflow in LogiQED is a state machine with transitions, timers, escalations, and conditional logic.
 
-Dispatchers and admins configure workflows from the admin panel — without code, without rebuild, without deploy.
+Dispatchers and admins configure workflows from the admin panel - without code, without rebuild, without deploy.
 
 ## Core Principle
 
@@ -32,11 +32,11 @@ For a given entity (for example, Trip), it shows:
 
 Navigation:
 
-- Drag — pan
-- Ctrl+wheel — zoom
-- Click a status — select
-- Double-click a status — edit
-- Click a transition label — edit the transition
+- Drag - pan
+- Ctrl+wheel - zoom
+- Click a status - select
+- Double-click a status - edit
+- Click a transition label - edit the transition
 
 Validation:
 
@@ -52,21 +52,21 @@ Each status has:
 
 ### Main Information
 
-- **Code** — internal identifier, e.g. `PICKED_UP`
-- **Definition** — entity type, e.g. `Trip`
-- **Order** — display order
-- **SLA timer behavior** — None, Run, Pause
-- **Pipeline milestone** — internal milestone code
-- **Color** — visual color on the diagram
+- **Code** - internal identifier, e.g. `PICKED_UP`
+- **Definition** - entity type, e.g. `Trip`
+- **Order** - display order
+- **SLA timer behavior** - None, Run, Pause
+- **Pipeline milestone** - internal milestone code
+- **Color** - visual color on the diagram
 
 ### Stage Flags
 
-- **Initial** — entry point of the process
-- **Active work** — status represents active operation
-- **Waiting** — status represents waiting state
-- **Resolved** — status indicates resolution
-- **Terminal** — final status
-- **Sideline** — outside the main path
+- **Initial** - entry point of the process
+- **Active work** - status represents active operation
+- **Waiting** - status represents waiting state
+- **Resolved** - status indicates resolution
+- **Terminal** - final status
+- **Sideline** - outside the main path
 
 ### Translations
 
@@ -82,13 +82,13 @@ A timer is armed when an instance enters a status and pushes a definition action
 
 Each timer has:
 
-- **Code** — e.g. `ARRIVAL_DEADLINE_BREACHED`
-- **Action** — Timer escalation, Notification, Evidence generation
-- **Offset, min** — time after base date
-- **Order** — order of escalation steps
-- **Base date** — reference event, e.g. `ArrivalDeadlineDate`
-- **Working calendar** — 24/7 or business hours
-- **Active** — enabled or disabled
+- **Code** - e.g. `ARRIVAL_DEADLINE_BREACHED`
+- **Action** - Timer escalation, Notification, Evidence generation
+- **Offset, min** - time after base date
+- **Order** - order of escalation steps
+- **Base date** - reference event, e.g. `ArrivalDeadlineDate`
+- **Working calendar** - 24/7 or business hours
+- **Active** - enabled or disabled
 
 Example: `ARRIVAL_DEADLINE_BREACHED` fires when the arrival deadline is breached. Action: timer escalation. Base date: arrival deadline.
 
@@ -100,16 +100,16 @@ Conditions define when a transition is allowed, when a timer fires, or when a no
 
 The condition builder supports:
 
-- **Field comparison** — compare a field to a value
-- **Domain condition** — predefined domain-specific check
-- **Condition group** — nested group with its own AND/OR logic
-- **NOT** — logical negation
+- **Field comparison** - compare a field to a value
+- **Domain condition** - predefined domain-specific check
+- **Condition group** - nested group with its own AND/OR logic
+- **NOT** - logical negation
 
 Logic operators:
 
-- **AND** — all conditions must be true
-- **OR** — at least one condition must be true
-- **NOT** — inverts the result
+- **AND** - all conditions must be true
+- **OR** - at least one condition must be true
+- **NOT** - inverts the result
 
 An empty group is interpreted as "always satisfied".
 
@@ -135,9 +135,9 @@ Allows returning to a previous status. For example, a trip can move back from De
 
 Changes apply instantly:
 
-- A dispatcher changes an SLA timer — notifications trigger immediately
-- An admin adds a new routing condition — it takes effect in seconds
-- A status color or translation is updated — UI reflects it immediately
+- A dispatcher changes an SLA timer - notifications trigger immediately
+- An admin adds a new routing condition - it takes effect in seconds
+- A status color or translation is updated - UI reflects it immediately
 
 No developer in the loop.
 No waiting for the next release.
@@ -176,10 +176,10 @@ When a rule changes:
 
 Every workflow action is auditable:
 
-- Status change — who, when, from which status to which
-- Timer fire — which timer, when, with what outcome
-- Condition evaluation — which condition, result
-- Notification sent — channel, recipient, status
+- Status change - who, when, from which status to which
+- Timer fire - which timer, when, with what outcome
+- Condition evaluation - which condition, result
+- Notification sent - channel, recipient, status
 
 ---
 
@@ -187,10 +187,10 @@ Every workflow action is auditable:
 
 The Workflow Engine is used by:
 
-- Route State Machine — trip lifecycle
-- SLA Engine — timer and escalation logic
-- Notifications — trigger rules
-- Evidence — rule versioning
+- Route State Machine - trip lifecycle
+- SLA Engine - timer and escalation logic
+- Notifications - trigger rules
+- Evidence - rule versioning
 
 ---
 
@@ -202,8 +202,8 @@ See [OpenAPI](../OPENAPI.yaml) for workflow endpoints.
 
 ## Related
 
-- [Architecture](ARCHITECTURE.md) — overall system
-- [Authorization](AUTHORIZATION.md) — roles and permissions
-- [SLA DSL](SLA_DSL.md) — rule definition format
-- [Communication](COMMUNICATION.md) — notification delivery
-- [UI Demo](UI_DEMO.md) — workflow screens
+- [Architecture](ARCHITECTURE.md) - overall system
+- [Authorization](AUTHORIZATION.md) - roles and permissions
+- [SLA DSL](SLA_DSL.md) - rule definition format
+- [Communication](COMMUNICATION.md) - notification delivery
+- [UI Demo](UI_DEMO.md) - workflow screens

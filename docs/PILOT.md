@@ -14,7 +14,7 @@ The pilot is the final phase of MVP delivery, not a separate project.
 | Pilot preparation | 10–12 | Partner search, hardware, legal review |
 | Pilot execution | 13–16 | Real trips, evidence, dispute |
 
-The pilot overlaps with the last weeks of MVP. This is intentional — the system is validated against real data before MVP acceptance.
+The pilot overlaps with the last weeks of MVP. This is intentional - the system is validated against real data before MVP acceptance.
 
 See [MVP Plan](MVP.md) for the full program.
 
@@ -153,7 +153,7 @@ Expected effect: pilot proves a dispute closes in minutes instead of days, with 
 
 ## Related
 
-- [MVP Plan](MVP.md) — full delivery program
-- [Investor Memorandum](INVESTORS.md) — capital allocation and non-engineering budget
-- [Evidence Package](EVIDENCE.md) — package structure and verification
-- [Trust Levels](TRUST_LEVELS.md) — source assurance E0–E5
+- [MVP Plan](MVP.md) - full delivery program
+- [Investor Memorandum](INVESTORS.md) - capital allocation and non-engineering budget
+- [Evidence Package](EVIDENCE.md) - package structure and verification
+- [Trust Levels](TRUST_LEVELS.md) - source assurance E0–E5

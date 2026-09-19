@@ -108,7 +108,7 @@ EigenLayer is an integration choice, not an architectural dependency.
 
 LogiQED uses GS1 EPCIS 2.0 as the logistics event language.
 
-A truck entering a geofence, a temperature breach, a loading start — every event is recorded in a format that eFTI platforms understand.
+A truck entering a geofence, a temperature breach, a loading start - every event is recorded in a format that eFTI platforms understand.
 
 LogiQED adds verifiable trust and claim evaluation on top.
 

@@ -4,16 +4,16 @@
 
 Blueprint public. Interactive demo live. Source code private (access granted under mutual NDA).
 
-**Interactive demo:** [DEMO Access](DEMO.md) — credentials and recommended flow
+**Interactive demo:** [DEMO Access](DEMO.md) - credentials and recommended flow
 
 **Preferred path: MVP financing with the founding team.**
 
 LogiQED is raising MVP funding to build the evidence layer and prove it with real trucks.
 
-- **MVP financing with team retention** — primary direction
-- **Pilot carrier & 3PL partnerships** — after MVP delivery
-- **Full turnkey acquisition after MVP** — optional structure
-- **Direct asset acquisition** — fallback for buyers with existing teams
+- **MVP financing with team retention** - primary direction
+- **Pilot carrier & 3PL partnerships** - after MVP delivery
+- **Full turnkey acquisition after MVP** - optional structure
+- **Direct asset acquisition** - fallback for buyers with existing teams
 
 **Minimum capital commitment to initiate MVP delivery: $35,000 (Month 1 funding).**
 
@@ -44,8 +44,8 @@ LogiQED is a cryptographic, verifiable evidence layer designed to automate and r
 
 Senior engineering team based in Ukraine with 15+ years of production experience in high-load C#/.NET and distributed logistics architectures:
 
-- **[Borys Mulev](https://www.linkedin.com/in/borysmulev/)** — Lead Architect & Senior .NET Engineer
-- **[Volodymyr Marenych](https://www.linkedin.com/in/marenich/)** — Senior Systems Engineer
+- **[Borys Mulev](https://www.linkedin.com/in/borysmulev/)** - Lead Architect & Senior .NET Engineer
+- **[Volodymyr Marenych](https://www.linkedin.com/in/marenich/)** - Senior Systems Engineer
 
 *Full engineering roster, CVs, and technical references available upon request under NDA.*
 
@@ -112,7 +112,7 @@ The current platform foundation is an engineered modular monolith built on .NET 
 
 The MVP and the pilot are one continuous program, not two separate projects.
 
-**Phase A — MVP delivery (months 1–3.5):**
+**Phase A - MVP delivery (months 1–3.5):**
 
 - Shipment and trip domain model
 - Telemetry ingestion and signed event stream
@@ -121,7 +121,7 @@ The MVP and the pilot are one continuous program, not two separate projects.
 - Two ZK claims verified end-to-end
 - OpenAPI and webhooks
 
-**Phase B — Pilot execution (weeks 13–16, overlaps with MVP final delivery):**
+**Phase B - Pilot execution (weeks 13–16, overlaps with MVP final delivery):**
 
 - 3+ vehicles, 50+ trips with real signed events
 - At least one real commercial dispute prepared for settlement using an Evidence Package
@@ -132,8 +132,8 @@ The MVP produces the system. The pilot proves it works with real trucks.
 
 Full details:
 
-- [MVP Plan](https://github.com/logiqed/LogiQED/blob/main/docs/MVP.md) — full delivery program
-- [Pilot Plan](https://github.com/logiqed/LogiQED/blob/main/docs/PILOT.md) — pilot framework and execution
+- [MVP Plan](https://github.com/logiqed/LogiQED/blob/main/docs/MVP.md) - full delivery program
+- [Pilot Plan](https://github.com/logiqed/LogiQED/blob/main/docs/PILOT.md) - pilot framework and execution
 
 ---
 
@@ -143,9 +143,9 @@ Full details:
 
 Three transaction paths are available. The preferred path is MVP financing; acquisition options are fallback structures for buyers with existing teams.
 
-- **Option 1 (Preferred): MVP Financing + Platform Buyout** — financed MVP development with the founding team, platform buyout on acceptance. Total: $270K–$315K.
-- **Option 2: Full Turnkey Post-MVP Acquisition** — Option 1 plus brand, domains, and commercial identity. Approximately $310K–$355K total.
-- **Option 3 (Fallback): Direct Asset Acquisition** — immediate purchase of codebase or turnkey project. $150K–$175K.
+- **Option 1 (Preferred): MVP Financing + Platform Buyout** - financed MVP development with the founding team, platform buyout on acceptance. Total: $270K–$315K.
+- **Option 2: Full Turnkey Post-MVP Acquisition** - Option 1 plus brand, domains, and commercial identity. Approximately $310K–$355K total.
+- **Option 3 (Fallback): Direct Asset Acquisition** - immediate purchase of codebase or turnkey project. $150K–$175K.
 
 ---
 
@@ -234,7 +234,7 @@ The accelerated two-month option has a separate calculation based on the $132,00
 
 Direct, clean-break acquisition of the existing platform. Ideal for buyers with an established in-house engineering and operations team.
 
-### Tier 1: Core Platform IP — $150,000
+### Tier 1: Core Platform IP - $150,000
 
 - Full source code repository (120+ projects, clean architecture, commit history).
 - Complete automated test suite (1,300+ unit, integration, and architecture tests).
@@ -242,7 +242,7 @@ Direct, clean-break acquisition of the existing platform. Ideal for buyers with 
 - Technical architecture specifications, database schemas, and internal API documentation.
 - *Excludes:* Domain names, brand identity, marketing assets, and corporate email accounts.
 
-### Tier 2: Turnkey Project Acquisition — $175,000 ($150,000 + $25,000)
+### Tier 2: Turnkey Project Acquisition - $175,000 ($150,000 + $25,000)
 
 - Everything included in Tier 1.
 - Primary web domain (`logiqed.tech`) and associated registrations.
@@ -261,7 +261,7 @@ Direct, clean-break acquisition of the existing platform. Ideal for buyers with 
 | Evaluation Dimension | Option 1 (Preferred): MVP + Buyout | Option 2: Turnkey Post-MVP | Option 3 (Fallback): Direct Acquisition |
 |:---|:---:|:---:|:---:|
 | **Capital Required to Start** | **$35,000** | **$35,000** | 100% via Escrow ($150K–$175K) |
-| **Accelerated MVP funding** | **$132,000 upfront** | **$132,000 upfront** | — |
+| **Accelerated MVP funding** | **$132,000 upfront** | **$132,000 upfront** | - |
 | **Total Eventual Outlay** | ~$270,000–$315,000 | ~$310,000–$355,000 | $150,000–$175,000 |
 | **Team Retained for Delivery** | Yes (3–4 months) | Yes (3–4 months) | No (Code handover) |
 | **Domains, Emails & Brand** | Excluded (Code only) | Transferred on MVP acceptance ($40K) | +$25K (Tier 2) |
@@ -273,11 +273,11 @@ Direct, clean-break acquisition of the existing platform. Ideal for buyers with 
 
 ## Execution Roadmap
 
-1. **Mutual NDA** — executed prior to repository or architecture inspection.
-2. **Architecture & Codebase Review** — Azure DevOps read-only access provided for technical due diligence.
-3. **Interactive Demo Walkthrough** — 32 live UI screens and operational role workflows.
-4. **Commercial Term Sheet** — selection of Option 1, Option 2, or Option 3.
-5. **Definitive Legal Agreements** — escrow initialization and project mobilization.
+1. **Mutual NDA** - executed prior to repository or architecture inspection.
+2. **Architecture & Codebase Review** - Azure DevOps read-only access provided for technical due diligence.
+3. **Interactive Demo Walkthrough** - 32 live UI screens and operational role workflows.
+4. **Commercial Term Sheet** - selection of Option 1, Option 2, or Option 3.
+5. **Definitive Legal Agreements** - escrow initialization and project mobilization.
 
 ---
 

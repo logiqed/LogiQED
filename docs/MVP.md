@@ -8,7 +8,7 @@ Build the core evidence layer and prove it with real trucks.
 
 The MVP and the pilot are one continuous program, not two separate projects.
 
-Phase A — MVP delivery (months 1–3.5):
+Phase A - MVP delivery (months 1–3.5):
 - Shipment and trip domain model
 - Telemetry ingestion and signed event stream
 - Route State Machine, SLA Engine, Event Orchestrator
@@ -16,7 +16,7 @@ Phase A — MVP delivery (months 1–3.5):
 - Two ZK claims verified end-to-end
 - OpenAPI and webhooks
 
-Phase B — Pilot (last 2–4 weeks of MVP, overlaps with final delivery):
+Phase B - Pilot (last 2–4 weeks of MVP, overlaps with final delivery):
 - 3+ vehicles, 50+ trips with real signed events
 - At least one real commercial dispute prepared for settlement using an Evidence Package
 - Legal assessment of admissibility
@@ -174,7 +174,7 @@ MVP success unlocks Phase 2:
 
 ## Related
 
-- [Pilot Plan](PILOT.md) — pilot framework and execution
-- [Investor Memorandum](INVESTORS.md) — capital allocation and deal options
-- [Architecture](ARCHITECTURE.md) — technical foundation
-- [Evidence Flow](EVIDENCE_FLOW.md) — evidence levels from clean route to dispute
+- [Pilot Plan](PILOT.md) - pilot framework and execution
+- [Investor Memorandum](INVESTORS.md) - capital allocation and deal options
+- [Architecture](ARCHITECTURE.md) - technical foundation
+- [Evidence Flow](EVIDENCE_FLOW.md) - evidence levels from clean route to dispute
