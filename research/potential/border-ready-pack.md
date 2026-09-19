@@ -1,10 +1,10 @@
-# LogiQED — Border Ready Pack
+# LogiQED - Border Ready Pack
 
 ## Status
 
 Research. Draft direction. Not part of the current MVP roadmap.
 
-Detailed economics and timeline are provided so investors can evaluate the opportunity — not because this is scheduled for development.
+Detailed economics and timeline are provided so investors can evaluate the opportunity - not because this is scheduled for development.
 
 ---
 
@@ -24,14 +24,14 @@ A single border delay costs a carrier **$100–300** in direct costs plus downst
 
 ## Market Context
 
-- **eFTI Regulation (EU) 2020/1056** — legal framework in force since August 2020
-- Full application: **9 July 2027** — Member State authorities must accept electronic freight data shared via certified eFTI platforms
-- eFTI is **voluntary for operators**: there is no obligation to go digital. But once an operator shares data via a certified platform, authorities are **legally required to accept it** — early adopters gain the advantage
+- **eFTI Regulation (EU) 2020/1056** - legal framework in force since August 2020
+- Full application: **9 July 2027** - Member State authorities must accept electronic freight data shared via certified eFTI platforms
+- eFTI is **voluntary for operators**: there is no obligation to go digital. But once an operator shares data via a certified platform, authorities are **legally required to accept it** - early adopters gain the advantage
 - Remaining implementing specifications (platform certification rules) to be adopted **by December 2026**
 - Anticipated savings: **€1 billion/year** in operational and administrative costs for the EU transport sector (European Commission estimate)
 - Cross-border disputes cost **$200–500 per case** to resolve manually
 
-Source: [European Commission — The eFTI Regulation](https://transport.ec.europa.eu/transport-themes/logistics-and-multimodal-transport/efti-regulation_en)
+Source: [European Commission - The eFTI Regulation](https://transport.ec.europa.eu/transport-themes/logistics-and-multimodal-transport/efti-regulation_en)
 
 ---
 
@@ -42,8 +42,8 @@ Source: [European Commission — The eFTI Regulation](https://transport.ec.europ
 | Aug 2020 | Regulation (EU) 2020/1056 enters into force | Legal foundation exists |
 | Jan 2025 | First implementing acts in force | Member States start building IT systems |
 | Jan 2026 | eFTI platforms may begin preparing for operations | Market entry window opens |
-| **Dec 2026** | **Remaining certification specs adopted** | **Certification requirements finalized — positioning must happen now** |
-| **9 Jul 2027** | **Full application** | **Authorities must accept eFTI-compliant data — demand spikes** |
+| **Dec 2026** | **Remaining certification specs adopted** | **Certification requirements finalized - positioning must happen now** |
+| **9 Jul 2027** | **Full application** | **Authorities must accept eFTI-compliant data - demand spikes** |
 
 **Timing thesis:** certification rules land in 3 months. Carriers and brokers will spend 2027 scrambling for compliant evidence sources. LogiQED's Evidence Package (EPCIS 2.0 + eIDAS signatures) is designed to slot into this ecosystem before the scramble starts.
 
@@ -77,7 +77,7 @@ Route, cargo, temperature status, evidence anchor.
 
 ---
 
-## Border Ready Pack — Components
+## Border Ready Pack - Components
 
 | Component | Content | For |
 |-----------|---------|-----|
@@ -144,7 +144,7 @@ An investor who does the math will ask this question. The answer has three parts
 
 2. **The fix requires a standard that does not exist yet.** Every tool today produces data the carrier controls. That data has no standing in a dispute. The other side does not accept it.
 
-3. **The blocker is not willingness — it is standing.** Self-reported data cannot settle a dispute. LogiQED provides independently verifiable evidence that both sides can check.
+3. **The blocker is not willingness - it is standing.** Self-reported data cannot settle a dispute. LogiQED provides independently verifiable evidence that both sides can check.
 
 ### What the Pilot Proves
 
@@ -190,11 +190,11 @@ Realistic revenue per broker-client:
 
 | Client type | API | Packs/mo | SLA monitoring | Total/mo |
 |-------------|-----|----------|----------------|----------|
-| Small broker | $500 | 100 ($10) | — | **$510** |
-| Mid broker | $500 | 500 ($40) | — | **$540** |
+| Small broker | $500 | 100 ($10) | - | **$510** |
+| Mid broker | $500 | 500 ($40) | - | **$540** |
 | Enterprise | $500 | 2,000 ($100) | 10 vehicles ($500) | **$1,100** |
 
-At 20 broker-clients (mixed): **~$15K MRR → ~$180K ARR** — realistic Year 1 target.
+At 20 broker-clients (mixed): **~$15K MRR → ~$180K ARR** - realistic Year 1 target.
 
 ---
 
@@ -213,7 +213,7 @@ At 20 broker-clients (mixed): **~$15K MRR → ~$180K ARR** — realistic Year 1 
 | 1 | Which documents are required at borders: CMR, TIR, EX-1? | Customs broker (existing contact) | Week 1 |
 | 2 | Does eFTI require eIDAS signature on events or packages? | eFTI regulatory working group | Week 2 |
 | 3 | Is NCTS integration required for EU transit? | IT contact at a customs agency | Week 2 |
-| 4 | Who is the first pilot partner — carrier or broker? | Existing network | Week 3 |
+| 4 | Who is the first pilot partner - carrier or broker? | Existing network | Week 3 |
 | 5 | What is the legal weight of a signed Evidence Package in EU transport law? | Legal counsel | Week 4 |
 
 ---
@@ -228,26 +228,26 @@ At 20 broker-clients (mixed): **~$15K MRR → ~$180K ARR** — realistic Year 1 
 
 ## Phases
 
-### Phase 1 — Research
+### Phase 1 - Research
 
 - Answer open questions
 - Identify pilot partner
 - Validate legal framework
 
-### Phase 2 — Pilot
+### Phase 2 - Pilot
 
 - One carrier with cross-border routes
 - Generate Border Ready Pack for every route
 - Send to broker
 - Measure: does the border crossing get faster?
 
-### Phase 3 — Partnership
+### Phase 3 - Partnership
 
 - Integration with an eFTI platform
 - Integration with a customs broker
 - Pack accepted automatically
 
-### Phase 4 — Scale
+### Phase 4 - Scale
 
 - Pack recognized by insurers
 - Pack used in border dispute resolution
@@ -270,7 +270,7 @@ At 20 broker-clients (mixed): **~$15K MRR → ~$180K ARR** — realistic Year 1 
 
 ## Connection to Core Evidence Layer
 
-Border Ready Pack is **not a new module** — it's a **view** on existing evidence.
+Border Ready Pack is **not a new module** - it's a **view** on existing evidence.
 
 | Component | Reuses | Changes needed |
 |-----------|--------|---------------|
