@@ -6,9 +6,9 @@ Operational platform documented. Research restructured. Investor memo finalized.
 
 ### Added
 
-- WORKFLOW.md — configurable process engine, visual editor, condition groups, permission-driven UI
-- COMMUNICATION.md — chats, IP telephony, notifications, delivery journal, audit
-- DEMO.md — credentials, recommended flow, auditor view guide
+- WORKFLOW.md - configurable process engine, visual editor, condition groups, permission-driven UI
+- COMMUNICATION.md - chats, IP telephony, notifications, delivery journal, audit
+- DEMO.md - credentials, recommended flow, auditor view guide
 - Operational Platform section in INVESTORS.md (Workflow, Identity, Communication)
 - "Beyond the MVP" section in INVESTORS.md
 - "From MVP to Pilot" bridge section in INVESTORS.md
@@ -43,7 +43,7 @@ Custom Mediator documented.
 
 ### Added
 
-- MEDIATOR.md — contracts, dispatch, registration, prewarm, advantages over MediatR
+- MEDIATOR.md - contracts, dispatch, registration, prewarm, advantages over MediatR
 - Custom Mediator section to PLATFORM.md Core Modules
 
 ### Changed
@@ -82,7 +82,7 @@ Demo available. Documentation aligned with product state.
 
 ### Added
 
-- EVIDENCE_FLOW.md — evidence levels, Evidence Root, package flow, eFTI mode question
+- EVIDENCE_FLOW.md - evidence levels, Evidence Root, package flow, eFTI mode question
 - EPCIS and eFTI section to README and OVERVIEW
 - Provider Abstraction principle to Architecture
 - No special hardware note to Trust Levels in OVERVIEW
