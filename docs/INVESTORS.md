@@ -49,6 +49,8 @@ Senior engineering team based in Ukraine with 15+ years of production experience
 
 *Full engineering roster, CVs, and technical references available upon request under NDA.*
 
+The planned MVP delivery team includes up to 8 contributors across .NET, C++, QA, DevOps, and product management.
+
 ---
 
 ## Platform Architecture & Technical Assets

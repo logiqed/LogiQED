@@ -184,13 +184,17 @@ Senior engineering team from Ukraine.
 
 15+ years in C# / .NET. Worked together on logistics and cloud systems.
 
-Additional team members: resumes on request.
+Planned MVP delivery team: up to 8 contributors across .NET, C++, QA, DevOps, and product management.
+
+Full resumes available on request under NDA.
 
 ---
 
 ## Why Now
 
 From 9 July 2027, EU authorities must accept regulatory freight information submitted electronically through certified eFTI platforms.
+
+The 2027 deadline creates a market window: carriers and brokers will need verifiable digital evidence in a format authorities accept. Building that infrastructure now positions LogiQED before the mandate drives demand.
 
 Official regulation: [Regulation (EU) 2020/1056](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32020R1056)
 
