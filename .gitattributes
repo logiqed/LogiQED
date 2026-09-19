@@ -1,0 +1,64 @@
+# ============================================================
+# LogiQED — GitHub Linguist configuration
+# ============================================================
+# Purpose: prevent Linguist from misclassifying this repository.
+#
+# The public repo contains README, docs, and research only.
+# The C# source code lives in a private repository.
+#
+# research/scripts/ contains JavaScript used for quantitative
+# modeling and analysis (e.g. EIGEN tokenomics research). These
+# are analysis artifacts, not product code, and should not
+# dominate the repository language statistics.
+# ============================================================
+
+# --- Documentation: exclude from language statistics ---
+docs/**                 linguist-documentation
+research/**             linguist-documentation
+*.md                    linguist-documentation
+*.markdown              linguist-documentation
+
+# --- Research scripts: analysis artifacts, not product code ---
+research/**/*.js        linguist-documentation
+research/**/*.ts        linguist-documentation
+research/**/*.mjs       linguist-documentation
+research/**/*.cjs       linguist-documentation
+
+# --- Schemas and specs inside docs ---
+docs/**/*.yaml          linguist-documentation
+docs/**/*.yml           linguist-documentation
+docs/**/*.json          linguist-documentation
+
+# --- Code samples embedded in documentation ---
+docs/**/*.cs            linguist-documentation
+docs/**/*.jsx           linguist-documentation
+docs/**/*.tsx           linguist-documentation
+
+# --- Placeholder folders: not yet real code ---
+src/**                  linguist-vendored
+zk/**                   linguist-vendored
+
+# --- Housekeeping files ---
+LICENSE.md              linguist-documentation
+.github/**              linguist-vendored
+.gitattributes          linguist-vendored
+.gitignore              linguist-vendored
+
+# --- Normalize line endings ---
+* text=auto eol=lf
+*.cs    text diff=csharp
+*.md    text diff=markdown
+*.json  text
+*.yml   text
+*.yaml  text
+*.js    text
+*.ts    text
+
+# --- Binary formats ---
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.pdf   binary
+*.zip   binary
+*.xlsx  binary
