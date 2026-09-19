@@ -31,6 +31,7 @@ MVP storage:
 - Raw telemetry is never stored permanently.
 - EigenDA is added only when benchmark shows the need for a separate DA layer.
 - Aligned Layer is the primary proof backend. Mock for MVP.
+- Proof backend is pluggable: Groth16, PLONK, STARK, and zkVM options (SP1, RISC Zero, Lattice Jolt).
 
 ### Process
 

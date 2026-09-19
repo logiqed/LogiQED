@@ -16,12 +16,12 @@ Team:
 - 1 DevOps - infrastructure, deployment, monitoring
 - 1 Project Manager - coordination
 
-Total: 9 roles, 6 FTE at start.
+Up to 8 contributors across .NET, C++, QA, DevOps, and product/project management.
 
 Constraints:
 
 - Timeline: 3–4 months.
-- Budget: $170–200K.
+- Budget: $120–165K total (engineering + non-engineering).
 - Must produce two end-to-end claims.
 - Must integrate with hardware trackers and temperature sensors.
 - Deployment target: single VM and managed SQL.
@@ -41,8 +41,10 @@ Modules communicate through interfaces, not through each other's database tables
 - SLA - policies, calendars, exception rules, timers
 - Evidence - package builder, trust levels, provenance graph
 - Identity - device keys, attestation, revocation
-- Notifications - SignalR, webhooks, email, push
+- Workflow - configurable process engine, statuses, transitions, timers
+- Communication - chats, notifications, delivery journal, IP telephony
 - Dispatcher - dashboard, manual incident resolution
+- Shared Kernel - common types and interfaces
 
 ## Consequences
 

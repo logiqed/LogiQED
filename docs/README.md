@@ -177,6 +177,7 @@ Contact: contact@logiqed.tech | [X / Twitter](https://x.com/LogiQED)
 - [Evidence Package](EVIDENCE.md)
 - [Evidence Flow](EVIDENCE_FLOW.md)
 - [Ingest API](INGEST.md)
+- [Communication](COMMUNICATION.md) — chats, notifications, delivery journal
 - [Webhooks](WEBHOOKS.md)
 - [Verification](VERIFY.md)
 - [SLA DSL](SLA_DSL.md)
