@@ -8,7 +8,6 @@ Operational platform documented. Research restructured. Investor memo finalized.
 
 - WORKFLOW.md — configurable process engine, visual editor, condition groups, permission-driven UI
 - COMMUNICATION.md — chats, IP telephony, notifications, delivery journal, audit
-- TELEMETRY.md — full subsystem specification
 - DEMO.md — credentials, recommended flow, auditor view guide
 - Operational Platform section in INVESTORS.md (Workflow, Identity, Communication)
 - "Beyond the MVP" section in INVESTORS.md
