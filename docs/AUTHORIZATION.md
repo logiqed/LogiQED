@@ -14,13 +14,13 @@ Hybrid stateful JWT authentication with server-managed sessions, multi-stage log
 
 ## Login Flow
 
-1. Capture client context: IP, User-Agent, device cookie, ClientDeviceId.
-2. Validate account state: blocking, lockout.
-3. Verify password.
-4. Evaluate security policy: IP allow-list, CIDR, new IP, new device.
-5. Select login stage: Authenticated, RequiresTwoFactorVerification, RequiresTwoFactorEnrollment.
-6. Create server session, issue access and refresh tokens.
-7. Restore client state in Blazor.
+- Capture client context: IP, User-Agent, device cookie, ClientDeviceId.
+- Validate account state: blocking, lockout.
+- Verify password.
+- Evaluate security policy: IP allow-list, CIDR, new IP, new device.
+- Select login stage: Authenticated, RequiresTwoFactorVerification, RequiresTwoFactorEnrollment.
+- Create server session, issue access and refresh tokens.
+- Restore client state in Blazor.
 
 ## Login Stages
 
@@ -85,6 +85,38 @@ Hybrid stateful JWT authentication with server-managed sessions, multi-stage log
 - Authentication and authorization are separate concerns.
 - Navigation, screens, and backend endpoints are generated from effective permissions.
 - Any custom role can be created with any combination of permissions.
+
+## Permission-Driven UI
+
+Workflows, roles, and UI are connected.
+
+An administrator can create a new role and assign it any combination of permissions.
+
+The UI adapts to the role automatically:
+
+- Menu items are shown or hidden based on effective permissions
+- Screens are generated from permissions
+- Backend endpoints enforce the same permissions
+
+### Example: Border Control Role
+
+An administrator creates a role **Border Control** with permissions:
+
+- `Registry.Read` — view trip registry, read-only
+- `Evidence.Read` — view Evidence Packages
+- `Incidents.Read` — view incident reports
+
+Result:
+
+- The Border Control user sees only these three sections in the navigation
+- No write buttons
+- No admin panel
+- No telemetry access
+- No chat access
+
+The same platform serves both the dispatcher and the border control officer, without a separate build or separate configuration per role.
+
+See [Workflow](WORKFLOW.md) for how statuses and transitions integrate with permissions.
 
 ## Default Demo Roles
 

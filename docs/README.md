@@ -82,6 +82,59 @@ The public endpoint validates the organization signature, recomputes the Evidenc
 
 ---
 
+## Modules
+
+### Telemetry
+
+Unified infrastructure for ingesting, normalizing, storing, and distributing mobile-object positions in real time.
+
+**Sources:**
+- Employee browser (self-reporting via My Location page)
+- Tracker application (background reporting, screen-off)
+- External tracking systems (via adapters)
+
+**Device identity:** SourceCode + ExternalId. Owners are extensible — Employee is built-in, Vehicles and other kinds are added by domains.
+
+**Tracker keys:** Admin issues a key for a tracker app. Only the SHA-256 hash is stored. The key is shown once and never recoverable. Rotation and revocation supported.
+
+**Ingestion:** Latitude and longitude validated, timestamps normalized to UTC, future timestamps capped at server receive time, duplicates removed, points ordered by recorded time.
+
+**Resilience:** Offline buffering on the client, safe retries, late payloads extend history without moving the current position backwards.
+
+**Realtime:** SignalR hub `/hubs/telemetry` delivers live position updates to the dispatch map.
+
+**Retention:** Raw positions 30 days, 1-hour aggregates 1 year. Evidence Packages are permanent via Arweave.
+
+### Route
+
+Finite state machine per route. TrafficEntered pauses SLA, TrafficExited resumes it. Multiple pauses per segment are aggregated.
+
+### SLA
+
+Policies, working calendars, holiday sets, exception rules, timers, and escalations. Deterministic calculation in the driver's working calendar.
+
+### Evidence
+
+Signed Event Stream, Evidence Graph, Evidence Package, Trust Levels E0–E5, Evidence Root construction, and independent verification.
+
+### Identity
+
+Device keys, hardware attestation, key rotation, and revocation. Hybrid signatures Ed25519 + ML-DSA.
+
+### Workflow
+
+Configurable process engine. Statuses, transitions, timers, condition groups. Dispatcher and admin configure workflows from the visual editor — no rebuild, no deploy.
+
+### Communication
+
+Chats (direct and group), notifications, delivery journal, and audit trail. Full messenger experience with read receipts, attachments, reactions. IP telephony integration available on request.
+
+### Dispatcher
+
+Dashboard for operational control: incident reports, evidence packages, manual incident resolution, and full trip lifecycle visibility.
+
+---
+
 ## First Two Claims
 
 ### 1. Detention / Warehouse Waiting
@@ -177,7 +230,8 @@ Contact: contact@logiqed.tech | [X / Twitter](https://x.com/LogiQED)
 - [Evidence Package](EVIDENCE.md)
 - [Evidence Flow](EVIDENCE_FLOW.md)
 - [Ingest API](INGEST.md)
-- [Communication](COMMUNICATION.md) — chats, notifications, delivery journal
+- [Communication](COMMUNICATION.md)
+- [Workflow](WORKFLOW.md)
 - [Webhooks](WEBHOOKS.md)
 - [Verification](VERIFY.md)
 - [SLA DSL](SLA_DSL.md)
