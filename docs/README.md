@@ -184,7 +184,7 @@ Senior engineering team from Ukraine.
 
 15+ years in C# / .NET across multiple domains. Worked together on several production systems.
 
-Research and documentation contributors are not listed publicly. Their work is visible in the commit history.
+Additional contributors work on research and documentation. Their contributions are visible in the commit history.
 
 Planned MVP delivery team: up to 8 contributors across .NET, C++, QA, DevOps, and product management.
 
