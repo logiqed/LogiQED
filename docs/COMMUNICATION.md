@@ -188,16 +188,6 @@ When a dispute starts, the system shows:
 
 ---
 
-## API
-
-See [OpenAPI](../OPENAPI.yaml) for notification and chat endpoints.
-
-## Webhooks
-
-External systems can subscribe to communication events. See [Webhooks](WEBHOOKS.md).
-
----
-
 ## Related
 
 - [Architecture](ARCHITECTURE.md) - overall system
