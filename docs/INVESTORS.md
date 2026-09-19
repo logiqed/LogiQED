@@ -4,8 +4,6 @@
 
 Blueprint public. Interactive demo live. Source code private (access granted under mutual NDA).
 
-Demo credentials and recommended flow: [DEMO Access](DEMO.md).
-
 **Preferred path: MVP financing with the founding team.**
 
 LogiQED is raising MVP funding to build the evidence layer and prove it with real trucks.
@@ -18,6 +16,8 @@ LogiQED is raising MVP funding to build the evidence layer and prove it with rea
 **Minimum capital commitment to initiate MVP delivery: $35,000 (Month 1 funding).**
 
 **Accelerated option: $132,000 upfront for engineering and delivery targets a 2-month MVP.**
+
+Demo credentials and recommended flow: [DEMO Access](DEMO.md).
 
 Contacts:
 
@@ -313,7 +313,7 @@ Direct, clean-break acquisition of the existing platform. Ideal for buyers with 
 
 1. **Mutual NDA** - executed prior to repository or architecture inspection.
 2. **Architecture & Codebase Review** - Azure DevOps read-only access provided for technical due diligence.
-3. **Interactive Demo Walkthrough** - 32 live UI screens and operational role workflows.
+3. **Interactive Demo Walkthrough** - 32 live UI screens across 6 roles, covering workflow engine, identity layer, and communication audit.
 4. **Commercial Term Sheet** - selection of Option 1, Option 2, or Option 3.
 5. **Definitive Legal Agreements** - escrow initialization and project mobilization.
 

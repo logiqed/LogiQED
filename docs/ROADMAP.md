@@ -14,7 +14,7 @@ Complete.
 
 Architecture, OpenAPI draft, Evidence Package specification, and demo are done.
 
-Demo: 32 screens, 6 roles, credentials included.
+Demo: 32 screens, 6 roles. Workflow engine, identity layer, and communication audit are live.
 
 Next: pilot partner search.
 
@@ -22,9 +22,9 @@ Next: pilot partner search.
 
 ## Phase 1 - Pilot MVP
 
-Timeline: 3–4 months. Budget: $170–200K.
+Timeline: 3–4 months. Budget: $120–165K.
 
-Goal: prove that Evidence Package closes a real commercial dispute.
+Goal: prove that Evidence Package supports a real commercial dispute.
 
 Scope:
 
@@ -52,9 +52,9 @@ Must have:
 - Two claims verified end-to-end
 - Evidence Package accepted by pilot partner
 
-Stretch:
+Shared goal with pilot partner:
 
-- At least one real commercial dispute settled using Evidence Package
+- At least one real commercial dispute prepared for settlement using Evidence Package
 
 Business result:
 
@@ -66,9 +66,9 @@ Business result:
 
 ## Phase 2 - Integrations and Scale
 
-Timeline: 6–9 months after pilot. Budget estimate: $210–360K.
+Timeline: 6–9 months after pilot. Budget estimate: $210–315K.
 
-Monthly rate stays $35–40K regardless of team size. The team self-manages and expands internally.
+Monthly rate stays $35K regardless of team size. The team self-manages and expands internally.
 
 Goal: turn pilot into a commercial product.
 
@@ -124,7 +124,7 @@ Research only until validated.
 |------|-------|
 | 2026 | Pilot ready, technology demonstrated |
 | 9 July 2027 | EU accepts eFTI, market moves to electronic documents |
-| 2028 | eFTI becomes mandatory, LogiQED operates as infrastructure |
+| 2028 | eFTI adoption scales across EU member states, LogiQED operates as evidence infrastructure |
 
 LogiQED must be ready when the market arrives.
 
