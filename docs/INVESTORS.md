@@ -17,7 +17,7 @@ LogiQED is raising MVP funding to build the evidence layer and prove it with rea
 
 **Accelerated option: $132,000 upfront for engineering and delivery targets a 2-month MVP.**
 
-Demo credentials and recommended flow: [DEMO Access](DEMO.md).
+Demo credentials and recommended flow: [DEMO Access](https://github.com/logiqed/LogiQED/blob/main/docs/DEMO.md).
 
 Contacts:
 
