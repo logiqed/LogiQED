@@ -1,10 +1,10 @@
-# LogiQED - Border Ready Pack
+# LogiQED — Border Ready Pack
 
 ## Status
 
 Research. Draft direction. Not part of the current MVP roadmap.
 
-Detailed economics and timeline are provided so investors can evaluate the opportunity - not because this is scheduled for development.
+Detailed economics and timeline are provided so investors can evaluate the opportunity — not because this is scheduled for development.
 
 ---
 
@@ -24,14 +24,14 @@ A single border delay costs a carrier **$100–300** in direct costs plus downst
 
 ## Market Context
 
-- **eFTI Regulation (EU) 2020/1056** - legal framework in force since August 2020
-- Full application: **9 July 2027** - Member State authorities must accept electronic freight data shared via certified eFTI platforms
-- eFTI is **voluntary for operators**: there is no obligation to go digital. But once an operator shares data via a certified platform, authorities are **legally required to accept it** - early adopters gain the advantage
+- **eFTI Regulation (EU) 2020/1056** — legal framework in force since August 2020
+- Full application: **9 July 2027** — Member State authorities must accept electronic freight data shared via certified eFTI platforms
+- eFTI is **voluntary for operators**: there is no obligation to go digital. But once an operator shares data via a certified platform, authorities are **legally required to accept it** — early adopters gain the advantage
 - Remaining implementing specifications (platform certification rules) to be adopted **by December 2026**
 - Anticipated savings: **€1 billion/year** in operational and administrative costs for the EU transport sector (European Commission estimate)
 - Cross-border disputes cost **$200–500 per case** to resolve manually
 
-Source: [European Commission - The eFTI Regulation](https://transport.ec.europa.eu/transport-themes/logistics-and-multimodal-transport/efti-regulation_en)
+Source: [European Commission — The eFTI Regulation](https://transport.ec.europa.eu/transport-themes/logistics-and-multimodal-transport/efti-regulation_en)
 
 ---
 
@@ -42,8 +42,8 @@ Source: [European Commission - The eFTI Regulation](https://transport.ec.europa.
 | Aug 2020 | Regulation (EU) 2020/1056 enters into force | Legal foundation exists |
 | Jan 2025 | First implementing acts in force | Member States start building IT systems |
 | Jan 2026 | eFTI platforms may begin preparing for operations | Market entry window opens |
-| **Dec 2026** | **Remaining certification specs adopted** | **Certification requirements finalized - positioning must happen now** |
-| **9 Jul 2027** | **Full application** | **Authorities must accept eFTI-compliant data - demand spikes** |
+| **Dec 2026** | **Remaining certification specs adopted** | **Certification requirements finalized — positioning must happen now** |
+| **9 Jul 2027** | **Full application** | **Authorities must accept eFTI-compliant data — demand spikes** |
 
 **Timing thesis:** certification rules land in 3 months. Carriers and brokers will spend 2027 scrambling for compliant evidence sources. LogiQED's Evidence Package (EPCIS 2.0 + eIDAS signatures) is designed to slot into this ecosystem before the scramble starts.
 
@@ -77,7 +77,7 @@ Route, cargo, temperature status, evidence anchor.
 
 ---
 
-## Border Ready Pack - Components
+## Border Ready Pack — Components
 
 | Component | Content | For |
 |-----------|---------|-----|
@@ -104,56 +104,57 @@ Note: Border Ready Pack reduces document verification time, not physical queue w
 
 ---
 
-## ROI: Two Numbers, Not One
+## ROI Calculation
 
-### Per-Case Saving - Sourced
+### Per-route Saving (Sourced)
 
-A single cross-border SLA dispute costs **$200–500** to resolve manually: legal review, staff time, delayed settlement.
+Per cross-border route (EU):
 
-This is the per-case number. It is sourced from industry benchmarks for manual freight dispute resolution.
+| Cost today | Cost with LogiQED | Saving |
+|------------|-------------------|--------|
+| Document verification delay: $50–150 | Reduced 30–50% | $15–75 |
+| Dispute resolution: $200–500 | $0.08 (evidence closes dispute) | $200–500 |
+| Document prep: $15–30/hr × 2h | $0 (auto-generated) | $30–60 |
+| **Total per route** | **$0.08** | **$245–635** |
 
-### Fleet-Level Saving - Modeled
+The $200–500 dispute resolution figure is the sourced input for this table. It is the observed cost of resolving a cross-border dispute manually, and it is the number the pilot is designed to replace with a measured one.
 
-For a fleet of 50 vehicles doing 200 cross-border routes per year (10,000 routes):
+### Fleet-level Projection (Modeled)
 
-| | Today | With LogiQED |
-|--|-------|--------------|
-| Dispute resolution | $2M–$5M | approximately $8K |
-| Document verification delays | $500K–$1.5M | reduced, not eliminated |
-| Document prep | $60K–$120K | reduced |
-| **Modeled total** | **$2.56M–$6.62M** | **$258K–$1.01M** |
+Annual for a fleet of 50 vehicles doing 200 cross-border routes per year (10,000 routes):
 
-This is an extrapolation from the per-case number across a year of routes. It is not a measured saving from a carrier's books.
+| | Today | With LogiQED | Saving |
+|--|-------|--------------|--------|
+| Document verification delays | $500K–$1.5M | $250K–$1M | $250K–$500K |
+| Disputes | $2M–$5M | $8K | ~$2M–$5M |
+| Document prep | $60K–$120K | $0 | $60K–$120K |
+| **Total** | **$2.56M–$6.62M** | **$258K–$1.01M** | **$2.3M–$5.6M** |
 
-### Why the Model Is Defensible
+This table is a projection, not a measurement. It extrapolates the per-route figures above across 10,000 routes.
 
-The per-case number is sourced. The fleet-level number is modeled from it.
+The dispute line assumes every dispute in the year is resolved by evidence rather than negotiated manually, which is the ceiling case rather than the expected case.
 
-An investor who does the math will ask: "Why hasn't the carrier already fixed this?"
+The per-route figures are sourced; the annual totals are modeled from them.
 
-Three reasons:
+### Why Hasn't the Carrier Already Fixed This?
+
+An investor who does the math will ask this question. The answer has three parts:
 
 1. **The cost is invisible until it lands.** A carrier does not book a "$200–500 dispute" line item. It shows up as a dispatcher losing half a day, a claim negotiated down, a customer who quietly stops tendering the lane. Nobody owns that number internally.
 
 2. **The fix requires a standard that does not exist yet.** Every tool today produces data the carrier controls. That data has no standing in a dispute. The other side does not accept it.
 
-3. **The blocker is not willingness - it is standing.** Self-reported data cannot settle a dispute. LogiQED provides independently verifiable evidence that both sides can check.
+3. **The blocker is not willingness — it is standing.** Self-reported data cannot settle a dispute. LogiQED provides independently verifiable evidence that both sides can check.
 
 ### What the Pilot Proves
 
-The pilot's job is to convert the modeled number into a measured one.
+The pilot converts the projection into a measurement.
 
-- Run 50+ cross-border routes with real signed events
-- Document at least one real dispute prepared for settlement
-- Measure the per-case saving against the manual baseline
+On live commercial routes, the pilot records the actual cost of resolving each dispute before and after Evidence Packages are in use: hours spent, documents exchanged, calls held, and the settlement outcome.
 
-The per-case saving is the anchor. The fleet-level number follows.
+The output is a measured per-dispute cost, which replaces the $200–500 input and re-derives the fleet-level number from observed data.
 
-### What the Model Does Not Claim
-
-- It does not claim the border queue itself shrinks. Document verification is faster; physical queue waiting is not eliminated.
-- It does not claim every route has a dispute. Most routes are clean. Disputes are exceptions.
-- It does not claim the fleet-level number is measured. It is modeled, and labeled as such.
+Until that measurement exists, the fleet-level figure should be read as the size of the opportunity, not as a saving a carrier has realized.
 
 ---
 
@@ -189,11 +190,11 @@ Realistic revenue per broker-client:
 
 | Client type | API | Packs/mo | SLA monitoring | Total/mo |
 |-------------|-----|----------|----------------|----------|
-| Small broker | $500 | 100 ($10) | - | **$510** |
-| Mid broker | $500 | 500 ($40) | - | **$540** |
+| Small broker | $500 | 100 ($10) | — | **$510** |
+| Mid broker | $500 | 500 ($40) | — | **$540** |
 | Enterprise | $500 | 2,000 ($100) | 10 vehicles ($500) | **$1,100** |
 
-At 20 broker-clients (mixed): **~$15K MRR → ~$180K ARR** - realistic Year 1 target.
+At 20 broker-clients (mixed): **~$15K MRR → ~$180K ARR** — realistic Year 1 target.
 
 ---
 
@@ -212,7 +213,7 @@ At 20 broker-clients (mixed): **~$15K MRR → ~$180K ARR** - realistic Year 1 ta
 | 1 | Which documents are required at borders: CMR, TIR, EX-1? | Customs broker (existing contact) | Week 1 |
 | 2 | Does eFTI require eIDAS signature on events or packages? | eFTI regulatory working group | Week 2 |
 | 3 | Is NCTS integration required for EU transit? | IT contact at a customs agency | Week 2 |
-| 4 | Who is the first pilot partner - carrier or broker? | Existing network | Week 3 |
+| 4 | Who is the first pilot partner — carrier or broker? | Existing network | Week 3 |
 | 5 | What is the legal weight of a signed Evidence Package in EU transport law? | Legal counsel | Week 4 |
 
 ---
@@ -227,26 +228,26 @@ At 20 broker-clients (mixed): **~$15K MRR → ~$180K ARR** - realistic Year 1 ta
 
 ## Phases
 
-### Phase 1 - Research
+### Phase 1 — Research
 
 - Answer open questions
 - Identify pilot partner
 - Validate legal framework
 
-### Phase 2 - Pilot
+### Phase 2 — Pilot
 
 - One carrier with cross-border routes
 - Generate Border Ready Pack for every route
 - Send to broker
 - Measure: does the border crossing get faster?
 
-### Phase 3 - Partnership
+### Phase 3 — Partnership
 
 - Integration with an eFTI platform
 - Integration with a customs broker
 - Pack accepted automatically
 
-### Phase 4 - Scale
+### Phase 4 — Scale
 
 - Pack recognized by insurers
 - Pack used in border dispute resolution
@@ -269,7 +270,7 @@ At 20 broker-clients (mixed): **~$15K MRR → ~$180K ARR** - realistic Year 1 ta
 
 ## Connection to Core Evidence Layer
 
-Border Ready Pack is **not a new module** - it's a **view** on existing evidence.
+Border Ready Pack is **not a new module** — it's a **view** on existing evidence.
 
 | Component | Reuses | Changes needed |
 |-----------|--------|---------------|
@@ -284,10 +285,10 @@ Border Ready Pack is **not a new module** - it's a **view** on existing evidence
 
 ## Open Questions
 
-- Does the pack actually reduce border time, or just improve dispute resolution?
-- Will customs authorities accept pre-arrival evidence, or is it only for the broker?
-- What is the legal weight of signed evidence in EU transport law?
-- Is eIDAS signature on events sufficient, or does the full package need it?
+1. Does the pack actually reduce border time, or just improve dispute resolution?
+2. Will customs authorities accept pre-arrival evidence, or is it only for the broker?
+3. What is the legal weight of signed evidence in EU transport law?
+4. Is eIDAS signature on events sufficient, or does the full package need it?
 
 ---
 
