@@ -26,11 +26,11 @@ The auditor view is the strongest demo — it shows independent verification of 
 | User | Password | Role | Access |
 |------|----------|------|--------|
 | administrator@test.local | 1qazXSW@ | Administrator | Main, Administration, Telemetry Devices |
-| sla.analyst@test.local | 1qazXSW@ | SLA Analyst | Main, SLA |
-| dispatcher@test.local | 1qazXSW@ | Dispatcher | Main, Incidents, Resources, Notifications, Workflow |
+| sla.analyst@test.local | 1qazXSW@ | SLA Analyst | Main, SLA, Incidents |
+| dispatcher@test.local | 1qazXSW@ | Dispatcher | Main, Registry, Map, Incidents, Workflow, Notifications, Evidence Packages, Dashboard |
 | driver@test.local | 1qazXSW@ | Driver | Main, Incidents, My Position |
-| shift.supervisor@test.local | 1qazXSW@ | Shift Supervisor | Main, Incidents, Shift Handover, Resources (Org Structure) |
-| auditor@test.local | 1qazXSW@ | Auditor | Main, Incidents, Evidence Packages, Trust sources, Audit Journal |
+| shift.supervisor@test.local | 1qazXSW@ | Shift Supervisor | Main, Org Structure |
+| auditor@test.local | 1qazXSW@ | Auditor | Main, Incidents, Evidence Packages, Trust sources, Audit Journal 
 
 Six seeded roles show how navigation and permissions are generated rather than hardcoded. Each account sees a different application.
 
