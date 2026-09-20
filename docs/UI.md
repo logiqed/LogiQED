@@ -1,6 +1,6 @@
-# LogiQED UI Demo
+# LogiQED UI
 
-ASCII wireframes for the investor demo.
+ASCII wireframes for the demo and full product.
 
 ## Roles Flexibility
 
@@ -32,9 +32,10 @@ Demo roles:
 
 - ADMIN: Users, Roles, Permissions, Rules & Endpoints, Audit Journal, Chat
 - SLA_ANALYST: SLA Overview, SLA Policy, Working Calendar, Driver Incident Reports, Chat
-- DISPATCHER: Registry, Map, Workflow, Evidence Packages, Package View, Dashboard, Notifications, Driver Incident Reports, Chat
+- DISPATCHER: Registry, Map, Workflow, Workflow Diagram, Evidence Packages, Package View, Dashboard, Notifications, Driver Incident Reports, Chat
 - DRIVER: Mobile Driver View, Telemetry, Chat
 - AUDITOR: Home (Executive Summary), Incidents (read-only), Evidence Packages, Trust sources, Audit Journal, Chat
+- SHIFT_SUPERVISOR: Departments, Department kinds, Employees, Positions, Duty roster, Duty shifts, Org chart, Chat
 
 The demo starts with DRIVER reporting a traffic incident. DISPATCHER confirms the report. System pauses SLA and generates Evidence Package. AUDITOR reviews the case.
 
@@ -44,28 +45,39 @@ SLA policy and users are pre-configured before the demo. ADMIN screens are shown
 
 ## Demo Screens
 
-These screens are shown in the investor demo:
+These screens are shown in the demo:
 
 1. Driver Incident Reports
-2. Registry
-3. Map
-4. Evidence Packages
-5. Package View
-6. Dashboard
-7. Mobile Driver View
-8. Telemetry
-9. SLA Overview
-10. Edit SLA Policy
-11. Edit Working Calendar
-12. Workflow & Status Engine
-13. Notification Rules
-14. Chat
-15. Administration Hub
-16. Users Management
-17. Roles
-18. Permissions
-19. Rules & Endpoints
-20. Audit Journal
+2. Incident View
+3. Registry
+4. Map
+5. Evidence Packages
+6. Package View
+7. Dashboard
+8. Mobile Driver View
+9. Telemetry
+10. SLA Overview
+11. Edit SLA Policy
+12. Edit Working Calendar
+13. Workflow & Status Engine
+14. Workflow Diagram
+15. Notification Rules
+16. Chat
+17. Departments
+18. Department Kinds
+19. Employees
+20. Positions
+21. Duty Roster
+22. Duty shifts
+23. Org Chart
+24. Administration Hub
+25. Users Management
+26. Roles
+27. Permissions
+28. Rules & Endpoints
+29. Audit Journal
+30. Audit Record Details
+31. Executive Summary (Auditor)
 
 ## Short Demo
 
@@ -77,7 +89,9 @@ Core screens for a carrier conversation: 1–5. Seven minutes.
 4. Evidence Packages - all proofs across shipments
 5. Package View - one package with ZK proof
 
-Screens 6–20 are shown only if the audience asks.
+Screens 6–31 are shown only if the audience asks.
+
+---
 
 
 ## 1. Driver Incident Reports
@@ -110,13 +124,13 @@ Used by SLA Analyst, Dispatcher and Auditor to review all exception situations.
 | Trip         	  | Driver          |  Reason         |    Reported  |    Confirmed |    Closed    |    Duration |    Status   |    Evidence     |     Result    |
 +-----------------+-----------------+-----------------+--------------+--------------+--------------+-------------+-------------+-----------------+---------------+
 | SHP-20260901-07 | Brooks Daniel J.| Traffic         | 01.09.2026   | 01.09.2026   | 01.09.2026   | 0 min       | 🟢 Closed   | pkg_6e973c75a35a| 🟢 Penalty 0  |
-| SHP-20260901-07 | Brooks Daniel J.| Vehicle breakdn | 01.09.2026   | —            | —            | —           | 🔴 Rejected | pkg_a4ea5b4b40d8| 🔴 Penalty app|
+| SHP-20260901-07 | Brooks Daniel J.| Vehicle breakdn | 01.09.2026   | -            | -            | -           | 🔴 Rejected | pkg_a4ea5b4b40d8| 🔴 Penalty app|
 | SHP-20260901-07 | Brooks Daniel J.| Traffic         | 01.09.2026   | 01.09.2026   | 01.09.2026   | 2 min       | 🟢 Closed   | pkg_6ddcd7f77610| 🟢 Penalty 0  |
-| SHP-20260831-08 | Nowicki Rafal P.| Geofence wait   | 01.09.2026   | —            | —            | 25 min      | 🟠 Verifying| —               | ⚪ Pending    |
+| SHP-20260831-08 | Nowicki Rafal P.| Geofence wait   | 01.09.2026   | -            | -            | 25 min      | 🟠 Verifying| -               | ⚪ Pending    |
 | SHP-20260901-07 | Brooks Daniel J.| Traffic         | 01.09.2026   | 01.09.2026   | 01.09.2026   | 60 min      | 🟢 Closed   | pkg_d1ded753229f| 🟢 Penalty 0  |
-| SHP-20260829-01 | Petrauskas D. J.| Warehouse queue | 30.08.2026   | 30.08.2026   | 30.08.2026   | 68 min      | 🟢 Closed   | —               | 🟢 Penalty 0  |
+| SHP-20260829-01 | Petrauskas D. J.| Warehouse queue | 30.08.2026   | 30.08.2026   | 30.08.2026   | 68 min      | 🟢 Closed   | -               | 🟢 Penalty 0  |
 | SHP-20260829-05 | Melnyk Vadym Y. | Weather         | 30.08.2026   | 30.08.2026   | 30.08.2026   | 27 min      | 🟢 Closed   | pkg_f962281aabcc| 🟢 Penalty 0  |
-| SHP-20260829-02 | Sorensen Lars E.| Geofence wait   | 30.08.2026   | 30.08.2026   | 30.08.2026   | 34 min      | 🟢 Closed   | —               | 🟢 Penalty 0  |
+| SHP-20260829-02 | Sorensen Lars E.| Geofence wait   | 30.08.2026   | 30.08.2026   | 30.08.2026   | 34 min      | 🟢 Closed   | -               | 🟢 Penalty 0  |
 | SHP-20260829-06 | Costa Bruno Nun.| Vehicle breakdn | 29.08.2026   | 29.08.2026   | 30.08.2026   | 41 min      | 🟢 Closed   | pkg_0710430c797a| 🔴 Penalty app|
 | SHP-20260829-03 | Balog Zoltan G. | Warehouse queue | 29.08.2026   | 29.08.2026   | 30.08.2026   | 48 min      | 🟢 Closed   | pkg_04d7035efdda| 🟢 Penalty 0  |
 +-----------------+-----------------+-----------------+--------------+--------------+--------------+-------------+-------------+-----------------+---------------+
@@ -124,7 +138,7 @@ Used by SLA Analyst, Dispatcher and Auditor to review all exception situations.
 +----------------------------------------------------------------------------------------------------------------------------------------------------------------+
 ```
 
-## 1.1 Incident View
+### 2. Incident View
 
 Opened from Driver Incident Reports by clicking a trip.
 
@@ -148,9 +162,9 @@ Buttons: Open the trip, Evidence package, Close.
 | 🔽 Review                                                                                                                                                |
 |   Status         | 🟢 Closed                         | Result               | 🟢 Penalty 0                                                               |
 |   Confirmed      | 01.09.2026 22:21:19               | Reviewed by          | Harper Olivia Grace                                                        |
-|   Rejected       | —                                 | Credited             | 0 min                                                                      |
+|   Rejected       | -                                 | Credited             | 0 min                                                                      |
 |   Closed         | 01.09.2026 22:21:33               | Liable party         | External                                                                   |
-|   Decision reason| —                                 |                      |                                                                            |
+|   Decision reason| -                                 |                      |                                                                            |
 +----------------------------------------------------------------------------------------------------------------------------------------------------------+
 | 🔽 Review rule                                                                                                                                           |
 |   Rule           | TRAFFIC_PAUSE_V1 v1                                                                                                                   |
@@ -162,7 +176,7 @@ Buttons: Open the trip, Evidence package, Close.
 +----------------------------------------------------------------------------------------------------------------------------------------------------------+
 ```
 
-### 2. Registry
+### 3. Registry
 
 Freight registry with filters for active, delayed, exception and verified shipments.
 
@@ -184,7 +198,7 @@ Freight registry with filters for active, delayed, exception and verified shipme
 +-----------------------------------------------------------------------------------------------------------------------------------------------------+
 ```
 
-### 3. Map
+### 4. Map
 
 Operational control map with active trips queue, interactive map and selected trip details.
 
@@ -192,7 +206,7 @@ Operational control map with active trips queue, interactive map and selected tr
 +---------------------------------------------------------------------------------------------------------------------------------+
 | LogiQED    | Dashboard | Map | Registry | SLA Engine | Evidence | Chat                    | 🔔 [Operator] [EN]                  |
 +---------------------------------------------------------------------------------------------------------------------------------+
-| Operational Control Map — eFTI Freight Corridor                                                                                 |
+| Operational Control Map - eFTI Freight Corridor                                                                                 |
 +---------------------------------------------------------------------------------------------------------------------------------+
 | [Active Trips Queue (12)]      | [Interactive Map View]                                   | [Selected Trip Details]             |
 | Filter: [All] [Delayed] [On Sch] |                                                          | -----------------------           |
@@ -216,7 +230,7 @@ Operational control map with active trips queue, interactive map and selected tr
 +---------------------------------------------------------------------------------------------------------------------------------+
 ```
 
-### 4. Evidence Packages
+### 5. Evidence Packages
 
 Registry of all Evidence Packages across shipments.
 
@@ -243,13 +257,13 @@ Package statuses:
 | pkg_357d72ece685| SHP-20260719-01 | Cargo condition | Cargo condition. BREA| 🟢 E4    | 🟢 Pass         | 🟢 Valid | 🟢 Verified       | 01.09.2026    | 01.09.2026    |
 | pkg_ce2594372767| SHP-20260618-01 | Cargo condition | Cargo condition. BREA| 🟢 E4    | 🟢 Pass         | 🟢 Valid | 🟢 Verified       | 01.09.2026    | 01.09.2026    |
 | pkg_b0f2945a0f54| SHP-20260617-02 | Cargo condition | Cargo condition. BREA| 🟠 E3    | 🔴 Fail         | 🟢 Valid | 🟢 Verified       | 01.09.2026    | 01.09.2026    |
-| pkg_d4c42d15d58c| SHP-20260830-09 | Cargo condition | Cargo condition. BREA| 🟢 E4    | 🟢 Pass         | 🟢 Valid | ⚪ Anchored       | 01.09.2026    | —             |
-| pkg_5c5b77148ac7| SHP-20260827-04 | Road stop       | Road stop: 106 min   | 🟢 E4    | 🟢 Pass         | 🟢 Valid | ⚪ Anchored       | 01.09.2026    | —             |
-| pkg_9093b6d96157| SHP-20260827-01 | Road stop       | Road stop: 113 min   | 🟢 E4    | 🟢 Pass         | 🟢 Valid | ⚪ Anchored       | 01.09.2026    | —             |
+| pkg_d4c42d15d58c| SHP-20260830-09 | Cargo condition | Cargo condition. BREA| 🟢 E4    | 🟢 Pass         | 🟢 Valid | ⚪ Anchored       | 01.09.2026    | -             |
+| pkg_5c5b77148ac7| SHP-20260827-04 | Road stop       | Road stop: 106 min   | 🟢 E4    | 🟢 Pass         | 🟢 Valid | ⚪ Anchored       | 01.09.2026    | -             |
+| pkg_9093b6d96157| SHP-20260827-01 | Road stop       | Road stop: 113 min   | 🟢 E4    | 🟢 Pass         | 🟢 Valid | ⚪ Anchored       | 01.09.2026    | -             |
 | pkg_af96f36c16f8| SHP-20260827-02 | Road stop       | Road stop: 127 min   | 🟢 E4    | 🟢 Pass         | 🟢 Valid | 🟢 Verified       | 01.09.2026    | 01.09.2026    |
-| pkg_9ebb525379a4| SHP-20260827-03 | Road stop       | Road stop: 141 min   | 🟢 E4    | 🟢 Pass         | 🟢 Valid | ⚪ Anchored       | 01.09.2026    | —             |
-| pkg_ad2aac24b6h2| SHP-20260819-00 | Road stop       | Road stop: 148 min   | 🟢 E4    | 🟢 Pass         | 🟢 Valid | ⚪ Anchored       | 01.09.2026    | —             |
-| pkg_0ca866e75eba| SHP-20260819-01 | Road stop       | Road stop: 155 min   | 🟢 E4    | 🟢 Pass         | 🟢 Valid | ⚪ Anchored       | 01.09.2026    | —             |
+| pkg_9ebb525379a4| SHP-20260827-03 | Road stop       | Road stop: 141 min   | 🟢 E4    | 🟢 Pass         | 🟢 Valid | ⚪ Anchored       | 01.09.2026    | -             |
+| pkg_ad2aac24b6h2| SHP-20260819-00 | Road stop       | Road stop: 148 min   | 🟢 E4    | 🟢 Pass         | 🟢 Valid | ⚪ Anchored       | 01.09.2026    | -             |
+| pkg_0ca866e75eba| SHP-20260819-01 | Road stop       | Road stop: 155 min   | 🟢 E4    | 🟢 Pass         | 🟢 Valid | ⚪ Anchored       | 01.09.2026    | -             |
 +-----------------+-----------------+-----------------+----------------------+----------+-----------------+----------+-------------------+---------------+---------------+
 | Page 1 of 2 | 20 of 34 records                                                                                                                      < [1] [2] >        |
 +------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -273,7 +287,7 @@ After Evidence is clicked, the console shows the package number, verification re
 
 Used in the demo to show the full flow: driver reports → dispatcher decides → evidence generated → proof verified.
 
-### 5. Package View
+### 6. Package View
 
 Inspection of a single Evidence Package with embedded ZK proof.
 
@@ -295,7 +309,7 @@ Opened from Evidence Packages list via [View], or from Incident View via [Eviden
 
 ```text
 +---------------------------------------------------------------------------------------------------------------------------------+
-| ZK Proof Inspector — Shipment SHP-802                                                                                     [X]   |
+| ZK Proof Inspector - Shipment SHP-802                                                                                     [X]   |
 +---------------------------------------------------------------------------------------------------------------------------------+
 | Claim Type: Detention / Warehouse Waiting (Traffic Congestion)                                                                         |
 | Verification Contract: Simulated (MVP)                                                                                          |
@@ -430,7 +444,7 @@ Verification Time: 42 ms
 | Reject + Evidence | Created | Valid | SLA continued, penalty applied |
 | No Evidence clicked | Not created | Not created | No dispute package |
 
-### 6. Dashboard
+### 7. Dashboard
 
 Executive dashboard with KPI, disputes, trust distribution and anchors.
 
@@ -463,7 +477,7 @@ Executive dashboard with KPI, disputes, trust distribution and anchors.
 +---------------------------------------------------------------------------------------------------------------------------------+
 ```
 
-### 7. Mobile Driver View (Demo)
+### 8. Mobile Driver View (Demo)
 
 Driver screen for the demo scenario.
 
@@ -617,7 +631,7 @@ Confirm Delivery finalizes the trip and generates the Evidence Package.
 +---------------------------------------+
 ```
 
-### 8. Telemetry
+### 9. Telemetry
 
 Self-reporting and device monitoring.
 
@@ -644,7 +658,7 @@ Self-reporting and device monitoring.
 +---------------------------------------------------------------------------------------------------------------------------------+
 ```
 
-### 9. SLA Overview
+### 10. SLA Overview
 
 SLA policies, working calendars and holiday sets.
 
@@ -663,7 +677,8 @@ SLA policies, working calendars and holiday sets.
 | [ SLA policies ]                               | [ Working calendars ]                    | [ Holiday sets ]                    |
 +---------------------------------------------------------------------------------------------------------------------------------+
 ```
-### 10. Edit SLA Policy
+
+### 11. Edit SLA Policy
 
 Detailed editor for a specific SLA policy with reaction, resolution and scope.
 
@@ -693,7 +708,7 @@ Detailed editor for a specific SLA policy with reaction, resolution and scope.
 +---------------------------------------------------------------------------------------------------------------------------------+
 ```
 
-### 11. Edit Working Calendar
+### 12. Edit Working Calendar
 
 Editor for working hours by weekday, time zone and holiday sets.
 
@@ -721,7 +736,7 @@ Editor for working hours by weekday, time zone and holiday sets.
 +---------------------------------------------------------------------------------------------------------------------------------+
 ```
 
-### 12. Workflow & Status Engine
+### 13. Workflow & Status Engine
 
 Trip lifecycle management with visual pipeline and timers.
 
@@ -745,7 +760,47 @@ Trip lifecycle management with visual pipeline and timers.
 +---------------------------------------------------------------------------------------------------------------------------------+
 ```
 
-### 13. Notification Rules Engine
+### 14. Workflow Diagram
+
+Visual lifecycle diagram for a trip.
+
+Shows the full state machine: statuses as nodes, transitions as arrows. System transitions, user transitions, and reject loops are configurable.
+
+Click a status to select, double-click to edit. Click a transition label to edit the transition.
+
+Used by Dispatcher to configure the workflow without code.
+
+```text
++---------------------------------------------------------------------------------------------------------------------------------+
+| LogiQED    | Dashboard | Map | Registry | Workflow | SLA | Telemetry | Chat         | 🔔 [EN] [Operator]                        |
++---------------------------------------------------------------------------------------------------------------------------------+
+| Workflow > Workflow Diagram                                                             [ Fit to screen ] [ 100% ] [ 🔍 ] [ 📤 ]|
++---------------------------------------------------------------------------------------------------------------------------------+
+| Mode: [✓] System transitions   [ ] Reject loops                    | Selected Schema: VERIFIABLE_FREIGHT_CORRIDOR               |
++---------------------------------------------------------------------------------------------------------------------------------+
+|                                                           [ New Created ]                                                       |
+|                                                      (eFTI Document & Schema Init)                                              |
+|                                                                    │                                                            |
+|                                             ┌──────────────────────┴──────────────────────┐                                     |
+|                                             │ Accept                                      │ Reject                              |
+|                                             ▼                                             ▼                                     |
+|                                     [ 🟦 Accepted ]                             [ 🟥 Rejected (Final) ]                         |
+|                                             │                                             (Penalty Applied)                     |
+|                                             │ Next work                                                                         |
+|                                             ▼                                                                                   |
+|                                     [ 🟧 In progress ] <----------------------- [ 🟩 Completed ]                                |
+|                                     (Telemetry Active E4-E5)                   (SLA Met / Evidence Packed)                      |
+|                                             │                                             ▲                                     |
+|                                             │ Resolve                                     │ Complete                            |
+|                                             └──────────────────────┬──────────────────────┘                                     |
+|                                                                    │                                                            |
+|                                                                    ▼                                                            |
+|                                                              [ 🟫 Closed ]                                                      |
+|                                                            (Immutable Archive)                                                  |
++---------------------------------------------------------------------------------------------------------------------------------+
+```
+
+### 15. Notification Rules Engine
 
 Rules for automatic notifications.
 
@@ -755,7 +810,7 @@ Rules for automatic notifications.
 +---------------------------------------------------------------------------------------------------------------------------------+
 | Notifications > Notification Rules > Edit Notification Rule                              [ Save ] [ Save & Close ] [ Close ]    |
 +---------------------------------------------------------------------------------------------------------------------------------+
-| Name: Incident Report Notice — Driver & Carrier                                                                                   |
+| Name: Incident Report Notice - Driver & Carrier                                                                                   |
 | Description: Notifies responsible parties when an exception rule triggers and penalty protection is applied.                    |
 +---------------------------------------------------------------------------------------------------------------------------------+
 | Match conditions                                                                                                                |
@@ -771,7 +826,7 @@ Rules for automatic notifications.
 +---------------------------------------------------------------------------------------------------------------------------------+
 ```
 
-### 14. Chat
+### 16. Chat
 
 Communication with attachments and evidence packages.
 
@@ -801,7 +856,258 @@ Communication with attachments and evidence packages.
 +----------------------------------------------------------------------------------------------------------------------------------+
 ```
 
-### 15. Administration Hub
+---
+
+### 17. Departments
+
+Org structure - departments list.
+
+Shift Supervisor sees all departments with their kind, parent department, head, phone, employee count, and subordinate count.
+
+Columns: Name, Code, Kind, Parent dept, Head, Primary phone, Employees, Subordinates, Active.
+
+Actions: Create, Audit, View, Edit, Delete.
+
+```text
++------------------------------------------------------------------------------------------------------------------------------------------------+
+| << Org structure > Departments                                  				     [ EN English ] [🔔13] [⚙] [MAS Miller Andrew Scott]        |
++------------------------------------------------------------------------------------------------------------------------------------------------+
+| Departments                                                                                                                [ + Create ]        |
++------------------------------------------------------------------------------------------------------------------------------------------------+
+|                                                                              				          [ Audit ] [ View ] [ Edit ] [ Delete ]     |
++------------------------------------------------------------------------------------------------------------------------------------------------+
+| Page size: 20 | Combine filters [AND] [OR]                          				     [ Refresh ] [ Reset filters ] [ Reset sorting ]         |
++------------------------------------------------------------------------------------------------------------------------------------------------+
+| Name                  | Code       | Kind          | Parent dept  | Head                 | Primary phone   | Employees | Subordinates | Active |
++------------------------------------------------------------------------------------------------------------------------------------------------+
+| Administration        | ADMIN      | Administration| Head Office  | Bennett Alice Claire |                 | 1         | 0            | Yes    |
+| Compliance & Evidence | COMPLIANCE | Department    | Head Office  | Coleman Sophia Jane  | +48 22 500 10 04| 2         | 0            | Yes    |
+| Dispatch Office       | DISPATCH   | Service       | Head Office  | Miller Andrew Scott  | +48 22 500 10 02| 5         | 0            | Yes    |
+| Fleet Department      | FLEET      | Department    | Head Office  | Kruger Martin Otto   | +48 22 500 10 03| 2         | 0            | Yes    |
+| Head Office           | HQ         | Branch        | -            | Reid Thomas Edward   | +48 22 500 10 01| 1         | 4            | Yes    |
++------------------------------------------------------------------------------------------------------------------------------------------------+
+| Page 1 of 1 | 5 of 5 records                                                                       				 [ << ] [ < ] 1 [ > ] [ >> ] |
++------------------------------------------------------------------------------------------------------------------------------------------------+
+```
+
+### 18. Department kinds
+
+Dictionary of department kinds used in the org structure.
+
+Each kind has a name, code, and can be assigned to one or more departments. Examples: Branch, Department, Service, Administration.
+
+Actions: Create, Audit, View, Edit, Delete.
+
+```text
++------------------------------------------------------------------------------------------------------------------------------------------------+
+| << Org structure > Departments                                  				     [ EN English ] [🔔13] [⚙] [MAS Miller Andrew Scott]        |
++------------------------------------------------------------------------------------------------------------------------------------------------+
+| Departments                                                                                                                [ + Create ]        |
++------------------------------------------------------------------------------------------------------------------------------------------------+
+|                                                                              				          [ Audit ] [ View ] [ Edit ] [ Delete ]     |
++------------------------------------------------------------------------------------------------------------------------------------------------+
+| Page size: 20 | Combine filters [AND] [OR]                          				     [ Refresh ] [ Reset filters ] [ Reset sorting ]         |
++------------------------------------------------------------------------------------------------------------------------------------------------+
+| Name                  | Code       | Kind          | Parent dept  | Head                 | Primary phone   | Employees | Subordinates | Active |
++------------------------------------------------------------------------------------------------------------------------------------------------+
+| Administration        | ADMIN      | Administration| Head Office  | Bennett Alice Claire |                 | 1         | 0            | Yes    |
+| Compliance & Evidence | COMPLIANCE | Department    | Head Office  | Coleman Sophia Jane  | +48 22 500 10 04| 2         | 0            | Yes    |
+| Dispatch Office       | DISPATCH   | Service       | Head Office  | Miller Andrew Scott  | +48 22 500 10 02| 5         | 0            | Yes    |
+| Fleet Department      | FLEET      | Department    | Head Office  | Kruger Martin Otto   | +48 22 500 10 03| 2         | 0            | Yes    |
+| Head Office           | HQ         | Branch        | -            | Reid Thomas Edward   | +48 22 500 10 01| 1         | 4            | Yes    |
++------------------------------------------------------------------------------------------------------------------------------------------------+
+| Page 1 of 1 | 5 of 5 records                                                                       				 [ << ] [ < ] 1 [ > ] [ >> ] |
++------------------------------------------------------------------------------------------------------------------------------------------------+
+```
+
+### 19. Employees
+
+Registry of all employees in the organization.
+
+Each employee record shows full name, department, position, work phone, personal phone, email, and active status.
+
+Employees are linked to departments and positions, and can be assigned to duty shifts.
+
+Actions: Create, Audit, View, Edit, Delete.
+
+```text
++----------------------------------------------------------------------------------------------------------------------------------------------+
+| << Org structure > Employees                                       			   [ EN English ] [🔔13] [⚙] [MAS Miller Andrew Scott]        |
++----------------------------------------------------------------------------------------------------------------------------------------------+
+| Employees                                                  		                                                       [ + Create ]        |
++----------------------------------------------------------------------------------------------------------------------------------------------+
+|                                                             				                        [ Audit ] [ View ] [ Edit ] [ Delete ]     |
++----------------------------------------------------------------------------------------------------------------------------------------------+
+| Page size: 20 | Combine filters [AND] [OR]                           				   [ Refresh ] [ Reset filters ] [ Reset sorting ]         |
++----------------------------------------------------------------------------------------------------------------------------------------------+
+| Full name             | Department       | Position            | Work phone      | Personal phone  | Email address                  | Active |
++----------------------------------------------------------------------------------------------------------------------------------------------+
+| Bennett Alice Claire  | Administration   | System Administrator| +48 22 500 10 01| +380931401001   | administrator@test.local       | Yes    |
+| Brooks Daniel James   | Fleet Department | Driver              | +48 22 500 10 03| +380931401004   | driver@test.local              | Yes    |
+| Coleman Sophia Jane   | Compliance & Evid| Auditor             | +48 22 500 10 04| +380931401006   | auditor@test.local             | Yes    |
+| Foster Emily Rose     | Dispatch Office  | Dispatcher          | +48 22 500 10 02| +380931401003   | dispatcher@test.local          | Yes    |
+| Harper Olivia Grace   | Compliance & Evid| SLA Analyst         | +48 22 500 10 04| +380931401002   | sla.analyst@test.local         | Yes    |
+| Keller Lukas Erik     | Dispatch Office  | Dispatcher          | +48 22 500 10 02| +380931401009   | dispatcher4@test.local         | Yes    |
+| Kruger Martin Otto    | Fleet Department | Head of Department  | +48 22 500 10 03| +380931401010   | fleet.manager@test.local       | Yes    |
+| Miller Andrew Scott   | Dispatch Office  | Head of Department  | +48 22 500 10 02| +380931401005   | shift.supervisor@test.local    | Yes    |
+| Reid Thomas Edward    | Head Office      | Managing Director   | +48 22 500 10 01| +380931401011   | director@test.local            | Yes    |
+| Sandoval Marta Elena  | Dispatch Office  | Dispatcher          | +48 22 500 10 02| +380931401008   | dispatcher3@test.local         | Yes    |
+| Whitaker Nathan Paul  | Dispatch Office  | Dispatcher          | +48 22 500 10 02| +380931401007   | dispatcher2@test.local         | Yes    |
++----------------------------------------------------------------------------------------------------------------------------------------------+
+| Page 1 of 1 | 11 of 11 records                                                  				                   [ << ] [ < ] 1 [ > ] [ >> ] |
++----------------------------------------------------------------------------------------------------------------------------------------------+
+```
+
+### 20. Positions
+
+Dictionary of positions used in the organization.
+
+Each position has a name, code, managerial flag, and employee count. Examples: Driver, Dispatcher, Auditor, Head of Department, Managing Director.
+
+Actions: Create, Audit, View, Edit, Delete.
+
+```text
++---------------------------------------------------------------------------------------------------------------------------------+
+| << Org structure > Positions                                                                                                   [ + Create ]        |
++---------------------------------------------------------------------------------------------------------------------------------+
+|                                                                                      [ Audit ] [ View ] [ Edit ] [ Delete ]     |
++---------------------------------------------------------------------------------------------------------------------------------+
+| Page size: 20 | Combine filters [AND] [OR]                              [ Refresh ] [ Reset filters ] [ Reset sorting ]         |
++---------------------------------------------------------------------------------------------------------------------------------+
+| Name                  | Code           | Managerial position | Employees     | Active                                           |
++---------------------------------------------------------------------------------------------------------------------------------+
+| Auditor               | AUDITOR        | No                  | 1             | Yes                                              |
+| Dispatcher            | DISPATCHER     | No                  | 4             | Yes                                              |
+| Driver                | DRIVER         | No                  | 1             | Yes                                              |
+| Head of Department    | HEAD           | Yes                 | 2             | Yes                                              |
+| Managing Director     | DIRECTOR       | Yes                 | 1             | Yes                                              |
+| SLA Analyst           | SLA_ANALYST    | No                  | 1             | Yes                                              |
+| System Administrator  | SYSADMIN       | No                  | 1             | Yes                                              |
++---------------------------------------------------------------------------------------------------------------------------------+
+| Page 1 of 1 | 7 of 7 records                                                                       [ << ] [ < ] 1 [ > ] [ >> ]  |
++---------------------------------------------------------------------------------------------------------------------------------+
+```
+
+### 21. Duty roster
+
+Monthly roster of duty shifts per employee.
+
+Shows the current period, employees on duty right now, and a grid of employees × days. Each cell can hold a day shift, night shift, or full day.
+
+Dispatchers can be assigned to shifts, and the system shows who is on duty at any moment.
+
+Actions: Generate, Edit mode, Remove.
+
+```text
++---------------------------------------------------------------------------------------------------------------------------------+
+| << Org structure > Duty roster                                     [ EN English ] [🔔13] [⚙] [MAS Miller Andrew Scott]         |
++---------------------------------------------------------------------------------------------------------------------------------+
+| Department: [ Dispatch Office v ]  Month: [ < September > ]  Year: [ 2026 ] [ > ]  [ Current period ]          [ Generate ]     |
++---------------------------------------------------------------------------------------------------------------------------------+
+| Edit mode: (o) Day shift  ( ) Night shift  ( ) Full day  (x) Remove     Pick a duty shift and click the roster cells.           |
++---------------------------------------------------------------------------------------------------------------------------------+
+| On duty right now (1) as of 20.09.2026 20:26                                                Position: [ All positions v ]       |
+| Sandoval Marta Elena  Night shift                                                                                               |
+| Dispatcher · Dispatch Office  (20.09.2026 20:00 - 21.09.2026 08:00)  📞 +48 22 500 10 02                                        |
++---------------------------------------------------------------------------------------------------------------------------------+
+| Employee              | TU 1 | WE 2 | TH 3 | FR 4 | SA 5 | SU 6 | MO 7 | TU 8 | WE 9 | TH 10| FR 11| SA 12| SU 13| MO 14| ...   |
++---------------------------------------------------------------------------------------------------------------------------------+
+| Miller Andrew Scott   |      |      |      |      |      |      |      |      |      |      |      |      |      |      |       |
+| Head of Department    |      |      |      |      |      |      |      |      |      |      |      |      |      |      |       |
+| Foster Emily Rose     |      | [DS] | [NS] |      |      |      | [DS] | [NS] |      |      |      | [DS] | [NS] |      |       |
+| Dispatcher            |      |      |      |      |      |      |      |      |      |      |      |      |      |      |       |
+| Keller Lukas Erik     | [NS] |      | [DS] | [NS] |      |      |      | [DS] | [NS] |      |      |      | [DS] | [NS] |       |
+| Dispatcher            |      |      |      |      |      |      |      |      |      |      |      |      |      |      |       |
+| Sandoval Marta Elena  |      |      |      | [DS] | [NS] |      |      |      | [DS] | [NS] |      |      |      | [DS] |       |
+| Dispatcher            |      |      |      |      |      |      |      |      |      |      |      |      |      |      |       |
+| Whitaker Nathan Paul  |      | [DS] | [NS] |      |      |      | [DS] | [NS] |      |      |      | [DS] | [NS] |      |       |
+| Dispatcher            |      |      |      |      |      |      |      |      |      |      |      |      |      |      |       |
++---------------------------------------------------------------------------------------------------------------------------------+
+```
+
+### 22. Duty shifts
+
+Dictionary of duty shift types used in the roster.
+
+Each shift has a name, code, time of day, number of duties, order, and active flag. Examples: Day shift (08:00–20:00), Night shift (20:00–08:00), Full day (08:00–08:00).
+
+Actions: Create, Audit, View, Edit, Delete.
+
+```text
++---------------------------------------------------------------------------------------------------------------------------------+
+| << Org structure > Duty shifts                                     [ EN English ] [🔔13] [⚙] [MAS Miller Andrew Scott]         |
++---------------------------------------------------------------------------------------------------------------------------------+
+| Duty shifts                                                                                                 [ + Create ]        |
++---------------------------------------------------------------------------------------------------------------------------------+
+|                                                                                     [ Audit ] [ View ] [ Edit ] [ Delete ]      |
++---------------------------------------------------------------------------------------------------------------------------------+
+| Page size: 20 | Combine filters [AND] [OR]                            [ Refresh ] [ Reset filters ] [ Reset sorting ]           |
++---------------------------------------------------------------------------------------------------------------------------------+
+| Name                  | Code           | Time of day         | Duties        | Order         | Active                           |
++---------------------------------------------------------------------------------------------------------------------------------+
+| 🟢 Day shift          | DAY            | 08:00 - 20:00       | 30            | 0             | Yes                              |
+| 🔵 Night shift        | NIGHT          | 20:00 - 08:00 (+1)  | 30            | 10            | Yes                              |
+| 🟣 Full day           | FULLDAY        | 08:00 - 08:00 (+1)  | 0             | 20            | Yes                              |
++---------------------------------------------------------------------------------------------------------------------------------+
+| Page 1 of 1 | 3 of 3 records                                                                        [ << ] [ < ] 1 [ > ] [ >> ] |
++---------------------------------------------------------------------------------------------------------------------------------+
+```
+
+### 23. Org chart
+
+Visual hierarchy of departments and employees.
+
+Shows the full org structure as a tree: Head Office at the top, departments below, with heads and employee counts. Inactive departments can be hidden.
+
+Navigation: drag to pan, Ctrl+mouse wheel to zoom. Click a department to select it, double-click to edit.
+
+Actions: Fit, 100%, Zoom in, Zoom out, Export PNG.
+
+```text
++---------------------------------------------------------------------------------------------------------------------------------+
+| << Org structure > Org chart                                       [ EN English ] [🔔14] [⚙] [MAS Miller Andrew Scott]         |
++---------------------------------------------------------------------------------------------------------------------------------+
+| Org chart                                                                                                                       |
++---------------------------------------------------------------------------------------------------------------------------------+
+| [ ] Inactive departments                                            [ Fit ] [ 100% ] [ 🔍+ ] [ 🔍- ] [ 📥 PNG ]                 |
++---------------------------------------------------------------------------------------------------------------------------------+
+| Departments: 5   Employees: 11   Drag to pan, Ctrl+mouse wheel to zoom   Click a department to select it, double-click to edit  |
++---------------------------------------------------------------------------------------------------------------------------------+
+|                                                                                                                                 |
+|                                                                                                                                 |
+|                                                  +---------------------------+                                                  |
+|                                                  | BRANCH                    |                                                  |
+|                                                  | Head Office               |                                                  |
+|                                                  | 👤 Reid Thomas Edward     |                                                  |
+|                                                  | 📞 +48 22 500 10 01       |                                                  |
+|                                                  | [ 1 emp. ]                |                                                  |
+|                                                  +-------------+-------------+                                                  |
+|                                                                |                                                                |
+|                                                                |                                                                |
+|                             +---------------------+---------------------+-----------+-----------+                               |                      
+|                             |                     |                     |                       |                               |
+|                             |                     |                     |                       |                               |
+|                       +-----+-------------+ +-----+-------------+ +-----+-------------+   +-----+-------------+                 |
+|                       | ADMINISTRATION    | | SERVICE           | | DEPARTMENT        |   | DEPARTMENT        |                 |
+|                       |                   | |                   | |                   |   |                   |                 |
+|                       | Administration    | | Dispatch Office   | | Fleet Department  |   | Compliance & Evid |                 |
+|                       |                   | |                   | |                   |   |                   |                 |
+|                       | 👤 Bennett Alice  | | 👤 Miller Andrew  | | 👤 Kruger Martin  |   | 👤 Coleman Sophia |                 |
+|                       |    Claire         | |    Scott          | |    Otto           |   |    Jane           |                 |
+|                       |                   | |                   | |                   |   |                   |                 |
+|                       |                   | | 📞 +48 22 500 10  | | 📞 +48 22 500 10  |   | 📞 +48 22 500 10  |                 |
+|                       |                   | |    02             | |    03             |   |    04             |                 |
+|                       |                   | |                   | |                   |   |                   |                 |
+|                       | [ 1 emp. ]        | | [ 5 emp. ]        | | [ 2 emp. ]        |   | [ 2 emp. ]        |                 |
+|                       +-------------------+ +-------------------+ +-------------------+   +-------------------+                 |
+|                                                                                                                                 |
+|                                                                                                                                 |
++---------------------------------------------------------------------------------------------------------------------------------+
+```
+
+---
+
+### 24. Administration Hub
 
 Users, roles, permissions, access rules and endpoints in one workspace.
 
@@ -822,7 +1128,8 @@ Users, roles, permissions, access rules and endpoints in one workspace.
 | permissions and restrictions are applied.      | and configuring API access rules.        | when, from where and with what result.    |
 +---------------------------------------------------------------------------------------------------------------------------------------+
 ```
-### 16. Users Management
+
+### 25. Users Management
 
 User accounts with roles, contacts and status.
 
@@ -842,7 +1149,7 @@ User accounts with roles, contacts and status.
 +---------------------------------------------------------------------------------------------------------------------------------+
 ```
 
-### 17. Roles
+### 26. Roles
 
 System roles with access separation.
 
@@ -860,7 +1167,7 @@ System roles with access separation.
 | AUDITOR                   | Auditor             | Audit journal, reports and SLA compliance                            | No     |
 +---------------------------------------------------------------------------------------------------------------------------------+
 ```
-### 18. Permissions
+### 27. Permissions
 
 Granular permissions for subsystems.
 
@@ -877,7 +1184,7 @@ Granular permissions for subsystems.
 | Appeals.Write             | Appeals: write                         | Incident report registration        | Appeals subsystem    |
 +---------------------------------------------------------------------------------------------------------------------------------+
 ```
-### 19. Rules & Endpoints
+### 28. Rules & Endpoints
 
 API routing rules and endpoint matching.
 
@@ -892,7 +1199,70 @@ API routing rules and endpoint matching.
 | api:Workflows:Execute     | Workflow.Manage        | Yes     | 50       | POST        | /api/v1/Workflows/Execute               |
 +---------------------------------------------------------------------------------------------------------------------------------+
 ```
-### 20. Audit Journal
+---
+
+### 29. Executive Summary (Auditor)
+
+Executive summary for the auditor: trips in period, active in transit, exceptions resolved, valid proofs, and what is already anchored outside the system. Includes tabs for Disputes, Trust, and Anchors, plus a "Needs attention" list of overdue shipments.
+
+```text
++--------------------------------------------------------------------------------------------------------------------------------------+
+| << Main > Home                                                                [ EN English ] [🔔] [⚙] [CS Coleman Sophia Jane]      |
++--------------------------------------------------------------------------------------------------------------------------------------+
+| Executive summary                                                                   Updated at 20.09.2026 22:26                      |
+| How trips are running, what disputes cost, what claims rest on and what is already anchored outside [ Trips ] [ Delays ] [ Evidence ]|
++--------------------------------------------------------------------------------------------------------------------------------------+
+| From                       | To                         | Grouping                                                                   |
+| [ 21.08.2026         ] [x] | [ 20.09.2026         ] [x] | [ By days  > ] 															   |
+| [ 7 days ] [ 30 days ] [ 90 days ] [ Year ] 																						   |
++--------------------------------------------------------------------------------------------------------------------------------------+
+| [ Overview ] [ Disputes ] [ Trust ] [ Anchors ]                                                                                      |
++--------------------------------------------------------------------------------------------------------------------------------------+
+| Trips in period       | Active in transit   | Exceptions resolved | Valid proofs                                                     |
+| 62                    | 12                  | 31                  | 100%                                                             |
+| 120 all time          | 1 on schedule       | 1 awaiting review   | 11 of 11 needing one; 90 do not                                  |
+| [ graph ]             | [ graph ]           | [ graph ]           | [ graph ]                                                        |
++--------------------------------------------------------------------------------------------------------------------------------------+
+| HOW IT RUNS                                                    										      [ PNG ] [ CSV ] [ ⛶ ]    |
+| Trips: registered and delivered                                                                                                      |
+| The bar is every trip movement in the interval: registered plus delivered. The lines show what it is made of, lateness is a          |
+| share of the delivered, not a separate series                                                                                        |
+| (o) Total  (o) Registered  (o) Delivered  (o) Of those, late                                                                         |
+|                                                                                                                                      |
+|  20 |                                                                                                                                |
+|     |                                                                                                                                |
+|  15 |                                                                                                                                |
+|     |                                                                                                                                |
+|  10 |                                                                                                                                |
+|     |                                                                                                                                |
+|   5 |                                                                                                                                |
+|     |                                                                                                                                |
+|   0 +--------------------------------------------------------------------------------------------------------------------------------|
+|                                                                                                                                      |
++--------------------------------------------------------------------------------------------------------------------------------------|
+| DISTRIBUTION                                                    											  [ PNG ] [ CSV ] [ ⛶ ]    |
+| Trip statuses                                                                                                                        |
+| Trips of the period by process status. Status names come from the process itself, so an installation with its own process will       |
+| show its own names                                                                                                                   |
+| (o) Delivered  (o) Departed  (o) Cancelled  (o) Created  (o) Picked up                                                               |
+|                                                                                                                                      |
++--------------------------------------------------------------------------------------------------------------------------------------|
+| Needs attention                                                                                                     Showing 8 of 23  |
++--------------------------------------------------------------------------------------------------------------------------------------|
+| 🟡 SHP-20260916-00000001  Overdue by 3 d 10 h 40 min                                                                                 |
+| 🟡 SHP-20260916-00000007  Overdue by 3 d 9 h 40 min                                                                                  | 
+| 🟡 SHP-20260916-00000005  Overdue by 1 d 6 h 20 min                                                                                  |
+| 🟡 SHP-20260916-00000011  Overdue by 1 d 5 h 20 min                                                                                  |
+| 🟡 SHP-20260916-00000003  Overdue by 1 d 2 h 0 min                                                                                   |
+| 🟡 SHP-20260917-00000006  Overdue by 10 h 37 min                                                                                     |
+| 🟡 SHP-20260917-00000012  Overdue by 9 h 37 min                                                                                      |
+| 🟡 SHP-20260917-00000008  Delay unreviewed for 1 d 23 h 48 min · Geofence wait                                                       |
++--------------------------------------------------------------------------------------------------------------------------------------|
+|                                                                                                                                      |
++--------------------------------------------------------------------------------------------------------------------------------------+
+```
+
+### 30. Audit Journal
 
 User actions and system events.
 
@@ -904,16 +1274,54 @@ User actions and system events.
 +---------------------------------------------------------------------------------------------------------------------------------+
 | 24.08.2026 01:47:26 | System Admin        | admin@logiqed.eu           | Sign In   | Success| /api/v1/Auth/Login    | 0         |
 | 24.08.2026 03:42:54 | Hans Mueller        | driver.berlin@logiqed.eu   | Creation  | Success| /api/v1/Telemetry/... | 1         |
-| 24.08.2026 01:44:34 | System              | System                     | Update    | Success| —                     | 46        |
+| 24.08.2026 01:44:34 | System              | System                     | Update    | Success| -                     | 46        |
 | 24.08.2026 01:44:32 | Anna Rudenko        | analyst@logiqed.eu         | Export    | Success| /api/v1/Analytics/... | 120       |
 +---------------------------------------------------------------------------------------------------------------------------------+
 ```
 
----
+### 31. Audit Record Details
 
-## MVP Screens
+Detailed audit record: request body in JSON and a field-level change table (before / after). Shows target entities, changed entities, and every modified field. Every modification is traceable.
 
-Full product screens beyond demo: Workflow Diagram, Goods Turnover, Appeals & Shift Handover, Appeals Analytics, Org Structure.
-
-See [UI_MVP.md](UI_MVP.md).
+```text
++---------------------------------------------------------------------------------------------------------------------------------+
+| Audit record details                                                                                                      [ X ] |
++---------------------------------------------------------------------------------------------------------------------------------+
+| Target entities: 1   Changed entities: 1                                                                                        |
++---------------------------------------------------------------------------------------------------------------------------------+
+| Request body                                                                                                              [ v ] |
+| +-----------------------------------------------------------------------------------------------------------------------------+ |
+| | {                                                                                                                           | |
+| |   "shipmentId": "01a05eff-3565-7d7f-b3ae-79980bffff02",                                                                     | |
+| |   "reason": 0,                                                                                                              | |
+| |   "durationMinutes": 30,                                                                                                    | |
+| |   "comment": "Accident on the road. Big traffic jam.",                                                                      | |
+| |   "latitude": 51.235000,                                                                                                    | |
+| |   "longitude": 23.750000                                                                                                    | |
+| | }                                                                                                                           | |
+| +-----------------------------------------------------------------------------------------------------------------------------+ |
++---------------------------------------------------------------------------------------------------------------------------------+
+| Changes                                                                                                                         |
+|                                                                                      Id: 722 f7d38-2600-4157-8b8a-0d6d87a4c42   |
+| Trip incident (Created)                                                                                                         |
+| +--------------------------------+--------------------------------+---------------------------------------------------------+   |
+| | Field                          | Before                         | After                                                   |   |
+| +--------------------------------+--------------------------------+---------------------------------------------------------+   |
+| | Driver                         | -                              | 01a05eff-3238-75ed-a8b3-283b06eb5a0f                    |   |
+| | Delay reason                   | -                              | Traffic                                                 |   |
+| | Review state                   | -                              | Verifying                                               |   |
+| | Reported at                    | -                              | 02.09.2026 01:47:52                                     |   |
+| | Reported by                    | -                              | Brooks Daniel James                                     |   |
+| | Duration, min                  | -                              | 30                                                      |   |
+| | Credited, min                  | -                              | 0                                                       |   |
+| | Held the deadlines             | -                              | No                                                      |   |
+| | Liable party                   | -                              | External                                                |   |
+| | Reporter note                  | -                              | Accident on the road. Big traffic jam.                  |   |
+| | Latitude                       | -                              | 51.235000                                               |   |
+| | Longitude                      | -                              | 23.750000                                               |   |
+| +--------------------------------+--------------------------------+---------------------------------------------------------+   |
++---------------------------------------------------------------------------------------------------------------------------------+
+|                                                                                                                       [ Close ] |
++---------------------------------------------------------------------------------------------------------------------------------+
+```
 

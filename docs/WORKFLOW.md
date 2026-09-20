@@ -206,4 +206,4 @@ See [OpenAPI](../OPENAPI.yaml) for workflow endpoints.
 - [Authorization](AUTHORIZATION.md) - roles and permissions
 - [SLA DSL](SLA_DSL.md) - rule definition format
 - [Communication](COMMUNICATION.md) - notification delivery
-- [UI Demo](UI_DEMO.md) - workflow screens
+- [UI](UI.md) - workflow screens
