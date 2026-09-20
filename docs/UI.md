@@ -41,7 +41,9 @@ The demo starts with DRIVER reporting a traffic incident. DISPATCHER confirms th
 
 SLA policy and users are pre-configured before the demo. ADMIN screens are shown only if the audience asks about role management.
 
-> Demo views reflect different time snapshots for each role. They are not synchronized to a single moment.
+> Demo data, proof values and attestation details are simulated for MVP presentation.
+
+For live incident simulation, an optional remote console is available — see Demo Remote Console at the end of this document.
 
 ## Demo Screens
 
