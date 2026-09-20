@@ -41,7 +41,7 @@ The demo starts with DRIVER reporting a traffic incident. DISPATCHER confirms th
 
 SLA policy and users are pre-configured before the demo. ADMIN screens are shown only if the audience asks about role management.
 
-> Demo data, proof values and attestation details are simulated for MVP presentation.
+> Demo views reflect different time snapshots for each role. They are not synchronized to a single moment.
 
 ## Demo Screens
 
@@ -75,9 +75,9 @@ These screens are shown in the demo:
 26. Roles
 27. Permissions
 28. Rules & Endpoints
-29. Audit Journal
-30. Audit Record Details
-31. Executive Summary (Auditor)
+29. Executive Summary (Auditor)
+30. Audit Journal
+31. Audit Record Details
 
 ## Short Demo
 
@@ -271,22 +271,6 @@ Package statuses:
 
 ---
 
-## Demo Remote Console
-
-Separate Blazor project: LogiQED.DemoRemote.
-
-A dispatcher console for live demo simulation. Three actions per incident:
-
-- **Confirm** - SLA paused, penalty 0
-- **Reject** - SLA continues, penalty applied
-- **Evidence** - generate and verify Evidence Package
-
-The console talks to the main platform via API. Every decision is sent to the main system, not simulated locally.
-
-After Evidence is clicked, the console shows the package number, verification result, and real verification time in milliseconds.
-
-Used in the demo to show the full flow: driver reports → dispatcher decides → evidence generated → proof verified.
-
 ### 6. Package View
 
 Inspection of a single Evidence Package with embedded ZK proof.
@@ -358,12 +342,12 @@ Clean routes have no ZK proof. They close with signed events and Evidence Root o
 
 ### Where to See Results
 
-- **Evidence Packages** - screen 4, shows all generated packages
-- **Package View** - screen 5, shows one package with ZK proof
+- **Evidence Packages** - screen 5, shows all generated packages
+- **Package View** - screen 6 shows one package with ZK proof
 
 ### Navigation
 
-- From Evidence Packages (screen 4): click [View] → opens Package View
+- From Evidence Packages (screen 5): click [View] → opens Package View
 - From Incident View: click [Evidence package] → opens Package View
 
 ---
@@ -899,25 +883,25 @@ Each kind has a name, code, and can be assigned to one or more departments. Exam
 Actions: Create, Audit, View, Edit, Delete.
 
 ```text
-+------------------------------------------------------------------------------------------------------------------------------------------------+
-| << Org structure > Departments                                  				     [ EN English ] [🔔13] [⚙] [MAS Miller Andrew Scott]        |
-+------------------------------------------------------------------------------------------------------------------------------------------------+
-| Departments                                                                                                                [ + Create ]        |
-+------------------------------------------------------------------------------------------------------------------------------------------------+
-|                                                                              				          [ Audit ] [ View ] [ Edit ] [ Delete ]     |
-+------------------------------------------------------------------------------------------------------------------------------------------------+
-| Page size: 20 | Combine filters [AND] [OR]                          				     [ Refresh ] [ Reset filters ] [ Reset sorting ]         |
-+------------------------------------------------------------------------------------------------------------------------------------------------+
-| Name                  | Code       | Kind          | Parent dept  | Head                 | Primary phone   | Employees | Subordinates | Active |
-+------------------------------------------------------------------------------------------------------------------------------------------------+
-| Administration        | ADMIN      | Administration| Head Office  | Bennett Alice Claire |                 | 1         | 0            | Yes    |
-| Compliance & Evidence | COMPLIANCE | Department    | Head Office  | Coleman Sophia Jane  | +48 22 500 10 04| 2         | 0            | Yes    |
-| Dispatch Office       | DISPATCH   | Service       | Head Office  | Miller Andrew Scott  | +48 22 500 10 02| 5         | 0            | Yes    |
-| Fleet Department      | FLEET      | Department    | Head Office  | Kruger Martin Otto   | +48 22 500 10 03| 2         | 0            | Yes    |
-| Head Office           | HQ         | Branch        | -            | Reid Thomas Edward   | +48 22 500 10 01| 1         | 4            | Yes    |
-+------------------------------------------------------------------------------------------------------------------------------------------------+
-| Page 1 of 1 | 5 of 5 records                                                                       				 [ << ] [ < ] 1 [ > ] [ >> ] |
-+------------------------------------------------------------------------------------------------------------------------------------------------+
++--------------------------------------------------------------------------------------------------------------------------------------+
+| << Org structure > Department kinds                                	   [ EN English ] [🔔13] [⚙] [MAS Miller Andrew Scott]        |
++--------------------------------------------------------------------------------------------------------------------------------------+
+| Department kinds                                                                             		               [ + Create ]        |
++--------------------------------------------------------------------------------------------------------------------------------------+
+|                                                                                           [ Audit ] [ View ] [ Edit ] [ Delete ]     |
++--------------------------------------------------------------------------------------------------------------------------------------+
+| Page size: 20 | Combine filters [AND] [OR]                            	   [ Refresh ] [ Reset filters ] [ Reset sorting ]         |
++--------------------------------------------------------------------------------------------------------------------------------------+
+| Name                  | Code           | Departments   | Order         | Active                                                      |
++--------------------------------------------------------------------------------------------------------------------------------------+
+| Branch                | BRANCH         | 1             | 0             | Yes                                                         |
+| Administration        | ADMINISTRATION | 1             | 10            | Yes                                                         |
+| Department            | DEPARTMENT     | 2             | 20            | Yes                                                         |
+| Service               | SERVICE        | 1             | 30            | Yes                                                         |
+| Sector                | SECTOR         | 0             | 40            | Yes                                                         |
++--------------------------------------------------------------------------------------------------------------------------------------+
+| Page 1 of 1 | 5 of 5 records                                                                       	   [ << ] [ < ] 1 [ > ] [ >> ] |
++--------------------------------------------------------------------------------------------------------------------------------------+
 ```
 
 ### 19. Employees
@@ -1325,3 +1309,26 @@ Detailed audit record: request body in JSON and a field-level change table (befo
 +---------------------------------------------------------------------------------------------------------------------------------+
 ```
 
+---
+
+## Demo Remote Console (optional)
+
+A separate Blazor project: `LogiQED.DemoRemote`.
+
+The remote console is a dispatcher tool for live demo simulation. It is not part of the main product. The public demo runs without it. The console is optional: it is only used when the audience wants to simulate a driver incident live. Without the console, the incident flow is shown as pre-recorded data.
+
+Access is provided on request via email.
+
+Three actions per incident:
+
+- **Confirm** - SLA paused, penalty 0
+- **Reject** - SLA continues, penalty applied
+- **Evidence** - generate and verify Evidence Package
+
+The console talks to the main platform via API. Every decision is sent to the main system, not simulated locally.
+
+After Evidence is clicked, the console shows the package number, verification result, and real verification time in milliseconds.
+
+Used in the demo to show the full flow: driver reports → dispatcher decides → evidence generated → proof verified.
+
+Request access: contact@logiqed.tech
