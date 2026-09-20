@@ -43,7 +43,7 @@ SLA policy and users are pre-configured before the demo. ADMIN screens are shown
 
 > Demo data, proof values and attestation details are simulated for MVP presentation.
 
-For live incident simulation, an optional remote console is available — see Demo Remote Console at the end of this document.
+For live incident simulation, an optional remote console is available - see Demo Remote Console at the end of this document.
 
 ## Demo Screens
 
