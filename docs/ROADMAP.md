@@ -14,7 +14,7 @@ Complete.
 
 Architecture, OpenAPI draft, Evidence Package specification, and demo are done.
 
-Demo: 32 screens, 6 roles. Workflow engine, identity layer, and communication audit are live.
+Demo: 30+ screens, 6 roles. Workflow engine, identity layer, and communication audit are live.
 
 Next: pilot partner search.
 

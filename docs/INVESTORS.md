@@ -36,7 +36,7 @@ LogiQED is a cryptographic, verifiable evidence layer designed to automate and r
 
 - **Problem:** SLA and detention disputes cost carriers and 3PLs $200–500 per incident in manual investigation, legal friction, and idle fleet time.
 - **Solution:** Cryptographically signed, independently verifiable Evidence Packages designed to support algorithmic claim resolution at an estimated marginal cost of $0.05–0.10 per package.
-- **Current State:** Engineered platform foundation built with C# / .NET 10 / Blazor, 120+ projects, 1,300+ automated tests, and an interactive demo with 32 UI screens across 6 operational roles. The platform also includes a configurable Workflow Engine, a full Identity and Authorization layer, and an auditable Communication trail.
+- **Current State:** Engineered platform foundation built with C# / .NET 10 / Blazor, 120+ projects, 1,300+ automated tests, and an interactive demo with 30+ UI screens across 6 roles. The platform also includes a configurable Workflow Engine, a full Identity and Authorization layer, and an auditable Communication trail.
 
 ---
 
@@ -327,7 +327,7 @@ Direct, clean-break acquisition of the existing platform. Ideal for buyers with 
 
 1. **Mutual NDA** - executed prior to repository or architecture inspection.
 2. **Architecture & Codebase Review** - Azure DevOps read-only access provided for technical due diligence.
-3. **Interactive Demo Walkthrough** - 32 live UI screens across 6 roles, covering workflow engine, identity layer, and communication audit.
+3. **Interactive Demo Walkthrough** - 30+ live UI screens across 6 roles, covering workflow engine, identity layer, and communication audit.
 4. **Commercial Term Sheet** - selection of Option 1, Option 2, or Option 3.
 5. **Definitive Legal Agreements** - escrow initialization and project mobilization.
 

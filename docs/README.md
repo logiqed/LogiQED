@@ -206,7 +206,7 @@ Official regulation: [Regulation (EU) 2020/1056](https://eur-lex.europa.eu/legal
 
 Core platform production-ready. Evidence Layer and claims are in MVP development.
 
-**Demo available.** 32 screens, 6 roles.
+**Demo available.** 30+ screens, 6 roles.
 
 **Interactive demo:** [DEMO Access](https://github.com/logiqed/LogiQED/blob/main/docs/DEMO.md) - credentials and recommended flow
 
