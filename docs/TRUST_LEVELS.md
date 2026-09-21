@@ -119,9 +119,93 @@ A moving truck rarely reaches E4 or E5 for position claims. The reason is physic
 
 E4 and E5 appear at fixed points where external systems join the claim, not on the open road.
 
+## Source Availability and Fallback
+
+A truck may already have onboard GPS. Or it may have none. The system supports both cases, and the choice affects the achievable trust level.
+
+| Situation | Recommended source | Why | Typical level |
+|-----------|-------------------|-----|---------------|
+| Onboard GPS present | Onboard tracker only | Higher trust, no need for extra app | E3 (E4 with corroboration) |
+| No onboard GPS | Third-party app or Tracker App | Only way to get telemetry without hardware | E1-E2 |
+| Onboard GPS present, but data needed by multiple systems | Onboard tracker with dual-server | Sends to existing server and LogiQED in parallel | E3 (E4 with corroboration) |
+| Onboard GPS present, single-server only | Onboard tracker + local bridge | Forwarding through existing telematics platform | E3 (E4 with corroboration) |
+
+### Why a Second Source Does Not Always Help
+
+Adding a weaker source next to a stronger one does not raise the trust level. Corroboration requires independence, not just two sources.
+
+- Onboard tracker: E3
+- Third-party app on the same trip: E1
+- Combined: still E3
+
+The weaker source adds no value for trust. It may still be useful for redundancy or for drivers without onboard hardware.
+
+### How Data Reaches LogiQED
+
+Onboard trackers send data to LogiQED in one of three ways:
+
+1. Dual-server configuration - tracker sends to its existing server and to LogiQED in parallel. Nothing on the carrier side changes.
+2. Data forwarding - an existing telematics platform forwards the stream to LogiQED. Depends on platform support and protocol.
+3. Endpoint replacement - tracker is reconfigured to point at LogiQED. Only used with carrier consent, and only when no other option exists.
+
+The first option is preferred. The carrier keeps existing monitoring, and LogiQED receives its own copy of the stream.
+
+### What This Means for Trust
+
+A source is registered once, with its own capabilities. Adding a second source does not change the first source's dimensions. Each source is evaluated independently, and the claim confidence is the result of applying the trust policy to all required sources.
+
+If a claim requires E4, and the only onboard tracker provides E3, a second weaker source will not satisfy the policy. A genuinely independent source at E3 or higher is required - for example, a warehouse gate API or a second vehicle confirming the same event.
+
+## Claim Pipeline and Network Effect
+
+Every in-transit claim follows the same pipeline. This is the core mechanism that turns a driver's button press into verifiable evidence.
+
+### The Four Steps
+
+1. Driver reports an incident - E0. The claim is a statement, not proof.
+2. The system checks its own data - GPS track, CAN bus, telemetry. This confirms the physical situation.
+3. The system calls an external API on demand - traffic, weather, road conditions. This adds an independent source.
+4. If other vehicles report the same event in the same geofence and time window - corroboration. The claim reaches E4.
+
+### Example: Traffic
+
+| Step | Source | What it confirms | Level |
+|------|--------|-----------------|-------|
+| 1 | Driver | "There is a traffic jam" | E0 |
+| 2 | GPS + CAN | Vehicle is stationary, engine running, brake pressed | E2 |
+| 3 | Traffic API | Congestion confirmed on the segment | E2 (corroboration) |
+| 4 | Other vehicles | Same standstill in the same place | E4 |
+
+### CAN as Amplifier, Not Corroboration
+
+CAN bus confirms vehicle state: speed, engine, brake, gear. It strengthens the claim inside one source, but it does not create a new independent source. CAN and GPS typically arrive through the same telematics gateway.
+
+- CAN confirms the truck is stationary with engine running - a strong signal for a traffic standstill.
+- CAN does not raise the trust level on its own.
+- Corroboration still requires an external source: a traffic API, or another vehicle.
+
+### The Network Effect
+
+The pipeline scales with the number of vehicles in the system.
+
+| Vehicles on the segment | Achievable level | Why |
+|------------------------|-----------------|-----|
+| One vehicle, no API | E2 | Single source |
+| One vehicle + traffic API | E2 | External confirmation |
+| Two or more vehicles + API | E4 | Independent corroboration |
+
+More vehicles produce more corroboration. One driver alone in the field reaches E2. Five vehicles on the same route reach E4 - not because the system changed, but because independent sources appeared naturally.
+
+### Why This Matters
+
+The evidence layer becomes stronger as the network grows. Each new vehicle is not just another customer - it is another potential corroboration source for every other vehicle on the same route.
+
+This is the structural advantage of LogiQED. Trust is not declared. It is earned through independent confirmation, and the cost of confirmation drops with every vehicle added.
+
 ## MVP Implementation
 
 ### Source Identity Model
+
 ```json
     {
       "sourceId": "sensor_01HZ...",
@@ -149,6 +233,8 @@ Each source type has its own registration path, authentication method, and typic
 | External tracker | Vehicle device | Device certificate | Admin |
 | Warehouse API | Partner system | API key | Admin or partner |
 | Manual input | Operator | Session | System |
+
+The difference between Tracker App and Third-party GPS app is not who operates it, but who controls the code. Tracker App is issued by LogiQED with a key. A third-party app is any external client that follows the ingestion contract.
 
 ### Ingestion Contract for Third-Party Sources
 
@@ -186,6 +272,7 @@ The same contract is used by LogiQED-owned clients, including the in-house wareh
 8. Produce Claim Confidence.
 
 ## Result in Evidence Package
+
 ```json
     {
       "trustPolicyResult": {
