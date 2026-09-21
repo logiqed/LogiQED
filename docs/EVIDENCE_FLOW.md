@@ -8,7 +8,8 @@ How evidence is generated at different levels, from clean routes to disputed cla
 |-------|-------------------|------|------|
 | Basic | Signed events + Evidence Root | Every route | ~$0 |
 | Disputed | Evidence Package + ZK proof | Only on dispute or SLA exception | ~$0.08 |
-| eFTI mode | Evidence Package without ZK, with eIDAS signature and EPCIS | If eFTI requires per-route records | ~$0.02 |
+
+Two levels are supported in MVP. A third level, eFTI mode, is under consideration — see the open question at the end of this document.
 
 ## Clean Route
 
@@ -25,7 +26,7 @@ No Evidence Package. No ZK proof. No external API calls.
 
 When a dispute or SLA exception occurs, an Evidence Package is generated.
 
-The package contains:
+The package contains (short list; full structure in [Evidence Package](EVIDENCE_PACKAGE.md)):
 
 - Claim ID and type
 - Signed events with trust levels
@@ -91,6 +92,8 @@ ZK proof is generated only for disputed routes.
 
 In normal operation, cost per route is approximately zero.
 
+Disputed route cost is approximately $0.08 per package, driven by the ZK proof.
+
 ## Open Question: eFTI Mode
 
 Two options for eFTI compliance from 9 July 2027:
@@ -98,6 +101,8 @@ Two options for eFTI compliance from 9 July 2027:
 1. Keep as is: package only on dispute. eFTI covered by signed events + Evidence Root.
 
 2. Add eFTI mode: a lightweight package for every route with eIDAS signature and EPCIS events, without ZK proof.
+
+If option 2 is chosen, the cost would be approximately $0.02 per route, because no ZK proof is generated. The eIDAS signature and EPCIS events are cheaper than the ZK pipeline.
 
 Decision needed before Phase 2.
 
