@@ -22,7 +22,7 @@ Next: pilot partner search.
 
 ## Phase 1 - Pilot MVP
 
-Timeline: 3–4 months. Budget: $120–165K.
+Timeline: 3-4 months. Budget: $120,000-$165,000.
 
 Goal: prove that Evidence Package supports a real commercial dispute.
 
@@ -52,13 +52,15 @@ Must have:
 - Two claims verified end-to-end
 - Evidence Package accepted by pilot partner
 
+See [MVP](MVP.md) for the full definition of done, including SLA engine, load targets, and error rates.
+
 Shared goal with pilot partner:
 
 - At least one real commercial dispute prepared for settlement using Evidence Package
 
 Business result:
 
-- First 2–3 pilot or paying clients
+- First 2-3 pilot or paying clients
 - Real cost of evidence package processing
 - Feedback on SLA schemas and rules
 
@@ -66,9 +68,11 @@ Business result:
 
 ## Phase 2 - Integrations and Scale
 
-Timeline: 6–9 months after pilot. Budget estimate: $210–315K.
+Timeline: 6-9 months after pilot. Budget estimate: $210,000-$315,000.
 
-Monthly rate stays $35K regardless of team size. The team self-manages and expands internally.
+This estimate covers Phase 2 engineering and non-engineering costs. The platform buyout option described in the [Investor Memorandum](INVESTORS.md) is a separate commercial arrangement and is not included in this range.
+
+Monthly rate stays $35,000 regardless of team size. The team self-manages and expands internally.
 
 Goal: turn pilot into a commercial product.
 
@@ -84,7 +88,7 @@ P0 Critical:
 P1 Important:
 
 - Full EPCIS 2.0 compatibility
-- Insurance API pilot with 1–2 insurers
+- Insurance API pilot with 1-2 insurers
 - Orchestrator extraction to microservice when load exceeds 5000 devices
 - Warehouse slot management pilot
 
@@ -96,7 +100,9 @@ Exit criteria:
 
 - 10 or more commercial clients
 - Verified eFTI integration
-- 1–2 insurers connected via API
+- 1-2 insurers connected via API
+
+See [MVP](MVP.md) for the summary success criteria unlocked by Phase 2.
 
 ---
 
@@ -135,5 +141,5 @@ LogiQED must be ready when the market arrives.
 | Transition | Criteria |
 |-----------|----------|
 | Phase 0 to 1 | Demo, pilot partner identified |
-| Phase 1 to 2 | One dispute closed, pilot complete, 2–3 clients in pipeline |
+| Phase 1 to 2 | One dispute closed, pilot complete, 2-3 clients in pipeline |
 | Phase 2 to 3 | 100 or more clients, stable revenue |
