@@ -14,9 +14,20 @@ Each claim follows the same structure:
 - Expected output
 - Edge case handling
 - Signature and publication
-- Formal verification reference for the rule
+- Formal verification reference for the rule (optional in MVP)
+
+## Versioning
 
 A claim is verified only with the rule version that was active at the time of the underlying events.
+
+If a rule changes after events were recorded, the claim refers to the old version. The rule version is part of the signed package and cannot be substituted.
+
+Example:
+
+- Events recorded on 2026-08-27 use rule version 1.0.
+- Rule updated on 2026-09-15 to version 1.1.
+- Claims for 2026-08-27 events still reference version 1.0.
+- The verifier checks that the stored version matches the version that was active at the time of the events.
 
 ---
 
@@ -27,17 +38,17 @@ Deterministic claim based on timestamps, geofences and independent events.
 ### Inputs
 
 ```json
-{
-  "claimType": "detention",
-  "version": "1.0",
-  "inputs": {
-    "appointmentTime": "2026-08-27T12:00:00Z",
-    "geofenceEntry": "2026-08-27T11:54:00Z",
-    "dockAssignment": "2026-08-27T13:02:00Z",
-    "loadingStart": "2026-08-27T13:18:00Z",
-    "warehouseExit": "2026-08-27T14:11:00Z"
-  }
-}
+    {
+      "claimType": "detention",
+      "version": "1.0",
+      "inputs": {
+        "appointmentTime": "2026-08-27T12:00:00Z",
+        "geofenceEntry": "2026-08-27T11:54:00Z",
+        "dockAssignment": "2026-08-27T13:02:00Z",
+        "loadingStart": "2026-08-27T13:18:00Z",
+        "warehouseExit": "2026-08-27T14:11:00Z"
+      }
+    }
 ```
 
 ![Detention Timeline](images/diagram-detention-timeline.svg)
@@ -61,40 +72,43 @@ Carrier-attributable waiting is the interval between dock assignment and loading
 ### Output
 
 ```json
-{
-  "claimId": "det-001",
-  "version": "1.0",
-  "result": {
-    "verifiedWaitingMinutes": 68,
-    "carrierAttributableMinutes": 0,
-    "warehouseAttributableMinutes": 68,
-    "breakdown": [
-      {
-        "from": "11:54",
-        "to": "13:02",
-        "label": "waiting_for_dock",
-        "minutes": 68
+    {
+      "claimId": "det-001",
+      "version": "1.0",
+      "result": {
+        "waiting_min": 68,
+        "warehouse_min": 68,
+        "carrier_min": 0,
+        "breakdown": [
+          {
+            "from": "11:54",
+            "to": "13:02",
+            "label": "waiting_for_dock",
+            "minutes": 68
+          },
+          {
+            "from": "13:02",
+            "to": "13:18",
+            "label": "dock_assignment",
+            "minutes": 16
+          },
+          {
+            "from": "13:18",
+            "to": "14:11",
+            "label": "loading",
+            "minutes": 53
+          }
+        ],
+        "ruleId": "sla-detention-v1",
+        "ruleVersion": "1.0",
+        "trustLevel": "E4"
       },
-      {
-        "from": "13:02",
-        "to": "13:18",
-        "label": "dock_assignment",
-        "minutes": 16
-      },
-      {
-        "from": "13:18",
-        "to": "14:11",
-        "label": "loading",
-        "minutes": 53
-      }
-    ],
-    "ruleId": "sla-detention-v1",
-    "trustLevel": "E4"
-  },
-  "signature": "ed25519:...",
-  "proof": "zk:..."
-}
+      "signature": "ed25519:...",
+      "proof": "zk:..."
+    }
 ```
+
+The field names match the SLA Engine evaluation result in [SLA DSL](SLA_DSL.md). The claim output is a public representation derived from that result.
 
 ### Edge Cases
 
@@ -103,6 +117,8 @@ Carrier-attributable waiting is the interval between dock assignment and loading
 - Dock assignment earlier than geofence entry: assignment is treated as occurring at geofence entry.
 - Warehouse exit missing: claim can be generated with loading start as the closing boundary.
 - Late payload: event timestamp is used, not server receive time.
+- Clock skew between device and server: device timestamp is used when within the allowed skew window. Beyond the window, the event is flagged and the claim is INCONCLUSIVE.
+- Events from different timezones: all timestamps are normalized to UTC before evaluation. The rule operates on UTC values.
 
 ### Verification
 
@@ -132,7 +148,7 @@ Proves that committed measurements produced by sources satisfying trust policy E
 
 Reference example:
 
-- Contract: 2.0–8.0 °C
+- Contract: 2.0-8.0 °C
 - Trip: EU lane
 - Tolerance: 0.1 °C
 
@@ -150,37 +166,45 @@ The claim is VALID only when every committed measurement satisfies the rule.
 ### Output
 
 ```json
-{
-  "claimId": "cargo-temp-001",
-  "version": "1.0",
-  "result": {
-    "status": "VALID",
-    "contractRange": {
-      "min": 2.0,
-      "max": 8.0,
-      "unit": "C"
-    },
-    "tolerance": 0.1,
-    "statistics": {
-      "min": 3.4,
-      "max": 7.6,
-      "avg": 4.2,
-      "count": 1440
-    },
-    "sources": [
-      {
-        "sourceId": "sensor_01HZ...",
-        "trustLevel": "E4"
+    {
+      "claimId": "cargo-temp-001",
+      "version": "1.0",
+      "result": {
+        "status": "VALID",
+        "contractRange": {
+          "min": 2.0,
+          "max": 8.0,
+          "unit": "C"
+        },
+        "tolerance": 0.1,
+        "rangeCheck": {
+          "effectiveMin": 1.9,
+          "effectiveMax": 8.1,
+          "observedMin": 3.4,
+          "observedMax": 7.6,
+          "result": "VALID"
+        },
+        "statistics": {
+          "min": 3.4,
+          "max": 7.6,
+          "avg": 4.2,
+          "count": 1440
+        },
+        "sources": [
+          {
+            "sourceId": "sensor_01HZ...",
+            "trustLevel": "E4"
+          }
+        ],
+        "ruleId": "cargo-temp-v1",
+        "ruleVersion": "1.0"
+      },
+      "signature": "ed25519:...",
+      "proof": {
+        "backend": "ALIGNED_LAYER_MOCK",
+        "proofHash": "0x..."
       }
-    ],
-    "ruleId": "cargo-temp-v1"
-  },
-  "signature": "ed25519:...",
-  "proof": {
-  "backend": "ALIGNED_LAYER_MOCK",
-  "proofHash": "0x..."
-}
-}
+    }
 ```
 
 ### Edge Cases
@@ -189,6 +213,8 @@ The claim is VALID only when every committed measurement satisfies the rule.
 - Sensor gap: custody interval is covered only where E4 measurements exist.
 - Late payload: event timestamp is used, not server receive time.
 - Multiple sensors: all E4 sensors must agree within tolerance.
+- Tolerance exceeded: if any committed measurement falls outside the effective range, the status is INVALID and the offending measurement is included in the output.
+- Source gap beyond threshold: if the coverage of the custody interval by E4 measurements falls below the configured threshold, the status is INCONCLUSIVE.
 
 ---
 
@@ -197,3 +223,30 @@ The claim is VALID only when every committed measurement satisfies the rule.
 - Detention claim is deterministic and easy to verify.
 - Cargo condition claim covers cold chain.
 - Both are valuable for settlement and insurance.
+
+---
+
+## Proof and Signature Format
+
+Both claims carry the same envelope:
+
+- `signature` - Ed25519 signature over the canonical form of the claim.
+- `proof` - ZK proof or a reference to the proof backend.
+
+In MVP, the proof backend is mocked. The signature is real.
+
+## Formal Verification
+
+Formal verification reference is optional in MVP. When available, it is included as:
+
+```json
+    {
+      "formalVerification": {
+        "reference": "fv-detention-v1.pdf",
+        "hash": "0x...",
+        "status": "VERIFIED"
+      }
+    }
+```
+
+The verifier checks the reference and hash when the field is present. When absent, the claim is still verifiable by signature and proof.
