@@ -8,12 +8,13 @@ info:
     EPCIS 2.0 event model.
 
     ## Authentication
-    - Device events: X-Device-Key header, assigned by LogiQED.
+    - Device events: X-Telemetry-Key header, assigned by LogiQED.
     - Operator API: Bearer JWT.
     - Claims verification: public, no auth required.
 
     ## Rate limits
     - Ingest: 100 requests per minute per source.
+    - Verification: 100 requests per minute per IP.
     - Other endpoints: 1000 requests per minute per token.
 
     ## Idempotency
@@ -102,27 +103,19 @@ paths:
                 items:
                   $ref: '#/components/schemas/Shipment'
 
-  /shipments/{id}/events:
+  /evidence/ingest:
     post:
       tags: [Events]
-      summary: Append signed event to shipment
+      summary: Submit signed evidence event
+      description: |
+        Entry point for signed EPCIS events. Server evaluates source trust server-side.
+        The client never supplies the trust level.
       security:
         - DeviceKeyAuth: []
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
         - name: Idempotency-Key
           in: header
-          required: true
-          schema:
-            type: string
-        - name: X-Device-Key
-          in: header
-          required: true
+          required: false
           schema:
             type: string
       requestBody:
@@ -130,24 +123,80 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/EventCreate'
+              $ref: '#/components/schemas/EvidenceEventEnvelope'
       responses:
         '202':
-          description: Event accepted
+          description: Event accepted for processing
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EventAcceptResponse'
+                $ref: '#/components/schemas/EvidenceIngestResponse'
         '400':
-          description: Invalid payload or signature
+          description: Invalid payload or signature format
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         '401':
-          description: Missing or invalid device key
+          description: Missing or invalid telemetry key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         '409':
           description: Duplicate event
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         '413':
           description: Payload too large
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         '429':
           description: Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /evidence/verify:
+    post:
+      tags: [Evidence]
+      summary: Verify an Evidence Package
+      description: |
+        Public endpoint. Any party can verify an Evidence Package without access to raw telemetry.
+        No API key required.
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EvidenceVerifyRequest'
+      responses:
+        '200':
+          description: Verification result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EvidenceVerifyResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          description: Package not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 
   /shipments/{id}/route:
     get:
@@ -270,7 +319,7 @@ components:
     DeviceKeyAuth:
       type: apiKey
       in: header
-      name: X-Device-Key
+      name: X-Telemetry-Key
 
   schemas:
     ShipmentCreate:
@@ -316,13 +365,13 @@ components:
           format: date-time
           x-semanticTag: timestamp
 
-    EventCreate:
+    EvidenceEventEnvelope:
       type: object
       required: [sourceId, keyId, signatureAlgorithm, signature, canonicalizationMethod, schemaVersion, epcisEvent]
       properties:
         sourceId:
           type: string
-          description: Device or API source identifier
+          description: Device or API source identifier. Used by the server as the deduplication component alongside timestamp and sequence.
         keyId:
           type: string
           description: Identifier of the signing key
@@ -344,7 +393,7 @@ components:
           type: object
           description: GS1 EPCIS 2.0 event
 
-    EventAcceptResponse:
+    EvidenceIngestResponse:
       type: object
       properties:
         eventId:
@@ -356,13 +405,15 @@ components:
         receivedAt:
           type: string
           format: date-time
+          description: Server time of receipt in UTC
         trustEvaluation:
           type: object
           properties:
             sourceId:
               type: string
-            trustLevel:
+            sourceAssurance:
               type: string
+              description: Trust level computed for this specific event, not the base level of the source.
               example: "E4"
             trustPolicy:
               type: string
@@ -370,6 +421,98 @@ components:
             evaluationStatus:
               type: string
               enum: [PASS, FAIL, INSUFFICIENT_DATA]
+
+    EvidenceVerifyRequest:
+      type: object
+      description: Either packageId or a full package payload is required.
+      properties:
+        packageId:
+          type: string
+          format: uuid
+        package:
+          type: object
+          description: Full Evidence Package payload
+
+    EvidenceVerifyResponse:
+      type: object
+      properties:
+        requestId:
+          type: string
+        packageId:
+          type: string
+          format: uuid
+        schemaVersion:
+          type: string
+        result:
+          type: object
+          properties:
+            status:
+              type: string
+              enum: [VALID, INVALID]
+            reason:
+              type: string
+            conclusion:
+              type: string
+        checks:
+          type: object
+          properties:
+            signature:
+              type: string
+              enum: [PASS, FAIL, SKIP]
+            evidenceRootMerkle:
+              type: string
+              enum: [PASS, FAIL, SKIP]
+            evidenceRootAnchor:
+              type: string
+              enum: [PASS, FAIL, SKIP]
+            ruleDigest:
+              type: string
+              enum: [PASS, FAIL, SKIP]
+            trustPolicy:
+              type: string
+              enum: [PASS, FAIL, SKIP]
+            corroboration:
+              type: string
+              enum: [PASS, FAIL, SKIP]
+            proofValidity:
+              type: string
+              enum: [PASS, FAIL, SKIP]
+        trustPolicy:
+          type: object
+          properties:
+            id:
+              type: string
+            version:
+              type: string
+            evaluationStatus:
+              type: string
+        rule:
+          type: object
+          properties:
+            id:
+              type: string
+            version:
+              type: string
+            digest:
+              type: string
+        evidenceRoot:
+          type: string
+        externalAnchorRef:
+          type: string
+        proof:
+          type: object
+          properties:
+            backend:
+              type: string
+            circuitId:
+              type: string
+            version:
+              type: string
+            valid:
+              type: boolean
+        verifiedAt:
+          type: string
+          format: date-time
 
     RouteState:
       type: object
