@@ -80,12 +80,16 @@ Arweave provides permanent evidence storage.
 - InTransit, then SegmentEntered(A-B)
 - SegmentEntered, then TrafficEntered, then SLA_PAUSED
 - SLA_PAUSED, then TrafficExited, then SLA_RESUMED
+- SLA_RESUMED, then SLA_PAUSED again if traffic returns (optional loop)
 - SLA_RESUMED, then SegmentExited(A-B)
-- SegmentExited, then Completed
+- SegmentExited(A-B), then SegmentEntered(B-C) for multi-segment routes
+- SegmentExited(final), then Completed
 
 Rule: SLA pause is the measured interval between TrafficEntered and TrafficExited, computed in driver working calendar, not wall-clock time.
 
 If TrafficEntered or TrafficExited falls outside working calendar, the pause is rounded to the nearest working boundary.
+
+TrafficEntered and TrafficExited are transition triggers, not separate states. The stable state during a traffic pause is SLA_PAUSED.
 
 ![Route State Machine](images/diagram-route-state-machine.svg)
 
