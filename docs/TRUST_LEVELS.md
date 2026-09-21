@@ -16,20 +16,20 @@ Each dimension is evaluated independently. The final level is a combination of d
 
 ### Dimensions by Source Type
 
-Not every source can provide all seven dimensions. A truck tracker, a mobile app, a third-party logger and a browser deliver different subsets. This determines the maximum level each source type can reach.
+Not every source can provide all seven dimensions. A truck tracker, a mobile app and a browser deliver different subsets. This determines the maximum level each source type can reach.
 
-| Dimension | Truck tracker | Tracker App (key) | Third-party GPS app | Browser (PWA) |
-|-----------|---------------|-------------------|---------------------|---------------|
-| Identity | Yes | Yes | Partial | Partial |
-| Authentication | Yes | Yes | Yes | Partial |
-| Integrity | Yes | Yes | No | No |
-| Attestation | Yes | Partial | No | No |
-| Metrology | Yes | Partial | No | No |
-| Time | Yes | Yes | Partial | No |
-| Provenance | Yes | Partial | Partial | No |
-| **Max level** | **E3** (E4 with corroboration) | **E2** | **E1** | **E0-E1** |
+| Dimension | Truck tracker | Mobile app (third-party) | Browser (PWA) |
+|-----------|---------------|--------------------------|---------------|
+| Identity | Yes | Partial | Partial |
+| Authentication | Yes | Yes | Partial |
+| Integrity | Yes | **No** | **No** |
+| Attestation | Yes | **No** | **No** |
+| Metrology | Yes | **No** | **No** |
+| Time | Yes | Partial | **No** |
+| Provenance | Yes | Partial | **No** |
+| **Max level** | **E3** (E4 with corroboration) | **E1** | **E0-E1** |
 
-The server does not ask a source for dimensions it cannot provide. A browser will never reach E3, and a truck tracker will never exceed E3 without corroboration from an independent source.
+The server does not ask a source for dimensions it cannot provide. A browser reaches E0 without authentication and E1 with a logged-in session. A third-party mobile app never exceeds E1, because it cannot attest the device or sign the payload. A truck tracker reaches E3, and E4 only with corroboration from an independent source.
 
 ### Trust Levels
 
