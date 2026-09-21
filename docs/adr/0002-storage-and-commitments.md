@@ -10,7 +10,7 @@ LogiQED needs a storage model for evidence events, commitments and proofs.
 
 Constraints:
 
-- MVP: 3–5 trucks, up to 50 trips, about 1 KB per telemetry packet.
+- MVP: 3-5 GPS trackers, up to 50 trips, about 1 KB per telemetry packet.
 - Raw positions retention: 30 days. Aggregates: 1 year.
 - Evidence Packages must be permanent and tamper-evident.
 - Storage cost must be predictable at MVP scale.
@@ -35,7 +35,7 @@ MVP storage:
 
 ### Process
 
-1. Event arrives. Validated, signed, stored in MS SQL.
+1. Event arrives from Ingest. Already validated, signed, and deduplicated (SourceId + ClientTimestampUtc + SourceSequence). Stored in MS SQL.
 2. Event is canonicalized. JCS, sorted fields, UTC, fixed precision.
 3. Canonical hash is computed.
 4. Merkle tree is built over hashes of committed events.

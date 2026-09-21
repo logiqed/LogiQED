@@ -10,29 +10,29 @@ Subscribers acknowledge with HTTP 2xx. LogiQED retries on failure.
 
 ## Event Types
 
-| Event                     | Description 						 |
+| Event                     | Description                        |
 |---------------------------|------------------------------------|
-| evidence.accepted 		| Signed event ingested and accepted |
-| route.state_changed 		| Route State Machine transition     |
-| sla.evaluated 			| SLA evaluation completed           |
-| claim.verified 			| Claim verification finished        |
+| evidence.accepted         | Signed event ingested and accepted |
+| route.state_changed       | Route State Machine transition     |
+| sla.evaluated             | SLA evaluation completed           |
+| claim.verified            | Claim verification finished        |
 | evidence.package.created  | Evidence Package generated         |
 
 ## Registering a Webhook
 
 ### Endpoint
 
-POST /api/webhooks
+`POST /api/webhooks`
 
 ### Request
 
 ```json
-{
-  "url": "https://subscriber.example.com/hooks/logiqed",
-  "events": ["evidence.accepted", "route.state_changed", "sla.evaluated"],
-  "secret": "optional-client-generated-secret",
-  "description": "Alerts for dispatch team"
-}
+    {
+      "url": "https://subscriber.example.com/hooks/logiqed",
+      "events": ["evidence.accepted", "route.state_changed", "sla.evaluated"],
+      "secret": "optional-client-generated-secret",
+      "description": "Alerts for dispatch team"
+    }
 ```
 
 If secret is not provided, LogiQED generates one and returns it once.
@@ -40,26 +40,26 @@ If secret is not provided, LogiQED generates one and returns it once.
 ### Response
 
 ```json
-{
-  "webhookId": "wh_01HZ...",
-  "url": "https://subscriber.example.com/hooks/logiqed",
-  "events": ["evidence.accepted", "route.state_changed", "sla.evaluated"],
-  "secret": "generated-secret-if-created",
-  "status": "ACTIVE"
-}
+    {
+      "webhookId": "wh_01HZ...",
+      "url": "https://subscriber.example.com/hooks/logiqed",
+      "events": ["evidence.accepted", "route.state_changed", "sla.evaluated"],
+      "secret": "generated-secret-if-created",
+      "status": "ACTIVE"
+    }
 ```
 
 Important: The secret is shown only once. Store it safely.
 
 ### Supporting Endpoints
 
-| Method | Path 							| Description 		  |
+| Method | Path                             | Description         |
 |--------|----------------------------------|---------------------|
-| GET    | /api/webhooks 	                | List subscriptions  |
-| GET    | /api/webhooks/{id}               | Get subscription 	  |
+| GET    | /api/webhooks                    | List subscriptions  |
+| GET    | /api/webhooks/{id}               | Get subscription    |
 | DELETE | /api/webhooks/{id}               | Remove subscription |
-| POST   | /api/webhooks/{id}/rotate-secret | Rotate secret 	  |
-| POST   | /api/webhooks/{id}/ping          | Send test event 	  |
+| POST   | /api/webhooks/{id}/rotate-secret | Rotate secret       |
+| POST   | /api/webhooks/{id}/ping          | Send test event     |
 
 ## Delivery Format
 
@@ -67,29 +67,29 @@ LogiQED sends HTTP POST with JSON body.
 
 ### Headers
 
-| Header 			  | Description               |
+| Header              | Description               |
 |---------------------|---------------------------|
 | X-LogiQED-WebhookId | Webhook subscription ID   |
-| X-LogiQED-Event 	  | Event type                |
+| X-LogiQED-Event     | Event type                |
 | X-LogiQED-Timestamp | Unix timestamp in seconds |
 | X-LogiQED-Signature | HMAC-SHA256 hex           |
-| Content-Type 		  | application/json          |
+| Content-Type        | application/json          |
 
 ### Body
 
 ```json
-{
-  "schemaVersion": "1.0",
-  "eventId": "evt_01HZ...",
-  "eventType": "route.state_changed",
-  "occurredAt": "2026-08-25T09:15:00Z",
-  "data": {
-    "shipmentId": "shp_01HZ...",
-    "from": "InTransit",
-    "to": "SLA_PAUSED",
-    "reason": "TrafficEntered"
-  }
-}
+    {
+      "schemaVersion": "1.0",
+      "eventId": "evt_01HZ...",
+      "eventType": "route.state_changed",
+      "occurredAt": "2026-08-25T09:15:00Z",
+      "data": {
+        "shipmentId": "shp_01HZ...",
+        "from": "InTransit",
+        "to": "SLA_PAUSED",
+        "reason": "TrafficEntered"
+      }
+    }
 ```
 
 ## Signature Verification
@@ -97,6 +97,8 @@ LogiQED sends HTTP POST with JSON body.
 Subscribers must verify the signature before processing.
 
 Signature is HMAC-SHA256 of timestamp + "." + rawBody.
+
+The signature is computed over the raw request body bytes, not the parsed JSON. Any whitespace or field reordering changes the signature.
 
 Verify the timestamp is not older than 5 minutes.
 
@@ -114,7 +116,7 @@ After 3 failures:
 
 - Webhook marked DEGRADED.
 - Event goes to dead-letter queue.
-- Subscriber receives webhook.disabled event when enabled.
+- No further deliveries attempted until the webhook is manually re-enabled.
 
 ## Idempotency
 
@@ -140,55 +142,55 @@ If no response, retry per policy.
 ## Example: Evidence Accepted
 
 ```json
-{
-  "schemaVersion": "1.0",
-  "eventId": "evt_01HZ...",
-  "eventType": "evidence.accepted",
-  "occurredAt": "2026-08-25T08:30:00Z",
-  "data": {
-    "shipmentId": "shp_01HZ...",
-    "sourceId": "src_01HZ...",
-    "trustEvaluation": {
-      "trustLevel": "E4",
-      "trustPolicy": "E4_REQUIRED_V1",
-      "evaluationStatus": "PASS"
+    {
+      "schemaVersion": "1.0",
+      "eventId": "evt_01HZ...",
+      "eventType": "evidence.accepted",
+      "occurredAt": "2026-08-25T08:30:00Z",
+      "data": {
+        "shipmentId": "shp_01HZ...",
+        "sourceId": "src_01HZ...",
+        "trustEvaluation": {
+          "sourceAssurance": "E4",
+          "trustPolicy": "E4_REQUIRED_V1",
+          "evaluationStatus": "PASS"
+        }
+      }
     }
-  }
-}
 ```
 
 ## Example: SLA Evaluated
 
 ```json
-{
-  "schemaVersion": "1.0",
-  "eventId": "evt_01HZ...",
-  "eventType": "sla.evaluated",
-  "occurredAt": "2026-08-25T10:00:00Z",
-  "data": {
-    "shipmentId": "shp_01HZ...",
-    "ruleId": "DETENTION_V1",
-    "ruleVersion": "1.0",
-    "conclusion": "Warehouse attributable: 68 min",
-    "confidence": "PASS"
-  }
-}
+    {
+      "schemaVersion": "1.0",
+      "eventId": "evt_01HZ...",
+      "eventType": "sla.evaluated",
+      "occurredAt": "2026-08-25T10:00:00Z",
+      "data": {
+        "shipmentId": "shp_01HZ...",
+        "ruleId": "DETENTION_V1",
+        "ruleVersion": "1.0",
+        "conclusion": "Warehouse attributable: 68 min",
+        "confidence": "PASS"
+      }
+    }
 ```
 
 ## Example: Claim Verified
 
 ```json
-{
-  "schemaVersion": "1.0",
-  "eventId": "evt_01HZ...",
-  "eventType": "claim.verified",
-  "occurredAt": "2026-08-25T14:05:00Z",
-  "data": {
-    "claimId": "clm_01HZ...",
-    "claimType": "DETENTION",
-    "result": "VALID"
-  }
-}
+    {
+      "schemaVersion": "1.0",
+      "eventId": "evt_01HZ...",
+      "eventType": "claim.verified",
+      "occurredAt": "2026-08-25T14:05:00Z",
+      "data": {
+        "claimId": "clm_01HZ...",
+        "claimType": "DETENTION",
+        "result": "VALID"
+      }
+    }
 ```
 
 ## Design Notes

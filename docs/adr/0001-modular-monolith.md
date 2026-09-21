@@ -16,12 +16,10 @@ Team:
 - 1 DevOps - infrastructure, deployment, monitoring
 - 1 Project Manager - coordination
 
-Up to 8 contributors across .NET, C++, QA, DevOps, and product/project management.
-
 Constraints:
 
-- Timeline: 3–4 months.
-- Budget: $120–165K total (engineering + non-engineering).
+- Timeline: 3-4 months.
+- Budget: $120,000-$165,000 total (engineering + non-engineering).
 - Must produce two end-to-end claims.
 - Must integrate with hardware trackers and temperature sensors.
 - Deployment target: single VM and managed SQL.
@@ -36,7 +34,7 @@ Modules communicate through interfaces, not through each other's database tables
 
 ### Module List
 
-- Telemetry - ingest, normalization, deduplication, retention
+- Telemetry - ingest, normalization, deduplication (SourceId + ClientTimestampUtc + SourceSequence), retention
 - Route - route state machine, segment and traffic events
 - SLA - policies, calendars, exception rules, timers
 - Evidence - package builder, trust levels, provenance graph
@@ -108,5 +106,4 @@ Rejected for MVP.
 - [Pilot](../PILOT.md)
 - [Workflow](../WORKFLOW.md)
 - [Communication](../COMMUNICATION.md)
-- [Development Process](../DEVELOPMENT.md)
 - [ADR 0002: Storage and Commitments](0002-storage-and-commitments.md)
