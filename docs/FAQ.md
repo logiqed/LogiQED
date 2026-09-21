@@ -8,7 +8,7 @@ It turns physical logistics events into independently verifiable business eviden
 
 ## The Problem
 
-SLA disputes in freight cost $500–2,000 per case: lawyers, time, lost customers.
+SLA disputes in freight cost $200-500 per case: lawyers, time, lost customers.
 
 Paper evidence is weak. Coordination is slow. Disputes close by negotiation, not by data.
 
@@ -30,13 +30,17 @@ Clean routes are closed with signed events and Evidence Root only.
 
 Events are created automatically, signed on the device, evaluated server-side for trust level, cross-checked with independent sources, hash-chained, and anchored in Arweave.
 
+See [Evidence Package](EVIDENCE.md) for the full structure.
+
 ## Trust Levels
 
-Trust Levels E0–E5 describe Source Assurance.
+Trust Levels E0-E5 describe Source Assurance.
 
 They are not an enum supplied by the client. The server evaluates source identity, key, attestation, firmware and revocation status.
 
 No special hardware required. Secure Enclave and TPM keys already exist in modern phones and telematics devices. LogiQED uses existing devices for MVP.
+
+See [Trust Levels](TRUST_LEVELS.md) for the full model.
 
 ## Trust Policy
 
@@ -66,7 +70,7 @@ Example:
 
 Detention is deterministic: timestamps, geofences, events and rule. No traffic causality debate.
 
-One detention dispute can cost a carrier $300–500 in administrative overhead and lost customer trust.
+One detention dispute can cost a carrier $200-500 in administrative overhead and lost customer trust.
 
 ## Route Monitoring
 
@@ -118,11 +122,17 @@ From 9 July 2027, EU authorities must accept regulatory freight information subm
 
 ## Target Pilot Partner
 
-Shipper, 3PL, insurer or freight forwarder who makes penalty or payout decisions.
+Initial pilot partners: mid-sized carriers with 10-50 vehicles who face SLA penalties and need verifiable evidence to defend themselves.
+
+Long-term: shippers, 3PLs, insurers, and freight forwarders who make or influence penalty and payout decisions.
+
+See [Pilot Plan](PILOT.md) for the full pilot framework.
 
 ## MVP
 
-Budget $170–200K. Timeline 3–4 months.
+Budget $120,000-$165,000. Timeline 3-4 months.
+
+See [MVP](MVP.md) for the full delivery program.
 
 Included:
 
@@ -144,7 +154,7 @@ Excluded:
 
 | Metric | Target |
 |--------|--------|
-| Pilot partners | 3–5 |
+| Pilot partners | 3-5 |
 | Disputes resolved via Evidence Package | 10+ |
 | Disputes closed without lawyer | 90% |
 | Time from dispute to proof | Under 15 minutes |
@@ -170,11 +180,15 @@ For investment: see [Investor Document](INVESTORS.md).
 ## Reference Documents
 
 - [Architecture](ARCHITECTURE.md)
-- [ZK Claims](CLAIMS.md)
+- [Claims](CLAIMS.md)
 - [Evidence Package](EVIDENCE.md)
 - [Evidence Flow](EVIDENCE_FLOW.md)
 - [Trust Levels](TRUST_LEVELS.md)
+- [SLA DSL](SLA_DSL.md)
+- [Data Flow](DATA_FLOW.md)
 - [Business Model](BUSINESS_MODEL.md)
+- [MVP](MVP.md)
+- [Pilot Plan](PILOT.md)
 - [Roadmap](ROADMAP.md)
 - [Contributing](CONTRIBUTING.md)
 - [License](../LICENSE.md)

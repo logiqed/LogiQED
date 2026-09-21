@@ -26,7 +26,7 @@ No Evidence Package. No ZK proof. No external API calls.
 
 When a dispute or SLA exception occurs, an Evidence Package is generated.
 
-The package contains (short list; full structure in [Evidence Package](EVIDENCE_PACKAGE.md)):
+The package contains (short list; full structure in [Evidence Package](EVIDENCE.md)):
 
 - Claim ID and type
 - Signed events with trust levels
@@ -110,7 +110,7 @@ Decision needed before Phase 2.
 
 ## Related
 
-- [Evidence Package](EVIDENCE_PACKAGE.md) — package structure and canonicalization
+- [Evidence Package](EVIDENCE.md) — package structure and canonicalization
 - [Claims](CLAIMS.md) — claim definitions
 - [Trust Levels](TRUST_LEVELS.md) — source assurance levels
 - [Data Flow](DATA_FLOW.md) — event pipeline from ingest to verification
