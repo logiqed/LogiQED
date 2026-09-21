@@ -206,7 +206,7 @@ Geofence rules are stored server-side and pushed to the device. The device evalu
 - Latitude and longitude validated.
 - Timestamps normalized to UTC.
 - Future timestamps capped at server receive time.
-- Deduplication key: DeviceId + ClientTimestampUtc + SourceSequence.
+- Deduplication key: SourceId + ClientTimestampUtc + SourceSequence.
 - Points ordered by recorded time.
 - Known points not re-inserted.
 - Late payloads extend history but cannot move current position backwards.
@@ -429,7 +429,7 @@ Metrics:
 
 ## Error Handling & Idempotency
 
-- Deduplication key for telemetry: DeviceId + ClientTimestampUtc + SourceSequence.
+- Deduplication key for telemetry: SourceId + ClientTimestampUtc + SourceSequence.
 - Idempotent consumers.
 - Poison message queue.
 - Outbox Pattern.
