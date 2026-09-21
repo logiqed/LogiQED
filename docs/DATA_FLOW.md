@@ -181,7 +181,7 @@ Result:
 | warehouse_min | 68 |
 | carrier_min | 0 |
 
-The field names match the SLA Engine evaluation result in [SLA DSL](SLA_DSL.md) and the claim output in [ZK Claims](CLAIMS.md).
+The field names match the SLA Engine evaluation result in [SLA DSL](SLA_DSL.md) and the claim output in [Claims](CLAIMS.md).
 
 ---
 
