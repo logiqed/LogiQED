@@ -268,12 +268,20 @@ Step 6 is an enrichment step. If the events span multiple segments (unusual but 
 
 ## Exception Types
 
-- traffic
-- weather
-- geofence
-- vehicle_breakdown
-- warehouse_queue
-- border_delay
+Six exception types are supported in the MVP. Each has a dedicated rule and a dedicated rule ID.
+
+| Exception Type | Rule ID | Enrichment API |
+|----------------|---------|----------------|
+| traffic | TRAFFIC_PAUSE_V1 | Traffic API |
+| weather | WEATHER_PAUSE_V1 | Weather API |
+| vehicle_breakdown | BREAKDOWN_PAUSE_V1 | Roadside assistance API (optional) |
+| warehouse_queue | WAREHOUSE_QUEUE_PAUSE_V1 | Warehouse gate API |
+| geofence | GEOFENCE_WAIT_V1 | None |
+| border_delay | BORDER_DELAY_PAUSE_V1 | Border or customs API |
+
+All six follow the same structure: an entered event, an exited event, a formula that measures the interval, and a trust policy that defines the required source assurance.
+
+The `TRAFFIC_PAUSE_V1` rule shown above is the reference. The other five use the same shape with their own events and APIs.
 
 ## Trust Policy
 

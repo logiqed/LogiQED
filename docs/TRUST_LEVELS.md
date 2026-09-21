@@ -163,9 +163,22 @@ Every in-transit claim follows the same pipeline. This is the core mechanism tha
 ### The Four Steps
 
 1. Driver reports an incident - E0. The claim is a statement, not proof.
-2. The system checks its own data - GPS track, CAN bus, telemetry. This confirms the physical situation.
-3. The system calls an external API on demand - traffic, weather, road conditions. This adds an independent source.
+2. The system checks its own data - GPS track, CAN bus, telemetry. This confirms the physical situation. E2.
+3. The system calls an external API on demand - traffic, weather, road conditions. This adds an independent source. E2 with corroboration.
 4. If other vehicles report the same event in the same geofence and time window - corroboration. The claim reaches E4.
+
+The same pipeline applies to all six exception types. Only the trigger and the external API differ.
+
+| Exception | Own data | External API |
+|-----------|----------|--------------|
+| Traffic | GPS speed, CAN | Traffic API |
+| Weather | GPS speed, route deviation | Weather API |
+| Vehicle Breakdown | CAN, engine state | Roadside assistance API (optional) |
+| Warehouse Queue | GPS inside warehouse geofence | Warehouse gate API |
+| Geofence Wait | GPS inside geofence, time in zone | None |
+| Border Delay | GPS inside border geofence, time in zone | Border or customs API |
+
+CAN bus is an amplifier, not corroboration. It confirms vehicle state inside one source, but it does not create a new independent source. CAN and GPS typically arrive through the same telematics gateway.
 
 ### Example: Traffic
 

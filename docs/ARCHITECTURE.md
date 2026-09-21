@@ -85,13 +85,28 @@ Arweave provides permanent evidence storage.
 - SegmentExited(A-B), then SegmentEntered(B-C) for multi-segment routes
 - SegmentExited(final), then Completed
 
-Rule: SLA pause is the measured interval between TrafficEntered and TrafficExited, computed in driver working calendar, not wall-clock time.
+TrafficEntered and TrafficExited are shown as the example. The same pattern applies to all six exception types:
 
-If TrafficEntered or TrafficExited falls outside working calendar, the pause is rounded to the nearest working boundary.
+| Exception | Entered / Exited | Enrichment API |
+|-----------|-----------------|----------------|
+| Traffic | TrafficEntered / TrafficExited | Traffic API |
+| Weather | WeatherDetected / WeatherCleared | Weather API |
+| Vehicle Breakdown | BreakdownDetected / BreakdownResolved | Roadside assistance API (optional) |
+| Warehouse Queue | WarehouseQueueEntered / WarehouseQueueExited | Warehouse gate API |
+| Geofence Wait | GeofenceWaitEntered / GeofenceWaitExited | None |
+| Border Delay | BorderDelayEntered / BorderDelayExited | Border or customs API |
 
-TrafficEntered and TrafficExited are transition triggers, not separate states. The stable state during a traffic pause is SLA_PAUSED.
+Each pair follows the same mechanism: entered, then SLA_PAUSED. Exited, then SLA_RESUMED.
+
+Rule: SLA pause is the measured interval between the entered and exited events of the active exception, computed in driver working calendar, not wall-clock time.
+
+If the entered or exited event falls outside working calendar, the pause is rounded to the nearest working boundary.
+
+TrafficEntered and TrafficExited are transition triggers, not separate states. The stable state during any exception is SLA_PAUSED.
 
 ![Route State Machine](images/diagram-route-state-machine.svg)
+
+The diagram shows the Traffic path as the reference. Other exception types use the same structure with their own entered and exited events.
 
 ### Event Orchestrator
 
