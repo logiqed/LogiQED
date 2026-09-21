@@ -314,6 +314,63 @@ This separation allows:
 - Reuse of rules across routes with different segment structures.
 - Attribution of delays to specific segments without changing the rule.
 
+## Segment Lifecycle
+
+A segment is a section of a route, defined when the route is created.
+
+### How Segments Are Created
+
+Segments are proposed automatically when a route is created. Sources:
+
+- Known geofences: warehouses, borders, terminals.
+- Road network: cities and junctions along the route.
+- Historical data: if the route has been driven before.
+
+The operator reviews the proposal on the map, adjusts boundaries, and saves. Segments are stored with the route, not with the SLA.
+
+A segment has no SLA of its own. A single SLA rule applies to the whole route.
+
+### How Segments Are Filled
+
+When the vehicle moves, the Event Orchestrator opens each segment on entry and closes it on exit.
+
+For each segment, the SLA Engine records:
+
+- entry and exit time
+- total duration
+- pause events and pause duration
+- attribution of pauses to the responsible party
+
+The operator does not enter any numbers manually. All values are computed from the event stream.
+
+### How the Result Is Assembled
+
+When the route is completed, the SLA Engine sums durations across all segments and compares the total against the route-level SLA.
+
+Result object:
+
+| Level | What it contains |
+|-------|-----------------|
+| Route | One PASS or FAIL against the SLA |
+| Segment | Duration, pauses, attribution for each section |
+
+Example:
+
+| Segment | Duration | Pause |
+|---------|----------|-------|
+| Kyiv - Lviv | 8h | 1h (Traffic) |
+| Lviv - Krakow | 7h | 0 |
+| Krakow - Berlin | 9h | 1h (Weather) |
+| Berlin - Hamburg | 4h | 0 |
+| Hamburg - Oslo | 14h | 0 |
+| **Total** | **42h** | **2h pause** |
+
+Chargeable time: 42h - 2h = 40h.
+
+SLA on the route: 48h. Result: PASS.
+
+The segment breakdown does not change the SLA result. It explains where time was spent and which party is responsible for each pause.
+
 ## Golden Tests
 
 | Case | Input | Expected |
