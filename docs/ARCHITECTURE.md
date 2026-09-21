@@ -56,7 +56,7 @@ Telemetry positions are normalized into route events. Each event is signed, vali
 
 ### Data Flow
 
-Driver Browser (or Tracker App) sends Protobuf coordinate deltas with a local SHA256 chain. Payload is approximately 1 KB per packet.
+Driver devices - browser, mobile app, or onboard tracker - send coordinate deltas to Telemetry Ingest. Payload is approximately 1 KB per packet on average. The exact size depends on the source format.
 
 Telemetry Ingest receives the stream. Normalization, deduplication, and validation are applied.
 
@@ -119,6 +119,39 @@ Pure function that determines whether an event requires external confirmation.
 
 Event, then Enrichment Decider, then API needed, then Yes, then One call, or No, then Skip.
 
+### Claim Pipeline
+
+Every in-transit claim follows the same pipeline.
+
+1. Driver reports an incident - E0. The claim is a statement, not proof.
+2. The system checks its own data - GPS track, CAN bus, telemetry. This confirms the physical situation. E2.
+3. The system calls an external API on demand - traffic, weather, road conditions. This adds an independent source. E2 with corroboration.
+4. If other vehicles report the same event in the same geofence and time window - corroboration. The claim reaches E4.
+
+The same pipeline applies to traffic, weather, breakdown, and road work.
+
+CAN bus is an amplifier, not corroboration. It confirms vehicle state inside one source, but it does not create a new independent source. CAN and GPS typically arrive through the same telematics gateway. Corroboration still requires an external source: a traffic API, or another vehicle.
+
+### Source Availability
+
+Sources can be onboard or mobile. The choice affects the maximum reachable trust level.
+
+| Situation | Source | Typical level |
+|-----------|--------|--------------|
+| Onboard GPS present | Truck tracker (direct or via adapter) | E3 (E4 with corroboration) |
+| No onboard GPS | Third-party mobile app | E1 |
+| Browser fallback | Browser (PWA) | E0-E1 |
+
+Onboard trackers send data in one of three ways:
+
+1. Dual-server - tracker sends to existing server and LogiQED in parallel.
+2. Data forwarding - existing telematics platform forwards the stream.
+3. Endpoint replacement - tracker reconfigured to point at LogiQED. Only with carrier consent.
+
+A second weaker source does not raise the trust level. Adding a mobile app next to an onboard tracker keeps the level at E3 - corroboration requires independence, not just two sources.
+
+See [Trust Levels](TRUST_LEVELS.md) for the full dimension table.
+
 ### Proof Flow
 
 SLA Engine, then Proof Engine, then Evidence Package, then Arweave.
@@ -144,9 +177,10 @@ Coordinate source, telemetry device, owner, generic position.
 
 ### Sources
 
-- Employee browser
-- Tracker application
-- External tracking systems
+- Employee browser (PWA, session-authenticated)
+- Mobile app (third-party, key-authenticated via X-Telemetry-Key)
+- Onboard tracker (device in vehicle, certificate-authenticated)
+- External tracking systems (via adapters)
 
 ### Device Identity
 
@@ -246,12 +280,18 @@ Service level management with policies, calendars and exception rules.
 - Rule results visible to driver as Penalty Protection.
 - Golden tests for midnight, DST, holiday boundaries.
 
+See [SLA DSL](SLA_DSL.md) for rule format and evaluation result.
+
 ## Evidence Layer
 
-- Signed Event Stream
-- Evidence Graph
-- Evidence Package
-- Trust Levels E0–E5
+The evidence layer turns signed events into verifiable packages.
+
+- **Signed Event Stream** - every event signed by its source.
+- **Evidence Graph** - provenance DAG connecting events, sources, and rules.
+- **Evidence Package** - compact snapshot (~4 KB) with events, proof, and trust policy result.
+- **Trust Levels E0-E5** - computed server-side from seven dimensions.
+
+See [Evidence](EVIDENCE.md) and [Evidence Flow](EVIDENCE_FLOW.md) for details.
 
 ## Event Model
 
@@ -263,20 +303,22 @@ LogiQED adds verifiable trust and claim evaluation on top of EPCIS.
 
 ## Trust Levels
 
-| Level | Source |
-|-------|--------|
-| E0 | user input |
-| E1 | authenticated external API |
-| E2 | signed software source |
-| E3 | attested device |
-| E4 | hardware-backed + corroborated source |
-| E5 | multiple independent trusted sources |
+| Level | Description |
+|-------|-------------|
+| E0 | Manual input, basic authentication |
+| E1 | Authenticated external API |
+| E2 | Signed software source |
+| E3 | Attested device, TPM or Secure Element |
+| E4 | E3 plus corroboration with another source |
+| E5 | E4 plus three or more independent sources |
 
 Trust Levels are not just an enum. They become Trust Policy + Provenance Graph.
 
 Three sources are not necessarily independent. GPS and geofence may derive from the same signal.
 
 Evidence Graph must record provenance of the source of the source.
+
+See [Trust Levels](TRUST_LEVELS.md) for the full model, dimensions by source type, and computation rules.
 
 ## Hardware Attestation Research
 
@@ -291,7 +333,7 @@ Key patterns:
 - E2E encryption between client and node
 - Hash-only logs
 
-These patterns map to LogiQED trust levels E4–E5.
+These patterns map to LogiQED trust levels E4-E5.
 
 ## Proof Engine
 
@@ -355,17 +397,19 @@ Raw telemetry is never stored permanently. Only compact Evidence Packages, appro
 
 ## Source Identity & Trust
 
-Minimal attestation in MVP:
+Every telemetry source has a minimal identity record. The server computes trust level from this record. The source never declares its own level.
 
-- SourceId
-- DeviceKey
-- SourceType
-- AttestationType
-- TrustLevel
-- KeyIssuedAt
-- Firmware/AppVersion
-- RevocationStatus
-- EvidenceConfidence
+- **SourceId** - unique identifier of the source.
+- **DeviceKey** - hash of the key issued by the admin.
+- **SourceType** - ONBOARD_TRACKER, MOBILE_APP, BROWSER, WAREHOUSE_API, MANUAL.
+- **AttestationType** - SECURE_ENCLAVE, TPM, DEVICE_CERTIFICATE, or NONE.
+- **TrustLevel** - computed from seven dimensions (E0-E5).
+- **KeyIssuedAt** - when the key was issued.
+- **Firmware/AppVersion** - reported by the source.
+- **RevocationStatus** - ACTIVE, REVOKED, EXPIRED.
+- **EvidenceConfidence** - derived from trust policy evaluation.
+
+See [Trust Levels](TRUST_LEVELS.md) for the computation rules.
 
 ## Observability
 
