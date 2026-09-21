@@ -39,7 +39,7 @@ See [Architecture](ARCHITECTURE.md) for full details.
 | Core platform | Production-ready |
 | Evidence Layer | MVP stage |
 | ZK Claims | MVP stage |
-| Post-quantum signatures | Hybrid: Ed25519 + ML-DSA |
+| Post-quantum signatures | Hybrid Ed25519 + ML-DSA |
 
 **Interactive demo:** [DEMO Access](DEMO.md) - credentials and recommended flow
 
@@ -75,9 +75,11 @@ User, role and permission management. Audit journal. Role-based UI. No hardcoded
 
 ### Telemetry Subsystem
 
-Position sources: browser, tracker app, external systems.
+Position sources: browser, mobile app, onboard tracker, external systems.
 
 Device identity: SourceCode + ExternalId.
+
+See [Architecture](ARCHITECTURE.md) for source authentication details.
 
 ### Warehouse Operations
 
@@ -95,7 +97,7 @@ Export to PDF, CSV, XLSX. 200,000 rows × 60 columns in 5 seconds.
 - Signed Event Stream
 - Evidence Graph
 - Evidence Package
-- Trust Levels E0–E5
+- Trust Levels E0-E5
 - Hybrid signatures: Ed25519 + ML-DSA
 
 ### Route Monitoring
@@ -111,7 +113,7 @@ Primary: Aligned Layer. Fast, cheap ZK-verification as AVS on EigenLayer.
 
 Status: mock for MVP, integration in Phase 2.
 
-Estimated cost: $0.01–0.05 per shipment.
+Estimated cost: $0.01-0.03 per evidence package. This is the COGS for LogiQED, covering ZK proof, Arweave anchor, and external API calls.
 
 Official website: https://alignedlayer.com/
 
@@ -129,12 +131,15 @@ See [Business Model](BUSINESS_MODEL.md) for full details.
 
 From 9 July 2027, EU authorities must accept electronic freight transport information as the default.
 
-## Competitors
+## Competitors and Partners
 
-| Competitor | Why LogiQED |
-|-----------|-------------|
-| Transporeon, FourKites, project44 | Visibility and dwell-time, but no cryptographic evidence layer |
-| Manual arbitration | Slow, costly, subjective |
+| Category | Examples | Position |
+|----------|----------|----------|
+| Visibility platforms | Transporeon, FourKites, project44 | Complement. They show where a truck is. LogiQED proves what happened and who is responsible. No cryptographic evidence layer. |
+| TMS platforms | Trans.eu, CargoWise | Partners. They handle operations and documents. LogiQED integrates via API and adds the proof layer on top. |
+| Manual arbitration | - | Replacement target. Slow, costly, subjective. Disputes close on negotiation, not on evidence. |
+
+The distinction is not about size. It is about layer. Visibility and TMS platforms operate on data. LogiQED operates on evidence.
 
 ## Go-to-Market
 
@@ -149,9 +154,11 @@ Senior engineering team from Ukraine.
 - [Borys Mulev](https://www.linkedin.com/in/borysmulev/) - Senior C#/.NET Engineer
 - [Volodymyr Marenych](https://www.linkedin.com/in/marenich/) - Senior Engineer
 
-15+ years in C# / .NET. Worked together on logistics and cloud systems.
+15+ years in C# / .NET across multiple domains. Worked together on several production systems.
 
-Additional team members: resumes on request.
+Planned MVP delivery team: up to 8 contributors across .NET, C++, QA, DevOps, and product management.
+
+Full resumes available on request under NDA.
 
 ## Transparency
 
@@ -173,7 +180,7 @@ Domain: logiqed.tech
 ## More Details
 
 - [Investor Document](INVESTORS.md)
-- [BUSINESS_MODEL](BUSINESS_MODEL.md)
+- [Business Model](BUSINESS_MODEL.md)
 - [MVP](MVP.md)
-- [PILOT](PILOT.md)
-- [ARCHITECTURE](ARCHITECTURE.md)
+- [Pilot](PILOT.md)
+- [Architecture](ARCHITECTURE.md)
