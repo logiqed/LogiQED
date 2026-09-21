@@ -20,6 +20,38 @@ LogiQED workflow engine is a visual constructor. Changes apply instantly.
 
 ---
 
+## Two State Machines
+
+LogiQED has two state machines that work at different layers.
+
+### Trip Workflow
+
+The business process, configured by dispatchers.
+
+Tracks trip states such as Created, Picked up, In transit, Delivered, Closed.
+
+Users change states through the UI. The Workflow Engine manages the rules, permissions, and timers behind these transitions.
+
+This is what the rest of this document describes.
+
+### Route State Machine
+
+The technical state machine, owned by the Event Orchestrator.
+
+Tracks segments and SLA pauses: SegmentEntered, TrafficEntered, SLA_PAUSED, TrafficExited, SLA_RESUMED, SegmentExited.
+
+It is not configured by dispatchers. It reacts to telemetry events. See [Architecture](ARCHITECTURE.md) for details.
+
+### How They Interact
+
+The Workflow Engine does not drive the Route State Machine. They are separate layers.
+
+The Workflow Engine can trigger actions when the Route State Machine changes state. For example, when a trip enters a specific status, the Workflow Engine can generate an Evidence Package, send a notification, or arm a timer.
+
+Route state changes are one of the inputs to workflow conditions.
+
+---
+
 ## Workflow Diagram
 
 The Workflow Diagram is the visual editor for trip lifecycle.
@@ -187,16 +219,18 @@ Every workflow action is auditable:
 
 The Workflow Engine is used by:
 
-- Route State Machine - trip lifecycle
 - SLA Engine - timer and escalation logic
 - Notifications - trigger rules
 - Evidence - rule versioning
+- Route State Machine - can trigger workflow actions on state change
+
+The Route State Machine itself is owned by the Event Orchestrator, not by the Workflow Engine.
 
 ---
 
 ## API
 
-See [OpenAPI](../OPENAPI.yaml) for workflow endpoints.
+See [OpenAPI](OPENAPI.yaml) for workflow endpoints.
 
 ---
 
