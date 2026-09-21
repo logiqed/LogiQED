@@ -34,8 +34,8 @@ Contacts:
 
 LogiQED is a cryptographic, verifiable evidence layer designed to automate and resolve commercial disputes in physical logistics without exposing raw corporate telemetry.
 
-- **Problem:** SLA and detention disputes cost carriers and 3PLs $200–500 per incident in manual investigation, legal friction, and idle fleet time.
-- **Solution:** Cryptographically signed, independently verifiable Evidence Packages designed to support algorithmic claim resolution at an estimated marginal cost of $0.05–0.10 per package.
+- **Problem:** SLA and detention disputes cost carriers and 3PLs $200-500 per incident in manual investigation, legal friction, and idle fleet time.
+- **Solution:** Cryptographically signed, independently verifiable Evidence Packages designed to support algorithmic claim resolution at a customer price starting at $0.05 per package, with an average of $0.08.
 - **Current State:** Engineered platform foundation built with C# / .NET 10 / Blazor, 120+ projects, 1,300+ automated tests, and an interactive demo with 30+ UI screens across 6 roles. The platform also includes a configurable Workflow Engine, a full Identity and Authorization layer, and an auditable Communication trail.
 
 ---
@@ -44,8 +44,8 @@ LogiQED is a cryptographic, verifiable evidence layer designed to automate and r
 
 Senior engineering team based in Ukraine with 15+ years of production experience in high-load C#/.NET and distributed logistics architectures:
 
-- **[Borys Mulev](https://www.linkedin.com/in/borysmulev/)** - Lead Architect & Senior .NET Engineer
-- **[Volodymyr Marenych](https://www.linkedin.com/in/marenich/)** - Senior Systems Engineer
+- **[Borys Mulev](https://www.linkedin.com/in/borysmulev/)** - Senior C#/.NET Engineer
+- **[Volodymyr Marenych](https://www.linkedin.com/in/marenich/)** - Senior Engineer
 
 *Full engineering roster, CVs, and technical references available upon request under NDA.*
 
@@ -59,7 +59,7 @@ The current platform foundation is an engineered modular monolith built on .NET 
 
 - **Core Domains:** Telemetry Ingestion, Route State Machine, SLA Evaluation Engine, Evidence Engine, Identity & Role-Based Access, Dispatch Console, Workflow Engine.
 - **Proprietary Mediator (`LogiQED.MediatR`):** Custom `ValueTask`-based CQRS dispatch pipeline with startup cache prewarming, explicit behavior ordering, and no reflection in the hot dispatch path.
-- **Evidence Layer:** Signed Event Stream, Evidence Graph, canonical hash chains, Evidence Roots, and Trust Levels E0–E5.
+- **Evidence Layer:** Signed Event Stream, Evidence Graph, canonical hash chains, Evidence Roots, and Trust Levels E0-E5.
 - **Cryptographic Primitives:** Ed25519 signatures with an established architectural path for post-quantum ML-DSA integration.
 - **Proof Engine:** Pluggable backend architecture (Aligned Layer mock for MVP; extensible to Groth16, PLONK, STARK, and zkVM backends including SP1 and RISC Zero).
 - **Audit & Security:** Dual-channel delivery auditing, SHA-256 tracker-key hashing (obliteration pattern), 30-day telemetry retention policies, and session-level revocation.
@@ -113,16 +113,16 @@ See [Communication](https://github.com/logiqed/LogiQED/blob/main/docs/COMMUNICAT
 
 ### 2. Cold-Chain Cargo Integrity
 
-- *Scenario:* High-value pharma transit requiring continuous 2–8°C compliance across EU transit corridors.
+- *Scenario:* High-value pharma transit requiring continuous 2-8°C compliance across EU transit corridors.
 - *Outcome:* Sensor telemetry evaluated against contractual temperature thresholds without exposing full GPS trails. Output: verifiable `VALID` assertion package.
 
 ---
 
 ## Market & Regulatory Tailwinds
 
-- **Dispute Economics:** Manual resolution currently costs $200–500 per claim. Automated cryptographic resolution is designed to reduce processing cost to $0.05–0.10 per package.
+- **Dispute Economics:** Manual resolution currently costs $200-500 per claim. Automated cryptographic resolution is priced at $0.05-0.15 per Evidence Package, with an average of $0.08. The cost to LogiQED is $0.01-0.03 per package.
 - **Regulatory Mandate:** The **eFTI Regulation (EU) 2020/1056** enters full application on **9 July 2027**. EU member-state authorities must accept compliant electronic freight information shared through certified eFTI platforms.
-- **Target Market:** Mid-sized carriers (10–100 trucks), temperature-controlled reefers, cross-border 3PLs, and digital freight brokers.
+- **Target Market:** Mid-sized carriers (10-100 trucks), temperature-controlled reefers, cross-border 3PLs, and digital freight brokers.
 
 ---
 
@@ -130,9 +130,9 @@ See [Communication](https://github.com/logiqed/LogiQED/blob/main/docs/COMMUNICAT
 
 **Objective:** Execute an operational pilot to resolve at least one live commercial dispute using signed Evidence Packages.
 
-- **Fleet Scope:** 1 partner carrier (10–50 trucks) or regional 3PL.
-- **Hardware Footprint:** 3–5 GPS trackers and 2–3 calibrated temperature sensors.
-- **Duration:** 2–4 weeks of live transit across 50+ commercial loads.
+- **Fleet Scope:** 1 partner carrier (10-50 trucks) or regional 3PL.
+- **Hardware Footprint:** 3-5 GPS trackers and 2-3 calibrated temperature sensors.
+- **Duration:** 2-4 weeks of live transit across 50+ commercial loads.
 - **Target Metrics:** >99.5% event ingestion integrity, automated generation of dispute packages, and partner acceptance of dispute outcomes.
 
 ---
@@ -140,10 +140,10 @@ See [Communication](https://github.com/logiqed/LogiQED/blob/main/docs/COMMUNICAT
 ## MVP Budget & Delivery Plan
 
 - **Engineering Rate:** $35,000 per month for the standard delivery plan, covering the agreed team allocation, project management, and operational overhead.
-- **Standard Delivery:** 3–4 months, $105,000–$140,000.
+- **Standard Delivery:** 3-4 months, $105,000-$140,000.
 - **Accelerated Delivery:** 2 months with an expanded team, $132,000 upfront for engineering and delivery. Non-engineering costs and the platform buyout are separate.
-- **Non-Engineering Operations Budget:** $15,000–$25,000 (pilot hardware, cloud environments, legal admissibility review, operational buffer).
-- **Total Standard MVP Operational Cost:** $120,000–$165,000.
+- **Non-Engineering Operations Budget:** $15,000-$25,000 (pilot hardware, cloud environments, legal admissibility review, operational buffer).
+- **Total Standard MVP Operational Cost:** $120,000-$165,000.
 - **Core Delivery Team:** up to 8 contributors across .NET, C++, QA, DevOps, and product/project management, with staffing and FTE allocation adjusted to the selected delivery plan.
 
 ---
@@ -152,7 +152,7 @@ See [Communication](https://github.com/logiqed/LogiQED/blob/main/docs/COMMUNICAT
 
 The MVP and the pilot are one continuous program, not two separate projects.
 
-**Phase A - MVP delivery (months 1–3.5):**
+**Phase A - MVP delivery (months 1-3.5):**
 
 - Shipment and trip domain model
 - Telemetry ingestion and signed event stream
@@ -161,7 +161,7 @@ The MVP and the pilot are one continuous program, not two separate projects.
 - Two ZK claims verified end-to-end
 - OpenAPI and webhooks
 
-**Phase B - Pilot execution (weeks 13–16, overlaps with MVP final delivery):**
+**Phase B - Pilot execution (weeks 11-16, overlaps with MVP final delivery):**
 
 - 3+ vehicles, 50+ trips with real signed events
 - At least one real commercial dispute prepared for settlement using an Evidence Package
@@ -181,7 +181,7 @@ Full details:
 
 Research directions available on request:
 
-- **Border Ready Pack** - pre-arrival evidence for cross-border freight. View on existing evidence, 2–3 week build, aligned with eFTI certification timeline.
+- **Border Ready Pack** - pre-arrival evidence for cross-border freight. View on existing evidence, 2-3 week build, aligned with eFTI certification timeline.
 - **Proof-of-Freeze** - cold chain compliance proof. Fast claim candidate.
 - **AI Agents** - automatic dispute resolution. Pilotable after MVP.
 
@@ -195,9 +195,9 @@ Full research map: [Research](https://github.com/logiqed/LogiQED/blob/main/resea
 
 Three transaction paths are available. The preferred path is MVP financing; acquisition options are fallback structures for buyers with existing teams.
 
-- **Option 1 (Preferred): MVP Financing + Platform Buyout** - financed MVP development with the founding team, platform buyout on acceptance. Total: $270K–$315K.
-- **Option 2: Full Turnkey Post-MVP Acquisition** - Option 1 plus brand, domains, and commercial identity. Approximately $310K–$355K total.
-- **Option 3 (Fallback): Direct Asset Acquisition** - immediate purchase of codebase or turnkey project. $150K–$175K.
+- **Option 1 (Preferred): MVP Financing + Platform Buyout** - financed MVP development with the founding team, platform buyout on acceptance. Total: $270,000-$315,000.
+- **Option 2: Full Turnkey Post-MVP Acquisition** - Option 1 plus brand, domains, and commercial identity. Approximately $310,000-$355,000 total.
+- **Option 3 (Fallback): Direct Asset Acquisition** - immediate purchase of codebase or turnkey project. $150,000-$175,000.
 
 ---
 
@@ -208,7 +208,7 @@ Structured for an investor or logistics operator who wants to validate execution
 ### How It Works
 
 1. **Low Day-One Commitment:** The investor does not pay for the platform upfront. The project starts with **$35,000 (Month 1 engineering payment)**.
-2. **Milestone Development:** The investor funds monthly delivery at the rate of $35,000 per month for 3–4 months against pre-agreed sprint milestones and pilot targets.
+2. **Milestone Development:** The investor funds monthly delivery at the rate of $35,000 per month for 3-4 months against pre-agreed sprint milestones and pilot targets.
 3. **Platform Buyout on Acceptance:** Upon successful delivery and formal acceptance of the agreed MVP, the investor pays the **$150,000 platform buyout**.
 4. **Source Code & IP Transfer:** Complete legal title and full administrative control of the platform codebase and MVP work product are transferred upon receipt of the $150,000 buyout payment.
 
@@ -222,18 +222,18 @@ Pilot hardware, legal review, cloud costs, and the final platform buyout are sep
 
 Illustrative accelerated totals:
 
-- **Option 1:** $132,000 engineering and delivery + $15,000–$25,000 non-engineering costs + $150,000 platform buyout = approximately $297,000–$307,000.
-- **Option 2:** Option 1 accelerated total + $40,000 turnkey brand and domain package = approximately $337,000–$347,000.
+- **Option 1:** $132,000 engineering and delivery + $15,000-$25,000 non-engineering costs + $150,000 platform buyout = approximately $297,000-$307,000.
+- **Option 2:** Option 1 accelerated total + $40,000 turnkey brand and domain package = approximately $337,000-$347,000.
 
 Final scope, staffing, non-engineering costs, and acceptance conditions are subject to definitive agreement.
 
 ### Summary of Capital Allocation
 
-- Standard MVP Delivery (3–4 months): $105,000–$140,000.
-- Non-Engineering / Hardware / Pilot: $15,000–$25,000.
-- **Total MVP Operational Cost:** $120,000–$165,000.
+- Standard MVP Delivery (3-4 months): $105,000-$140,000.
+- Non-Engineering / Hardware / Pilot: $15,000-$25,000.
+- **Total MVP Operational Cost:** $120,000-$165,000.
 - Final Platform IP Buyout (on acceptance): **$150,000**.
-- **Total Investment to Own the Agreed MVP:** approximately $270,000–$315,000.
+- **Total Investment to Own the Agreed MVP:** approximately $270,000-$315,000.
 
 ### Safeguards for Both Parties
 
@@ -268,9 +268,9 @@ Because the brand, domain, and commercial footprint are significantly de-risked 
 - Platform Codebase Buyout: **$150,000**
 - Turnkey Brand & Domain Package Buyout: **$40,000**
 - *Total final settlement upon formal MVP acceptance:* approximately **$190,000**
-- **Total Standard Option 2 outlay:** approximately **$310,000–$355,000**, depending on MVP duration, approved non-engineering costs, and the final conversion scope.
+- **Total Standard Option 2 outlay:** approximately **$310,000-$355,000**, depending on MVP duration, approved non-engineering costs, and the final conversion scope.
 
-The accelerated two-month option has a separate calculation based on the $132,000 engineering and delivery budget. The accelerated Option 2 total is approximately **$337,000–$347,000** before any scope changes.
+The accelerated two-month option has a separate calculation based on the $132,000 engineering and delivery budget. The accelerated Option 2 total is approximately **$337,000-$347,000** before any scope changes.
 
 ### What Transfers Under Option 2
 
@@ -312,10 +312,10 @@ Direct, clean-break acquisition of the existing platform. Ideal for buyers with 
 
 | Evaluation Dimension | Option 1 (Preferred): MVP + Buyout | Option 2: Turnkey Post-MVP | Option 3 (Fallback): Direct Acquisition |
 |:---|:---:|:---:|:---:|
-| **Capital Required to Start** | **$35,000** | **$35,000** | 100% via Escrow ($150K–$175K) |
+| **Capital Required to Start** | **$35,000** | **$35,000** | 100% via Escrow ($150K-$175K) |
 | **Accelerated MVP funding** | **$132,000 upfront** | **$132,000 upfront** | - |
-| **Total Eventual Outlay** | ~$270,000–$315,000 | ~$310,000–$355,000 | $150,000–$175,000 |
-| **Team Retained for Delivery** | Yes (3–4 months) | Yes (3–4 months) | No (Code handover) |
+| **Total Eventual Outlay** | ~$270,000-$315,000 | ~$310,000-$355,000 | $150,000-$175,000 |
+| **Team Retained for Delivery** | Yes (3-4 months) | Yes (3-4 months) | No (Code handover) |
 | **Domains, Emails & Brand** | Excluded (Code only) | Transferred on MVP acceptance ($40K) | +$25K (Tier 2) |
 | **Initial Risk for Buyer** | **Minimal** (monthly milestones) | **Minimal** (monthly milestones) | Code integration risk |
 | **IP Transfer Timing** | Upon $150K MVP acceptance | Upon ~$190K full acceptance | Upon contract closing |

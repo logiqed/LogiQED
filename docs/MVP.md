@@ -81,7 +81,7 @@ Ideal first pilot partner:
 - Mid-sized carrier with 10-50 vehicles
 - Operates temperature-sensitive or time-critical freight
 - Has existing TMS or telematics, open to API integration
-- Willing to sign mutual NDA and participate in 4-6 week pilot
+- Willing to sign mutual NDA and participate in the 4-6 week pilot cycle, including 2-4 weeks of live operation
 
 Expected value for the pilot partner: at least one avoided dispute cost ($200-500) and documentation of process improvement.
 

@@ -22,7 +22,7 @@ See [MVP Plan](MVP.md) for the full program.
 
 - Partner: mid-sized carrier with 10-50 vehicles who faces SLA penalties and needs verifiable evidence.
 - Hardware: 3-5 GPS trackers, 2-3 temperature sensors.
-- Period: 4 weeks of real trips after integration.
+- Period: 2-4 weeks of real trips after integration.
 - Location: EU lane.
 
 ## Data Sources
