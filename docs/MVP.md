@@ -8,7 +8,8 @@ Build the core evidence layer and prove it with real trucks.
 
 The MVP and the pilot are one continuous program, not two separate projects.
 
-Phase A - MVP delivery (months 1–3.5):
+Phase A - MVP delivery (months 1-3.5):
+
 - Shipment and trip domain model
 - Telemetry ingestion and signed event stream
 - Route State Machine, SLA Engine, Event Orchestrator
@@ -16,7 +17,8 @@ Phase A - MVP delivery (months 1–3.5):
 - Two ZK claims verified end-to-end
 - OpenAPI and webhooks
 
-Phase B - Pilot (last 2–4 weeks of MVP, overlaps with final delivery):
+Phase B - Pilot (last 2-4 weeks of MVP, overlaps with final delivery):
+
 - 3+ vehicles, 50+ trips with real signed events
 - At least one real commercial dispute prepared for settlement using an Evidence Package
 - Legal assessment of admissibility
@@ -28,17 +30,19 @@ See [Pilot Plan](PILOT.md) for the pilot framework.
 
 ## Timeline
 
-3–4 months total (MVP delivery + pilot execution).
+3-4 months total (MVP delivery + pilot execution).
 
 ## Budget
 
-- **Engineering:** $105,000–$140,000 (3–4 months at $35,000/month)
-- **Non-engineering** (hardware, cloud, legal, pilot): $15,000–$25,000
-- **Total:** $120,000–$165,000
+This budget covers MVP delivery and pilot execution only. It does not include the platform buyout option.
 
-Budget covers MVP delivery and pilot execution. Phase 2 is funded separately based on progress and agreed roadmap.
+- **Engineering:** $105,000-$140,000 (3-4 months at $35,000/month)
+- **Non-engineering** (hardware, cloud, legal, pilot): $15,000-$25,000
+- **Total for Phase A + Phase B:** $120,000-$165,000
 
-See [Investor Memorandum](INVESTORS.md) for the full capital allocation.
+Phase 2 is funded separately based on progress and agreed roadmap.
+
+See [Investor Memorandum](INVESTORS.md) for the full capital allocation, including buyout options.
 
 ## Team
 
@@ -54,17 +58,17 @@ Core principle: senior people, small team, fast execution.
 
 | Phase | Timeline | Result | Depends on |
 |-------|----------|--------|------------|
-| Setup | Week 1–2 | Demo: map, documents, reports, SLA, chat on existing platform | None |
-| Tracking and Events | Week 3–6 | Telemetry, signatures, Evidence Graph, deduplication | Setup |
-| SLA and Orchestrator | Week 7–10 | Route State Machine, SLA Engine, Enrichment Decider, On-Demand Oracle | Tracking |
-| Claims and Proof | Week 11–13 | Two ZK claims with mock backend, Evidence Package, Arweave integration for disputed claims only | Evidence Graph, SLA |
-| Pilot execution | Week 13–16 | Real trucks, commercial dispute, case study | Claims |
+| Setup | Week 1-2 | Demo: map, documents, reports, SLA, chat on existing platform | None |
+| Tracking and Events | Week 3-6 | Telemetry, signatures, Evidence Graph, deduplication | Setup |
+| SLA and Orchestrator | Week 7-10 | Route State Machine, SLA Engine, Enrichment Decider, On-Demand Oracle | Tracking |
+| Claims and Proof | Week 11-13 | Two ZK claims with mock backend, Evidence Package, Arweave integration for disputed claims only | Evidence Graph, SLA |
+| Pilot execution | Week 13-16 | Real trucks, commercial dispute, case study | Claims |
 
 ## Existing Platform
 
 C# Blazor operational platform is reused.
 
-First demo within 1–2 weeks: map, documents, reports, SLA, chat.
+First demo within 1-2 weeks: map, documents, reports, SLA, chat.
 
 Blockchain integration comes after the demo.
 
@@ -74,14 +78,14 @@ This reduces risk and accelerates the pilot.
 
 Ideal first pilot partner:
 
-- Mid-sized carrier with 10–50 vehicles
+- Mid-sized carrier with 10-50 vehicles
 - Operates temperature-sensitive or time-critical freight
 - Has existing TMS or telematics, open to API integration
-- Willing to sign mutual NDA and participate in 4–6 week pilot
+- Willing to sign mutual NDA and participate in 4-6 week pilot
 
-Expected value for the pilot partner: at least one avoided dispute cost ($200–500) and documentation of process improvement.
+Expected value for the pilot partner: at least one avoided dispute cost ($200-500) and documentation of process improvement.
 
-3–5 negotiations run in parallel.
+3-5 negotiations run in parallel.
 
 See [Pilot Plan](PILOT.md) for the full pilot framework.
 
@@ -104,7 +108,7 @@ See [Pilot Plan](PILOT.md) for the full pilot framework.
 
 | Category | What is excluded |
 |----------|-----------------|
-| Features | AI copilot, Full blockchain settlement |
+| Features | AI copilot, full blockchain settlement |
 | Integrations | Real Aligned Layer, EigenDA, Arweave for every package |
 | Research | DePIN, Scientific marketplace, Soulbound badges, MeshShield, Proof-of-Freeze, HD maps, Warehouse marketplace |
 
@@ -156,7 +160,7 @@ The dispute closure depends on the pilot partner's commercial situation, not onl
 |------|------------|
 | Aligned Layer not ready | Mock for full MVP, interface already defined |
 | Phone GPS inaccurate | Add onboard sensor, enrich with TMS events |
-| Pilot partner not found | Run 3–5 negotiations in parallel |
+| Pilot partner not found | Run 3-5 negotiations in parallel |
 | SLA calendar complexity | Golden tests from day one |
 | Budget overrun | CI/CD from start, reserve included |
 | Legal or regulatory delay in eFTI | Focus on voluntary SLA disputes first, they exist today regardless of eFTI |
@@ -166,9 +170,11 @@ The dispute closure depends on the pilot partner's commercial situation, not onl
 MVP success unlocks Phase 2:
 
 - Real Aligned Layer integration
-- Insurance API
+- Insurance API integrations
 - AI module
 - Expanded device attestation
+
+See [Business Model](BUSINESS_MODEL.md) for the phase-by-phase roadmap.
 
 ---
 
