@@ -45,9 +45,11 @@ Packages are generated only for disputes and SLA exceptions. A carrier with 20 v
 | Total COGS | $250/month + $0.015 per package |
 | Gross margin | ~78% |
 
-Cost per evidence package is approximately $0.01–0.03.
+Cost per evidence package: $0.01–0.03.
 
-Sale price per package is $0.05–0.15 depending on plan.
+Sale price per package: $0.05–0.15 depending on plan.
+
+Average package price: ~$0.08. This is the number quoted in the README.
 
 ## Why Pricing Works
 

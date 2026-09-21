@@ -4,7 +4,7 @@ How evidence is generated at different levels, from clean routes to disputed cla
 
 ## Evidence Levels
 
-| Level | What is generated | When | Cost |
+| Level | What is generated | When | Price |
 |-------|-------------------|------|------|
 | Basic | Signed events + Evidence Root | Every route | ~$0 |
 | Disputed | Evidence Package + ZK proof | Only on dispute or SLA exception | ~$0.08 |
@@ -110,7 +110,7 @@ Decision needed before Phase 2.
 
 ## Related
 
-- [Evidence Package](EVIDENCE.md) — package structure and canonicalization
+- [Evidence Package](EVIDENCE_PACKAGE.md) — package structure and canonicalization
 - [Claims](CLAIMS.md) — claim definitions
 - [Trust Levels](TRUST_LEVELS.md) — source assurance levels
 - [Data Flow](DATA_FLOW.md) — event pipeline from ingest to verification

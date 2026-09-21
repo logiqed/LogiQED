@@ -21,7 +21,7 @@ A late truck is explained by data:
 
 > Arrival 14:37, ETA 13:55, delay 42 min. Cause: traffic between A-B. Telemetry clean, events signed, hashes match, SLA rule v3, no penalty.
 
-One Evidence Package costs about $0.08. One SLA dispute costs $200–500.
+One Evidence Package is about $0.08. One SLA dispute costs $200–500.
 
 One won dispute pays for months of subscription.
 
