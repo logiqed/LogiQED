@@ -70,7 +70,7 @@ Source code is private. Access after NDA.
 
 Local run for invited contributors:
 
-git clone https://github.com/logiqed/logiqed.git
+git clone https://github.com/logiqed/LogiQED.git
 cd logiqed
 dotnet restore
 dotnet run --project src/LogiQED.Web.API

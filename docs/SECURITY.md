@@ -12,17 +12,18 @@ Default demo roles:
 
 | Role | Access |
 |------|--------|
-| Device | Write-only: events and telemetry |
-| Driver | Read own trips, SLA status, Penalty Protection |
-| Dispatcher | Read all trips in organization, comments |
-| Auditor | Read Evidence Packages, verify, export |
-| Admin | Manage devices, keys, SLA rules, users |
+| Administrator | Full access: users, roles, permissions, audit |
+| SLA Analyst | SLA policies, calendars, incidents |
+| Dispatcher | Registry, Map, Incidents, Workflow, Evidence Packages |
+| Driver | Mobile driver view, Telemetry, Incidents |
+| Shift Supervisor | Org structure: departments, employees, duty roster |
+| Auditor | Evidence Packages, Trust sources, Audit Journal |
 
 Any custom role can be created from the admin panel.
 
 Navigation, screens, and backend endpoints are generated from effective permissions.
 
-Implemented via JWT for operator UI and X-Device-Key for trackers.
+Implemented via JWT for operator UI and X-Telemetry-Key for trackers.
 
 ## Key Management
 
@@ -37,7 +38,7 @@ Implemented via JWT for operator UI and X-Device-Key for trackers.
 1. Device generates a key pair on board.
 2. Sends PublicKey, DeviceModel, FirmwareVersion to the admin API.
 3. Admin confirms the device manually or via serial list.
-4. Server returns DeviceId and KeyId.
+4. Server returns SourceId and KeyId.
 5. Device signs events.
 
 ### Rotation
@@ -52,8 +53,11 @@ Implemented via JWT for operator UI and X-Device-Key for trackers.
 
 ### Crypto-Agility
 
-- Signatures: ECDSA-P256, Ed25519, ML-DSA, SLH-DSA.
-- Hybrid signatures: Ed25519 + ML-DSA.
+- **MVP signatures:** Ed25519, ML-DSA.
+- **Hybrid signatures:** Ed25519 + ML-DSA, used for Evidence Package signatures.
+- **Future signatures:** ECDSA-P256, SLH-DSA.
+
+The architecture is crypto-agile: signature providers are pluggable and can be replaced without changing the product.
 
 ## Data Handling
 
@@ -95,7 +99,7 @@ MVP alternative: signed builds, recorded firmware version, signed update manifes
 - Every event is signed.
 - Source-local sequence with optional previous event hash.
 - Merkle commitments with signed root.
-- Deduplication key: DeviceId + ClientTimestampUtc + SourceSequence.
+- Deduplication key: SourceId + ClientTimestampUtc + SourceSequence.
 - Retried payloads are safe and idempotent.
 
 ## Verification
