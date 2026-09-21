@@ -1,3 +1,43 @@
+## [0.8.0] - 2026-09-22
+
+Trust model, evidence pipeline, and cross-document terminology unified.
+
+### Added
+
+- TRUST_LEVELS.md: Dimensions by Source Type, Source Availability and Fallback, Claim Pipeline and Network Effect
+- ARCHITECTURE.md: Claim Pipeline, Source Availability, Extended Evidence Layer, Extended Source Identity
+- SLA_DSL.md: Evaluation Result with segmentId, Field Descriptions, three rule examples (Detention, Cargo Condition, Route Monitoring), Segments and Rules section
+- DATA_FLOW.md: ORCHESTRATE step, Claim Pipeline, seven dimensions in AUTHENTICATE
+- EVIDENCE_PACKAGE.md: Calculation Formula, Attribution table, Lifecycle, enrichmentResponse, verifiedTimestamp
+- EVIDENCE_FLOW.md: Evidence Levels simplified, eFTI mode moved to Open Question
+- GLOSSARY.md: SourceId, Source Type, Attestation Type, Segment, Proof Backend, SLA Policy/Rule/DSL terms
+- WORKFLOW.md: Two State Machines section (Trip Workflow vs Route State Machine)
+- VERIFICATION.md: Auth clarification (no X-Telemetry-Key), zkVM options listed
+- OPENAPI.yaml: /evidence/ingest, /evidence/verify, EvidenceEventEnvelope, EvidenceIngestResponse
+
+### Changed
+
+- Terminology: DeviceId → SourceId across all documents
+- Terminology: X-Device-Key → X-Telemetry-Key across all documents
+- Terminology: trustLevel → sourceAssurance in ingest and webhook responses
+- Pricing: $0.05-0.15 price, $0.01-0.03 cost, $0.08 average price — unified across BUSINESS_MODEL, INVESTORS, README, EVIDENCE_FLOW
+- Dispute cost: $200-500 unified across all documents (was $500-2000 in PILOT)
+- MVP budget: $120,000-$165,000 format unified
+- Pilot duration: 2-4 weeks of live operation, weeks 11-16 in delivery program
+- Team: 9 contributors (removed "up to 8" inconsistency)
+- Timeline: pilot weeks 11-14 (real trips), weeks 15-16 (report)
+- README, OVERVIEW, PITCH, PLATFORM: Team sections synchronized
+- ADR 0001: budget format, dedup key, team list
+- ADR 0002: GPS trackers (not trucks), dedup in Process
+
+### Removed
+
+- eFTI mode from Evidence Levels table (moved to Open Question)
+- ZK_CLAIMS.md reference, replaced with CLAIMS.md
+- Duplicate Evaluation Order section in SLA_DSL
+- webhook.disabled event reference in WEBHOOKS
+- "Tracker App" and "Third-party GPS app" from source type tables (replaced with ONBOARD_TRACKER, MOBILE_APP, BROWSER)
+
 ## [0.7.1] - 2026-09-20
 
 Demo screen count updated. Team section refined.
