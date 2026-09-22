@@ -171,6 +171,21 @@ Below E3, corroboration does not raise the claim level.
 - E3 + E3 → E4.
 - E3 + E2 (warehouse gate) → E4.
 
+### Where Corroboration Is Requested
+
+Corroboration is applied by the Evidence Builder, after the route is completed.
+
+It is not applied by Ingest API, State Machine, or Orchestrator.
+
+The Evidence Builder:
+
+1. Applies the Trust Policy for the claim.
+2. Requests corroboration from independent sources.
+3. Checks independence in the Evidence Graph.
+4. Computes the claim level.
+5. Produces Claim Confidence.
+
+
 ### Why Weak Sources Do Not Combine
 
 Corroboration confirms a fact. It does not make unsigned data signed.
