@@ -52,7 +52,7 @@ Three layers work together:
     ║  │                               │          │                                │    ║
     ║  │                               │          │  ↓ sourceAssurance             │    ║
     ║  │                               │          └────────────────────────────────┘    ║
-    ║  │  6. Apply Trust Policy        │                                                ║
+    ║  │  6. Verify vs Trust Policy    │                                                ║
     ║  │  7. Normalize                 │                                                ║
     ║  │  8. Enqueue to Channel        │                                                ║
     ║  └───────────────────────────────┘                                                ║
@@ -167,6 +167,8 @@ Three layers work together:
     ║  └─────────────────────────────────────────────────────────────────────────────┘  ║
     ╚═══════════════════════════════════════════════════════════════════════════════════╝
 
+The device sends signed events to `POST /v1/evidence/ingest` with the `X-Telemetry-Key` header.
+
 ## Layer 1: Trust — How E0-E5 Is Computed
 
 The Trust Layer runs inside the Ingest API, before the event reaches the Channel.
@@ -197,6 +199,30 @@ Each dimension is evaluated independently. The final level is assigned by the we
     else:                               E5
 
 The rule is applied in order. The first failing condition determines the level.
+
+### Two Applications of Trust Policy
+
+Trust Policy is applied in two places, for two different purposes.
+
+**In Ingest (this layer):** the server verifies whether the event's sourceAssurance satisfies the policy for this event type. This is an event-level check. Result: `evaluationStatus: PASS / FAIL / INSUFFICIENT_DATA`.
+
+**In Evidence Builder (Layer 3):** the server applies the policy to a specific claim. It collects all sources that confirm the claim, checks corroboration, computes the claim level, and produces `Claim Confidence: PASS / FAIL`.
+
+The two checks answer different questions:
+
+- Ingest: can this event be accepted into the system?
+- Evidence Builder: is there enough evidence for this claim?
+
+Example:
+
+- Event: GPS point from Mobile App (E1).
+- Event type policy: `minTrustLevel: E1`.
+- Ingest: E1 ≥ E1 → PASS. Event enters the system.
+- Later, a Traffic claim is formed.
+- Claim policy: `minTrustLevel: E2`.
+- Evidence Builder: only source is E1. Claim level = E1. E1 < E2 → FAIL. Claim Confidence: FAIL.
+
+If a second vehicle with an onboard tracker (E3) also confirms the same event, the claim level becomes E3. E3 ≥ E2 → PASS.
 
 ### What Happens at Each Level
 
