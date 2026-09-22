@@ -136,21 +136,11 @@ The Channel is an in-memory queue with a bounded capacity.
 
 The Channel is `System.Threading.Channels.Channel<T>`.
 
-### What It Is
-
 - An in-memory queue inside one process.
 - Thread-safe. Multiple producers and consumers can work in parallel.
 - Asynchronous. Producers and consumers await, do not block.
 - Bounded. Capacity is limited to 10,000 events.
 - Backpressure. If the queue is full, the producer waits.
-
-### What It Is Not
-
-- Not a message broker.
-- Not persistent. Events are lost on process crash.
-- Not between services. Only inside one process.
-
-RabbitMQ is used for message exchange between services. In the MVP, Ingest and Orchestrator run in one process, so the Channel is sufficient. In Phase 2, when the Orchestrator is extracted, the Channel is replaced by RabbitMQ without changes to either side.
 
 ### One Channel, Two Sides
 
@@ -263,14 +253,6 @@ The result is stored with the segment and used later when the route is completed
 | SLA pause | SLA Engine | When an exception is closed |
 | Claim Confidence | Evidence Package Builder | When a dispute or exception requires proof |
 
-## What the Channel Does Not Do
-
-- It does not compute trust levels.
-- It does not evaluate SLA rules.
-- It does not call external APIs.
-- It does not persist events.
-
-It is a queue, and nothing more. All computation happens either before enqueueing (Ingest API) or after dequeueing (Orchestrator and beyond).
 
 ## Related Documents
 
