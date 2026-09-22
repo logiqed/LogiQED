@@ -51,9 +51,22 @@ The server does not ask a source for dimensions it cannot provide. A browser rea
       "policyId": "E4_REQUIRED_V1",
       "version": 1,
       "minTrustLevel": "E4",
-      "sources": ["device", "warehouse_api"],
+      "primarySource": {
+        "type": "device",
+        "minLevel": "E3"
+      },
+      "corroboratingSources": [
+        {
+          "type": "warehouse_api",
+          "minLevel": "E2"
+        },
+        {
+          "type": "another_device",
+          "minLevel": "E3"
+        }
+      ],
       "corroboration": "REQUIRED",
-      "acceptLowerWithWarning": false
+      "independence": "REQUIRED"
     }
 ```
 
@@ -77,14 +90,23 @@ The claim level is the maximum level among independent sources, not the minimum.
 
 Claim Confidence is the result of evaluating a specific claim against its Trust Policy.
 
+The claim level is the maximum level among independent sources that confirm the fact.
+
 Example:
 
-- Source A: E4
-- Source B: E2
+- Source A: E4 (primary)
+- Source B: E2 (corroborating)
 - Policy: E4_REQUIRED_V1
-- Result: FAIL
+- Claim level: E4
+- Result: PASS
 
-Source B does not satisfy the requirement.
+Counter-example:
+
+- Source A: E3 (primary)
+- No independent source reaches E3
+- Policy: E4_REQUIRED_V1
+- Claim level: E3
+- Result: FAIL
 
 ## Provenance and Source Independence
 
@@ -191,16 +213,16 @@ A truck may already have onboard GPS. Or it may have none. The system supports b
 | Situation | Recommended source | Why | Typical level |
 |-----------|-------------------|-----|---------------|
 | Onboard GPS present | Onboard tracker only | Higher trust, no need for extra app | E3 (E4 with corroboration) |
-| No onboard GPS | Third-party app or Tracker App | Only way to get telemetry without hardware | E1-E2 |
+| No onboard GPS | Third-party mobile app | Only way to get telemetry without hardware | E1 |
 | Onboard GPS present, but data needed by multiple systems | Onboard tracker with dual-server | Sends to existing server and LogiQED in parallel | E3 (E4 with corroboration) |
 | Onboard GPS present, single-server only | Onboard tracker + local bridge | Forwarding through existing telematics platform | E3 (E4 with corroboration) |
 
 ### Why a Second Source Does Not Always Help
 
-Adding a weaker source next to a stronger one does not raise the trust level. Corroboration requires independence, not just two sources.
+Adding a weaker source next to a stronger one does not raise the trust level. Corroboration requires independence and a minimum level.
 
 - Onboard tracker: E3
-- Third-party app on the same trip: E1
+- Third-party mobile app on the same trip: E1
 - Combined: still E3
 
 The weaker source adds no value for trust. It may still be useful for redundancy or for drivers without onboard hardware.
@@ -219,16 +241,9 @@ The first option is preferred. The carrier keeps existing monitoring, and LogiQE
 
 A source is registered once, with its own capabilities. Each source is evaluated independently.
 
-The claim level is the maximum level among independent sources that confirm the same fact. Weaker sources are ignored when a stronger independent source confirms the fact.
+The claim level is the maximum level among independent sources that confirm the same fact.
 
-Examples:
-
-- Mobile App A (E1) + Tracker B (E3) → claim level = E3. Mobile App is ignored.
-- Tracker A (E3) + Tracker B (E3) → claim level = E4. Corroboration raises the level.
-- Tracker A (E3) + Mobile App B (E1) → claim level = E3. Mobile App does not raise or lower.
-- Mobile App A (E1) + Mobile App B (E1) → claim level = E1. Two weak sources do not create a strong claim.
-
-Corroboration raises the claim level only when at least one independent source is at E3. Below E3, corroboration does not add value.
+See [Claim Level and Corroboration](#claim-level-and-corroboration) for the full rules and examples.
 
 ## Claim Pipeline and Network Effect
 
@@ -297,7 +312,7 @@ This is the structural advantage of LogiQED. Trust is not declared. It is earned
     {
       "sourceId": "sensor_01HZ...",
       "keyId": "key_01HZ...",
-      "sourceType": "TRACKER",
+      "sourceType": "ONBOARD_TRACKER",
       "attestationType": "SECURE_ENCLAVE",
       "firmwareVersion": "1.2.0",
       "revocationStatus": "ACTIVE"
@@ -315,13 +330,12 @@ Each source type has its own registration path, authentication method, and typic
 | Source | Who sends | How it authenticates | Who registers |
 |--------|-----------|---------------------|---------------|
 | Browser (PWA) | Driver device | Session | Automatic on login |
-| Tracker App (mobile) | Driver app | X-Telemetry-Key | Admin issues key |
-| Third-party GPS app | Driver app | X-Telemetry-Key | Admin issues key |
-| External tracker | Vehicle device | Device certificate | Admin |
+| Mobile app (third-party) | Driver app | X-Telemetry-Key | Admin issues key |
+| Onboard tracker | Vehicle device | Device certificate | Admin |
 | Warehouse API | Partner system | API key | Admin or partner |
 | Manual input | Operator | Session | System |
 
-The difference between Tracker App and Third-party GPS app is not who operates it, but who controls the code. Tracker App is issued by LogiQED with a key. A third-party app is any external client that follows the ingestion contract.
+LogiQED does not build its own mobile app. Any third-party mobile application that follows the ingestion contract can become a source. The app controls the code. LogiQED controls the key and the ingestion endpoint.
 
 ### Ingestion Contract for Third-Party Sources
 
@@ -368,15 +382,18 @@ The same contract is used by LogiQED-owned clients, including the in-house wareh
         "result": "PASS",
         "evaluatedAt": "2026-08-27T15:00:00Z"
       },
+      "claimLevel": "E4",
       "sources": [
         {
           "sourceId": "device-042",
-          "trustLevel": "E4",
-          "attestation": "SECURE_ENCLAVE"
+          "ownAssurance": "E4",
+          "attestation": "SECURE_ENCLAVE",
+          "role": "primary"
         },
         {
           "sourceId": "warehouse-api-01",
-          "trustLevel": "E2"
+          "ownAssurance": "E2",
+          "role": "corroborating"
         }
       ]
     }
@@ -392,3 +409,13 @@ A verifier can check the trust policy result without raw telemetry.
 - Claim Confidence is the result of applying Trust Policy, not a separate number.
 - Trust levels are combinations of dimensions, not a single value.
 - A source is not asked for dimensions it cannot provide.
+- A claim level is the maximum among independent sources, not the minimum.
+- Corroboration requires at least one source at E3. Below E3, corroboration does not raise the level.
+- Weak sources are ignored when a stronger independent source confirms the fact.
+
+## Related
+
+- [System Map](SYSTEM_MAP.md) - trust, state, and evidence in one page
+- [Architecture](ARCHITECTURE.md) - modules and boundaries
+- [Event Pipeline](EVENT_PIPELINE.md) - vertical flow from device to SLA
+- [SLA DSL](SLA_DSL.md) - rule format and evaluation result
