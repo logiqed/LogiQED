@@ -387,6 +387,21 @@ Segments do not have their own SLA. One SLA rule applies to the whole route. Seg
 
 If a segment ends while an exception is still active, the exception is closed at the segment boundary. If the condition persists, a new exception is opened in the next segment.
 
+#### Segments Are Optional
+
+A route can be driven with a single segment covering the whole route.
+
+In this case:
+
+- SLA still works. Pause calculation is unaffected.
+- Corroboration still works. Another vehicle on the same route can confirm the claim.
+- Evidence Packages are still produced.
+- What is not available: attribution by segment. The system cannot show where on the route the delay occurred.
+
+Single-segment routes are supported for MVP and for carriers that do not want to configure segmentation.
+
+Full segmentation with road network and historical data is planned for Phase 2.
+
 ## Layer 3: Evidence — How Claim Confidence Is Produced
 
 The Evidence Layer runs after the route is completed, or when a dispute is opened.
