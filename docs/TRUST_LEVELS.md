@@ -63,13 +63,15 @@ A claim is valid only if all required sources satisfy the policy.
 
 Different claims require different minimum trust levels. The level is set by policy, not by the source alone.
 
-| Claim type | Typical minTrustLevel | Why |
-|-----------|----------------------|-----|
-| Detention / Warehouse Waiting | E4 | Requires corroboration - tracker plus warehouse gate |
-| Cargo Condition | E4 | Requires tracker plus temperature sensor |
-| Road stop | E2 | Single source is enough - the tracker |
-| Traffic | E2 | Tracker plus external traffic API, called on demand |
-| Position in transit | E1 | Authenticated API is enough |
+| Claim type | Typical minTrustLevel | Primary source | Corroborating source |
+|-----------|----------------------|----------------|---------------------|
+| Detention / Warehouse Waiting | E4 | Tracker (E3) | Warehouse gate API (E2) |
+| Cargo Condition | E4 | Tracker (E3) | Temperature sensor with Secure Element (E3) |
+| Road stop | E2 | Tracker (E3) | None |
+| Traffic | E2 | Tracker (E3) | Traffic API (E1), context only |
+| Position in transit | E1 | Any authenticated source | None |
+
+The claim level is the maximum level among independent sources, not the minimum.
 
 ## Claim Confidence
 
@@ -98,6 +100,69 @@ Rule: E5 is assigned only when the Evidence Graph confirms independence.
 | E5 | Three or more independent sources, confirmed in the Evidence Graph |
 
 Independence is not just different SourceId values. It means the data does not come from the same physical sensor or signal.
+
+## Claim Level and Corroboration
+
+A claim is formed from one or more independent sources that confirm the same fact.
+
+### Claim Level Rule
+
+The claim level is the **maximum** level among independent sources that confirm the fact.
+
+It is not the minimum. Weaker sources do not pull the level down.
+
+Examples:
+
+| Sources | Corroboration | Claim level |
+|---------|--------------|-------------|
+| Mobile App only (E1) | — | E1 |
+| Mobile App (E1) + Mobile App (E1) | Yes | E1 |
+| Mobile App (E1) + Tracker (E3) | Yes | E3 |
+| Tracker (E3) only | — | E3 |
+| Tracker (E3) + Tracker (E3) | Yes | E4 |
+| Tracker (E3) + Warehouse gate (E2) | Yes | E4 |
+| Tracker (E3) + Traffic API (E1) | Yes | E3 |
+
+### When to Ignore a Weak Source
+
+A weak source is ignored when a stronger independent source confirms the same fact.
+
+Ignoring prevents weaker sources from pulling the claim level down.
+
+Example: a driver has both a mobile app and an onboard tracker. The tracker provides E3. The mobile app provides E1. The claim level is E3. The mobile app is ignored.
+
+### When a Weak Source Matters
+
+A weak source is the primary source when no stronger source confirms the fact.
+
+Example: a driver with only a mobile app reports a traffic jam. No tracker is nearby. Claim level = E1. It is enough for operational tracking, not for dispute resolution.
+
+### What Corroboration Requires
+
+Corroboration requires at least one independent source at E3.
+
+Below E3, corroboration does not raise the claim level.
+
+- Two E1 sources → E1.
+- Three E1 sources → E1.
+- E1 + E3 → E3.
+- E3 + E3 → E4.
+- E3 + E2 (warehouse gate) → E4.
+
+### Why Weak Sources Do Not Combine
+
+Corroboration confirms a fact. It does not make unsigned data signed.
+
+- Five mobile apps reporting the same event are still five unsigned sources.
+- Corroboration is not arithmetic. Attestation is a hardware property, not a count.
+
+This protects against collusion among weak sources. A hundred E1 sources cannot simulate one E3 source.
+
+### Independence Check
+
+Two sources are not necessarily independent. Both may go through the same gateway.
+
+The Evidence Graph records the source-of-source for each event. If two sources share a gateway, corroboration fails the independence check and the level remains at the primary source level.
 
 ## On-Demand Oracle and Trust
 
@@ -152,9 +217,18 @@ The first option is preferred. The carrier keeps existing monitoring, and LogiQE
 
 ### What This Means for Trust
 
-A source is registered once, with its own capabilities. Adding a second source does not change the first source's dimensions. Each source is evaluated independently, and the claim confidence is the result of applying the trust policy to all required sources.
+A source is registered once, with its own capabilities. Each source is evaluated independently.
 
-If a claim requires E4, and the only onboard tracker provides E3, a second weaker source will not satisfy the policy. A genuinely independent source at E3 or higher is required - for example, a warehouse gate API or a second vehicle confirming the same event.
+The claim level is the maximum level among independent sources that confirm the same fact. Weaker sources are ignored when a stronger independent source confirms the fact.
+
+Examples:
+
+- Mobile App A (E1) + Tracker B (E3) → claim level = E3. Mobile App is ignored.
+- Tracker A (E3) + Tracker B (E3) → claim level = E4. Corroboration raises the level.
+- Tracker A (E3) + Mobile App B (E1) → claim level = E3. Mobile App does not raise or lower.
+- Mobile App A (E1) + Mobile App B (E1) → claim level = E1. Two weak sources do not create a strong claim.
+
+Corroboration raises the claim level only when at least one independent source is at E3. Below E3, corroboration does not add value.
 
 ## Claim Pipeline and Network Effect
 
