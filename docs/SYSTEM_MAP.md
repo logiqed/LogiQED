@@ -51,11 +51,6 @@ Three layers work together:
     ║  │                               │          │  else                    → E5  │    ║
     ║  │                               │          │                                │    ║
     ║  │                               │          │  ↓ sourceAssurance             │    ║
-    ║  │                               │          │                                │    ║
-    ║  │                               │          │  Corroboration is not          │    ║
-    ║  │                               │          │  requested here.               │    ║
-    ║  │                               │          │  Evidence Builder applies      │    ║
-    ║  │                               │          │  Trust Policy later.           │    ║
     ║  │                               │          └────────────────────────────────┘    ║
     ║  │  6. Apply Trust Policy        │                                                ║
     ║  │  7. Normalize                 │                                                ║
@@ -138,20 +133,31 @@ Three layers work together:
     ║  │  SLA Engine                                                                 │  ║
     ║  │  Compute pause: interval between Entered and Exited events                  │  ║
     ║  │  In driver working calendar, not wall-clock                                 │  ║
-    ║  │  Round to nearest working boundary if outside calendar                      │  ║
     ║  └────────────────────────────────────┬────────────────────────────────────────┘  ║
     ║                                       │                                           ║
     ║                                       ↓                                           ║
     ║  ┌─────────────────────────────────────────────────────────────────────────────┐  ║
     ║  │  Route Completed?                                                           │  ║
     ║  │                                                                             │  ║
-    ║  │     Disputed                  Clean                                         │  ║
-    ║  │        │                        │                                           │  ║
-    ║  │        ↓                        ↓                                           │  ║
-    ║  │  Evidence Package         Signed events                                     │  ║
-    ║  │  + ZK proof               + Evidence Root                                   │  ║
-    ║  │  + Claim Confidence       No package, no proof                              │  ║
-    ║  │  + Arweave anchor         Cost ≈ zero                                       │  ║
+    ║  │     Disputed                                   Clean                        │  ║
+    ║  │        │                                         │                          │  ║
+    ║  │        ↓                                         ↓                          │  ║
+    ║  │  Evidence Package                          Signed events                    │  ║
+    ║  │  + ZK proof                                + Evidence Root                  │  ║
+    ║  │  + Claim Confidence                        No package, no proof             │  ║
+    ║  │  + Arweave anchor                          Cost ≈ zero                      │  ║
+    ║  └────────────────────────────────────┬────────────────────────────────────────┘  ║
+    ║                                       │                                           ║
+    ║                                       ↓                                           ║
+    ║  ┌─────────────────────────────────────────────────────────────────────────────┐  ║
+    ║  │  Evidence Builder (when disputed)                                           │  ║
+    ║  │                                                                             │  ║
+    ║  │  1. Apply Trust Policy                                                      │  ║
+    ║  │  2. Request corroboration if required                                       │  ║
+    ║  │  3. Check independence in Evidence Graph                                    │  ║
+    ║  │  4. Compute Claim Level                                                     │  ║
+    ║  │  5. Produce Claim Confidence                                                │  ║
+    ║  │  6. Produce Evidence Package                                                │  ║
     ║  └────────────────────────────────────┬────────────────────────────────────────┘  ║
     ║                                       │                                           ║
     ║                                       ↓                                           ║
@@ -211,23 +217,6 @@ Example: a GPS tracker reports `accuracy: 15m`. The server checks whether this i
 
 Metrology does not request independent measurements. It evaluates the accuracy of one source.
 
-### What Corroboration Is Not
-
-Corroboration is not requested in Authenticate.
-
-Authenticate computes the Own Assurance of a single source. It answers: how much can we trust this source on its own?
-
-Corroboration is applied later, by the Evidence Builder, when a claim is formed. The Evidence Builder applies the Trust Policy for that claim and, if corroboration is required, checks for an independent source.
-
-Flow:
-
-    Authenticate (Ingest)            → Own Assurance: E3
-    Trust Policy applied (Evidence)  → requires E4 with corroboration
-    Corroboration checked (Evidence) → warehouse gate API confirms
-    Claim Confidence (Evidence)      → PASS, claim level E4
-
-Own Assurance is a property of the source. Claim Confidence is a property of the claim.
-
 ### Source Types and Maximum Levels
 
 Not every source can provide all seven dimensions. The maximum level is capped by the source type.
@@ -244,30 +233,6 @@ Not every source can provide all seven dimensions. The maximum level is capped b
 | Max level | E3 (E4 with corroboration) | E1 | E0-E1 |
 
 A browser will never reach E3. A third-party mobile app will never exceed E1. An onboard tracker reaches E3 and, with corroboration, E4.
-
-### Claim Level vs Source Level
-
-Own Assurance is the level of a single source.
-
-Claim Level is the level of a claim, formed from one or more independent sources.
-
-The claim level is the maximum level among independent sources that confirm the same fact.
-
-Examples:
-
-| Sources | Claim level |
-|---------|-------------|
-| Mobile App only (E1) | E1 |
-| Mobile App (E1) + Mobile App (E1) | E1 |
-| Mobile App (E1) + Tracker (E3) | E3 |
-| Tracker (E3) only | E3 |
-| Tracker (E3) + Tracker (E3) | E4 |
-| Tracker (E3) + Warehouse gate (E2) | E4 |
-| Tracker (E3) + Traffic API (E1) | E3 |
-
-Weak sources are ignored when a stronger independent source confirms the fact.
-
-For the full rules, see [Trust Levels](TRUST_LEVELS.md).
 
 ## Layer 2: State — How the Route State Machine Works
 
@@ -387,16 +352,116 @@ If a segment ends while an exception is still active, the exception is closed at
 
 The Evidence Layer runs after the route is completed, or when a dispute is opened.
 
-### Claim Pipeline
+### SLA Engine
 
-For each claim, four stages:
+The SLA Engine computes the pause for the active exception.
 
-1. Driver reports an incident — E0.
-2. System checks own data — E2.
-3. System calls external API on demand — E2 with corroboration.
-4. Other vehicles confirm — E4.
+Rule: the pause is the measured interval between the entered and exited events of the exception, computed in the driver's working calendar, not wall-clock time.
 
-The same pipeline applies to all six exception types.
+If an entered or exited event falls outside the working calendar, the pause is rounded to the nearest working boundary.
+
+The result is stored with the segment and used later when the route is completed.
+
+### Evidence Builder
+
+The Evidence Builder runs when a claim is formed. It:
+
+1. Applies the Trust Policy for the claim.
+2. Requests corroboration if required by policy.
+3. Checks independence in the Evidence Graph.
+4. Computes the claim level.
+5. Produces Claim Confidence: PASS or FAIL.
+6. Produces the Evidence Package if the claim is disputed.
+
+### How Corroboration Is Requested
+
+Corroboration is applied by the Evidence Builder, after the route is completed. It is not applied by Ingest API, State Machine, or Orchestrator.
+
+Two search strategies:
+
+1. **Same-segment, same-time** — other vehicles in the same segment, within ±N minutes, that confirm the same exception.
+2. **External gate** — warehouse gate API or border API at fixed points on the route.
+
+An independent source is required. If two sources share a gateway, corroboration fails the independence check.
+
+### Claim Level and Source Level
+
+Own Assurance is the level of a single source. It is computed in Ingest.
+
+Claim Level is the level of a claim, formed from one or more independent sources.
+
+The claim level is the maximum level among independent sources that confirm the same fact.
+
+Examples:
+
+| Sources | Claim level |
+|---------|-------------|
+| Mobile App only (E1) | E1 |
+| Mobile App (E1) + Mobile App (E1) | E1 |
+| Mobile App (E1) + Tracker (E3) | E3 |
+| Tracker (E3) only | E3 |
+| Tracker (E3) + Tracker (E3) | E4 |
+| Tracker (E3) + Warehouse gate (E2) | E4 |
+| Tracker (E3) + Traffic API (E1) | E3 |
+
+Weak sources are ignored when a stronger independent source confirms the fact.
+
+Two weak sources do not combine into a strong claim. Corroboration requires at least one independent source at E3.
+
+For the full rules, see [Trust Levels](TRUST_LEVELS.md).
+
+### Evidence Graph
+
+The Evidence Graph is a directed acyclic graph that connects:
+
+- Events
+- Sources
+- Rules
+- Claims
+
+It is used for three purposes:
+
+1. **Provenance** — trace a claim back to its events and sources.
+2. **Independence check** — determine whether two sources are independent.
+3. **E5 verification** — confirm that three sources are physically independent.
+
+#### Provenance
+
+A claim can be traced back to its events and sources.
+
+Example:
+
+    Claim: Detention 68 min
+      ├─ Event: GeofenceEntered 11:54
+      │    └─ Source: TRK-GPS-01
+      │         └─ Source-of-source: hardware vendor
+      ├─ Event: DockAssigned 13:02
+      │    └─ Source: WH-API-01
+      │         └─ Source-of-source: warehouse WMS
+      └─ Rule: DETENTION_V1
+           └─ Version: 1.0
+
+#### Independence Check
+
+When two sources confirm the same event, the Evidence Graph checks whether they are independent.
+
+Example:
+
+- Source A: TRK-GPS-01, gateway = Teltonika.
+- Source B: WH-API-01, gateway = warehouse WMS.
+- Different gateways → independent. Corroboration stands.
+
+Counter-example:
+
+- Source A: TRK-GPS-01, gateway = Teltonika.
+- Source B: GW-TELEMATICS-01, gateway = Teltonika.
+- Same gateway → not independent. Corroboration fails.
+
+#### E5 Verification
+
+E5 requires three physically independent sources. The Evidence Graph confirms that all three do not share a gateway or physical signal.
+
+A hundred weak sources do not combine into one strong source. Corroboration is not arithmetic.
 
 ### Trust Policy
 
@@ -439,7 +504,7 @@ A truck in transit. A traffic jam occurs.
 11. Segment ends. SegmentExited(A-B) written with full report.
 12. Route completes.
 13. Evidence Builder applies Trust Policy.
-14. Another vehicle with an onboard tracker confirms the same standstill. Claim level = E4.
+14. Another vehicle with an onboard tracker confirms the same standstill. Evidence Graph checks independence: different gateway. Claim level = E4.
 15. Evidence Package written and anchored in Arweave.
 
 ## End-to-End Example: Clean Route
@@ -465,7 +530,8 @@ A truck drives Kyiv to Oslo. No exceptions.
 | Enrichment Decider | State | Decides if external API is needed |
 | On-Demand Oracle | State | Calls external APIs |
 | SLA Engine | Evidence | Computes pause in working calendar |
-| Evidence Package Builder | Evidence | Claim Confidence, ZK proof, package |
+| Evidence Builder | Evidence | Applies Trust Policy, checks corroboration, computes claim level |
+| Evidence Graph | Evidence | Provenance, independence check, E5 verification |
 | Arweave | Evidence | Permanent anchor |
 
 ## What Is Computed Where
@@ -478,8 +544,9 @@ A truck drives Kyiv to Oslo. No exceptions.
 | External API result | On-Demand Oracle | On candidate events that require it |
 | Final transition | Route State Machine | After enrichment or skip |
 | SLA pause | SLA Engine | When an exception is closed |
-| Claim level | Evidence Package Builder | When a claim is formed |
-| Claim Confidence | Evidence Package Builder | When a dispute or exception requires proof |
+| Claim level | Evidence Builder | When a claim is formed |
+| Independence check | Evidence Graph | When a claim is formed |
+| Claim Confidence | Evidence Builder | When a dispute or exception requires proof |
 
 ## Related Documents
 
