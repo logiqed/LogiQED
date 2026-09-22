@@ -78,16 +78,17 @@ Payload is approximately 1 KB per packet on average.
 
 ## Stage 2. Ingest API
 
-The Ingest API performs eight steps in order:
+The Ingest API performs nine steps in order:
 
 1. Verifies telemetry key. Looks up the source by X-Telemetry-Key hash.
 2. Verifies signature. Ed25519 or ML-DSA over the canonical payload.
 3. Deduplicates. Key: SourceId + ClientTimestampUtc + SourceSequence.
-4. Validates EPCIS event structure.
-5. Looks up source type and attestation from the source registry. The client never supplies either.
-6. Evaluates source identity, attestation, firmware, revocation.
-7. Applies Trust Policy. Computes sourceAssurance: E0-E5.
-8. Normalizes and enqueues to the Bounded Channel.
+4. Converts the source format to EPCIS 2.0. If the source already sends EPCIS, this step is a no-op.
+5. Validates the EPCIS structure.
+6. Looks up source type and attestation from the source registry. The client never supplies either.
+7. Evaluates source identity, attestation, firmware, revocation.
+8. Applies Trust Policy. Computes sourceAssurance: E0-E5.
+9. Normalizes and enqueues to the Bounded Channel.
 
 After step 8 the event carries:
 
@@ -107,6 +108,19 @@ Rationale:
 - Signature verification is a fast cryptographic check.
 - Dedup then runs only on valid events, so retry storms do not pollute the dedup table with unsigned payloads.
 - Structural validation is more expensive and runs only on events that are both signed and new.
+
+### Why Conversion Happens at Ingest
+
+Ingest is the single entry point. Converting here means:
+
+- The rest of the system works with one format.
+- Sources do not need to change their code.
+- Validation rules are consistent.
+- Canonicalization and hashing operate on a known structure.
+
+Native clients (browser PWA) send EPCIS 2.0 directly. External trackers (Teltonika, Ruptela) send binary packets over TCP or HTTPS. Mobile apps (Colota, HookTrace) send JSON. Warehouse and customs APIs send their own format.
+
+All of them are converted to EPCIS 2.0 at step 4.
 
 ### Authenticate: 7 Dimensions and Level Assignment
 

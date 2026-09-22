@@ -60,7 +60,7 @@ Telemetry positions are normalized into route events. Each event is signed, vali
 
 Driver devices - browser, mobile app, or onboard tracker - send coordinate deltas to Telemetry Ingest. Payload is approximately 1 KB per packet on average. The exact size depends on the source format.
 
-Telemetry Ingest receives the stream. Normalization, deduplication, and validation are applied.
+Telemetry Ingest receives the stream. Events are converted to EPCIS 2.0, deduplicated, and validated. After Ingest, the whole system works with a single canonical format.
 
 MS SQL is the system of record. Redis serves as a hot cache for fast reads.
 

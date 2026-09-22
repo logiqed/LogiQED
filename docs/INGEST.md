@@ -196,17 +196,16 @@ Client:
 
 Server:
 
-Server:
-
 1. Verifies telemetry key or source key.
-2. Verifies signature over canonical epcisEvent.
+2. Verifies signature over canonical payload.
 3. Deduplicates using SourceId + ClientTimestampUtc + SourceSequence.
-4. Validates EPCIS event structure.
-5. Looks up source type and attestation type from the source registry. The client never supplies either.
-6. Evaluates source identity, attestation, firmware, revocation.
-7. Applies Trust Policy. Computes sourceAssurance: E0-E5.
-8. Normalizes and enqueues to the Bounded Channel.
-9. Returns 202 with trustEvaluation.
+4. Converts the source format to EPCIS 2.0. If the source already sends EPCIS, this step is a no-op.
+5. Validates the EPCIS structure.
+6. Looks up source type and attestation type from the source registry. The client never supplies either.
+7. Evaluates source identity, attestation, firmware, revocation.
+8. Applies Trust Policy. Computes sourceAssurance: E0-E5.
+9. Normalizes and enqueues to the Bounded Channel.
+10. Returns 202 with trustEvaluation.
 
 Steps 5 and 6 are server-side only. The client cannot influence them. This follows the rule from Trust Levels: the client never supplies the trust level.
 
@@ -305,7 +304,7 @@ Example: an E4 source with E4_REQUIRED_V1 policy returns PASS.
 ## Design Notes
 
 - Client never supplies trust level or attestation. Server evaluates both.
-- EPCIS 2.0 is the event language.
+- EPCIS 2.0 is the canonical event format. Ingest converts all incoming formats to EPCIS 2.0 before validation.
 - Signature covers the canonical epcisEvent, not the envelope.
 - receivedAt is set by the server, never by the client.
 - Payload is minimal. No personal data.
@@ -315,3 +314,16 @@ Example: an E4 source with E4_REQUIRED_V1 policy returns PASS.
 - Rate limit: 100 requests per minute per source. This supports 1 packet per second with a 40% buffer.
 - Payload size limit: 10 KB. Typical payloads are around 1 KB.
 - Error responses include requestId for tracing.
+
+## Why Conversion Happens at Ingest
+
+Ingest is the single entry point. Converting here means:
+
+- The rest of the system works with one format.
+- Sources do not need to change their code.
+- Validation rules are consistent.
+- Canonicalization and hashing operate on a known structure.
+
+Native clients (browser PWA) send EPCIS 2.0 directly. External trackers (Teltonika, Ruptela) send binary packets over TCP or HTTPS. Mobile apps (Colota, HookTrace) send JSON. Warehouse and customs APIs send their own format.
+
+All of them are converted to EPCIS 2.0 at Ingest.

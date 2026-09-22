@@ -151,7 +151,9 @@ Dashboard for operational control: incident reports, evidence packages, manual i
 
 ## EPCIS and eFTI
 
-LogiQED uses **GS1 EPCIS 2.0** - the international logistics event language.
+LogiQED uses **GS1 EPCIS 2.0** as its canonical event format.
+
+Ingest accepts events from multiple sources and converts them to EPCIS 2.0 at the entry point. After that, the whole system works with a single format.
 
 A truck entering a geofence, a temperature breach, a loading start - every event is recorded in a format that eFTI platforms understand.
 

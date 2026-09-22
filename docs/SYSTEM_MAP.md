@@ -34,7 +34,7 @@ Three layers work together:
     ║  │  1. Verify X-Telemetry-Key    │          │  7 dimensions:                 │    ║
     ║  │  2. Verify signature          │          │  · Identity                    │    ║
     ║  │  3. Deduplicate               │  ────►   │  · Authentication              │    ║
-    ║  │  4. Validate EPCIS            │          │  · Integrity                   │    ║
+    ║  │  4. Convert to EPCIS          │          │  · Integrity                   │    ║
     ║  │                               │          │  · Attestation                 │    ║
     ║  │                               │          │  · Metrology                   │    ║
     ║  │                               │          │  · Time                        │    ║
@@ -259,6 +259,19 @@ Not every source can provide all seven dimensions. The maximum level is capped b
 | Max level | E3 (E4 with corroboration) | E1 | E0-E1 |
 
 A browser will never reach E3. A third-party mobile app will never exceed E1. An onboard tracker reaches E3 and, with corroboration, E4.
+
+### EPCIS as Canonical Format
+
+Ingest accepts events from multiple sources:
+
+- Native clients (browser PWA) send EPCIS 2.0 directly.
+- External trackers (Teltonika, Ruptela) send binary packets over TCP or HTTPS.
+- Mobile apps (Colota, HookTrace) send JSON.
+- Warehouse and customs APIs send their own format.
+
+Ingest converts every event to GS1 EPCIS 2.0 at step 4. If the source already sends EPCIS, the step is a no-op.
+
+After Ingest, the whole system works with a single canonical format. This removes the barrier for carriers: they do not need to adapt their existing systems to EPCIS.
 
 ## Layer 2: State — How the Route State Machine Works
 
