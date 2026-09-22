@@ -174,7 +174,7 @@ Example:
 
 Metrology does not request independent measurements. It evaluates the accuracy of one source.
 
-#### What Corroboration Is Not
+#### Where Corroboration Is Applied
 
 Corroboration is not requested in Authenticate.
 
@@ -187,13 +187,13 @@ So the flow is:
     Authenticate (Ingest)            → Own Assurance: E3
     Trust Policy applied (Evidence)  → requires E4 with corroboration
     Corroboration checked (Evidence) → warehouse gate API confirms
-    Claim Confidence (Evidence)      → PASS, level E4
+    Claim Confidence (Evidence)      → PASS, claim level E4
 
 Own Assurance is a property of the source. Claim Confidence is a property of the claim.
 
-#### Source Types and Maximum Levels
+#### Source Types and Maximum Own Assurance
 
-Not every source can provide all seven dimensions. The maximum level is capped by the source type.
+Not every source can provide all seven dimensions. The maximum own assurance is capped by the source type.
 
 | Dimension | Truck tracker | Mobile app (third-party) | Browser (PWA) |
 |-----------|---------------|--------------------------|---------------|
@@ -204,9 +204,13 @@ Not every source can provide all seven dimensions. The maximum level is capped b
 | Metrology | Yes | No | No |
 | Time | Yes | Partial | No |
 | Provenance | Yes | Partial | No |
-| Max level | E3 (E4 with corroboration) | E1 | E0-E1 |
+| Max own assurance | E3 | E2 | E0-E1 |
 
-A browser will never reach E3. A third-party mobile app will never exceed E1. A truck tracker reaches E3 and, with corroboration, E4.
+Own assurance is the level of a single source. It does not change with corroboration.
+
+A claim formed from independent sources can be higher. Two sources at E3 produce a claim at E4. Three independent sources produce E5.
+
+A browser will never reach E3. A truck tracker reaches E3. A third-party mobile app reaches E2 if it signs the payload with a key. Without signing, it stays at E1. It cannot reach E3 because it cannot prove device attestation from Secure Enclave or StrongBox. Most third-party apps do not implement either.
 
 ### Why the Event Carries E-Level Into the Channel
 

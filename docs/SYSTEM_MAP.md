@@ -245,7 +245,7 @@ Metrology does not request independent measurements. It evaluates the accuracy o
 
 ### Source Types and Maximum Levels
 
-Not every source can provide all seven dimensions. The maximum level is capped by the source type.
+Not every source can provide all seven dimensions. The maximum own assurance is capped by the source type.
 
 | Dimension | Onboard tracker | Mobile app (third-party) | Browser (PWA) |
 |-----------|-----------------|--------------------------|---------------|
@@ -256,9 +256,13 @@ Not every source can provide all seven dimensions. The maximum level is capped b
 | Metrology | Yes | No | No |
 | Time | Yes | Partial | No |
 | Provenance | Yes | Partial | No |
-| Max level | E3 (E4 with corroboration) | E1 | E0-E1 |
+| Max own assurance | E3 | E2 | E0-E1 |
 
-A browser will never reach E3. A third-party mobile app will never exceed E1. An onboard tracker reaches E3 and, with corroboration, E4.
+Own assurance is the level of a single source. It does not change with corroboration.
+
+A claim formed from independent sources can be higher. Two sources at E3 produce a claim at E4. Three independent sources produce E5.
+
+A browser will never reach E3. An onboard tracker reaches E3. A third-party mobile app reaches E2 if it signs the payload with a key. Without signing, it stays at E1. It cannot reach E3 because it cannot prove device attestation from Secure Enclave or StrongBox. Most third-party apps do not implement either.
 
 ### EPCIS as Canonical Format
 
@@ -440,7 +444,7 @@ An independent source is required. If two sources share a gateway, corroboration
 
 ### Claim Level and Source Level
 
-Own Assurance is the level of a single source. It is computed in Ingest.
+Own Assurance is the level of a single source. It is computed in Ingest. It does not change with corroboration.
 
 Claim Level is the level of a claim, formed from one or more independent sources.
 
@@ -450,9 +454,12 @@ Examples:
 
 | Sources | Claim level |
 |---------|-------------|
-| Mobile App only (E1) | E1 |
+| Mobile App only (E1, unsigned) | E1 |
+| Mobile App only (E2, signed) | E2 |
 | Mobile App (E1) + Mobile App (E1) | E1 |
+| Mobile App (E2) + Mobile App (E2) | E2 |
 | Mobile App (E1) + Tracker (E3) | E3 |
+| Mobile App (E2) + Tracker (E3) | E3 |
 | Tracker (E3) only | E3 |
 | Tracker (E3) + Tracker (E3) | E4 |
 | Tracker (E3) + Warehouse gate (E2) | E4 |
@@ -460,7 +467,7 @@ Examples:
 
 Weak sources are ignored when a stronger independent source confirms the fact.
 
-Two weak sources do not combine into a strong claim. Corroboration requires at least one independent source at E3.
+Corroboration raises the claim level only when the primary source is at E3. Below E3, the claim stays at the level of the strongest source. Two E1 sources produce an E1 claim. Two E2 sources produce an E2 claim.
 
 For the full rules, see [Trust Levels](TRUST_LEVELS.md).
 
@@ -577,7 +584,7 @@ A truck drives Kyiv to Oslo. No exceptions.
 
 | Component | Layer | Responsibility |
 |-----------|-------|----------------|
-| Ingest API | Trust | Validation, dedup, E0-E5 |
+| Ingest API | Trust | Validation, dedup, EPCIS conversion, source assurance E0-E5, event-level policy check |
 | Bounded Channel | Transport | In-memory queue with backpressure |
 | Event Orchestrator | State | Holds Route State Machines |
 | Route State Machine | State | Evaluates metrics, creates candidate events |
@@ -593,6 +600,7 @@ A truck drives Kyiv to Oslo. No exceptions.
 | What | Where | When |
 |------|-------|------|
 | Source Assurance E0-E5 | Ingest API | On each event |
+| Event-level policy check | Ingest API | On each event |
 | Candidate event | Route State Machine | When metrics cross thresholds |
 | Enrichment decision | Enrichment Decider | On each candidate event |
 | External API result | On-Demand Oracle | On candidate events that require it |
@@ -600,7 +608,7 @@ A truck drives Kyiv to Oslo. No exceptions.
 | SLA pause | SLA Engine | When an exception is closed |
 | Claim level | Evidence Builder | When a claim is formed |
 | Independence check | Evidence Graph | When a claim is formed |
-| Claim Confidence | Evidence Builder | When a dispute or exception requires proof |
+| Claim Confidence | Evidence Builder | When a claim is formed |
 
 ## Related Documents
 

@@ -16,7 +16,7 @@ Each dimension is evaluated independently. The final level is a combination of d
 
 ### Dimensions by Source Type
 
-Not every source can provide all seven dimensions. A truck tracker, a mobile app and a browser deliver different subsets. This determines the maximum level each source type can reach.
+Not every source can provide all seven dimensions. A truck tracker, a mobile app and a browser deliver different subsets. This determines the maximum own assurance each source type can reach.
 
 | Dimension | Truck tracker | Mobile app (third-party) | Browser (PWA) |
 |-----------|---------------|--------------------------|---------------|
@@ -27,9 +27,13 @@ Not every source can provide all seven dimensions. A truck tracker, a mobile app
 | Metrology | Yes | **No** | **No** |
 | Time | Yes | Partial | **No** |
 | Provenance | Yes | Partial | **No** |
-| **Max level** | **E3** (E4 with corroboration) | **E1** | **E0-E1** |
+| **Max own assurance** | **E3** | **E2** | **E0-E1** |
 
-The server does not ask a source for dimensions it cannot provide. A browser reaches E0 without authentication and E1 with a logged-in session. A third-party mobile app never exceeds E1, because it cannot attest the device or sign the payload. A truck tracker reaches E3, and E4 only with corroboration from an independent source.
+Own assurance is the level of a single source. It does not change with corroboration.
+
+A claim formed from independent sources can be higher than any single source. Two sources at E3 produce a claim at E4. Three independent sources produce E5. See Claim Level and Corroboration below.
+
+A browser will never reach E3. A truck tracker reaches E3. A third-party mobile app reaches E2 if it signs the payload with a key. Without signing, it stays at E1. It cannot reach E3 because it cannot prove device attestation from Secure Enclave or StrongBox. Most third-party apps do not implement either.
 
 ### Trust Levels
 
@@ -137,8 +141,10 @@ Examples:
 
 | Sources | Corroboration | Claim level |
 |---------|--------------|-------------|
-| Mobile App only (E1) | — | E1 |
+| Mobile App only (E1, unsigned) | — | E1 |
+| Mobile App only (E2, signed) | — | E2 |
 | Mobile App (E1) + Mobile App (E1) | Yes | E1 |
+| Mobile App (E2) + Mobile App (E2) | Yes | E2 |
 | Mobile App (E1) + Tracker (E3) | Yes | E3 |
 | Tracker (E3) only | — | E3 |
 | Tracker (E3) + Tracker (E3) | Yes | E4 |
@@ -161,13 +167,14 @@ Example: a driver with only a mobile app reports a traffic jam. No tracker is ne
 
 ### What Corroboration Requires
 
-Corroboration requires at least one independent source at E3.
+Corroboration raises the claim level only when the primary source is at E3.
 
-Below E3, corroboration does not raise the claim level.
+Below E3, the claim stays at the level of the strongest source.
 
 - Two E1 sources → E1.
 - Three E1 sources → E1.
-- E1 + E3 → E3.
+- Two E2 sources → E2.
+- E2 + E3 → E3.
 - E3 + E3 → E4.
 - E3 + E2 (warehouse gate) → E4.
 
@@ -185,12 +192,11 @@ The Evidence Builder:
 4. Computes the claim level.
 5. Produces Claim Confidence.
 
-
 ### Why Weak Sources Do Not Combine
 
 Corroboration confirms a fact. It does not make unsigned data signed.
 
-- Five mobile apps reporting the same event are still five unsigned sources.
+- Five mobile apps reporting the same event without signing are still five E1 sources.
 - Corroboration is not arithmetic. Attestation is a hardware property, not a count.
 
 This protects against collusion among weak sources. A hundred E1 sources cannot simulate one E3 source.
@@ -213,8 +219,8 @@ The Enrichment Decider determines whether external confirmation is required.
 
 A moving truck rarely reaches E4 or E5 for position claims. The reason is physical: GPS, CAN and geofence often come through one gateway - one source, not three.
 
-| Context | Typical level | Why |
-|---------|--------------|-----|
+| Context | Typical claim level | Why |
+|---------|--------------------|-----|
 | Moving on the road | E1-E2 | Single physical channel, no corroboration |
 | At warehouse or border | E3-E4 | External API corroboration |
 | Multi-sensor critical claim | E5 | Three independent sources |
@@ -223,14 +229,18 @@ E4 and E5 appear at fixed points where external systems join the claim, not on t
 
 ## Source Availability and Fallback
 
-A truck may already have onboard GPS. Or it may have none. The system supports both cases, and the choice affects the achievable trust level.
+A truck may already have onboard GPS. Or it may have none. The system supports both cases, and the choice affects the achievable own assurance.
 
-| Situation | Recommended source | Why | Typical level |
+| Situation | Recommended source | Why | Own assurance |
 |-----------|-------------------|-----|---------------|
-| Onboard GPS present | Onboard tracker only | Higher trust, no need for extra app | E3 (E4 with corroboration) |
-| No onboard GPS | Third-party mobile app | Only way to get telemetry without hardware | E1 |
-| Onboard GPS present, but data needed by multiple systems | Onboard tracker with dual-server | Sends to existing server and LogiQED in parallel | E3 (E4 with corroboration) |
-| Onboard GPS present, single-server only | Onboard tracker + local bridge | Forwarding through existing telematics platform | E3 (E4 with corroboration) |
+| Onboard GPS present | Onboard tracker only | Higher trust, no need for extra app | E3 |
+| No onboard GPS | Third-party mobile app | Only way to get telemetry without hardware | E1 (E2 with signed payload) |
+| Onboard GPS present, but data needed by multiple systems | Onboard tracker with dual-server | Sends to existing server and LogiQED in parallel | E3 |
+| Onboard GPS present, single-server only | Onboard tracker + local bridge | Forwarding through existing telematics platform | E3 |
+
+Own assurance is the level of a single source. It does not change with corroboration.
+
+A claim formed from independent sources can be higher. A claim confirmed by a second vehicle or an external gate reaches E4. Three independent sources reach E5. See Claim Level and Corroboration above.
 
 ### Why a Second Source Does Not Always Help
 
@@ -286,8 +296,8 @@ CAN bus is an amplifier, not corroboration. It confirms vehicle state inside one
 
 ### Example: Traffic
 
-| Step | Source | What it confirms | Level |
-|------|--------|-----------------|-------|
+| Step | Source | What it confirms | Claim level |
+|------|--------|-----------------|-------------|
 | 1 | Driver | "There is a traffic jam" | E0 |
 | 2 | GPS + CAN | Vehicle is stationary, engine running, brake pressed | E2 |
 | 3 | Traffic API | Congestion confirmed on the segment | E2 (corroboration) |
@@ -305,8 +315,8 @@ CAN bus confirms vehicle state: speed, engine, brake, gear. It strengthens the c
 
 The pipeline scales with the number of vehicles in the system.
 
-| Vehicles on the segment | Achievable level | Why |
-|------------------------|-----------------|-----|
+| Vehicles on the segment | Achievable claim level | Why |
+|------------------------|-----------------------|-----|
 | One vehicle, no API | E2 | Single source |
 | One vehicle + traffic API | E2 | External confirmation |
 | Two or more vehicles + API | E4 | Independent corroboration |
@@ -340,7 +350,7 @@ The client never supplies the trust level.
 
 ### Source Types and Who Sends Data
 
-Each source type has its own registration path, authentication method, and typical level.
+Each source type has its own registration path, authentication method, and typical own assurance.
 
 | Source | Who sends | How it authenticates | Who registers |
 |--------|-----------|---------------------|---------------|
@@ -358,16 +368,17 @@ Any client that can send an HTTP request can become a source. The contract is in
 
 Required:
 
-- HTTP endpoint: POST to the LogiQED ingest URL.
-- Header: X-Telemetry-Key: with the secret issued by the admin.
-- Body: JSON payload with latitude, longitude, timestamp and accuracy.
+- HTTP endpoint: `POST` to the LogiQED ingest URL.
+- Header: `X-Telemetry-Key` with the secret issued by the admin.
+- Body: JSON payload with `latitude`, `longitude`, `timestamp` and `accuracy`.
 
-Optional, but improves the achievable trust level:
+Optional, but improves the achievable own assurance:
 
-- Signed payload - moves the source from E1 toward E2.
-- Device attestation - moves the source toward E3.
+- Signed payload - adds Integrity, moves the source from E1 to E2.
 - Reported accuracy - enables the Metrology dimension.
 - Clock synchronization - enables the Time dimension.
+
+Device attestation from Secure Enclave or StrongBox is theoretically possible but not implemented by any common third-party GPS logger. It would move the source to E3.
 
 Recommended clients for pilots:
 
@@ -401,7 +412,7 @@ The same contract is used by LogiQED-owned clients, including the in-house wareh
       "sources": [
         {
           "sourceId": "device-042",
-          "ownAssurance": "E4",
+          "ownAssurance": "E3",
           "attestation": "SECURE_ENCLAVE",
           "role": "primary"
         },
@@ -415,6 +426,8 @@ The same contract is used by LogiQED-owned clients, including the in-house wareh
 ```
 
 A verifier can check the trust policy result without raw telemetry.
+
+Note: `ownAssurance` is the level of each source. `claimLevel` is the level of the whole claim, computed as the maximum among independent sources.
 
 ## Design Principles
 

@@ -217,12 +217,12 @@ CAN bus is an amplifier, not corroboration. It confirms vehicle state inside one
 
 ### Source Availability
 
-Sources can be onboard or mobile. The choice affects the maximum reachable trust level.
+Sources can be onboard or mobile. The choice affects the maximum reachable own assurance.
 
-| Situation | Source | Typical level |
-|-----------|--------|--------------|
-| Onboard GPS present | Truck tracker (direct or via adapter) | E3 (E4 with corroboration) |
-| No onboard GPS | Third-party mobile app | E1 |
+| Situation | Source | Own assurance |
+|-----------|--------|---------------|
+| Onboard GPS present | Truck tracker (direct or via adapter) | E3 |
+| No onboard GPS | Third-party mobile app | E1 (E2 with signed payload) |
 | Browser fallback | Browser (PWA) | E0-E1 |
 
 Onboard trackers send data in one of three ways:
@@ -231,7 +231,11 @@ Onboard trackers send data in one of three ways:
 2. Data forwarding - existing telematics platform forwards the stream.
 3. Endpoint replacement - tracker reconfigured to point at LogiQED. Only with carrier consent.
 
-A second weaker source does not raise the trust level. Adding a mobile app next to an onboard tracker keeps the level at E3 - corroboration requires independence, not just two sources.
+Own assurance is the level of a single source. It does not change with corroboration.
+
+A claim formed from independent sources can be higher. A claim confirmed by a second vehicle or an external gate reaches E4. Three independent sources reach E5.
+
+A second weaker source does not raise the own assurance. Adding a mobile app next to an onboard tracker keeps the source level at E3 and does not change the claim level - corroboration requires independence, not just two sources.
 
 See [Trust Levels](TRUST_LEVELS.md) for the full dimension table.
 
