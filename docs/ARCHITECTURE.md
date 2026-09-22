@@ -1,5 +1,7 @@
 # LogiQED Architecture
 
+See [System Map](SYSTEM_MAP.md) for a one-page overview of all layers.
+
 ## General Approach
 
 Modular monolith on C# Blazor. Microservices are a Phase 2 concern.

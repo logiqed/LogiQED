@@ -205,6 +205,7 @@ The field names match the SLA Engine evaluation result in [SLA DSL](SLA_DSL.md) 
 ## Related
 
 - [Architecture](ARCHITECTURE.md) - overall system
+- [System Map](SYSTEM_MAP.md) - trust, state, and evidence layers
 - [Event Pipeline](EVENT_PIPELINE.md) - vertical flow from device to SLA
 - [Evidence Package](EVIDENCE.md) - package structure and canonicalization
 - [Claims](CLAIMS.md) - claim definitions

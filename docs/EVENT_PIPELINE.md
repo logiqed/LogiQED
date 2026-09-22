@@ -342,6 +342,7 @@ The result is stored with the segment and used later when the route is completed
 
 ## Related Documents
 
+- [System Map](SYSTEM_MAP.md) - horizontal overview of all layers
 - [Architecture](ARCHITECTURE.md) - overall system and modules
 - [Data Flow](DATA_FLOW.md) - canonical event flow through all stages
 - [Ingest API](INGEST_API.md) - endpoint contract and signing flow
