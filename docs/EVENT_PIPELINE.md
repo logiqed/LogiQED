@@ -108,6 +108,92 @@ Rationale:
 - Dedup then runs only on valid events, so retry storms do not pollute the dedup table with unsigned payloads.
 - Structural validation is more expensive and runs only on events that are both signed and new.
 
+### Authenticate: 7 Dimensions and Level Assignment
+
+Step 6 from the list above, Evaluate source identity, is expanded here.
+
+For each event, the server evaluates seven dimensions of the source.
+
+| Dimension | What it checks | Example |
+|-----------|----------------|---------|
+| Identity | Who the source is | IMEI, certificate, key ID |
+| Authentication | How the source proves identity | Signature verification |
+| Integrity | Data validity | Hash match, signed payload |
+| Attestation | Hardware or software context | TPM quote, Secure Enclave |
+| Metrology | Calibration and accuracy | GPS accuracy ±15m, sensor tolerance |
+| Time | Clock accuracy and synchronization | Drift below threshold |
+| Provenance | Origin of the data | Gateway channel known |
+
+Each dimension is evaluated independently. The final level is assigned by the weakest link.
+
+#### Level Assignment Rules
+
+    if not Authentication:              E0
+    elif not Integrity:                 E1
+    elif not Attestation:               E2
+    elif not Corroboration:             E3
+    elif not Independence (3+ sources): E4
+    else:                               E5
+
+The rule is applied in order. The first failing condition determines the level.
+
+#### What Happens at Each Level
+
+| Level | Meaning | Typical source |
+|-------|---------|---------------|
+| E0 | Manual input, basic authentication | Operator enters data through UI |
+| E1 | Authenticated API | Third-party API with key |
+| E2 | Signed software | Mobile app with signed payload |
+| E3 | Attested device | Tracker with TPM or Secure Element |
+| E4 | E3 plus corroboration | Tracker plus warehouse gate API |
+| E5 | E4 plus independence | Tracker plus warehouse plus customs |
+
+#### Metrology in Practice
+
+Metrology checks the accuracy reported by the source.
+
+Example:
+
+- GPS tracker reports `accuracy: 15m`.
+- The server checks: is this within the acceptable range for this source type?
+- If accuracy is missing or out of range, Metrology fails and the level is capped.
+
+Metrology does not request independent measurements. It evaluates the accuracy of one source.
+
+#### What Corroboration Is Not
+
+Corroboration is not requested in Authenticate.
+
+Authenticate computes the Own Assurance of a single source. It answers the question: how much can we trust this source on its own?
+
+Corroboration is applied later, by the Evidence Builder, when a claim is formed. The Evidence Builder applies the Trust Policy for that claim and, if corroboration is required, checks for an independent source.
+
+So the flow is:
+
+    Authenticate (Ingest)            → Own Assurance: E3
+    Trust Policy applied (Evidence)  → requires E4 with corroboration
+    Corroboration checked (Evidence) → warehouse gate API confirms
+    Claim Confidence (Evidence)      → PASS, level E4
+
+Own Assurance is a property of the source. Claim Confidence is a property of the claim.
+
+#### Source Types and Maximum Levels
+
+Not every source can provide all seven dimensions. The maximum level is capped by the source type.
+
+| Dimension | Truck tracker | Mobile app (third-party) | Browser (PWA) |
+|-----------|---------------|--------------------------|---------------|
+| Identity | Yes | Partial | Partial |
+| Authentication | Yes | Yes | Partial |
+| Integrity | Yes | No | No |
+| Attestation | Yes | No | No |
+| Metrology | Yes | No | No |
+| Time | Yes | Partial | No |
+| Provenance | Yes | Partial | No |
+| Max level | E3 (E4 with corroboration) | E1 | E0-E1 |
+
+A browser will never reach E3. A third-party mobile app will never exceed E1. A truck tracker reaches E3 and, with corroboration, E4.
+
 ### Why the Event Carries E-Level Into the Channel
 
 The Ingest API computes sourceAssurance and attaches it to the event before enqueueing. The Orchestrator reads events with the trust level already attached.
