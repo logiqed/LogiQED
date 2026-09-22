@@ -74,6 +74,8 @@ Aligned Layer generates the ZK-proof. For MVP this is mocked.
 
 Arweave provides permanent evidence storage.
 
+See [Event Pipeline](EVENT_PIPELINE.md) for the full flow from device to SLA.
+
 ### Route State Machine
 
 - Created, then InTransit

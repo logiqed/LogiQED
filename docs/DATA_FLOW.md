@@ -201,3 +201,12 @@ The field names match the SLA Engine evaluation result in [SLA DSL](SLA_DSL.md) 
 - Any step can be independently audited.
 - All consumers are idempotent. Retries are safe.
 - The client never supplies the trust level. The server computes it.
+
+## Related
+
+- [Architecture](ARCHITECTURE.md) - overall system
+- [Event Pipeline](EVENT_PIPELINE.md) - vertical flow from device to SLA
+- [Evidence Package](EVIDENCE.md) - package structure and canonicalization
+- [Claims](CLAIMS.md) - claim definitions
+- [Trust Levels](TRUST_LEVELS.md) - source assurance levels
+- [Ingest API](INGEST_API.md) - endpoint contract and signing flow

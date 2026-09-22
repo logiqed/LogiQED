@@ -196,13 +196,17 @@ Client:
 
 Server:
 
+Server:
+
 1. Verifies telemetry key or source key.
 2. Verifies signature over canonical epcisEvent.
-3. Validates EPCIS event structure.
-4. Deduplicates using SourceId + ClientTimestampUtc + SourceSequence.
+3. Deduplicates using SourceId + ClientTimestampUtc + SourceSequence.
+4. Validates EPCIS event structure.
 5. Looks up source type and attestation type from the source registry. The client never supplies either.
 6. Evaluates source identity, attestation, firmware, revocation.
-7. Returns 202 with trustEvaluation.
+7. Applies Trust Policy. Computes sourceAssurance: E0-E5.
+8. Normalizes and enqueues to the Bounded Channel.
+9. Returns 202 with trustEvaluation.
 
 Steps 5 and 6 are server-side only. The client cannot influence them. This follows the rule from Trust Levels: the client never supplies the trust level.
 
