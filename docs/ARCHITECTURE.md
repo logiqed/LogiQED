@@ -108,6 +108,66 @@ TrafficEntered and TrafficExited are transition triggers, not separate states. T
 
 The diagram shows the Traffic path as the reference. Other exception types use the same structure with their own entered and exited events.
 
+
+### Segment Lifecycle
+
+A route is divided into segments. Each segment covers a section of the route between two points: warehouse, border, city, or terminal.
+
+A segment is not a separate SLA unit. One SLA rule applies to the whole route.
+
+#### How Segments Are Created
+
+Segments are proposed automatically when the route is created. Sources:
+
+- Known geofences: warehouses, borders, terminals.
+- Road network: cities and junctions along the route.
+- Historical data: if the route has been driven before.
+
+The operator reviews the proposal on the map, adjusts boundaries, and saves. Segments are stored with the route, not with the SLA.
+
+#### How Segments Are Filled
+
+When the vehicle moves, the Event Orchestrator opens each segment on entry and closes it on exit.
+
+For each segment, the SLA Engine records:
+
+- entry and exit time
+- total duration
+- pause events and pause duration
+- attribution of pauses to the responsible party
+
+No numbers are entered manually. All values are computed from the event stream.
+
+If an exception is still active when the vehicle leaves the segment, the exception is closed at the segment boundary. If the condition persists, a new exception is opened in the next segment.
+
+#### How the Result Is Assembled
+
+When the route is completed, the SLA Engine sums durations across all segments and compares the total against the route-level SLA.
+
+| Level | What it contains |
+|-------|-----------------|
+| Route | One PASS or FAIL against the SLA |
+| Segment | Duration, pauses, attribution for each section |
+
+Example:
+
+| Segment | Duration | Pause |
+|---------|----------|-------|
+| Kyiv - Lviv | 8h | 1h (Traffic) |
+| Lviv - Krakow | 7h | 0 |
+| Krakow - Berlin | 9h | 1h (Weather) |
+| Berlin - Hamburg | 4h | 0 |
+| Hamburg - Oslo | 14h | 0 |
+| **Total** | **42h** | **2h pause** |
+
+Chargeable time: 42h - 2h = 40h.
+
+SLA on the route: 48h. Result: PASS.
+
+The segment breakdown does not change the SLA result. It explains where time was spent and which party is responsible for each pause.
+
+See [SLA DSL](SLA_DSL.md) for the rule format and evaluation result.
+
 ### Event Orchestrator
 
 Background Service within LogiQED.Web.API for MVP. Extract to a separate microservice when scale justifies it.
