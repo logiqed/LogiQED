@@ -517,7 +517,12 @@ Examples:
 
 Weak sources are ignored when a stronger independent source confirms the fact.
 
-Corroboration raises the claim level only when the primary source is at E3. Below E3, the claim stays at the level of the strongest source. Two E1 sources produce an E1 claim. Two E2 sources produce an E2 claim.
+Corroboration raises the claim level to E4 only when two conditions are satisfied:
+
+1. Primary source is at E3 or higher.
+2. Corroborating source is at E2 or higher.
+
+Below these thresholds, the claim stays at the level of the strongest source. Two E1 sources produce an E1 claim. Two E2 sources produce an E2 claim. A tracker at E3 plus a traffic API at E1 produces an E3 claim.
 
 For the full rules, see [Trust Levels](TRUST_LEVELS.md).
 

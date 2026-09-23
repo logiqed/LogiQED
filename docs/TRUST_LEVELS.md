@@ -167,16 +167,44 @@ Example: a driver with only a mobile app reports a traffic jam. No tracker is ne
 
 ### What Corroboration Requires
 
-Corroboration raises the claim level only when the primary source is at E3.
+Two conditions must be satisfied for corroboration to raise a claim to E4:
 
-Below E3, the claim stays at the level of the strongest source.
+1. **Primary source must be at E3 or higher.** A claim below E3 stays at the level of the strongest source.
+2. **Corroborating source must be at E2 or higher.** A source at E1 adds context but does not raise the claim to E4.
 
-- Two E1 sources → E1.
-- Three E1 sources → E1.
-- Two E2 sources → E2.
-- E2 + E3 → E3.
-- E3 + E3 → E4.
-- E3 + E2 (warehouse gate) → E4.
+Below these thresholds, the claim stays at the level of the strongest source.
+
+### What Corroboration Requires
+
+Two conditions must be satisfied for corroboration to raise a claim to E4:
+
+1. **Primary source must be at E3 or higher.** A claim below E3 stays at the level of the strongest source.
+2. **Corroborating source must be at E2 or higher.** A source at E1 adds context but does not raise the claim to E4.
+
+Below these thresholds, the claim stays at the level of the strongest source.
+
+Examples:
+
+| Primary source | Corroborating sources | Claim level | Comment |
+|---------------|----------------------|-------------|---------|
+| E1 | none | E1 | Single source |
+| E1 | E1 | E1 | Corroboration does not raise. Strongest source is E1 |
+| E1 | E1 + E1 | E1 | Three weak sources still do not raise |
+| E2 | none | E2 | Single source |
+| E2 | E2 | E2 | Corroboration does not raise. Strongest source is E2 |
+| E2 | E3 | **E3** | Corroboration does not raise. Primary is below E3, so claim stays at the strongest source level, which is E3 |
+| E3 | none | E3 | Single attested source |
+| E3 | E1 (traffic API) | E3 | Corroboration does not raise. E1 is below the E2 threshold |
+| E3 | E2 (warehouse gate) | **E4** | Corroboration raises. Primary E3, corroborating E2 |
+| E3 | E2 + E2 | **E4** | Primary E3, two corroborating at E2. Claim level E4, not E5 |
+| E3 | E3 | **E4** | Corroboration raises. Both sources at E3 |
+| E3 | E3 + E3 | **E5** | Three independent sources at E3, confirmed in the Evidence Graph |
+
+Notes:
+
+- **Own assurance of each source does not change.** A source registered as E2 stays at E2 in the source registry. Only the claim level is affected.
+- **Claim level is one value for the whole claim.** It is not "E3 for machine A, E4 for machine B". It is the maximum level among independent sources that confirm the fact.
+- **A weaker source is ignored** when a stronger independent source confirms the same fact. Example: a tracker at E3 plus a mobile app at E1 produces an E3 claim. The mobile app does not pull the claim level down, but it does not raise it either.
 
 ### Where Corroboration Is Requested
 
