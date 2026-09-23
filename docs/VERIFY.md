@@ -6,14 +6,16 @@ Verification allows any party to check an Evidence Package without accessing raw
 
 ## What Can Be Verified
 
-- Proof validity
-- Hash consistency
+- Proof validity, when present
+- Hash consistency for trip and claim Evidence Roots
 - Source signatures
 - Rule version and digest
 - Trust policy result
-- Corroboration result
+- Claim level
+- Decision: confirmed or rejected
+- Corroboration result, when present
 - Conclusion correctness
-- Evidence Root against external anchor
+- Trip and claim Evidence Roots against external anchors
 
 ## Endpoint
 
@@ -43,8 +45,11 @@ Rate limit: 100 requests per minute per IP.
     {
       "package": {
         "schemaVersion": "1.0",
+        "packageForm": "FULL",
         "claimId": "...",
         "claimType": "DETENTION",
+        "claimLevel": "E4",
+        "decision": "CONFIRMED",
         "sources": [],
         "inputEvents": [],
         "rule": {
@@ -52,7 +57,8 @@ Rate limit: 100 requests per minute per IP.
           "version": "1.0",
           "digest": "sha256:..."
         },
-        "evidenceRoot": "0x8f3a...",
+        "tripEvidenceRoot": "0x8f3a...",
+        "claimEvidenceRoot": "0x4b12...",
         "proof": {
           "backend": "ALIGNED_LAYER_MOCK",
           "proofHash": "sha256:..."
@@ -77,10 +83,13 @@ Rate limit: 100 requests per minute per IP.
       },
       "checks": {
         "signature": "PASS",
-        "evidenceRootMerkle": "PASS",
-        "evidenceRootAnchor": "PASS",
+        "tripEvidenceRootMerkle": "PASS",
+        "tripEvidenceRootAnchor": "PASS",
+        "claimEvidenceRootMerkle": "PASS",
+        "claimEvidenceRootAnchor": "PASS",
         "ruleDigest": "PASS",
         "trustPolicy": "PASS",
+        "claimLevel": "PASS",
         "corroboration": "PASS",
         "proofValidity": "PASS"
       },
@@ -94,8 +103,12 @@ Rate limit: 100 requests per minute per IP.
         "version": "1.0",
         "digest": "sha256:..."
       },
-      "evidenceRoot": "0x8f3a...",
-      "externalAnchorRef": "arweave:kT4b...",
+      "claimLevel": "E4",
+      "decision": "CONFIRMED",
+      "tripEvidenceRoot": "0x8f3a...",
+      "tripExternalAnchorRef": "arweave:kT4b...",
+      "claimEvidenceRoot": "0x4b12...",
+      "claimExternalAnchorRef": "arweave:kT4c...",
       "proof": {
         "backend": "ALIGNED_LAYER_MOCK",
         "circuitId": "detention_claim_v1",
@@ -115,20 +128,55 @@ Rate limit: 100 requests per minute per IP.
       "schemaVersion": "1.0",
       "result": {
         "status": "INVALID",
-        "reason": "Evidence Root does not match Merkle commitment"
+        "reason": "Claim Evidence Root does not match Merkle commitment"
       },
       "checks": {
         "signature": "PASS",
-        "evidenceRootMerkle": "FAIL",
-        "evidenceRootAnchor": "PASS",
+        "tripEvidenceRootMerkle": "PASS",
+        "tripEvidenceRootAnchor": "PASS",
+        "claimEvidenceRootMerkle": "FAIL",
+        "claimEvidenceRootAnchor": "PASS",
         "ruleDigest": "PASS",
         "trustPolicy": "PASS",
+        "claimLevel": "PASS",
         "corroboration": "PASS",
         "proofValidity": "PASS"
       },
       "verifiedAt": "2026-08-25T14:05:00Z"
     }
 ```
+
+### 200 Base Package
+
+```json
+    {
+      "requestId": "req_01HZ...",
+      "packageId": "pkg_01HZ...",
+      "schemaVersion": "1.0",
+      "packageForm": "BASE",
+      "result": {
+        "status": "VALID",
+        "conclusion": "Warehouse attributable: 68 min"
+      },
+      "checks": {
+        "signature": "PASS",
+        "tripEvidenceRootMerkle": "PASS",
+        "tripEvidenceRootAnchor": "PASS",
+        "claimEvidenceRootMerkle": "PASS",
+        "claimEvidenceRootAnchor": "PASS",
+        "ruleDigest": "PASS",
+        "trustPolicy": "PASS",
+        "claimLevel": "PASS",
+        "corroboration": "SKIP",
+        "proofValidity": "SKIP"
+      },
+      "claimLevel": "E3",
+      "decision": "CONFIRMED",
+      "verifiedAt": "2026-08-25T14:05:00Z"
+    }
+```
+
+The base package has no corroboration and no proof. Both checks return SKIP.
 
 ### 400 Invalid Request
 
@@ -170,21 +218,26 @@ Rate limit: 100 requests per minute per IP.
 
 1. Resolve package by packageId or by full package payload.
 2. Verify signature with the organization key.
-3. Recompute Evidence Root from canonical input events.
-4. Verify anchor against externalAnchorRef.
-5. Verify rule digest from published rule definition.
-6. Verify trust policy from source identities.
-7. Verify corroboration from Evidence Graph.
-8. Verify proof through the proof backend.
-9. Recompute conclusion from rule formula and input events.
-10. Log verification with requestId, packageId, result, and verifiedAt.
+3. Recompute trip Evidence Root from canonical route events.
+4. Verify trip anchor against tripExternalAnchorRef.
+5. Recompute claim Evidence Root from canonical claim events.
+6. Verify claim anchor against claimExternalAnchorRef.
+7. Verify rule digest from published rule definition.
+8. Verify trust policy from source own assurance values.
+9. Verify claim level matches the computed level.
+10. Verify decision matches the recorded outcome.
+11. Verify corroboration from Evidence Graph, when present.
+12. Verify proof through the proof backend, when present.
+13. Recompute conclusion from rule formula and input events.
+14. Log verification with requestId, packageId, result, and verifiedAt.
 
 ## Design Notes
 
 - Verification never exposes raw telemetry.
 - verifiedAt is set by the server.
 - Checks return PASS, FAIL, or SKIP.
-- SKIP is used when a check is not applicable, for example when no enrichment was applied and corroboration is not present.
+- SKIP is used when a check is not applicable. For a base package, corroboration and proof are not present, so both checks return SKIP.
+- ZK proof is present only in the full package, and only when the claim level is E3 or higher.
 - Proof backend is pluggable: Aligned Layer, Groth16, Plonk, STARK, or zkVM options (Lattice Jolt, SP1, RISC Zero).
 - Verification results are logged for audit.
 - Aligned Layer is the primary proof backend. Mock for MVP.

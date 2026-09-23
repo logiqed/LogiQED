@@ -10,6 +10,12 @@ A single dispute can cost a carrier $200–500 in legal fees, staff time, and lo
 
 LogiQED turns telemetry and trip events into signed Evidence Packages.
 
+Three levels of evidence are produced:
+
+- **Clean route** - signed events + trip Evidence Root + Arweave anchor.
+- **Incident** - claim package base + claim anchor. Confirmed or rejected.
+- **Disputed** - retroactive corroboration + ZK proof + new anchor.
+
 A dispute closes on evidence in minutes, not by email threads over weeks.
 
 ## Pricing
@@ -35,7 +41,9 @@ Example: a carrier with 20 vehicles pays $99 + $200 = $299/month base, plus $0.0
 | Variable COGS | $0.015 per package |
 | Gross margin | ~82% |
 
-Packages are generated only for disputes and SLA exceptions. A carrier with 20 vehicles typically has 10–30 disputes per month, not 5,000.
+Claim packages are generated for every recorded claim, confirmed or rejected. A carrier with 20 vehicles typically has 10–30 claims per month, not 5,000.
+
+Trip anchors are produced for every route, clean or incident. The cost of a trip anchor is close to zero.
 
 ### Enterprise: 200 vehicles
 
@@ -92,11 +100,13 @@ This creates a channel, not a conflict.
 
 A single Evidence Package costs about $0.08.
 
+A trip anchor costs close to zero and is produced for every route.
+
 That is cheaper than an SMS and thousands of times cheaper than one dispute.
 
 A client recovers the Pro subscription on the first resolved dispute.
 
-No TMS provider offers ZK-backed evidence infrastructure.
+No TMS provider offers cryptographic evidence infrastructure with per-route anchors and per-claim packages.
 
 ## Cost Structure
 

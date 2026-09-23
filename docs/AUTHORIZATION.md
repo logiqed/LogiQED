@@ -103,7 +103,7 @@ The UI adapts to the role automatically:
 An administrator creates a role **Border Control** with permissions:
 
 - `Registry.Read` - view trip registry, read-only
-- `Evidence.Read` - view Evidence Packages
+- `Evidence.Read` - view claim packages and Evidence Roots
 - `Incidents.Read` - view incident reports
 
 Result:
@@ -120,13 +120,16 @@ See [Workflow](WORKFLOW.md) for how statuses and transitions integrate with perm
 
 ## Default Demo Roles
 
+Six seeded roles show how navigation and permissions are generated rather than hardcoded.
+
 | Role | Access |
 |------|--------|
-| Device | Write-only: events and telemetry |
-| Driver | Read own trips, SLA status, Penalty Protection |
-| Dispatcher | Read all trips in organization, comments |
-| Auditor | Home, Incidents (read-only), Evidence Packages, Trust sources, Audit Journal. Verify, export. |
-| Admin | Manage devices, keys, SLA rules, users |
+| Administrator | Users, Roles, Permissions, Rules & Endpoints, Audit Journal |
+| SLA Analyst | SLA policies, Working Calendar, Driver Incident Reports |
+| Dispatcher | Registry, Map, Incidents, Workflow, Claim Packages |
+| Driver | Mobile Driver View, Telemetry, Incidents |
+| Shift Supervisor | Org structure: departments, employees, duty roster |
+| Auditor | Claim Packages, Trust sources, Audit Journal. Verify, export. |
 
 ## Security Properties
 
@@ -139,3 +142,4 @@ See [Workflow](WORKFLOW.md) for how statuses and transitions integrate with perm
 - Client resilience.
 - RBAC separation.
 - Fully configurable roles without hardcoded permissions.
+- Evidence access is separate from operational access. Auditor and Border Control roles can view claim packages without access to raw telemetry.

@@ -10,7 +10,8 @@ info:
     ## Authentication
     - Device events: X-Telemetry-Key header, assigned by LogiQED.
     - Operator API: Bearer JWT.
-    - Claims verification: public, no auth required.
+    - Evidence Package verification: public, no auth required.
+    - Claim verification: public, no auth required.
 
     ## Rate limits
     - Ingest: 100 requests per minute per source.
@@ -37,7 +38,7 @@ tags:
   - name: SLA
     description: Rules and exception attribution
   - name: Evidence
-    description: Evidence Packages and verification
+    description: Claim packages, trip and claim anchors, verification
   - name: Claims
     description: ZK claims
 
@@ -108,7 +109,7 @@ paths:
       tags: [Events]
       summary: Submit signed evidence event
       description: |
-        Entry point for signed EPCIS events. Server evaluates source trust server-side.
+        Entry point for signed events. Source formats are converted to EPCIS 2.0. Server evaluates source trust server-side.
         The client never supplies the trust level.
       security:
         - DeviceKeyAuth: []
@@ -413,11 +414,11 @@ components:
               type: string
             sourceAssurance:
               type: string
-              description: Trust level computed for this specific event, not the base level of the source.
-              example: "E4"
+              description: Own assurance of the source at the time of this event. This is the source-level assurance, not the claim level. Claim level is computed later by the Evidence Builder.
+              example: "E3"
             trustPolicy:
               type: string
-              example: "E4_REQUIRED_V1"
+              example: "E3_REQUIRED_V1"
             evaluationStatus:
               type: string
               enum: [PASS, FAIL, INSUFFICIENT_DATA]
@@ -459,16 +460,25 @@ components:
             signature:
               type: string
               enum: [PASS, FAIL, SKIP]
-            evidenceRootMerkle:
+            tripEvidenceRootMerkle:
               type: string
               enum: [PASS, FAIL, SKIP]
-            evidenceRootAnchor:
+            tripEvidenceRootAnchor:
+              type: string
+              enum: [PASS, FAIL, SKIP]
+            claimEvidenceRootMerkle:
+              type: string
+              enum: [PASS, FAIL, SKIP]
+            claimEvidenceRootAnchor:
               type: string
               enum: [PASS, FAIL, SKIP]
             ruleDigest:
               type: string
               enum: [PASS, FAIL, SKIP]
             trustPolicy:
+              type: string
+              enum: [PASS, FAIL, SKIP]
+            claimLevel:
               type: string
               enum: [PASS, FAIL, SKIP]
             corroboration:
@@ -495,10 +505,16 @@ components:
               type: string
             digest:
               type: string
-        evidenceRoot:
+        tripEvidenceRoot:
           type: string
-        externalAnchorRef:
+        tripExternalAnchorRef:
           type: string
+          description: Arweave transaction ID for the trip Evidence Root
+        claimEvidenceRoot:
+          type: string
+        claimExternalAnchorRef:
+          type: string
+          description: Arweave transaction ID for the claim Evidence Root
         proof:
           type: object
           properties:
@@ -553,20 +569,39 @@ components:
         packageId:
           type: string
           format: uuid
+        packageForm:
+          type: string
+          enum: [BASE, FULL]
+          description: BASE for claim package base, FULL for disputed package
+        claimId:
+          type: string
+          format: uuid
         claimType:
           type: string
-          enum: [DETENTION, CARGO_CONDITION]
+          enum: [DETENTION, CARGO_CONDITION, TRAFFIC, WEATHER, BREAKDOWN, WAREHOUSE_QUEUE, GEOFENCE_WAIT, BORDER_DELAY]
+        claimLevel:
+          type: string
+          example: "E4"
+        decision:
+          type: string
+          enum: [CONFIRMED, REJECTED]
         conclusion:
           type: object
         proofReference:
           type: string
+          description: Present only in FULL packages with claim level E3 or higher
         schemaVersion:
           type: string
-        evidenceRoot:
+        tripEvidenceRoot:
           type: string
-        externalAnchorRef:
+        tripExternalAnchorRef:
           type: string
-          description: Arweave transaction ID
+          description: Arweave transaction ID for the trip Evidence Root
+        claimEvidenceRoot:
+          type: string
+        claimExternalAnchorRef:
+          type: string
+          description: Arweave transaction ID for the claim Evidence Root
         createdAt:
           type: string
           format: date-time
@@ -629,7 +664,12 @@ components:
           properties:
             result:
               type: string
-        evidenceRoot:
+        claimLevel:
+          type: string
+          example: "E4"
+        tripEvidenceRoot:
+          type: string
+        claimEvidenceRoot:
           type: string
         proof:
           type: object

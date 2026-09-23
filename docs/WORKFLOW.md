@@ -46,7 +46,7 @@ It is not configured by dispatchers. It reacts to telemetry events. See [Archite
 
 The Workflow Engine does not drive the Route State Machine. They are separate layers.
 
-The Workflow Engine can trigger actions when the Route State Machine changes state. For example, when a trip enters a specific status, the Workflow Engine can generate an Evidence Package, send a notification, or arm a timer.
+The Workflow Engine can trigger actions when the Route State Machine changes state. For example, when a trip enters a specific status, the Workflow Engine can trigger the Evidence Builder, send a notification, or arm a timer.
 
 Route state changes are one of the inputs to workflow conditions.
 
@@ -200,7 +200,7 @@ When a rule changes:
 
 - A new version is created
 - The previous version remains for audit
-- Evidence Packages reference the rule version that was active at the time of the events
+- Claim packages reference the rule version that was active at the time of the events
 
 ---
 
@@ -221,7 +221,7 @@ The Workflow Engine is used by:
 
 - SLA Engine - timer and escalation logic
 - Notifications - trigger rules
-- Evidence - rule versioning
+- Evidence - rule versioning for claim packages
 - Route State Machine - can trigger workflow actions on state change
 
 The Route State Machine itself is owned by the Event Orchestrator, not by the Workflow Engine.

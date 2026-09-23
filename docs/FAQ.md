@@ -24,19 +24,31 @@ It does not claim to prove physical truth directly.
 
 An immutable snapshot linking a claim, its sources, trust policy result, rule version and proof.
 
-An Evidence Package is generated only when a dispute or SLA exception requires proof.
+Three levels of evidence are produced:
 
-Clean routes are closed with signed events and Evidence Root only.
+- **Clean route** - signed events + trip Evidence Root + Arweave anchor.
+- **Incident** - claim package base + claim anchor. Confirmed or rejected.
+- **Disputed** - retroactive corroboration + ZK proof + new anchor.
 
-Events are created automatically, signed on the device, evaluated server-side for trust level, cross-checked with independent sources, hash-chained, and anchored in Arweave.
+The trip Evidence Root is anchored for every route, clean or incident. This protects the data from substitution even if no dispute ever arises.
 
-See [Evidence Package](EVIDENCE.md) for the full structure.
+A claim package base is produced for every claim, confirmed or rejected. A rejected claim is still a recorded event.
+
+ZK proof is generated only on dispute request, and only when the claim level is E3 or higher.
+
+Events are created automatically, signed on the device, evaluated server-side for own assurance, hash-chained, and anchored in Arweave.
+
+See [Evidence Flow](EVIDENCE_FLOW.md) for the three levels and [Evidence Package](EVIDENCE.md) for the full structure.
 
 ## Trust Levels
 
-Trust Levels E0-E5 describe Source Assurance.
+Trust Levels E0-E5 describe Own Assurance of a source.
 
 They are not an enum supplied by the client. The server evaluates source identity, key, attestation, firmware and revocation status.
+
+Own assurance is the level of a single source. It does not change with corroboration.
+
+A claim level is the level of a claim, formed from one or more independent sources. It is the maximum level among independent sources that confirm the same fact. Retroactive corroboration raises the claim level on dispute request.
 
 No special hardware required. Secure Enclave and TPM keys already exist in modern phones and telematics devices. LogiQED uses existing devices for MVP.
 
@@ -71,6 +83,8 @@ Example:
 Detention is deterministic: timestamps, geofences, events and rule. No traffic causality debate.
 
 One detention dispute can cost a carrier $200-500 in administrative overhead and lost customer trust.
+
+Detention claims produce a claim package base when the claim closes. The trip Evidence Root is anchored for every route. So even a clean route is protected if a dispute arises later.
 
 ## Route Monitoring
 
@@ -179,10 +193,13 @@ For investment: see [Investor Document](INVESTORS.md).
 
 ## Reference Documents
 
+- [Vision](VISION.md)
+- [System Map](SYSTEM_MAP.md)
+- [Event Pipeline](EVENT_PIPELINE.md)
 - [Architecture](ARCHITECTURE.md)
 - [Claims](CLAIMS.md)
-- [Evidence Package](EVIDENCE.md)
 - [Evidence Flow](EVIDENCE_FLOW.md)
+- [Evidence Package](EVIDENCE.md)
 - [Trust Levels](TRUST_LEVELS.md)
 - [SLA DSL](SLA_DSL.md)
 - [Data Flow](DATA_FLOW.md)

@@ -13,8 +13,9 @@ Phase A - MVP delivery (months 1-3.5):
 - Shipment and trip domain model
 - Telemetry ingestion and signed event stream
 - Route State Machine, SLA Engine, Event Orchestrator
-- Evidence Package Builder with mock proof backend
+- Evidence Builder with claim packages, trip Evidence Root, and mock proof backend
 - Two ZK claims verified end-to-end
+- Trip and claim anchors to Arweave
 - OpenAPI and webhooks
 
 Phase B - Pilot (last 2-4 weeks of MVP, overlaps with final delivery):
@@ -61,7 +62,7 @@ Core principle: senior people, small team, fast execution.
 | Setup | Week 1-2 | Demo: map, documents, reports, SLA, chat on existing platform | None |
 | Tracking and Events | Week 3-6 | Telemetry, signatures, Evidence Graph, deduplication | Setup |
 | SLA and Orchestrator | Week 7-10 | Route State Machine, SLA Engine, Enrichment Decider, On-Demand Oracle | Tracking |
-| Claims and Proof | Week 11-13 | Two ZK claims with mock backend, Evidence Package, Arweave integration for disputed claims only | Evidence Graph, SLA |
+| Claims and Proof | Week 11-13 | Two ZK claims with mock backend, claim package base, trip and claim anchors to Arweave, ZK proof for disputed claims only | Evidence Graph, SLA |
 | Pilot execution | Week 13-16 | Real trucks, commercial dispute, case study | Claims |
 
 ## Existing Platform
@@ -99,10 +100,11 @@ See [Pilot Plan](PILOT.md) for the full pilot framework.
 6. Event Orchestrator
 7. SLA Engine
 8. Exception attribution
-9. Evidence Package
-10. ZK proof of two claims
-11. e-documents
-12. OpenAPI and webhooks
+9. Claim package base and full package
+10. Trip and claim Evidence Roots, Arweave anchors
+11. ZK proof of two claims
+12. e-documents
+13. OpenAPI and webhooks
 
 ## What is NOT in MVP
 
@@ -114,13 +116,13 @@ See [Pilot Plan](PILOT.md) for the full pilot framework.
 
 ## MVP Storage
 
-Raw positions: 30 days. Aggregates: 1 year. Evidence Packages: permanent.
+Raw positions: 30 days. Aggregates: 1 year. Trip anchors and claim anchors: permanent.
 
 Redis: hot read-through cache.
 
 MS SQL: system of record.
 
-Canonicalization, Merkle tree, Evidence Root, external anchor, Evidence Package.
+Canonicalization, Merkle tree, trip and claim Evidence Roots, external anchors, claim packages.
 
 EigenDA is added only when benchmark shows the need for a separate DA layer.
 
@@ -132,7 +134,10 @@ EigenDA is added only when benchmark shows the need for a separate DA layer.
 - Route State Machine reacts to TrafficEntered and TrafficExited.
 - SLA engine resolves exceptions automatically.
 - Two ZK claims verified end-to-end with mock proof backend.
-- Evidence Package exported for external review and accepted by pilot partner as valid evidence.
+- Claim package base produced for every claim, confirmed or rejected.
+- Trip Evidence Root anchored for every route, clean or incident.
+- Full package with corroboration and ZK proof produced on dispute request, when claim level is E3 or higher.
+- Claim package exported for external review and accepted by pilot partner as valid evidence.
 - Load target: 1000 devices at 1 packet per second.
   - p95 under 50 ms for telemetry ingestion.
   - p95 under 200 ms for API reads.

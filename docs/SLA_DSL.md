@@ -128,7 +128,9 @@ The source for this claim must be an attested temperature sensor with a Secure E
 
 Route Monitoring covers in-transit exceptions that pause or shift SLA timing. This rule applies to traffic, but the same structure covers weather, road work, and other route exceptions.
 
-The rule measures the pause between TrafficEntered and TrafficExited. Enrichment is required: the system calls a traffic API when TrafficEntered fires, to confirm the standstill with an independent source.
+The rule measures the pause between TrafficEntered and TrafficExited. In MVP, both events are reported by the driver. The system does not detect exceptions automatically. Automatic detection would require continuous polling of external APIs.
+
+Enrichment is required: the system calls a traffic API when TrafficEntered fires, to confirm the standstill with an independent source.
 
 This is one of the few rules where enrichment is required. In most cases external APIs are not called.
 
@@ -181,17 +183,17 @@ The SLA Engine produces a separate result object. It combines the rule output, t
       "tripId": "SHP-802",
       "segmentId": "A-B",
       "segmentLabel": "Kyiv-Zhytomyr",
-      "inputEvents": [
+        "inputEvents": [
         {
           "id": "geofence_entry",
           "time": "11:54",
-          "trustLevel": "E4",
+          "ownAssurance": "E4",
           "sourceId": "TRK-GPS-01"
         },
         {
           "id": "dock_assignment",
           "time": "13:02",
-          "trustLevel": "E4",
+          "ownAssurance": "E4",
           "sourceId": "WH-API-01"
         }
       ],
@@ -229,7 +231,7 @@ The SLA Engine produces a separate result object. It combines the rule output, t
 | `inputEvents` | Array | Events used as inputs by the rule. Sorted by event time. |
 | `inputEvents[].id` | String | Logical input name as defined in the rule, for example geofence_entry. |
 | `inputEvents[].time` | String | Event time in the driver's working calendar context. |
-| `inputEvents[].trustLevel` | String | Trust level of the source that produced the event, for example E4. |
+| `inputEvents[].ownAssurance` | String | Own assurance of the source that produced the event, for example E4. |
 | `inputEvents[].sourceId` | String | Identifier of the source. Optional but recommended for audit. |
 | `calculation` | Object | Output of the rule's formula, plus a breakdown by intervals. |
 | `calculation.waiting_min` | Integer | Result of the formula in minutes. |
@@ -294,13 +296,26 @@ Example policy:
       "policyId": "E4_REQUIRED_V1",
       "version": 1,
       "minTrustLevel": "E4",
-      "sources": ["device", "warehouse_api"],
+      "primarySource": {
+        "type": "device",
+        "minLevel": "E3"
+      },
+      "corroboratingSources": [
+        {
+          "type": "warehouse_api",
+          "minLevel": "E2"
+        }
+      ],
       "corroboration": "REQUIRED",
-      "acceptLowerWithWarning": false
+      "independence": "REQUIRED"
     }
 ```
 
 A claim is valid only if all required sources satisfy the policy.
+
+The claim level is the maximum level among independent sources that confirm the same fact. It is not the minimum.
+
+ZK proof is generated only on dispute request, and only when the claim level is E3 or higher.
 
 ## Segments and Rules
 
@@ -386,5 +401,7 @@ The segment breakdown does not change the SLA result. It explains where time was
 - Rules reference Trust Policy.
 - Conclusion is deterministic from input events and rule version.
 - Working calendars and carrier timezone are evaluated during SLA calculation.
-- External API calls happen only when an incident occurs.
+- External API calls happen only when a claim opens.
+- In MVP, exceptions are reported by the driver. The system does not poll external APIs continuously.
+- Claim level is computed by the Evidence Builder, not by the SLA Engine.
 - DSL is machine-readable and AI-friendly.

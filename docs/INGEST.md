@@ -2,7 +2,7 @@
 
 Ingest is the entry point for physical events.
 
-Every event from an IoT sensor, device, or external API is accepted here, signed, and evaluated.
+Every event from an IoT sensor, device, or external API is accepted here, converted to a single canonical format, signed, and evaluated.
 
 The client never sends a trust level. The server computes it from source identity, attestation, provenance and corroboration.
 
@@ -29,7 +29,7 @@ openapi: 3.1.0
 info:
   title: LogiQED Ingest API
   version: 0.2.0
-  description: Entry point for signed EPCIS events. Server evaluates source trust server-side.
+  description: Entry point for signed events. Source formats are converted to EPCIS 2.0. Server evaluates source trust server-side.
 
 servers:
   - url: https://api.logiqed.tech/v1
@@ -152,11 +152,11 @@ components:
               type: string
             sourceAssurance:
               type: string
-              description: Trust level computed for this specific event, not the base level of the source.
-              example: "E4"
+              description: Own assurance of the source at the time of this event. This is the source-level assurance, not the claim level. Claim level is computed later by the Evidence Builder.
+              example: "E3"
             trustPolicy:
               type: string
-              example: "E4_REQUIRED_V1"
+              example: "E3_REQUIRED_V1"
             evaluationStatus:
               type: string
               enum: [PASS, FAIL, INSUFFICIENT_DATA]
@@ -209,9 +209,15 @@ Server:
 
 Steps 5 and 6 are server-side only. The client cannot influence them. This follows the rule from Trust Levels: the client never supplies the trust level.
 
+Step 4 handles the format difference. Native clients (browser PWA) send EPCIS 2.0 directly. External trackers send binary packets. Mobile apps send JSON. All are converted to EPCIS 2.0 at this step.
+
 ---
 
 ## Example Payloads
+
+The browser PWA sends EPCIS 2.0 directly. External trackers (Teltonika, Ruptela) send binary packets over TCP. Mobile apps (Colota, HookTrace) send JSON. Warehouse and customs APIs send their own format.
+
+Ingest converts all of them to EPCIS 2.0 before validation.
 
 ### EPCIS Object Event
 
@@ -290,12 +296,12 @@ Example: an E4 source with E4_REQUIRED_V1 policy returns PASS.
       "eventId": "0194e0d2-...",
       "status": "accepted",
       "receivedAt": "2026-08-25T14:00:02.123Z",
-      "trustEvaluation": {
-        "sourceId": "src_01HZ...",
-        "sourceAssurance": "E4",
-        "trustPolicy": "E4_REQUIRED_V1",
-        "evaluationStatus": "PASS"
-      }
+		"trustEvaluation": {
+		  "sourceId": "src_01HZ...",
+		  "sourceAssurance": "E3",
+		  "trustPolicy": "E3_REQUIRED_V1",
+		  "evaluationStatus": "PASS"
+		}
     }
 ```
 
@@ -304,7 +310,7 @@ Example: an E4 source with E4_REQUIRED_V1 policy returns PASS.
 ## Design Notes
 
 - Client never supplies trust level or attestation. Server evaluates both.
-- EPCIS 2.0 is the canonical event format. Ingest converts all incoming formats to EPCIS 2.0 before validation.
+- EPCIS 2.0 is the canonical event format. Ingest converts all incoming formats to EPCIS 2.0 before validation. If the source already sends EPCIS, conversion is a no-op.
 - Signature covers the canonical epcisEvent, not the envelope.
 - receivedAt is set by the server, never by the client.
 - Payload is minimal. No personal data.

@@ -116,8 +116,10 @@ The module is present in the codebase and integrated. Enabling it is a configura
 
 - Trip deadline breached
 - Incident report submitted
-- Incident confirmed or rejected
-- Evidence Package generated
+- Claim confirmed or rejected
+- Claim package base generated
+- Trip anchor created
+- Full package generated on dispute request
 - Route State Machine transition
 
 ### Delivery Statuses
@@ -178,6 +180,8 @@ Chat messages and notifications become part of the evidence layer.
 - Delivery journal is auditable
 - Both are linked to the trip and claim
 
+Chat and notification records are included in the trip Evidence Root. When a claim package base is produced, the relevant communication records are referenced in the claim package.
+
 When a dispute starts, the system shows:
 
 - Which channel was used
@@ -191,6 +195,7 @@ When a dispute starts, the system shows:
 ## Related
 
 - [Architecture](ARCHITECTURE.md) - overall system
+- [Evidence Flow](EVIDENCE_FLOW.md) - three evidence levels and anchor rules
 - [Evidence Package](EVIDENCE.md) - how communication becomes evidence
 - [Webhooks](WEBHOOKS.md) - external event delivery
-- [UI Demo](UI_DEMO.md) - chat and notification screens
+- [UI](UI.md) - chat and notification screens

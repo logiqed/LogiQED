@@ -40,10 +40,11 @@ Before asking, check the existing FAQ and Architecture. Your question may alread
 
 We are especially interested in feedback on:
 
-- Evidence Layer, trust levels, provenance graph
+- Evidence Layer: trip and claim Evidence Roots, claim packages, anchor rules
+- Trust levels and corroboration rules
 - Claim definitions, especially edge cases
 - SLA DSL grammar and semantics
-- Telemetry ingestion and deduplication logic
+- Telemetry ingestion, EPCIS conversion, and deduplication logic
 - Event-Driven Route Monitoring
 
 Use the issue label `improvement`.

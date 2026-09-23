@@ -12,11 +12,13 @@ From a GPS point to a verifiable package:
 
 ## Purpose
 
-An Evidence Package is generated only when a dispute or SLA exception requires proof.
+An Evidence Package exists in two forms.
 
-Clean routes are closed with signed events and Evidence Root only.
+**Base package.** Produced when a claim closes, whether the claim is confirmed or rejected. Records the driver's report, the system's own data, the external API response, the computed claim level, and the final decision.
 
-ZK-proof is added only for disputed or exception-bound routes.
+**Full package.** Produced on dispute or audit request. Adds retroactive corroboration from independent sources, an independence check, and a ZK proof when the claim level is E3 or higher.
+
+Clean routes without claims are closed with signed events, a trip Evidence Root, and an Arweave anchor. No package is produced.
 
 ---
 
@@ -30,28 +32,51 @@ When the schema changes, a new version is created. Verifiers support the previou
 
 ## Structure
 
-Evidence Package contains:
+Both forms share the same top-level fields. The full package adds corroboration, a computed claim level, and proof.
 
 | Field | Type | Description |
 |-------|------|-------------|
 | schemaVersion | string | Schema version |
+| packageForm | enum | BASE or FULL |
 | claimId | string | Unique claim ID |
 | claimVersion | string | Version of the claim definition |
-| claimType | enum | DETENTION, CARGO_CONDITION |
+| claimType | enum | DETENTION, CARGO_CONDITION, TRAFFIC, WEATHER, BREAKDOWN, WAREHOUSE_QUEUE, GEOFENCE_WAIT, BORDER_DELAY |
 | timestamp | string | ISO 8601 UTC, when the package was assembled |
-| sources | array | Source IDs, trust levels, attestation types |
+| driverReport | object | The driver's report at E0 |
+| sources | array | Source IDs, own assurance, attestation types, role |
 | trustPolicyResult | object | Policy reference, PASS or FAIL, digest |
-| corroborationResult | object | Corroborating sources and result |
+| claimLevel | string | Computed level of the claim: E0 to E5 |
+| decision | enum | CONFIRMED or REJECTED |
+| corroborationResult | object | Corroborating sources and result. Present in FULL only. |
 | inputEvents | array | Canonical event hashes or event IDs |
 | ruleRef | object | Rule ID, version, digest |
 | conclusion | object | Human-readable and machine-readable result |
-| enrichmentResponse | object | External API response, present only when enrichment was applied |
-| proofRef | object | Proof backend, proof hash, status |
+| enrichmentResponse | object | External API response, present when enrichment was applied |
+| proofRef | object | Proof backend, proof hash, status. Present in FULL only. |
 | publicManifest | object | Privacy-minimized public summary |
-| evidenceRoot | string | Merkle root of canonical event hashes |
+| tripEvidenceRoot | string | Merkle root of all events of the route |
+| claimEvidenceRoot | string | Merkle root of events related to this claim |
 | externalAnchorRef | string | Arweave transaction ID |
 | verifiedTimestamp | string | Timestamp when an external party verified the package. Optional. |
 | signature | string | Ed25519 signature over canonical bytes |
+
+### Base versus Full
+
+| Field | Base | Full |
+|-------|------|------|
+| driverReport | Yes | Yes |
+| sources | Yes | Yes |
+| trustPolicyResult | Yes | Yes |
+| claimLevel | Yes | Yes |
+| decision | Yes | Yes |
+| inputEvents | Yes | Yes |
+| tripEvidenceRoot | Yes | Yes |
+| claimEvidenceRoot | Yes | Yes |
+| externalAnchorRef | Yes | Yes |
+| corroborationResult | No | Yes |
+| proofRef | No | Yes |
+
+The base package is anchored as soon as the claim closes. The full package is anchored again when it is produced.
 
 ---
 
@@ -80,18 +105,58 @@ The values match the SLA Engine evaluation result in [SLA DSL](SLA_DSL.md) and t
 
 ## Canonicalization and Evidence Root
 
+Two kinds of Evidence Root exist: trip root and claim root.
+
+**Trip Evidence Root.** Merkle root over all events of the route.
+
+**Claim Evidence Root.** Merkle root over events related to one claim.
+
+The claim root is a subtree of the trip root. Both are anchored separately.
+
+### Canonicalization Steps
+
 To compute a stable Evidence Root:
 
 1. Each event is normalized.
-2. Fields are sorted.
-3. Timestamps are UTC.
+2. Fields are sorted alphabetically.
+3. Timestamps are UTC, ISO 8601.
 4. Number precision is fixed.
-5. Each normalized event is hashed with SHA-256.
-6. Hashes are sorted by byte value.
-7. A Merkle tree is built over sorted hashes.
-8. The root is the hash of the concatenated top-level hashes.
+5. No whitespace.
+6. Each normalized event is hashed with SHA-256.
+7. Hashes are sorted by byte value.
+8. A Merkle tree is built over sorted hashes.
+9. The root is the Merkle root.
 
 The same canonicalization is used for the package signature.
+
+### Canonical Event Example
+
+```json
+    {
+      "eventType": "TelemetryPosition",
+      "sourceId": "TRK-GPS-01",
+      "eventTime": "2026-09-22T10:00:00Z",
+      "position": { "lat": 52.5200, "lon": 13.4050 },
+      "speed": 2,
+      "accuracy": 15,
+      "sourceSequence": 4721,
+      "signature": "..."
+    }
+```
+---
+
+## Storage in MS SQL
+
+The Evidence Builder writes to the following tables.
+
+| Table | Content | When |
+|-------|---------|------|
+| Events | Raw events of the route | On ingest |
+| EventHashes | SHA-256 of each event | On ingest |
+| MerkleNodes | Intermediate Merkle nodes | On route or claim close |
+| EvidenceRoots | Trip and claim roots | On close |
+| ClaimPackages | Claim package bases and full packages | On claim close or dispute request |
+| Anchors | Arweave transaction IDs | After anchor |
 
 ---
 
@@ -103,6 +168,8 @@ Claim, Events, Sources, Source-of-Source, Rule, Proof.
 
 Each node in the graph is hash-linked.
 
+The Evidence Graph is also used to check independence between sources for corroboration.
+
 ---
 
 ## Storage
@@ -111,7 +178,7 @@ Each node in the graph is hash-linked.
 |-------|---------|-----------|
 | MS SQL | Operational events, claims, rules, audit | Raw positions: 30 days. Aggregates: 1 year. Claims: permanent |
 | Redis | Hot cache for active routes | Active route lifetime |
-| Arweave | Final Evidence Packages | Permanent |
+| Arweave | Trip and claim anchors | Permanent |
 | Deletable storage | Raw encrypted context data | Deletable on request |
 
 Raw telemetry is never stored permanently.
@@ -132,7 +199,8 @@ Public Manifest includes:
 
 - Claim type
 - Conclusion summary
-- Evidence Root
+- Claim level
+- Evidence Roots
 - Rule reference
 - External anchor
 
@@ -159,11 +227,13 @@ External party can verify without raw telemetry.
 Checks:
 
 - Signature against known organization public key
-- Evidence Root matches canonical hash of input events
+- Trip Evidence Root matches canonical hash of route events
+- Claim Evidence Root matches canonical hash of claim events
 - Rule reference digest matches published rule definition
-- Trust policy result matches source trust levels
+- Trust policy result matches source own assurance values
+- Claim level matches the computed level
 - Conclusion matches rule formula and input events
-- ZK-proof when present
+- ZK-proof when present in FULL package
 
 ---
 
@@ -171,17 +241,21 @@ Checks:
 
 1. Created - package assembled from inputs, no anchor.
 2. Signed - organization key signs canonical bytes.
-3. Anchored - package and Evidence Root sent to Arweave.
-4. Verified - external party checks the package. This step is optional and only happens when a dispute, audit, or settlement requires it.
+3. Anchored - package and Evidence Roots sent to Arweave.
+4. Verified - external party checks the package. Optional and only on dispute, audit, or settlement.
 5. Retired - raw deletable context deleted, proof package remains.
+
+For the full package, steps 1 to 3 are repeated with corroboration and proof.
 
 ---
 
 ## Size Budget
 
-Target: approximately 4 KB per package.
+Base package: approximately 2 KB.
 
-Breakdown:
+Full package: approximately 4 KB.
+
+Breakdown for full package:
 
 - JSON metadata: about 1 KB
 - Event hashes: about 0.5 KB
@@ -191,18 +265,39 @@ Breakdown:
 
 ---
 
-## Example
+## Example: Confirmed Claim
 
-Detention Package
+Detention package, confirmed.
 
 - Claim: Detention
+- Claim level: E4
+- Decision: CONFIRMED
 - Conclusion: Warehouse attributable: 68 min
 - Rule: DETENTION_V1
 - Trust Policy: E4_REQUIRED_V1
 - Result: PASS
-- Proof: VALID
-- Evidence Root: 0x8f3a...
+- Proof: VALID (full package)
+- Trip Evidence Root: 0x8f3a...
+- Claim Evidence Root: 0x4b12...
 - Arweave Transaction: kT4b...
+
+## Example: Rejected Claim
+
+Traffic claim, rejected.
+
+- Claim: Traffic
+- Claim level: E1
+- Decision: REJECTED
+- Conclusion: No congestion detected on segment. SLA continues.
+- Rule: TRAFFIC_PAUSE_V1
+- Trust Policy: E2_REQUIRED_V1
+- Result: FAIL
+- Proof: not available (claim level below E3)
+- Trip Evidence Root: 0x8f3a...
+- Claim Evidence Root: 0x7c91...
+- Arweave Transaction: kT4b...
+
+A rejected claim is still recorded and anchored. The driver may review it later. The package shows why the claim was rejected.
 
 ---
 
@@ -214,6 +309,9 @@ Detention Package
 - Any step can be independently audited.
 - All consumers are idempotent.
 - Clean routes close with signed events and Evidence Root only.
+- A claim package base is produced for every claim, confirmed or rejected.
+- A full package is produced only on dispute or audit request.
+- ZK proof is added only when the claim level is E3 or higher.
 
 ---
 

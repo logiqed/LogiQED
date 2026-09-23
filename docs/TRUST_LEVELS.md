@@ -180,9 +180,11 @@ Below E3, the claim stays at the level of the strongest source.
 
 ### Where Corroboration Is Requested
 
-Corroboration is applied by the Evidence Builder, after the route is completed.
+Corroboration is applied by the Evidence Builder, on dispute request.
 
 It is not applied by Ingest API, State Machine, or Orchestrator.
+
+Corroboration is not requested when a claim closes. It is requested later, when a dispute or audit requires a full Evidence Package.
 
 The Evidence Builder:
 
@@ -191,6 +193,8 @@ The Evidence Builder:
 3. Checks independence in the Evidence Graph.
 4. Computes the claim level.
 5. Produces Claim Confidence.
+
+Retroactive corroboration works within the raw telemetry retention window. Raw positions are kept for 30 days. Aggregates are kept for 1 year.
 
 ### Why Weak Sources Do Not Combine
 
@@ -209,11 +213,13 @@ The Evidence Graph records the source-of-source for each event. If two sources s
 
 ## On-Demand Oracle and Trust
 
-External APIs are called only when an incident occurs.
+External APIs are called only when a claim opens.
 
 Each call adds a source to the claim.
 
 The Enrichment Decider determines whether external confirmation is required.
+
+In MVP, exceptions are reported by the driver. The system does not poll external APIs continuously.
 
 ## Trust Levels on the Route
 
@@ -278,8 +284,10 @@ Every in-transit claim follows the same pipeline. This is the core mechanism tha
 
 1. Driver reports an incident - E0. The claim is a statement, not proof.
 2. The system checks its own data - GPS track, CAN bus, telemetry. This confirms the physical situation. E2.
-3. The system calls an external API on demand - traffic, weather, road conditions. This adds an independent source. E2 with corroboration.
-4. If other vehicles report the same event in the same geofence and time window - corroboration. The claim reaches E4.
+3. The system calls an external API on demand - traffic, weather, road conditions. This adds an independent source. E1 or E2.
+4. The claim is confirmed or rejected. If confirmed, SLA pauses. If rejected, SLA continues.
+
+If other vehicles report the same event in the same segment and time window, retroactive corroboration raises the claim level on dispute request.
 
 The same pipeline applies to all six exception types. Only the trigger and the external API differ.
 
@@ -344,7 +352,7 @@ This is the structural advantage of LogiQED. Trust is not declared. It is earned
     }
 ```
 
-The server computes Source Assurance and Trust Policy result.
+The server computes Own Assurance and Trust Policy result.
 
 The client never supplies the trust level.
 
@@ -429,6 +437,31 @@ A verifier can check the trust policy result without raw telemetry.
 
 Note: `ownAssurance` is the level of each source. `claimLevel` is the level of the whole claim, computed as the maximum among independent sources.
 
+## ZK Proof Gating
+
+ZK proof is generated only on dispute request, and only when the claim level is E3 or higher.
+
+Below E3, the claim package is still produced and anchored, but no ZK proof is generated.
+
+Example:
+
+- Mobile App only (E1): claim level E1. No ZK proof.
+- Mobile App (E2, signed): claim level E2. No ZK proof.
+- Onboard tracker (E3): claim level E3. ZK proof available.
+- Tracker (E3) + tracker (E3): claim level E4. ZK proof available.
+
+## Three Evidence Levels
+
+| Level | What is produced | When |
+|-------|------------------|------|
+| Clean route | Signed events + trip Evidence Root + Arweave anchor | Every route |
+| Incident | + claim package base + claim anchor | Every claim, confirmed or rejected |
+| Disputed | + retroactive corroboration + ZK proof + new anchor | On dispute request |
+
+The trip Evidence Root is anchored for every route, clean or incident. This protects the data from substitution even if no dispute ever arises.
+
+A claim package base is produced for every claim, confirmed or rejected.
+
 ## Design Principles
 
 - Source Assurance is a server-side evaluation, not a client claim.
@@ -440,10 +473,12 @@ Note: `ownAssurance` is the level of each source. `claimLevel` is the level of t
 - A claim level is the maximum among independent sources, not the minimum.
 - Corroboration requires at least one source at E3. Below E3, corroboration does not raise the level.
 - Weak sources are ignored when a stronger independent source confirms the fact.
+- ZK proof is generated only on dispute request, and only when the claim level is E3 or higher.
 
 ## Related
 
 - [System Map](SYSTEM_MAP.md) - trust, state, and evidence in one page
+- [Evidence Flow](EVIDENCE_FLOW.md) - three evidence levels and anchor rules
 - [Architecture](ARCHITECTURE.md) - modules and boundaries
 - [Event Pipeline](EVENT_PIPELINE.md) - vertical flow from device to SLA
 - [SLA DSL](SLA_DSL.md) - rule format and evaluation result

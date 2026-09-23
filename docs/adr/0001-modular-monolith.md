@@ -21,6 +21,7 @@ Constraints:
 - Timeline: 3-4 months.
 - Budget: $120,000-$165,000 total (engineering + non-engineering).
 - Must produce two end-to-end claims.
+- Must produce trip and claim Evidence Roots and anchor them in Arweave.
 - Must integrate with hardware trackers and temperature sensors.
 - Deployment target: single VM and managed SQL.
 
@@ -37,7 +38,7 @@ Modules communicate through interfaces, not through each other's database tables
 - Telemetry - ingest, normalization, deduplication (SourceId + ClientTimestampUtc + SourceSequence), retention
 - Route - route state machine, segment and traffic events
 - SLA - policies, calendars, exception rules, timers
-- Evidence - package builder, trust levels, provenance graph
+- Evidence - evidence builder, claim packages, trip and claim Evidence Roots, anchors, trust levels, provenance graph
 - Identity - device keys, attestation, revocation, sessions, roles and permissions
 - Workflow - configurable process engine, statuses, transitions, timers
 - Communication - chats, notifications, delivery journal, audit

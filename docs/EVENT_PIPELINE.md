@@ -38,6 +38,13 @@ This document is a vertical slice: from the device to the SLA Engine. For horizo
     ┌─────────────────────────────────────────────────────────────┐
     │  SLA Engine                                                 │
     │  • Computes pause in driver working calendar                │
+    └──────────────────────────┬──────────────────────────────────┘
+                               ↓
+    ┌─────────────────────────────────────────────────────────────┐
+    │  Evidence Builder                                           │
+    │  • On claim close: claim package base + anchor              │
+    │  • On route close: trip Evidence Root + anchor              │
+    │  • On dispute: corroboration + ZK + new anchor              │
     └─────────────────────────────────────────────────────────────┘
 
 ## Pipeline Overview
@@ -60,6 +67,10 @@ This document is a vertical slice: from the device to the SLA Engine. For horizo
       ↓ applies result, finalizes transition, writes checkpoint
     SLA Engine
       ↓ computes pause in driver working calendar
+    Evidence Builder
+      ↓ on claim close: claim package base + anchor
+      ↓ on route close: trip Evidence Root + anchor
+      ↓ on dispute: corroboration + ZK + new anchor
 
 Each stage is described below.
 
@@ -304,8 +315,8 @@ Examples:
 
 | Candidate event | API needed |
 |-----------------|------------|
+| DriverReported Traffic | Yes - Traffic API |
 | GeofenceEntered | No |
-| SegmentDelayDetected | Yes - Traffic API |
 | TemperatureOutOfRange | No - E4 sensor |
 | HarshBrake | No - accelerometer |
 | RouteCompleted | No |
@@ -313,6 +324,8 @@ Examples:
 If no API is needed, the State Machine proceeds directly to finalization.
 
 If an API is needed, the Enrichment Decider hands the event to the On-Demand Oracle.
+
+In MVP, exceptions are reported by the driver, not detected automatically. The system does not poll external APIs continuously.
 
 ## Stage 7. On-Demand Oracle
 
@@ -345,17 +358,59 @@ If an entered or exited event falls outside the working calendar, the pause is r
 
 The result is stored with the segment and used later when the route is completed.
 
+## Stage 10. Evidence Builder
+
+The Evidence Builder is called by the Orchestrator at three moments.
+
+**On claim close:**
+
+1. Collect claim events.
+2. Compute claim Evidence Root.
+3. Compute claim level.
+4. Record decision: confirmed or rejected.
+5. Assemble claim package base.
+6. Anchor claim root and package in Arweave.
+
+**On route close:**
+
+1. Collect all route events.
+2. Compute trip Evidence Root.
+3. Anchor trip root in Arweave.
+
+**On dispute request:**
+
+1. Retroactive corroboration.
+2. Independence check in Evidence Graph.
+3. Compute final claim level.
+4. Generate ZK proof if claim level is E3 or higher.
+5. Assemble full package.
+6. Anchor full package in Arweave.
+
+The Builder writes to MS SQL tables: Events, EventHashes, MerkleNodes, EvidenceRoots, ClaimPackages, Anchors.
+
+See [Evidence Flow](EVIDENCE_FLOW.md) for the three evidence levels.
+
+## What Is Computed Where
+
 ## What Is Computed Where
 
 | What | Where | When |
 |------|-------|------|
-| Source Assurance (E0-E5) | Ingest API | On each event |
+| Own assurance (E0-E5) | Ingest API | On each event |
 | Candidate event | Route State Machine | When metrics cross thresholds |
 | Enrichment decision | Enrichment Decider | On each candidate event |
 | External API result | On-Demand Oracle | On candidate events that require it |
-| Final transition | Route State Machine | After enrichment or skip |
-| SLA pause | SLA Engine | When an exception is closed |
-| Claim Confidence | Evidence Package Builder | When a dispute or exception requires proof |
+| Claim decision | Route State Machine | After enrichment or skip |
+| SLA pause | SLA Engine | When a claim closes |
+| Claim level | Evidence Builder | When a claim closes |
+| Claim Evidence Root | Evidence Builder | When a claim closes |
+| Trip Evidence Root | Evidence Builder | When a route closes |
+| Claim anchor | Evidence Builder | When a claim closes |
+| Trip anchor | Evidence Builder | When a route closes |
+| Corroboration | Evidence Builder | On dispute request |
+| Final claim level | Evidence Builder | On dispute request |
+| ZK proof | Evidence Builder | On dispute request, if E3 or higher |
+| Full package anchor | Evidence Builder | On dispute request |
 
 
 ## Related Documents

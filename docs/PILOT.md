@@ -42,12 +42,15 @@ See [MVP Plan](MVP.md) for the full program.
 2. Cargo Condition Claim
    - Committed measurements from E4 sources stayed within 2-8°C.
 
+For each claim, a claim package base is produced when the claim closes, confirmed or rejected. Trip Evidence Root is anchored for every route, clean or incident.
+
 ## Route Monitoring
 
 - Route State Machine tracks every trip.
+- In MVP, the driver reports exception start and end manually. The system does not detect exceptions automatically.
 - TrafficEntered pauses SLA.
 - TrafficExited resumes SLA.
-- External API calls happen only when an incident occurs.
+- External API calls happen only when a claim opens.
 
 ## Success Criteria
 
@@ -57,7 +60,10 @@ See [MVP Plan](MVP.md) for the full program.
 - Route State Machine reacts to TrafficEntered and TrafficExited.
 - SLA engine resolves exceptions automatically.
 - Two claims verified end-to-end with mock proof backend.
-- Evidence Package exported for external review and accepted by pilot partner as valid evidence.
+- Claim package base produced for every claim, confirmed or rejected.
+- Trip Evidence Root anchored for every route, clean or incident.
+- Full package with corroboration and ZK proof produced on dispute request, when claim level is E3 or higher.
+- Claim package exported for external review and accepted by pilot partner as valid evidence.
 
 **Shared goal with pilot partner:**
 
@@ -72,8 +78,8 @@ Dispute closure depends on the pilot partner's commercial situation, not only on
 |--------|--------|-------|
 | Time to resolve dispute | 2 days, 8 emails, 3 PDFs, 2 calls | Target: 12 minutes |
 | Dispatcher hours per dispute | 4-8 hours | 15 minutes |
-| Cost per dispute | $200-500 | $0.08 per Evidence Package |
-| Transparency | Low | Full, Evidence Root, signature, anchor |
+| Cost per dispute | $200-500 | $0.08 per full package |
+| Transparency | Low | Full, Evidence Roots, signature, anchors |
 
 ## Budget
 
@@ -109,8 +115,9 @@ The legal review is the largest item. It is part of the non-engineering budget i
 - Driver data used only within pilot scope and deleted after.
 - Reports contain anonymized aggregates only.
 - Evidence Layer follows eIDAS standards for electronic signatures.
-- Evidence Root is published daily to an open registry, such as Ethereum testnet, for external verification.
-- Independent third party reviews Evidence Root and signatures at each pilot milestone.
+- Trip Evidence Roots are published daily to an open registry, such as Ethereum testnet, for external verification.
+- Claim Evidence Roots are published when claims close.
+- Independent third party reviews Evidence Roots and signatures at each pilot milestone.
 - Legal expert validates evidence admissibility before pilot launch.
 
 ## Pilot Timeline
@@ -121,7 +128,7 @@ The pilot overlaps with the last weeks of MVP delivery.
 |-------|-------|--------|
 | 1-2 | Preparation | Partner found, NDA signed, hardware installed, legal review completed |
 | 3-6 | Integration | Data flowing, route state machine working, Evidence Root publishing daily |
-| 7-10 | Claims | Detention and Cargo Condition verified end-to-end |
+| 7-10 | Claims | Detention and Cargo Condition verified end-to-end, claim packages produced |
 | 11-14 | Pilot | 50 or more trips, at least one dispute prepared for settlement |
 | 15-16 | Report | Case study, metrics, legal assessment |
 
@@ -140,7 +147,8 @@ The pilot overlaps with the last weeks of MVP delivery.
 
 - Signed Event Stream
 - Evidence Graph for each trip
-- Evidence Packages for Detention and Cargo Condition
+- Claim packages for Detention and Cargo Condition
+- Trip and claim anchors in Arweave
 - Benchmarks for proof generation
 - Pilot report with case study
 - Legal assessment of evidence admissibility

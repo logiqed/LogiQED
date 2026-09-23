@@ -13,9 +13,9 @@ No signup required. Credentials are provided below.
 The demo is the working system, not a mockup.
 
 - Log in as any of six roles
-- Open Evidence Packages
-- Verify signed events, Evidence Root, rule digest, trust policy result, proof reference
-- Run the full flow: driver reports incident -> dispatcher confirms -> SLA pauses -> Evidence Package generated -> auditor verifies
+- Open claim packages — base form, without ZK proof
+- Verify signed events, Evidence Roots, rule digest, trust policy result, claim level
+- Run the full flow: driver reports incident -> dispatcher confirms -> SLA pauses -> claim package base generated -> auditor verifies
 
 The auditor view is the strongest demo — it shows independent verification of the package without access to raw telemetry.
 
@@ -43,7 +43,8 @@ Six seeded roles show how navigation and permissions are generated rather than h
 1. Log in as auditor@test.local
 2. Open "Evidence Packages" from the main menu
 3. Open any package → Package View
-4. Click "Verify" — every check returns PASS, FAIL, or SKIP
+4. Check decision (confirmed or rejected), claim level, trust policy result
+5. Click "Verify" — every check returns PASS, FAIL, or SKIP
 
 **For the full incident flow:**
 
@@ -60,6 +61,8 @@ Six seeded roles show how navigation and permissions are generated rather than h
 
 - This is a demo environment. All data is synthetic.
 - The architecture is designed for real signed events from attested hardware — that's what the pilot stage covers.
+- ZK proof generation is mocked in the demo. Real Aligned Layer integration is Phase 2.
+- Trip anchors and claim anchors are simulated for the demo. In production, they are written to Arweave.
 - No personal data. No live telemetry.
 - For a guided walkthrough with your own scenario, contact contact@logiqed.tech — we run live demos for pilot partners and investors.
 

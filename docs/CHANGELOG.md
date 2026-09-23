@@ -1,3 +1,81 @@
+## [0.9.0] - 2026-09-23
+
+Three-level evidence model. Claim packages, trip anchors, and claim level terminology unified across all documents.
+
+### Added
+
+- Three evidence levels: clean route with trip anchor, incident with claim package base, disputed with corroboration and ZK proof
+- Trip Evidence Root: Merkle root over all route events, anchored for every route
+- Claim Evidence Root: Merkle root over claim events, subtree of the trip root, anchored when a claim closes
+- Claim package base: produced for every claim, confirmed or rejected, with decision and claim level
+- Full package: produced on dispute request, with corroboration, independence check, and ZK proof when claim level is E3 or higher
+- Retroactive corroboration: applied on dispute request, within the raw telemetry retention window
+- ZK proof gating: generated only on dispute request, only when the claim level is E3 or higher
+- Own assurance vs claim level: separation across TRUST_LEVELS, SYSTEM_MAP, GLOSSARY, ARCHITECTURE, EVENT_PIPELINE
+- EPCIS conversion at Ingest entry point: all source formats converted to EPCIS 2.0 before validation
+- SYSTEM_MAP.md: new document with trust, state, and evidence layers in one page
+- EVENT_PIPELINE.md: new document with vertical flow from device to SLA
+- EVIDENCE_FLOW.md: three evidence levels, claim packages, retroactive corroboration, MVP scope
+- Evidence Builder stages: on claim close, on route close, on dispute request
+- MS SQL storage tables for Evidence Builder: Events, EventHashes, MerkleNodes, EvidenceRoots, ClaimPackages, Anchors
+- SLA_DSL.md: primary and corroborating sources in Trust Policy, claim level rules
+- WEBHOOKS.md: new event types claim.decision_recorded, claim.package.created, claim.package.full, trip.anchor.created
+- OPENAPI.yaml: packageForm, claimLevel, decision, trip and claim roots in EvidencePackage and verify responses
+- GLOSSARY.md: Claim Package Base, Full Package, Trip Evidence Root, Claim Evidence Root, Claim Level, Retroactive Corroboration
+- ADR 0002: separated Process steps into claim close, route close, and dispute request
+- CONTRIBUTING.md: updated improvement areas with claim packages and EPCIS conversion
+
+### Changed
+
+- Terminology: Source Assurance → Own Assurance for source-level evaluation
+- Terminology: trustLevel → claimLevel in claim outputs
+- Terminology: Evidence Package → claim package base or full package depending on context
+- Terminology: Evidence Root → trip Evidence Root or claim Evidence Root depending on scope
+- TRUST_LEVELS.md: claim level is the maximum among independent sources, not the minimum
+- TRUST_LEVELS.md: corroboration raises the claim level only when the primary source is at E3
+- TRUST_LEVELS.md: mobile app max own assurance is E2 (was E1) if it signs the payload
+- TRUST_LEVELS.md: two weak sources do not combine into a strong claim
+- INGEST.md: Signing Flow with ten steps including EPCIS conversion
+- INGEST.md: sourceAssurance is E3 for the reference example (was E4)
+- SECURITY.md: Data Handling table with trip anchors, claim anchors, full package anchors
+- SECURITY.md: six demo roles synchronized with DEMO.md
+- AUTHORIZATION.md: six demo roles synchronized with SECURITY.md and DEMO.md
+- EVIDENCE_PACKAGE.md: base package ~2 KB, full package ~4 KB
+- EVIDENCE_PACKAGE.md: packageForm, decision, claimLevel, trip and claim roots
+- VERIFY.md: verification steps extended to fourteen, trip and claim roots, claim level, decision
+- VERIFY.md: base package response with SKIP for corroboration and proof
+- DATA_FLOW.md: new BUILD step, three evidence levels
+- ARCHITECTURE.md: evidence builder with three moments, evidence roots and anchors
+- EVENT_PIPELINE.md: new Stage 10 for Evidence Builder
+- SYSTEM_MAP.md: full flow diagram with Evidence Builder, three end-to-end examples
+- README.md: three evidence levels, claim packages, anchors, updated docs list
+- INVESTORS.md: three evidence levels section, claim level and corroboration section
+- OVERVIEW.md: three evidence levels in Evidence Package section, own assurance vs claim level
+- GLOSSARY.md: terms updated for evidence roots, claim packages, claim level
+- BUSINESS_MODEL.md: three evidence levels in Solution, trip anchor in Competitive Advantage
+- PITCH.md: three evidence levels in How It Works, trip anchor in Market
+- PLATFORM.md: claim packages and anchors in Evidence Layer, updated Proof Engine
+- MVP.md: claim packages, trip anchor, full package in Definition of Done
+- PILOT.md: claim packages, trip anchor, three evidence levels in Success Criteria and Deliverables
+- ROADMAP.md: claim packages, trip anchor in Phase 1 scope and exit criteria
+- SLA_DSL.md: claim level and ZK gating in Design Notes, primary and corroborating sources
+- WORKFLOW.md: Evidence Builder delegation, claim packages in rule versioning
+- COMMUNICATION.md: trip anchor and claim package in Evidence Integration
+- ADR 0001: evidence roots and anchors in Constraints and Module List
+- ADR 0002: evidence roots and anchors in Context, Decision, and Process
+- DEMO.md: claim packages terminology, mock ZK note, simulated anchors note
+- CLAIMS.md: claim level and ZK proof section, claimLevel in output
+- VISION.md: three evidence levels, claim package base and full package, chain updated
+
+### Removed
+
+- Source Assurance term for source-level evaluation, replaced with Own Assurance
+- Evidence Package term for general use, replaced with claim package base or full package
+- Evidence Root term for general use, replaced with trip Evidence Root or claim Evidence Root
+- ZK proof for clean routes and rejected claims, now only on dispute request at E3+
+- Mock ZK note from EVIDENCE_FLOW design notes, moved to DEMO notes
+- "Device" role from AUTHORIZATION demo roles, not a role but a source
+
 ## [0.8.0] - 2026-09-22
 
 Trust model, evidence pipeline, and cross-document terminology unified.

@@ -29,6 +29,27 @@ Example:
 - Claims for 2026-08-27 events still reference version 1.0.
 - The verifier checks that the stored version matches the version that was active at the time of the events.
 
+## Claim Level and ZK Proof
+
+A claim carries two distinct values:
+
+- **Own assurance** of each source. Computed in Ingest. Does not change with corroboration.
+- **Claim level** of the claim. Computed in the Evidence Builder. Is the maximum among independent sources that confirm the fact.
+
+A claim is produced for every recorded incident, whether the claim is confirmed or rejected.
+
+ZK proof is added only when the claim level is E3 or higher. Below E3, the claim package is still produced and anchored, but no ZK proof is generated.
+
+Example:
+
+- Mobile App only (E1): claim level E1. No ZK proof.
+- Mobile App (E2, signed): claim level E2. No ZK proof.
+- Onboard tracker (E3): claim level E3. ZK proof available.
+- Tracker (E3) + tracker (E3): claim level E4. ZK proof available.
+- Tracker (E3) + warehouse gate (E2): claim level E4. ZK proof available.
+
+See [Trust Levels](TRUST_LEVELS.md) for the full rules.
+
 ---
 
 ## Claim 1: Detention / Warehouse Waiting Claim
@@ -101,7 +122,7 @@ Carrier-attributable waiting is the interval between dock assignment and loading
         ],
         "ruleId": "sla-detention-v1",
         "ruleVersion": "1.0",
-        "trustLevel": "E4"
+        "claimLevel": "E4"
       },
       "signature": "ed25519:...",
       "proof": "zk:..."
@@ -129,8 +150,9 @@ The verifier checks:
 - Timestamp ordering
 - Rule version
 - Trust policy result
+- Claim level
 - Signature
-- Proof validity
+- Proof validity, when present
 - Formal verification result, when available
 
 ---
@@ -193,11 +215,12 @@ The claim is VALID only when every committed measurement satisfies the rule.
         "sources": [
           {
             "sourceId": "sensor_01HZ...",
-            "trustLevel": "E4"
+            "ownAssurance": "E4"
           }
         ],
         "ruleId": "cargo-temp-v1",
-        "ruleVersion": "1.0"
+        "ruleVersion": "1.0",
+        "claimLevel": "E4"
       },
       "signature": "ed25519:...",
       "proof": {
@@ -231,7 +254,7 @@ The claim is VALID only when every committed measurement satisfies the rule.
 Both claims carry the same envelope:
 
 - `signature` - Ed25519 signature over the canonical form of the claim.
-- `proof` - ZK proof or a reference to the proof backend.
+- `proof` - ZK proof or a reference to the proof backend. Present only when the claim level is E3 or higher.
 
 In MVP, the proof backend is mocked. The signature is real.
 

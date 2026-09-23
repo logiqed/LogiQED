@@ -6,13 +6,13 @@ This document is a horizontal slice: all components side by side. For the vertic
 
 ## Overview
 
-LogiQED is a pipeline. A GPS point enters the system, is validated and assigned a trust level, becomes a candidate event inside a Route State Machine, and either closes as a clean route or produces an Evidence Package for dispute resolution.
+LogiQED is a pipeline. A GPS point enters the system, is validated and assigned a trust level, becomes a candidate event inside a Route State Machine, and either closes as a clean route, produces a claim package, or produces a full package for dispute resolution.
 
 Three layers work together:
 
 - **Trust Layer** — computes source assurance E0-E5.
 - **State Layer** — tracks route state and detects exceptions.
-- **Evidence Layer** — produces Evidence Packages and Claim Confidence.
+- **Evidence Layer** — produces claim packages, trip anchors, and full packages.
 
 ## Full Flow Diagram
 
@@ -20,11 +20,11 @@ Three layers work together:
     ║                                    DEVICE                                         ║
     ║  Onboard tracker · Mobile app · Browser PWA · External systems                    ║
     ║  GPS points · CAN bus · Sensor readings · EPCIS events                            ║
-    ╚═════════════════════════════════════════┬═════════════════════════════════════════╝
-                                              │
-                                              │  HTTP POST /v1/evidence/ingest
-                                              │  Header: X-Telemetry-Key
-                                              ↓
+    ╚═════════════════════════════════════┬═════════════════════════════════════════════╝
+                                          │
+                                          │  HTTP POST /v1/evidence/ingest
+                                          │  Header: X-Telemetry-Key
+                                          ↓
     ╔═══════════════════════════════════════════════════════════════════════════════════╗
     ║  LAYER 1 — TRUST                                                                  ║
     ║                                                                                   ║
@@ -92,15 +92,16 @@ Three layers work together:
     ║  │  Six exception types: Traffic, Weather, Breakdown,                          │  ║
     ║  │  Warehouse Queue, Geofence Wait, Border Delay                               │  ║
     ║  │                                                                             │  ║
-    ║  │  On threshold crossed → create candidate event                              │  ║
+    ║  │  Driver reports exception start and end manually                            │  ║
+    ║  │  On exception close → package base is created                               │  ║
     ║  └────────────────────────────────────┬────────────────────────────────────────┘  ║
     ║                                       │                                           ║
-    ║                                       │  candidate event: SegmentDelayDetected    ║
+    ║                                       │  driver report or auto-detected event     ║
     ║                                       ↓                                           ║
     ║  ┌─────────────────────────────────────────────────────────────────────────────┐  ║
     ║  │  Enrichment Decider (pure function)                                         │  ║
-    ║  │  GeofenceEntered → No · SegmentDelayDetected → Yes, Traffic API             │  ║
-    ║  │  TemperatureOutOfRange → No · HarshBrake → No · RouteCompleted → No         │  ║
+    ║  │  DriverReported Traffic → Yes, Traffic API                                  │  ║
+    ║  │  GeofenceEntered → No · TemperatureOutOfRange → No · RouteCompleted → No    │  ║
     ║  └────────────────────────────────────┬────────────────────────────────────────┘  ║
     ║                                       │                                           ║
     ║                             ┌─────────┴─────────┐                                 ║
@@ -111,7 +112,7 @@ Three layers work together:
     ║                             │    ┌─────────────────────────────────────────────┐  ║
     ║                             │    │  On-Demand Oracle                           │  ║
     ║                             │    │  Traffic / Weather / Warehouse / Border     │  ║
-    ║                             │    │  Once per incident                          │  ║
+    ║                             │    │  Once per claim                             │  ║
     ║                             │    └──────────────────┬──────────────────────────┘  ║
     ║                             │                       │                             ║
     ║                             └───────────┬───────────┘                             ║
@@ -119,12 +120,14 @@ Three layers work together:
     ║                                         ↓                                         ║
     ║  ┌─────────────────────────────────────────────────────────────────────────────┐  ║
     ║  │  Route State Machine (continues)                                            │  ║
-    ║  │  Apply result · Finalize transition                                         │  ║
-    ║  │  TrafficEntered → SLA_PAUSED · Checkpoint to SQL                            │  ║
-    ║  └─────────────────────────────────────────────────────────────────────────────┘  ║
+    ║  │  Apply result · Finalize claim                                              │  ║
+    ║  │  Confirmed: SLA_PAUSED                                                      │  ║
+    ║  │  Rejected: SLA continues                                                    │  ║
+    ║  │  Checkpoint to SQL                                                          │  ║
+    ║  └────────────────────────────────────┬────────────────────────────────────────┘  ║
     ╚═════════════════════════════════════════┬═════════════════════════════════════════╝
                                           │
-                                          │  State transition + pause start
+                                          │  claim closed
                                           ↓
     ╔═══════════════════════════════════════════════════════════════════════════════════╗
     ║  LAYER 3 — EVIDENCE                                                               ║
@@ -137,33 +140,35 @@ Three layers work together:
     ║                                       │                                           ║
     ║                                       ↓                                           ║
     ║  ┌─────────────────────────────────────────────────────────────────────────────┐  ║
-    ║  │  Route Completed?                                                           │  ║
+    ║  │  Evidence Builder (triggered by Orchestrator)                               │  ║
     ║  │                                                                             │  ║
-    ║  │     Disputed                                   Clean                        │  ║
-    ║  │        │                                         │                          │  ║
-    ║  │        ↓                                         ↓                          │  ║
-    ║  │  Evidence Package                          Signed events                    │  ║
-    ║  │  + ZK proof                                + Evidence Root                  │  ║
-    ║  │  + Claim Confidence                        No package, no proof             │  ║
-    ║  │  + Arweave anchor                          Cost ≈ zero                      │  ║
-    ║  └────────────────────────────────────┬────────────────────────────────────────┘  ║
-    ║                                       │                                           ║
-    ║                                       ↓                                           ║
-    ║  ┌─────────────────────────────────────────────────────────────────────────────┐  ║
-    ║  │  Evidence Builder (when disputed)                                           │  ║
+    ║  │  On claim close:                                                            │  ║
+    ║  │    1. Collect claim events                                                  │  ║
+    ║  │    2. Compute claim Evidence Root                                           │  ║
+    ║  │    3. Compute claim level                                                   │  ║
+    ║  │    4. Record decision (confirmed or rejected)                               │  ║
+    ║  │    5. Assemble claim package base                                           │  ║
+    ║  │    6. Anchor claim root + package in Arweave                                │  ║
     ║  │                                                                             │  ║
-    ║  │  1. Apply Trust Policy                                                      │  ║
-    ║  │  2. Request corroboration if required                                       │  ║
-    ║  │  3. Check independence in Evidence Graph                                    │  ║
-    ║  │  4. Compute Claim Level                                                     │  ║
-    ║  │  5. Produce Claim Confidence                                                │  ║
-    ║  │  6. Produce Evidence Package                                                │  ║
+    ║  │  On route close:                                                            │  ║
+    ║  │    1. Collect all route events                                              │  ║
+    ║  │    2. Compute trip Evidence Root                                            │  ║
+    ║  │    3. Anchor trip root in Arweave                                           │  ║
+    ║  │                                                                             │  ║
+    ║  │  On dispute request:                                                        │  ║
+    ║  │    1. Retroactive corroboration                                             │  ║
+    ║  │    2. Independence check in Evidence Graph                                  │  ║
+    ║  │    3. Compute final claim level                                             │  ║
+    ║  │    4. Generate ZK proof (if E3+)                                            │  ║
+    ║  │    5. Assemble full package                                                 │  ║
+    ║  │    6. Anchor full package in Arweave                                        │  ║
     ║  └────────────────────────────────────┬────────────────────────────────────────┘  ║
     ║                                       │                                           ║
     ║                                       ↓                                           ║
     ║  ┌─────────────────────────────────────────────────────────────────────────────┐  ║
     ║  │  Arweave                                                                    │  ║
-    ║  │  Permanent evidence · ~4 KB per package                                     │  ║
+    ║  │  Trip anchors · Claim anchors · Full package anchors                        │  ║
+    ║  │  Permanent evidence · Base ~2 KB, full ~4 KB                                │  ║
     ║  └─────────────────────────────────────────────────────────────────────────────┘  ║
     ╚═══════════════════════════════════════════════════════════════════════════════════╝
 
@@ -243,7 +248,7 @@ Example: a GPS tracker reports `accuracy: 15m`. The server checks whether this i
 
 Metrology does not request independent measurements. It evaluates the accuracy of one source.
 
-### Source Types and Maximum Levels
+### Source Types and Maximum Own Assurance
 
 Not every source can provide all seven dimensions. The maximum own assurance is capped by the source type.
 
@@ -293,7 +298,7 @@ When an event arrives:
 2. Find State Machine by tripId. Create one if the trip is new.
 3. Pass event to the State Machine.
 
-The Orchestrator does not evaluate metrics or call APIs. It only routes events to the correct State Machine.
+The Orchestrator does not evaluate metrics or call APIs. It routes events to the correct State Machine and delegates to the Evidence Builder when a claim or route closes.
 
 ### Route State Machine
 
@@ -318,18 +323,18 @@ Optional loop: SLA_RESUMED → SLA_PAUSED again if traffic returns.
 
 For multi-segment routes: SegmentExited(A-B) → SegmentEntered(B-C).
 
-When a trigger condition is met, the State Machine creates a candidate event, for example `SegmentDelayDetected`.
+When a claim closes, the State Machine triggers the Evidence Builder.
 
 ### Enrichment Decider
 
-The Enrichment Decider is a pure function. It determines whether the candidate event requires external confirmation.
+The Enrichment Decider is a pure function. It determines whether a candidate event requires external confirmation.
 
 It does not call APIs. It only decides.
 
 | Candidate event | API needed |
 |-----------------|------------|
+| DriverReported Traffic | Yes - Traffic API |
 | GeofenceEntered | No |
-| SegmentDelayDetected | Yes - Traffic API |
 | TemperatureOutOfRange | No - E4 sensor |
 | HarshBrake | No - accelerometer |
 | RouteCompleted | No |
@@ -342,20 +347,30 @@ If an API is needed, the Decider hands the candidate to the On-Demand Oracle.
 
 The On-Demand Oracle calls the required external API.
 
-The call is made once per incident, not continuously.
+The call is made once per claim, not continuously.
 
 Results are returned to the State Machine.
 
-### Finalizing the Transition
+### Finalizing the Claim
 
-After enrichment, or if no enrichment was needed, the State Machine finalizes the transition.
+After enrichment, or if no enrichment was needed, the State Machine finalizes the claim.
 
 Examples:
 
-- Candidate `SegmentDelayDetected` + Traffic API confirmation → `TrafficEntered` → `SLA_PAUSED`.
-- Candidate `WeatherDetected` + Weather API confirmation → `WeatherEntered` → `SLA_PAUSED`.
+- Confirmed: driver-reported traffic + Traffic API confirmation → `TrafficEntered` → `SLA_PAUSED`.
+- Rejected: driver-reported traffic + Traffic API denies → claim marked as rejected. SLA continues.
 
 The transition is recorded as a checkpoint in SQL via `RouteStateSnapshots`.
+
+### MVP Scope: Manual Detection
+
+In MVP, exceptions are reported by the driver. The system does not detect traffic jams automatically.
+
+The driver presses "Traffic started" when a jam begins. The driver presses "Traffic ended" when the jam clears.
+
+Why: automatic detection would require continuous polling of external APIs. That is expensive and not justified at MVP scale.
+
+In Phase 2, automatic detection of exception start may be added. Exception end will remain manual or on-demand.
 
 ### Trip Workflow vs Route State Machine
 
@@ -399,7 +414,7 @@ In this case:
 
 - SLA still works. Pause calculation is unaffected.
 - Corroboration still works. Another vehicle on the same route can confirm the claim.
-- Evidence Packages are still produced.
+- Claim packages are still produced.
 - What is not available: attribution by segment. The system cannot show where on the route the delay occurred.
 
 Single-segment routes are supported for MVP and for carriers that do not want to configure segmentation.
@@ -408,7 +423,7 @@ Full segmentation with road network and historical data is planned for Phase 2.
 
 ## Layer 3: Evidence — How Claim Confidence Is Produced
 
-The Evidence Layer runs after the route is completed, or when a dispute is opened.
+The Evidence Layer runs when a claim closes, when a route closes, or when a dispute is opened.
 
 ### SLA Engine
 
@@ -422,18 +437,51 @@ The result is stored with the segment and used later when the route is completed
 
 ### Evidence Builder
 
-The Evidence Builder runs when a claim is formed. It:
+The Evidence Builder is called by the Orchestrator at three moments.
 
-1. Applies the Trust Policy for the claim.
-2. Requests corroboration if required by policy.
-3. Checks independence in the Evidence Graph.
-4. Computes the claim level.
-5. Produces Claim Confidence: PASS or FAIL.
-6. Produces the Evidence Package if the claim is disputed.
+**On claim close:**
+
+1. Collect claim events.
+2. Compute claim Evidence Root.
+3. Compute claim level.
+4. Record decision: confirmed or rejected.
+5. Assemble claim package base.
+6. Anchor claim root and package in Arweave.
+
+**On route close:**
+
+1. Collect all route events.
+2. Compute trip Evidence Root.
+3. Anchor trip root in Arweave.
+
+**On dispute request:**
+
+1. Retroactive corroboration.
+2. Independence check in Evidence Graph.
+3. Compute final claim level.
+4. Generate ZK proof if claim level is E3 or higher.
+5. Assemble full package.
+6. Anchor full package in Arweave.
+
+The Builder writes to MS SQL tables: Events, EventHashes, MerkleNodes, EvidenceRoots, ClaimPackages, Anchors.
+
+### Three Evidence Levels
+
+| Level | What is produced | When |
+|-------|------------------|------|
+| Clean route | Signed events + trip Evidence Root + anchor | Every route |
+| Incident | + claim package base + claim anchor | Every claim, confirmed or rejected |
+| Disputed | + corroboration + ZK proof + new anchor | On dispute request |
+
+Anchor is produced for every route, clean or incident. This protects the data from substitution.
+
+Claim packages are produced for every claim, confirmed or rejected. A rejected claim is still a recorded event.
+
+ZK proof is generated only when the claim level is E3 or higher.
 
 ### How Corroboration Is Requested
 
-Corroboration is applied by the Evidence Builder, after the route is completed. It is not applied by Ingest API, State Machine, or Orchestrator.
+Corroboration is applied by the Evidence Builder, on dispute request. It is not applied by Ingest API, State Machine, or Orchestrator.
 
 Two search strategies:
 
@@ -441,6 +489,8 @@ Two search strategies:
 2. **External gate** — warehouse gate API or border API at fixed points on the route.
 
 An independent source is required. If two sources share a gateway, corroboration fails the independence check.
+
+Retroactive corroboration works within the raw telemetry retention window. Raw positions are kept for 30 days. Aggregates are kept for 1 year.
 
 ### Claim Level and Source Level
 
@@ -470,6 +520,14 @@ Weak sources are ignored when a stronger independent source confirms the fact.
 Corroboration raises the claim level only when the primary source is at E3. Below E3, the claim stays at the level of the strongest source. Two E1 sources produce an E1 claim. Two E2 sources produce an E2 claim.
 
 For the full rules, see [Trust Levels](TRUST_LEVELS.md).
+
+### ZK Proof Gating
+
+ZK proof is generated only when the claim level is E3 or higher.
+
+Below E3, the package is still produced and anchored, but the ZK proof button in the UI is disabled. The UI shows: your trust level is insufficient for ZK proof. E3 or higher is required.
+
+Why: below E3, the source cannot prove device attestation. A ZK proof would confirm a computation over data that is itself not attested.
 
 ### Evidence Graph
 
@@ -537,36 +595,61 @@ A claim is valid only if all required sources satisfy the policy.
 For clean routes:
 
 - Signed events.
-- Evidence Root.
-- No Evidence Package.
+- Trip Evidence Root.
+- Arweave anchor.
+- No claim package.
 - No ZK proof.
+
+For incident routes:
+
+- Claim package base (~2 KB).
+- Claim Evidence Root.
+- Arweave anchor for claim.
+- Trip Evidence Root anchored at route close.
 
 For disputed routes:
 
-- Evidence Package (~4 KB).
-- ZK proof.
-- Claim Confidence: PASS or FAIL.
-- Arweave anchor.
+- Full package (~4 KB).
+- Corroboration result.
+- ZK proof, if claim level is E3 or higher.
+- New Arweave anchor.
 
-## End-to-End Example: Traffic
+## End-to-End Example: Traffic, Confirmed
 
 A truck in transit. A traffic jam occurs.
 
-1. GPS point arrives at Ingest API.
-2. Server evaluates 7 dimensions. Source is an onboard tracker with TPM. sourceAssurance = E3.
-3. Event is enqueued to Bounded Channel with E3 attached.
-4. Orchestrator reads event. Finds State Machine for tripId = SHP-802.
-5. State Machine sees: speed dropped to 2 km/h, sustained 3 minutes. Creates candidate event SegmentDelayDetected.
-6. Enrichment Decider: Traffic API is needed.
-7. On-Demand Oracle calls Traffic API. Congestion confirmed.
-8. State Machine applies result. Transition: TrafficEntered → SLA_PAUSED. Checkpoint written to SQL.
-9. SLA Engine starts pause. Counted in driver working calendar.
-10. Speed recovers. State Machine creates TrafficExited → SLA_RESUMED. Pause = 15 minutes.
-11. Segment ends. SegmentExited(A-B) written with full report.
-12. Route completes.
-13. Evidence Builder applies Trust Policy.
-14. Another vehicle with an onboard tracker confirms the same standstill. Evidence Graph checks independence: different gateway. Claim level = E4.
-15. Evidence Package written and anchored in Arweave.
+1. Driver presses "Traffic started".
+2. Claim created at E0.
+3. System checks own data. Speed dropped. E2.
+4. Traffic API called. Congestion confirmed. E1.
+5. Claim level = max(E0, E2, E1) = E2. SLA paused.
+6. Driver presses "Traffic ended".
+7. SLA Engine computes pause: 15 minutes.
+8. Orchestrator triggers Evidence Builder.
+9. Builder collects claim events, computes claim Evidence Root, computes claim level E2, records decision CONFIRMED, assembles claim package base, anchors in Arweave.
+10. Segment ends. SegmentExited written.
+11. Route completes.
+12. Builder collects all route events, computes trip Evidence Root, anchors in Arweave.
+13. Later, operator requests dispute package.
+14. Builder does retroactive corroboration. Second truck with onboard tracker confirms the same standstill. Different gateway → independent. Claim level = E4.
+15. Builder generates ZK proof (E4 ≥ E3).
+16. Full package assembled and anchored.
+
+## End-to-End Example: Traffic, Rejected
+
+A truck in transit. Driver reports a jam. The system disagrees.
+
+1. Driver presses "Traffic started".
+2. Claim created at E0.
+3. System checks own data. Speed is normal. FAIL.
+4. Traffic API called. No congestion. FAIL.
+5. Claim rejected. SLA continues.
+6. Driver presses "Traffic ended" (or the claim closes manually).
+7. Orchestrator triggers Evidence Builder.
+8. Builder assembles claim package base with decision REJECTED, anchors in Arweave.
+9. Trip Evidence Root anchored at route close.
+
+The rejected claim is still recorded. The driver can review it. The package shows why the claim was rejected.
 
 ## End-to-End Example: Clean Route
 
@@ -576,8 +659,8 @@ A truck drives Kyiv to Oslo. No exceptions.
 2. Orchestrator reads each event. State Machine transitions: Created → InTransit → SegmentEntered(A-B) → SegmentExited(A-B) → SegmentEntered(B-C) → ... → Completed.
 3. No candidate events fire. No external API is called.
 4. Route completes in 40 hours. SLA is 48 hours.
-5. Evidence Builder does not create an Evidence Package. No dispute.
-6. Route closes with signed events and Evidence Root only.
+5. Builder collects all route events, computes trip Evidence Root, anchors in Arweave.
+6. No claim package. No ZK proof.
 7. Cost per route: approximately zero.
 
 ## What Belongs to Which Layer
@@ -586,14 +669,14 @@ A truck drives Kyiv to Oslo. No exceptions.
 |-----------|-------|----------------|
 | Ingest API | Trust | Validation, dedup, EPCIS conversion, source assurance E0-E5, event-level policy check |
 | Bounded Channel | Transport | In-memory queue with backpressure |
-| Event Orchestrator | State | Holds Route State Machines |
-| Route State Machine | State | Evaluates metrics, creates candidate events |
+| Event Orchestrator | State | Holds Route State Machines, delegates to Builder |
+| Route State Machine | State | Evaluates metrics, creates candidate events, triggers Builder on claim close |
 | Enrichment Decider | State | Decides if external API is needed |
 | On-Demand Oracle | State | Calls external APIs |
 | SLA Engine | Evidence | Computes pause in working calendar |
-| Evidence Builder | Evidence | Applies Trust Policy, checks corroboration, computes claim level |
+| Evidence Builder | Evidence | Assembles packages, computes Evidence Roots, anchors |
 | Evidence Graph | Evidence | Provenance, independence check, E5 verification |
-| Arweave | Evidence | Permanent anchor |
+| Arweave | Evidence | Trip anchors, claim anchors, full package anchors |
 
 ## What Is Computed Where
 
@@ -604,17 +687,24 @@ A truck drives Kyiv to Oslo. No exceptions.
 | Candidate event | Route State Machine | When metrics cross thresholds |
 | Enrichment decision | Enrichment Decider | On each candidate event |
 | External API result | On-Demand Oracle | On candidate events that require it |
-| Final transition | Route State Machine | After enrichment or skip |
-| SLA pause | SLA Engine | When an exception is closed |
-| Claim level | Evidence Builder | When a claim is formed |
-| Independence check | Evidence Graph | When a claim is formed |
-| Claim Confidence | Evidence Builder | When a claim is formed |
+| Claim decision | Route State Machine | After enrichment |
+| SLA pause | SLA Engine | When a claim closes |
+| Claim level | Evidence Builder | When a claim closes |
+| Claim Evidence Root | Evidence Builder | When a claim closes |
+| Trip Evidence Root | Evidence Builder | When a route closes |
+| Claim anchor | Evidence Builder | When a claim closes |
+| Trip anchor | Evidence Builder | When a route closes |
+| Corroboration | Evidence Builder | On dispute request |
+| Final claim level | Evidence Builder | On dispute request |
+| ZK proof | Evidence Builder | On dispute request, if E3 or higher |
+| Full package anchor | Evidence Builder | On dispute request |
 
 ## Related Documents
 
 - [Event Pipeline](EVENT_PIPELINE.md) - vertical flow from device to SLA
 - [Trust Levels](TRUST_LEVELS.md) - full trust model and corroboration rules
+- [Evidence Flow](EVIDENCE_FLOW.md) - three evidence levels and anchor rules
+- [Evidence Package](EVIDENCE.md) - package structure
 - [Architecture](ARCHITECTURE.md) - modules and boundaries
 - [Data Flow](DATA_FLOW.md) - canonical event flow through all stages
 - [SLA DSL](SLA_DSL.md) - rule format and evaluation result
-- [Evidence Package](EVIDENCE.md) - package structure

@@ -59,10 +59,36 @@ The current platform foundation is an engineered modular monolith built on .NET 
 
 - **Core Domains:** Telemetry Ingestion, Route State Machine, SLA Evaluation Engine, Evidence Engine, Identity & Role-Based Access, Dispatch Console, Workflow Engine.
 - **Proprietary Mediator (`LogiQED.MediatR`):** Custom `ValueTask`-based CQRS dispatch pipeline with startup cache prewarming, explicit behavior ordering, and no reflection in the hot dispatch path.
-- **Evidence Layer:** Signed Event Stream, Evidence Graph, canonical hash chains, Evidence Roots, and Trust Levels E0-E5.
+- **Evidence Layer:** Signed Event Stream, Evidence Graph, trip and claim Evidence Roots, claim packages, and Trust Levels E0-E5.
 - **Cryptographic Primitives:** Ed25519 signatures with an established architectural path for post-quantum ML-DSA integration.
 - **Proof Engine:** Pluggable backend architecture (Aligned Layer mock for MVP; extensible to Groth16, PLONK, STARK, and zkVM backends including SP1 and RISC Zero).
 - **Audit & Security:** Dual-channel delivery auditing, SHA-256 tracker-key hashing (obliteration pattern), 30-day telemetry retention policies, and session-level revocation.
+
+### Three Evidence Levels
+
+The evidence layer produces three levels of evidence, depending on what happens on the route.
+
+| Level | What is produced | When |
+|-------|------------------|------|
+| Clean route | Signed events + trip Evidence Root + Arweave anchor | Every route |
+| Incident | + claim package base + claim anchor | Every claim, confirmed or rejected |
+| Disputed | + retroactive corroboration + ZK proof + new anchor | On dispute request |
+
+The trip Evidence Root is anchored for every route, clean or incident. This protects the data from substitution even if no dispute ever arises.
+
+A claim package base is produced for every claim, confirmed or rejected. A rejected claim is still a recorded event: the driver pressed the button, the system queried the API, and the outcome was recorded.
+
+ZK proof is generated only on dispute request, and only when the claim level is E3 or higher.
+
+### Claim Level and Corroboration
+
+Own assurance is the level of a single source. It is computed server-side and does not change with corroboration.
+
+Claim level is the level of a claim, formed from one or more independent sources. It is the maximum level among independent sources that confirm the same fact.
+
+Retroactive corroboration is applied by the Evidence Builder on dispute request. It searches for other vehicles that were on the same segment during the same time window. If a candidate source had E3 or higher at that time, corroboration raises the claim level. Two weak sources do not combine into a strong claim.
+
+See [Trust Levels](https://github.com/logiqed/LogiQED/blob/main/docs/TRUST_LEVELS.md) for the full model.
 
 ---
 
@@ -76,7 +102,7 @@ Trip lifecycle is a visual state machine: statuses, user/system/backward transit
 
 Dispatchers and admins change processes from the admin panel - no rebuild, no deploy.
 
-Every rule change is versioned, and Evidence Packages reference the rule version active at the time of the events. A package stays verifiable after the rules move.
+Every rule change is versioned, and claim packages reference the rule version active at the time of the events. A package stays verifiable after the rules move.
 
 See [Workflow](https://github.com/logiqed/LogiQED/blob/main/docs/WORKFLOW.md).
 

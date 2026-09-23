@@ -37,13 +37,27 @@ A route is a finite state machine, not a stream of coordinates. Telemetry positi
 
 **The pipeline in short:**
 
-1. **Ingest** - signed Protobuf coordinate deltas arrive at Telemetry Ingest.
+1. **Ingest** - events arrive from multiple sources and are converted to EPCIS 2.0 at the entry point.
 2. **Orchestrate** - the Event Orchestrator maintains the Route State Machine per route.
 3. **Evaluate** - the SLA Engine computes deterministic results in the working calendar.
-4. **Build** - the Evidence Builder produces a compact package. ZK proof is generated only for disputed routes.
-5. **Anchor** - Evidence Packages and proof roots are anchored externally for permanent verification.
+4. **Build** - the Evidence Builder produces a claim package when a claim closes, and a trip Evidence Root when the route closes.
+5. **Anchor** - Evidence Roots and claim packages are anchored in Arweave for permanent verification.
 
 ---
+
+### Three evidence levels
+
+| Level | What is produced | When |
+|-------|------------------|------|
+| Clean route | Signed events + trip Evidence Root + Arweave anchor | Every route |
+| Incident | + claim package base + claim anchor | Every claim, confirmed or rejected |
+| Disputed | + retroactive corroboration + ZK proof + new anchor | On dispute request |
+
+The trip Evidence Root is anchored for every route, clean or incident. This protects the data from substitution even if no dispute ever arises.
+
+A claim package base is produced for every claim, confirmed or rejected. A rejected claim is still a recorded event: the driver pressed the button, the system queried the API, and the outcome was recorded.
+
+ZK proof is generated only on dispute request, and only when the claim level is E3 or higher.
 
 ### From a GPS point to verifiable evidence
 
@@ -54,8 +68,6 @@ The diagram shows the full chain: raw claim, signed event, Evidence Package, ver
 <p align="center">
   <img src="https://github.com/logiqed/LogiQED/blob/main/docs/images/diagram-gps-to-evidence.svg" alt="From a GPS claim to verifiable evidence" width="1000"/>
 </p>
-
----
 
 ### Public verification
 
@@ -72,12 +84,14 @@ The public endpoint validates the organization signature, recomputes the Evidenc
 ## What LogiQED Provides
 
 - **Signed Event Stream** - authenticated trip events from devices, APIs, and sources.
-- **Trust Levels E0–E5** - graded confidence for every source.
+- **Trust Levels E0-E5** - own assurance for every source, computed server-side.
+- **Claim Level and Corroboration** - claim level computed from independent sources on dispute request.
 - **Evidence Graph** - provenance DAG connecting events, sources, and rules.
 - **SLA Engine** - rule execution with automatic exception attribution.
 - **Route State Machine** - TrafficEntered pauses SLA, TrafficExited resumes it.
-- **On-Demand Oracle** - external APIs called only when an incident occurs.
-- **Evidence Package** - immutable snapshot of claim, proof, and context.
+- **On-Demand Oracle** - external APIs called only when a claim opens.
+- **Evidence Package** - base ~2 KB, full ~4 KB.
+- **Trip and Claim Anchors** - Evidence Roots anchored in Arweave for every route and every claim.
 - **Role-based UI** - navigation and screens generated from permissions.
 
 ---
@@ -90,7 +104,8 @@ Unified infrastructure for ingesting, normalizing, storing, and distributing mob
 
 **Sources:**
 - Employee browser (self-reporting via My Location page)
-- Tracker application (background reporting, screen-off)
+- Mobile app (third-party, key-authenticated via X-Telemetry-Key)
+- Onboard tracker (device in vehicle, certificate-authenticated)
 - External tracking systems (via adapters)
 
 **Device identity:** SourceCode + ExternalId. Owners are extensible - Employee is built-in, Vehicles and other kinds are added by domains.
@@ -103,7 +118,7 @@ Unified infrastructure for ingesting, normalizing, storing, and distributing mob
 
 **Realtime:** SignalR hub `/hubs/telemetry` delivers live position updates to the dispatch map.
 
-**Retention:** Raw positions 30 days, 1-hour aggregates 1 year. Evidence Packages are permanent via Arweave.
+**Retention:** Raw positions 30 days, 1-hour aggregates 1 year. Evidence Roots and anchors are permanent via Arweave.
 
 ### Route
 
@@ -115,7 +130,7 @@ Policies, working calendars, holiday sets, exception rules, timers, and escalati
 
 ### Evidence
 
-Signed Event Stream, Evidence Graph, Evidence Package, Trust Levels E0–E5, Evidence Root construction, and independent verification.
+Signed Event Stream, Evidence Graph, trip and claim Evidence Roots, claim packages, Trust Levels E0-E5, and independent verification.
 
 ### Identity
 
@@ -131,7 +146,7 @@ Chats (direct and group), notifications, delivery journal, and audit trail. Full
 
 ### Dispatcher
 
-Dashboard for operational control: incident reports, evidence packages, manual incident resolution, and full trip lifecycle visibility.
+Dashboard for operational control: incident reports, claim packages, manual incident resolution, and full trip lifecycle visibility.
 
 ---
 
@@ -144,7 +159,7 @@ Dashboard for operational control: incident reports, evidence packages, manual i
 
 ### 2. Cargo Condition
 
-- Contract 2–8°C, EU lane, temperature stayed in range.
+- Contract 2-8°C, EU lane, temperature stayed in range.
 - Proof: VALID.
 
 ---
@@ -231,12 +246,14 @@ Contact: contact@logiqed.tech | [X / Twitter](https://x.com/LogiQED)
 ## Docs
 
 - [Vision](https://github.com/logiqed/LogiQED/blob/main/docs/VISION.md)
+- [System Map](https://github.com/logiqed/LogiQED/blob/main/docs/SYSTEM_MAP.md)
+- [Event Pipeline](https://github.com/logiqed/LogiQED/blob/main/docs/EVENT_PIPELINE.md)
 - [Architecture](https://github.com/logiqed/LogiQED/blob/main/docs/ARCHITECTURE.md)
 - [Mediator](https://github.com/logiqed/LogiQED/blob/main/docs/MEDIATOR.md)
 - [Trust Levels](https://github.com/logiqed/LogiQED/blob/main/docs/TRUST_LEVELS.md)
 - [Claims](https://github.com/logiqed/LogiQED/blob/main/docs/CLAIMS.md)
-- [Evidence Package](https://github.com/logiqed/LogiQED/blob/main/docs/EVIDENCE.md)
 - [Evidence Flow](https://github.com/logiqed/LogiQED/blob/main/docs/EVIDENCE_FLOW.md)
+- [Evidence Package](https://github.com/logiqed/LogiQED/blob/main/docs/EVIDENCE.md)
 - [Ingest API](https://github.com/logiqed/LogiQED/blob/main/docs/INGEST.md)
 - [Communication](https://github.com/logiqed/LogiQED/blob/main/docs/COMMUNICATION.md)
 - [Workflow](https://github.com/logiqed/LogiQED/blob/main/docs/WORKFLOW.md)
@@ -245,8 +262,6 @@ Contact: contact@logiqed.tech | [X / Twitter](https://x.com/LogiQED)
 - [SLA DSL](https://github.com/logiqed/LogiQED/blob/main/docs/SLA_DSL.md)
 - [UI](https://github.com/logiqed/LogiQED/blob/main/docs/UI.md)
 - [Data Flow](https://github.com/logiqed/LogiQED/blob/main/docs/DATA_FLOW.md)
-- [System Map](https://github.com/logiqed/LogiQED/blob/main/docs/SYSTEM_MAP.md)
-- [Event Pipeline](https://github.com/logiqed/LogiQED/blob/main/docs/EVENT_PIPELINE.md)
 - [Security](https://github.com/logiqed/LogiQED/blob/main/docs/SECURITY.md)
 - [Authorization](https://github.com/logiqed/LogiQED/blob/main/docs/AUTHORIZATION.md)
 - [Glossary](https://github.com/logiqed/LogiQED/blob/main/docs/GLOSSARY.md)

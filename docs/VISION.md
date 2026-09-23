@@ -14,7 +14,7 @@ Not "the truck was late." But "committed events show geofence entry at 11:54, do
 
 ## The Chain
 
-Sensor/device, attestation, timestamp, signature, provenance, rule, claim, proof, Evidence Package.
+Sensor/device, attestation, timestamp, signature, provenance, rule, claim, trip Evidence Root, claim Evidence Root, anchor.
 
 ## Problem
 
@@ -37,25 +37,41 @@ Carriers, shippers, freight forwarders, insurers and compliance teams who make p
 ## Business Model
 
 - Platform fee per carrier or shipper
-- Fee per Evidence Package
+- Fee per full package
 - Fee per SLA claim verification
 - Enterprise API access
+
+Trip anchors are produced for every route at no additional cost to the customer.
 
 Value scales with freight volume, not with UI users.
 
 ## Core Concepts
 
-### Evidence Package
+### Three Evidence Levels
 
-The final artifact. Links claim, events, sources, trust levels, SLA rule version and proof.
+The evidence layer produces three levels of evidence:
 
-Generated only when a dispute or SLA exception requires proof.
+- **Clean route** - signed events + trip Evidence Root + Arweave anchor.
+- **Incident** - claim package base + claim anchor. Confirmed or rejected.
+- **Disputed** - retroactive corroboration + ZK proof + new anchor.
 
-Clean routes are closed with signed events and Evidence Root only.
+The trip Evidence Root is anchored for every route, clean or incident. This protects the data from substitution even if no dispute ever arises.
+
+ZK proof is generated only on dispute request, and only when the claim level is E3 or higher.
+
+### Claim Package Base and Full Package
+
+The base package is produced when a claim closes, confirmed or rejected. It records the driver's report, the system's own data, the external API response, the claim level, and the decision.
+
+The full package is produced on dispute request. It adds retroactive corroboration, an independence check, and a ZK proof when the claim level is E3 or higher.
 
 ### Trust Levels
 
-E0–E5. Server-side evaluated confidence for every source.
+E0-E5. Server-side evaluated own assurance for every source.
+
+Own assurance is the level of a single source. It does not change with corroboration.
+
+A claim level is the level of a claim, formed from one or more independent sources. It is the maximum level among independent sources that confirm the same fact.
 
 A signature does not make a source trustworthy.
 
@@ -69,7 +85,7 @@ Example: E4_REQUIRED_V1.
 
 Provenance DAG connecting events, sources, rules and claims.
 
-Records source-of-source provenance.
+Records source-of-source provenance. Used for independence checks and E5 verification.
 
 ### SLA Engine
 
@@ -79,11 +95,13 @@ Rules, calendars, holidays and exception attribution.
 
 A route is a finite state machine, not a stream of coordinates.
 
-SLA pause is the measured interval between TrafficEntered and TrafficExited.
+SLA pause is the measured interval between the entered and exited events of a claim.
+
+In MVP, exceptions are reported by the driver. The system does not poll external APIs continuously.
 
 ### On-Demand Oracle
 
-External APIs are called only when an incident occurs.
+External APIs are called only when a claim opens.
 
 In normal operation, external API costs are zero.
 
@@ -106,6 +124,7 @@ It proves:
 - These committed measurements were produced by sources satisfying trust policy E4.
 - The data was not changed.
 - The rule was executed correctly.
+- The Evidence Roots match the anchors.
 
 It does not prove:
 

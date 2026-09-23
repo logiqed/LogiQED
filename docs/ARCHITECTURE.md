@@ -14,7 +14,7 @@ For a pilot MVP, a modular monolith is the right trade-off. Natural computationa
 - **CQRS / MediatR** - commands change state, queries read from projections.
 - **Idempotent Event Processing** - handlers safe to retry without side effects.
 - **Domain Events within Modules Only** - modules communicate via interfaces, not via each other's tables.
-- **Cost-Aware Design** - external APIs only when SLA exception occurs. Zero external calls in normal operation.
+- **Cost-Aware Design** - external APIs only when a claim is opened. Zero external calls in normal operation.
 - **Crypto-Agility** - signatures, proof backends, hashes are pluggable.
 - **Provider Abstraction** - proof backends, data availability, and attestation providers sit behind interfaces. EigenLayer is an integration choice, not an architectural dependency.
 - **Traceability** - every event traceable from ingest to permanent storage.
@@ -66,15 +66,15 @@ MS SQL is the system of record. Redis serves as a hot cache for fast reads.
 
 SignalR at /hubs/telemetry delivers real-time map updates.
 
-Event Orchestrator runs as a Background Service. It maintains the Route State Machine per route, decides whether external enrichment is required, and calls On-Demand Oracle APIs only when necessary.
+Event Orchestrator runs as a Background Service. It maintains the Route State Machine per route, decides whether external enrichment is required, and delegates to the Evidence Builder when a claim or route closes.
 
-SLA Engine performs deterministic calculation. Pause is the interval between TrafficEntered and TrafficExited.
+SLA Engine performs deterministic calculation. Pause is the interval between the entered and exited events of a claim.
 
-Evidence Package Builder produces a compact package containing events, API response, and proof hash. Size is approximately 4 KB.
+Evidence Package Builder produces packages in three moments: on claim close, on route close, and on dispute request. Base package is approximately 2 KB. Full package is approximately 4 KB.
 
 Aligned Layer generates the ZK-proof. For MVP this is mocked.
 
-Arweave provides permanent evidence storage.
+Arweave provides permanent evidence storage. Trip anchors, claim anchors, and full package anchors are all anchored in Arweave.
 
 See [Event Pipeline](EVENT_PIPELINE.md) for the full flow from device to SLA.
 
@@ -89,6 +89,8 @@ See [Event Pipeline](EVENT_PIPELINE.md) for the full flow from device to SLA.
 - SegmentExited(A-B), then SegmentEntered(B-C) for multi-segment routes
 - SegmentExited(final), then Completed
 
+In MVP, the driver reports the exception start and end manually. The system does not detect exceptions automatically. Automatic detection would require continuous polling of external APIs.
+
 TrafficEntered and TrafficExited are shown as the example. The same pattern applies to all six exception types:
 
 | Exception | Entered / Exited | Enrichment API |
@@ -100,7 +102,7 @@ TrafficEntered and TrafficExited are shown as the example. The same pattern appl
 | Geofence Wait | GeofenceWaitEntered / GeofenceWaitExited | None |
 | Border Delay | BorderDelayEntered / BorderDelayExited | Border or customs API |
 
-Each pair follows the same mechanism: entered, then SLA_PAUSED. Exited, then SLA_RESUMED.
+Each pair follows the same mechanism: entered, then SLA_PAUSED. Exited, then SLA_RESUMED. If the claim is rejected, SLA continues.
 
 Rule: SLA pause is the measured interval between the entered and exited events of the active exception, computed in driver working calendar, not wall-clock time.
 
@@ -111,7 +113,6 @@ TrafficEntered and TrafficExited are transition triggers, not separate states. T
 ![Route State Machine](images/diagram-route-state-machine.svg)
 
 The diagram shows the Traffic path as the reference. Other exception types use the same structure with their own entered and exited events.
-
 
 ### Segment Lifecycle
 
@@ -143,6 +144,10 @@ For each segment, the SLA Engine records:
 No numbers are entered manually. All values are computed from the event stream.
 
 If an exception is still active when the vehicle leaves the segment, the exception is closed at the segment boundary. If the condition persists, a new exception is opened in the next segment.
+
+#### Segments Are Optional
+
+A route can be driven with a single segment covering the whole route. SLA, corroboration, and claim packages still work. Attribution by segment is not available.
 
 #### How the Result Is Assembled
 
@@ -178,6 +183,8 @@ Background Service within LogiQED.Web.API for MVP. Extract to a separate microse
 
 Route state is owned by the Orchestrator and persisted to SQL. Redis is a read-through projection. On restart, the Orchestrator rebuilds active routes from SQL, not from Redis.
 
+The Orchestrator does not evaluate metrics or call APIs. It routes events to the correct State Machine and delegates to the Evidence Builder when a claim or route closes.
+
 Reliability:
 
 - Checkpoints to SQL via RouteStateSnapshots
@@ -186,10 +193,10 @@ Reliability:
 
 ### On-Demand Oracle
 
-External APIs are called only when an incident occurs.
+External APIs are called only when a claim is opened.
 
+- DriverReported Traffic - Traffic API for the segment
 - GeofenceEntered - no external API
-- SegmentDelayDetected - Traffic API for the segment
 - TemperatureOutOfRange - no external API, E4 sensor
 - HarshBrake - no external API, accelerometer
 - RouteCompleted - no external API
@@ -198,9 +205,9 @@ Rule: In normal operation, external API costs are zero.
 
 ### Enrichment Decider
 
-Pure function that determines whether an event requires external confirmation.
+Pure function that determines whether a candidate event requires external confirmation.
 
-Event, then Enrichment Decider, then API needed, then Yes, then One call, or No, then Skip.
+Candidate event, then Enrichment Decider, then API needed, then Yes, then One call, or No, then Skip.
 
 ### Claim Pipeline
 
@@ -208,12 +215,12 @@ Every in-transit claim follows the same pipeline.
 
 1. Driver reports an incident - E0. The claim is a statement, not proof.
 2. The system checks its own data - GPS track, CAN bus, telemetry. This confirms the physical situation. E2.
-3. The system calls an external API on demand - traffic, weather, road conditions. This adds an independent source. E2 with corroboration.
-4. If other vehicles report the same event in the same geofence and time window - corroboration. The claim reaches E4.
+3. The system calls an external API on demand - traffic, weather, road conditions. This adds an independent source. E1 or E2, depending on the API.
+4. The claim is confirmed or rejected. If confirmed, SLA pauses. If rejected, SLA continues.
 
-The same pipeline applies to traffic, weather, breakdown, and road work.
+If other vehicles report the same event in the same segment and time window, retroactive corroboration raises the claim level on dispute request.
 
-CAN bus is an amplifier, not corroboration. It confirms vehicle state inside one source, but it does not create a new independent source. CAN and GPS typically arrive through the same telematics gateway. Corroboration still requires an external source: a traffic API, or another vehicle.
+CAN bus is an amplifier, not corroboration. It confirms vehicle state inside one source, but it does not create a new independent source. CAN and GPS typically arrive through the same telematics gateway.
 
 ### Source Availability
 
@@ -235,15 +242,15 @@ Own assurance is the level of a single source. It does not change with corrobora
 
 A claim formed from independent sources can be higher. A claim confirmed by a second vehicle or an external gate reaches E4. Three independent sources reach E5.
 
-A second weaker source does not raise the own assurance. Adding a mobile app next to an onboard tracker keeps the source level at E3 and does not change the claim level - corroboration requires independence, not just two sources.
+A second weaker source does not raise the own assurance. Adding a mobile app next to an onboard tracker keeps the source level at E3 and does not change the claim level.
 
 See [Trust Levels](TRUST_LEVELS.md) for the full dimension table.
 
 ### Proof Flow
 
-SLA Engine, then Proof Engine, then Evidence Package, then Arweave.
+Evidence Builder, then Proof Engine, then Full Evidence Package, then Arweave.
 
-ZK-proof is generated only for disputed or exception-bound routes. Clean routes are closed with signed events and Evidence Root only.
+ZK-proof is generated only on dispute request, and only when the claim level is E3 or higher. Below E3, the package is still produced and anchored, but the ZK button is disabled.
 
 The Proof Engine is pluggable. See the Proof Engine section for backends and pipeline.
 
@@ -282,7 +289,7 @@ OwnerKind + OwnerId. Employee is built-in. Vehicles and other kinds are extensib
 - Last known position on device record.
 - Time-ordered position track with server-configurable retention.
 - Raw positions: 30 days. Aggregated 1-hour buckets: 1 year.
-- Evidence packages: permanent via Arweave.
+- Evidence Roots and anchors: permanent via Arweave.
 
 ### Geofences
 
@@ -317,7 +324,7 @@ Geofence rules are stored server-side and pushed to the device. The device evalu
 - Telemetry.Read
 - Telemetry.Write
 - Telemetry.Report
-- Tracker-ingest API uses device key, not user auth.
+- Telemetry-ingest API uses device key, not user auth.
 - Only SHA-256 hash of tracker key stored.
 - Key rotation endpoint available.
 
@@ -363,7 +370,7 @@ Service level management with policies, calendars and exception rules.
 
 - SLA policies apply to shipments.
 - Working calendars control timer behaviour. Evaluated in carrier timezone.
-- Exception rules generate Evidence Packages.
+- Exception rules generate claim packages.
 - Rule results visible to driver as Penalty Protection.
 - Golden tests for midnight, DST, holiday boundaries.
 
@@ -375,10 +382,67 @@ The evidence layer turns signed events into verifiable packages.
 
 - **Signed Event Stream** - every event signed by its source.
 - **Evidence Graph** - provenance DAG connecting events, sources, and rules.
-- **Evidence Package** - compact snapshot (~4 KB) with events, proof, and trust policy result.
+- **Evidence Package** - base ~2 KB, full ~4 KB.
 - **Trust Levels E0-E5** - computed server-side from seven dimensions.
+- **Trip Evidence Root** - Merkle root of all route events.
+- **Claim Evidence Root** - Merkle root of events related to one claim.
 
 See [Evidence](EVIDENCE.md) and [Evidence Flow](EVIDENCE_FLOW.md) for details.
+
+### Three Evidence Levels
+
+| Level | What is produced | When |
+|-------|------------------|------|
+| Clean route | Signed events + trip Evidence Root + anchor | Every route |
+| Incident | + claim package base + claim anchor | Every claim, confirmed or rejected |
+| Disputed | + corroboration + ZK proof + new anchor | On dispute request |
+
+Anchor is produced for every route, clean or incident. This protects the data from substitution.
+
+Claim packages are produced for every claim, confirmed or rejected. A rejected claim is still a recorded event.
+
+ZK proof is generated only on dispute request, and only when the claim level is E3 or higher.
+
+### Evidence Builder
+
+The Evidence Builder is called by the Orchestrator at three moments.
+
+**On claim close:**
+
+1. Collect claim events.
+2. Compute claim Evidence Root.
+3. Compute claim level.
+4. Record decision: confirmed or rejected.
+5. Assemble claim package base.
+6. Anchor claim root and package in Arweave.
+
+**On route close:**
+
+1. Collect all route events.
+2. Compute trip Evidence Root.
+3. Anchor trip root in Arweave.
+
+**On dispute request:**
+
+1. Retroactive corroboration.
+2. Independence check in Evidence Graph.
+3. Compute final claim level.
+4. Generate ZK proof if claim level is E3 or higher.
+5. Assemble full package.
+6. Anchor full package in Arweave.
+
+### Storage Tables
+
+The Evidence Builder writes to the following MS SQL tables.
+
+| Table | Content | When |
+|-------|---------|------|
+| Events | Raw events of the route | On ingest |
+| EventHashes | SHA-256 of each event | On ingest |
+| MerkleNodes | Intermediate Merkle nodes | On route or claim close |
+| EvidenceRoots | Trip and claim roots | On close |
+| ClaimPackages | Claim package bases and full packages | On claim close or dispute request |
+| Anchors | Arweave transaction IDs | After anchor |
 
 ## Event Model
 
@@ -387,6 +451,8 @@ LogiQED uses GS1 EPCIS 2.0 as the logistics event language.
 GS1 EPCIS Event, then LogiQED Source Identity, then Signature / Attestation, then Evidence Graph, then Claim, then Proof, then Evidence Package.
 
 LogiQED adds verifiable trust and claim evaluation on top of EPCIS.
+
+Ingest accepts events from multiple sources and converts them to EPCIS 2.0 at the entry point. After Ingest, the whole system works with a single canonical format.
 
 ## Trust Levels
 
@@ -456,7 +522,7 @@ EigenLayer is an integration choice, not an architectural dependency.
 
 ## Storage
 
-MVP storage: operational event storage, canonicalization, Merkle tree, Evidence Root, external anchor, Evidence Package.
+MVP storage: operational event storage, canonicalization, Merkle tree, Evidence Root, external anchor, claim packages.
 
 EigenDA is a provider choice behind the storage abstraction, not a core dependency. It is added only when benchmark shows the need for a separate DA layer.
 
@@ -480,7 +546,9 @@ Multi-provider support: MS SQL and PostgreSQL are both available via configurati
 
 Purpose: permanent evidence.
 
-Raw telemetry is never stored permanently. Only compact Evidence Packages, approximately 4 KB, are anchored.
+Raw telemetry is never stored permanently. Trip anchors, claim anchors, and full package anchors are stored in Arweave.
+
+Trip anchor is a single 32-byte hash. Claim anchor is a single 32-byte hash. Full package anchor contains the full package.
 
 ## Source Identity & Trust
 
@@ -490,7 +558,7 @@ Every telemetry source has a minimal identity record. The server computes trust 
 - **DeviceKey** - hash of the key issued by the admin.
 - **SourceType** - ONBOARD_TRACKER, MOBILE_APP, BROWSER, WAREHOUSE_API, MANUAL.
 - **AttestationType** - SECURE_ENCLAVE, TPM, DEVICE_CERTIFICATE, or NONE.
-- **TrustLevel** - computed from seven dimensions (E0-E5).
+- **OwnAssurance** - computed from seven dimensions (E0-E5).
 - **KeyIssuedAt** - when the key was issued.
 - **Firmware/AppVersion** - reported by the source.
 - **RevocationStatus** - ACTIVE, REVOKED, EXPIRED.
@@ -552,3 +620,4 @@ Fallback Policy:
 | Proof backend not ready (Aligned Layer) | Mock with clear interface |
 | EPCIS 2.0 too complex for MVP | Use minimal subset |
 | No connectivity at geofence boundary | Events buffered and replayed |
+| Claim rejected but driver disputes | Claim package base is anchored, driver can review |

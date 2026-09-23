@@ -10,13 +10,16 @@ Subscribers acknowledge with HTTP 2xx. LogiQED retries on failure.
 
 ## Event Types
 
-| Event                     | Description                        |
-|---------------------------|------------------------------------|
-| evidence.accepted         | Signed event ingested and accepted |
-| route.state_changed       | Route State Machine transition     |
-| sla.evaluated             | SLA evaluation completed           |
-| claim.verified            | Claim verification finished        |
-| evidence.package.created  | Evidence Package generated         |
+| Event                     | Description                              |
+|---------------------------|------------------------------------------|
+| evidence.accepted         | Signed event ingested and accepted       |
+| route.state_changed       | Route State Machine transition           |
+| claim.decision_recorded   | Claim closed as confirmed or rejected    |
+| sla.evaluated             | SLA evaluation completed                 |
+| claim.package.created     | Claim package base produced and anchored |
+| claim.package.full        | Full package produced on dispute request |
+| claim.verified            | Claim verification finished              |
+| trip.anchor.created       | Trip Evidence Root produced and anchored |
 
 ## Registering a Webhook
 
@@ -29,7 +32,7 @@ Subscribers acknowledge with HTTP 2xx. LogiQED retries on failure.
 ```json
     {
       "url": "https://subscriber.example.com/hooks/logiqed",
-      "events": ["evidence.accepted", "route.state_changed", "sla.evaluated"],
+      "events": ["evidence.accepted", "route.state_changed", "claim.package.created"],
       "secret": "optional-client-generated-secret",
       "description": "Alerts for dispatch team"
     }
@@ -43,7 +46,7 @@ If secret is not provided, LogiQED generates one and returns it once.
     {
       "webhookId": "wh_01HZ...",
       "url": "https://subscriber.example.com/hooks/logiqed",
-      "events": ["evidence.accepted", "route.state_changed", "sla.evaluated"],
+      "events": ["evidence.accepted", "route.state_changed", "claim.package.created"],
       "secret": "generated-secret-if-created",
       "status": "ACTIVE"
     }
@@ -151,10 +154,64 @@ If no response, retry per policy.
         "shipmentId": "shp_01HZ...",
         "sourceId": "src_01HZ...",
         "trustEvaluation": {
-          "sourceAssurance": "E4",
-          "trustPolicy": "E4_REQUIRED_V1",
+          "sourceAssurance": "E3",
+          "trustPolicy": "E3_REQUIRED_V1",
           "evaluationStatus": "PASS"
         }
+      }
+    }
+```
+
+## Example: Claim Decision Recorded
+
+```json
+    {
+      "schemaVersion": "1.0",
+      "eventId": "evt_01HZ...",
+      "eventType": "claim.decision_recorded",
+      "occurredAt": "2026-08-25T10:00:00Z",
+      "data": {
+        "shipmentId": "shp_01HZ...",
+        "claimId": "clm_01HZ...",
+        "claimType": "TRAFFIC",
+        "decision": "CONFIRMED",
+        "claimLevel": "E2"
+      }
+    }
+```
+
+## Example: Claim Package Created
+
+```json
+    {
+      "schemaVersion": "1.0",
+      "eventId": "evt_01HZ...",
+      "eventType": "claim.package.created",
+      "occurredAt": "2026-08-25T10:05:00Z",
+      "data": {
+        "shipmentId": "shp_01HZ...",
+        "claimId": "clm_01HZ...",
+        "packageId": "pkg_01HZ...",
+        "packageForm": "BASE",
+        "claimLevel": "E2",
+        "claimEvidenceRoot": "0x4b12...",
+        "claimExternalAnchorRef": "arweave:kT4c..."
+      }
+    }
+```
+
+## Example: Trip Anchor Created
+
+```json
+    {
+      "schemaVersion": "1.0",
+      "eventId": "evt_01HZ...",
+      "eventType": "trip.anchor.created",
+      "occurredAt": "2026-08-25T18:00:00Z",
+      "data": {
+        "shipmentId": "shp_01HZ...",
+        "tripEvidenceRoot": "0x8f3a...",
+        "tripExternalAnchorRef": "arweave:kT4b..."
       }
     }
 ```
@@ -188,6 +245,8 @@ If no response, retry per policy.
       "data": {
         "claimId": "clm_01HZ...",
         "claimType": "DETENTION",
+        "claimLevel": "E4",
+        "decision": "CONFIRMED",
         "result": "VALID"
       }
     }
@@ -201,3 +260,4 @@ If no response, retry per policy.
 - Payloads are backward compatible. New fields are additive.
 - Subscribers can filter by event type at registration.
 - Dead-letter events can be replayed via API.
+- Trip anchors and claim package base are produced for every route and every claim.

@@ -14,10 +14,10 @@ Default demo roles:
 |------|--------|
 | Administrator | Full access: users, roles, permissions, audit |
 | SLA Analyst | SLA policies, calendars, incidents |
-| Dispatcher | Registry, Map, Incidents, Workflow, Evidence Packages |
+| Dispatcher | Registry, Map, Incidents, Workflow, Claim Packages |
 | Driver | Mobile driver view, Telemetry, Incidents |
 | Shift Supervisor | Org structure: departments, employees, duty roster |
-| Auditor | Evidence Packages, Trust sources, Audit Journal |
+| Auditor | Claim Packages, Trust sources, Audit Journal |
 
 Any custom role can be created from the admin panel.
 
@@ -54,7 +54,7 @@ Implemented via JWT for operator UI and X-Telemetry-Key for trackers.
 ### Crypto-Agility
 
 - **MVP signatures:** Ed25519, ML-DSA.
-- **Hybrid signatures:** Ed25519 + ML-DSA, used for Evidence Package signatures.
+- **Hybrid signatures:** Ed25519 + ML-DSA, used for claim package signatures.
 - **Future signatures:** ECDSA-P256, SLH-DSA.
 
 The architecture is crypto-agile: signature providers are pluggable and can be replaced without changing the product.
@@ -65,7 +65,9 @@ The architecture is crypto-agile: signature providers are pluggable and can be r
 |------|-----------|---------|
 | Raw positions | 30 days | MS SQL |
 | Aggregates, 1 hour | 1 year | MS SQL |
-| Evidence Packages | Permanent | Arweave |
+| Trip anchors | Permanent | Arweave |
+| Claim anchors | Permanent | Arweave |
+| Full package anchors | Permanent | Arweave |
 | Raw encrypted context | Deletable on request | Deletable storage |
 | Public Manifest | Permanent | Arweave |
 
@@ -106,7 +108,8 @@ MVP alternative: signed builds, recorded firmware version, signed update manifes
 
 - Claims are independently verifiable.
 - Verification does not require raw telemetry.
-- Verifier checks signature, Evidence Root, rule digest, trust policy result, and proof validity.
+- Verifier checks signature, trip Evidence Root, claim Evidence Root, rule digest, trust policy result, claim level, decision, and proof validity when present.
+- ZK proof is present only when the claim level is E3 or higher.
 
 ## Error Handling and Resilience
 

@@ -1,13 +1,19 @@
 # LogiQED Glossary
 
-Definitions of LogiQED concepts. For examples and diagrams, see [Architecture](ARCHITECTURE.md) and [Evidence Package](EVIDENCE.md).
+Definitions of LogiQED concepts. For examples and diagrams, see [System Map](SYSTEM_MAP.md) and [Evidence Flow](EVIDENCE_FLOW.md).
 
 ## Core Concepts
 
 - **Evidence Package**
   Immutable snapshot connecting a claim, its sources, trust policy result, rule version and proof.
-  Generated only when a dispute or SLA exception requires proof.
-  Clean routes are closed with signed events and Evidence Root only.
+  Two forms: base package, produced when a claim closes; full package, produced on dispute request.
+  Base is approximately 2 KB. Full is approximately 4 KB.
+
+- **Claim Package Base**
+  Package produced for every claim, confirmed or rejected. Records the driver's report, the system's own data, the external API response, the claim level, and the decision. Anchored in Arweave.
+
+- **Full Package**
+  Package produced on dispute request. Adds retroactive corroboration, an independence check, a computed claim level, and a ZK proof when the claim level is E3 or higher.
 
 - **Claim**
   Verifiable statement evaluated by SLA policy. Examples: Detention, Cargo Condition.
@@ -21,20 +27,29 @@ Definitions of LogiQED concepts. For examples and diagrams, see [Architecture](A
 - **SLA DSL**
   Domain-specific language for SLA rules. Machine-readable, versioned. See [SLA DSL](SLA_DSL.md).
 
-- **Evidence Root**
-  Merkle root over canonical hashes of input events. Proves tamper-evidence without exposing raw telemetry.
+- **Trip Evidence Root**
+  Merkle root over all canonical event hashes of a route. Anchored in Arweave for every route, clean or incident.
+
+- **Claim Evidence Root**
+  Merkle root over events related to one claim. Subtree of the trip Evidence Root. Anchored in Arweave when a claim closes.
 
 - **Canonicalization**
   Normalization of event data: sorted fields, UTC timestamps, fixed precision. Produces a stable hash representation.
 
-- **Source Assurance**
-  Server-side evaluation of a source. Range E0-E5. Computed from seven dimensions. See [Trust Levels](TRUST_LEVELS.md).
+- **Own Assurance**
+  Server-side evaluation of a single source. Range E0-E5. Computed from seven dimensions. Does not change with corroboration. See [Trust Levels](TRUST_LEVELS.md).
+
+- **Claim Level**
+  Level of a claim, formed from one or more independent sources. The maximum level among independent sources that confirm the same fact. Computed by the Evidence Builder on claim close or dispute request.
 
 - **Trust Policy**
   Required assurance for a specific claim. Example: E4_REQUIRED_V1.
 
 - **Claim Confidence**
-  Result of evaluating a claim against its Trust Policy. Separate from Source Assurance.
+  Result of evaluating a claim against its Trust Policy: PASS or FAIL. Separate from Own Assurance.
+
+- **Retroactive Corroboration**
+  Search for other vehicles that were on the same segment during the same time window. Applied by the Evidence Builder on dispute request, not on claim close.
 
 - **Provenance**
   Chain showing how a claim was derived from events, sources and rules.
@@ -48,7 +63,7 @@ Definitions of LogiQED concepts. For examples and diagrams, see [Architecture](A
 ## Trust and Security
 
 - **Trust Levels E0-E5**
-  Graded confidence for every source.
+  Graded own assurance for every source.
   E0 is manual input. E5 is multiple independent trusted sources.
   Evaluated server-side from source identity, key, attestation, firmware, and revocation status.
   The client never supplies the trust level.
@@ -74,7 +89,7 @@ Definitions of LogiQED concepts. For examples and diagrams, see [Architecture](A
 
 - **ZK Proof**
   Cryptographic proof that a computation was performed correctly without revealing inputs.
-  Generated for disputed or exception-bound routes only.
+  Generated only on dispute request, and only when the claim level is E3 or higher.
   Proof backend is pluggable: Aligned Layer, Groth16, Plonk, STARK, or zkVM options (Lattice Jolt, SP1, RISC Zero).
 
 - **Proof Backend**
@@ -95,7 +110,7 @@ Definitions of LogiQED concepts. For examples and diagrams, see [Architecture](A
 
 - **Arweave**
   Permanent storage for commitments and proofs.
-  Stores compact Evidence Packages only.
+  Stores trip anchors, claim anchors, and full package anchors.
   Raw telemetry is never stored permanently.
 
 - **External Anchor**
@@ -104,7 +119,7 @@ Definitions of LogiQED concepts. For examples and diagrams, see [Architecture](A
 ## System Components
 
 - **Ingest**
-  Entry point for signed EPCIS events. Accepts data from onboard trackers, mobile apps, browsers, and external systems.
+  Entry point for signed events. Converts all incoming formats to EPCIS 2.0 before validation. Accepts data from onboard trackers, mobile apps, browsers, and external systems.
 
 - **Route State Machine**
   Finite state machine that represents a route.
