@@ -8,6 +8,8 @@ Modular monolith on C# Blazor. Microservices are a Phase 2 concern.
 
 For a pilot MVP, a modular monolith is the right trade-off. Natural computational boundaries are split later: telemetry ingestion, prover workers, AI execution.
 
+![LogiQED System Architecture](images/diagram-system.svg)
+
 ## Architectural Principles
 
 - **Modular Monolith First** - single deployment unit, modules strictly separated.
