@@ -321,3 +321,4 @@ A rejected claim is still recorded and anchored. The driver may review it later.
 - [Claims](CLAIMS.md) - claim definitions
 - [Trust Levels](TRUST_LEVELS.md) - source assurance levels
 - [Data Flow](DATA_FLOW.md) - event pipeline from ingest to verification
+- [Evidence Builder](EVIDENCE_BUILDER.md) - implementation specification

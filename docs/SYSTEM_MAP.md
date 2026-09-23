@@ -710,6 +710,7 @@ A truck drives Kyiv to Oslo. No exceptions.
 - [Trust Levels](TRUST_LEVELS.md) - full trust model and corroboration rules
 - [Evidence Flow](EVIDENCE_FLOW.md) - three evidence levels and anchor rules
 - [Evidence Package](EVIDENCE.md) - package structure
+- [Evidence Builder](EVIDENCE_BUILDER.md) - implementation specification
 - [Architecture](ARCHITECTURE.md) - modules and boundaries
 - [Data Flow](DATA_FLOW.md) - canonical event flow through all stages
 - [SLA DSL](SLA_DSL.md) - rule format and evaluation result

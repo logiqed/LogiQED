@@ -413,7 +413,7 @@ The Evidence Builder is called by the Orchestrator at three moments.
 
 1. Collect claim events.
 2. Compute claim Evidence Root.
-3. Compute claim level.
+3. Compute claim level from source own assurance. No corroboration.
 4. Record decision: confirmed or rejected.
 5. Assemble claim package base.
 6. Anchor claim root and package in Arweave.
@@ -432,6 +432,8 @@ The Evidence Builder is called by the Orchestrator at three moments.
 4. Generate ZK proof if claim level is E3 or higher.
 5. Assemble full package.
 6. Anchor full package in Arweave.
+
+See [Evidence Builder](EVIDENCE_BUILDER.md) for the implementation specification.
 
 ### Storage Tables
 
