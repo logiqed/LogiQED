@@ -40,7 +40,7 @@ Before asking, check the existing FAQ and Architecture. Your question may alread
 
 We are especially interested in feedback on:
 
-- Evidence Layer: trip and claim Evidence Roots, claim packages, anchor rules
+- Evidence Layer: Trip and Claim Evidence Roots, Evidence Packages, anchor rules
 - Trust levels and corroboration rules
 - Claim definitions, especially edge cases
 - SLA DSL grammar and semantics
@@ -76,7 +76,7 @@ cd logiqed
 dotnet restore
 dotnet run --project src/LogiQED.Web.API
 
-See DEVELOPMENT.md for details.
+See [Development](DEVELOPMENT.md) for details.
 
 ---
 

@@ -6,13 +6,13 @@ Definitions of LogiQED concepts. For examples and diagrams, see [System Map](SYS
 
 - **Evidence Package**
   Immutable snapshot connecting a claim, its sources, trust policy result, rule version and proof.
-  Two forms: base package, produced when a claim closes; full package, produced on dispute request.
+  Two forms: Evidence Package Base, produced when a claim closes; Evidence Package Full, produced on dispute request.
   Base is approximately 2 KB. Full is approximately 4 KB.
 
-- **Claim Package Base**
+- **Evidence Package Base**
   Package produced for every claim, confirmed or rejected. Records the driver's report, the system's own data, the external API response, the claim level, and the decision. Anchored in Arweave.
 
-- **Full Package**
+- **Evidence Package Full**
   Package produced on dispute request. Adds retroactive corroboration, an independence check, a computed claim level, and a ZK proof when the claim level is E3 or higher.
 
 - **Claim**
@@ -31,7 +31,7 @@ Definitions of LogiQED concepts. For examples and diagrams, see [System Map](SYS
   Merkle root over all canonical event hashes of a route. Anchored in Arweave for every route, clean or incident.
 
 - **Claim Evidence Root**
-  Merkle root over events related to one claim. Subtree of the trip Evidence Root. Anchored in Arweave when a claim closes.
+  Merkle root over events related to one claim. Subtree of the Trip Evidence Root. Anchored in Arweave when a claim closes.
 
 - **Canonicalization**
   Normalization of event data: sorted fields, UTC timestamps, fixed precision. Produces a stable hash representation.
@@ -110,7 +110,7 @@ Definitions of LogiQED concepts. For examples and diagrams, see [System Map](SYS
 
 - **Arweave**
   Permanent storage for commitments and proofs.
-  Stores trip anchors, claim anchors, and full package anchors.
+  Stores Trip Evidence Root anchors, Claim Evidence Root anchors, and Evidence Package Full anchors.
   Raw telemetry is never stored permanently.
 
 - **External Anchor**

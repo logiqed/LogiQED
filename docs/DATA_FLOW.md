@@ -88,7 +88,7 @@ The claim pipeline:
 
 Path A: No claim opened.
 
-Route is clean. No external data needed. Close with signed events, trip Evidence Root, and Arweave anchor.
+Route is clean. No external data needed. Close with signed events, Trip Evidence Root, and Arweave anchor.
 
 Path B: Claim opened by the driver.
 
@@ -96,7 +96,7 @@ The Enrichment Decider checks if external confirmation is required.
 
 If yes, the On-Demand Oracle is called, such as a traffic API.
 
-A claim package base is produced when the claim closes: confirmed or rejected.
+An Evidence Package Base is produced when the claim closes: confirmed or rejected.
 
 CAN bus is an amplifier, not corroboration. It confirms vehicle state inside one source, but it does not create a new independent source. CAN and GPS typically arrive through the same telematics gateway.
 
@@ -134,17 +134,17 @@ The Evidence Builder is called at three moments.
 **On claim close:**
 
 1. Collect claim events.
-2. Compute claim Evidence Root.
+2. Compute Claim Evidence Root.
 3. Compute claim level.
 4. Record decision: confirmed or rejected.
-5. Assemble claim package base.
-6. Anchor claim root and package in Arweave.
+5. Assemble Evidence Package Base.
+6. Anchor Claim Evidence Root and package in Arweave.
 
 **On route close:**
 
 1. Collect all route events.
-2. Compute trip Evidence Root.
-3. Anchor trip root in Arweave.
+2. Compute Trip Evidence Root.
+3. Anchor Trip Evidence Root in Arweave.
 
 **On dispute request:**
 
@@ -152,10 +152,10 @@ The Evidence Builder is called at three moments.
 2. Independence check in Evidence Graph.
 3. Compute final claim level.
 4. Generate ZK proof if claim level is E3 or higher.
-5. Assemble full package.
-6. Anchor full package in Arweave.
+5. Assemble Evidence Package Full.
+6. Anchor Evidence Package Full in Arweave.
 
-The Builder writes to MS SQL tables: Events, EventHashes, MerkleNodes, EvidenceRoots, ClaimPackages, Anchors.
+The Builder writes to MS SQL tables: Events, EventHashes, MerkleNodes, EvidenceRoots, EvidencePackages, Anchors.
 
 ---
 
@@ -166,10 +166,10 @@ Storage decisions:
 - Operational events in MS SQL. Retention: raw positions 30 days, 1-hour aggregates 1 year.
 - Events canonicalized into a stable byte representation.
 - Merkle tree built over canonical event hashes.
-- Trip Evidence Root and claim Evidence Roots computed.
+- Trip Evidence Root and Claim Evidence Roots computed.
 - Anchors sent to Arweave.
 
-Base package is approximately 2 KB and contains:
+Evidence Package Base is approximately 2 KB and contains:
 
 - Claim ID and type
 - Driver report at E0
@@ -178,11 +178,11 @@ Base package is approximately 2 KB and contains:
 - Claim level
 - Decision: confirmed or rejected
 - Input events or events root
-- Trip Evidence Root and claim Evidence Root
+- Trip Evidence Root and Claim Evidence Root
 - Arweave transaction ID
 - Signature (Ed25519)
 
-Full package is approximately 4 KB and adds:
+Evidence Package Full is approximately 4 KB and adds:
 
 - Corroboration result
 - ZK proof, when claim level is E3 or higher
@@ -202,7 +202,7 @@ Checks:
 - Trust policy result
 - Claim level
 - Decision
-- ZK-proof when present in the full package
+- ZK-proof when present in the Evidence Package Full
 
 Raw telemetry is not required for verification.
 
@@ -246,7 +246,7 @@ The field names match the SLA Engine evaluation result in [SLA DSL](SLA_DSL.md) 
 
 ## Storage and Settlement
 
-- Arweave - permanent evidence storage. Trip anchors, claim anchors, and full package anchors are stored here.
+- Arweave - permanent evidence storage. Trip anchors, claim anchors, and Evidence Package Full anchors are stored here.
 - EigenDA - optional DA layer. Added only when benchmark shows the need. Provider choice behind storage abstraction, not a core dependency.
 - L2 settlement - future consideration, not in MVP scope.
 
@@ -260,8 +260,8 @@ The field names match the SLA Engine evaluation result in [SLA DSL](SLA_DSL.md) 
 - Any step can be independently audited.
 - All consumers are idempotent. Retries are safe.
 - The client never supplies the trust level. The server computes it.
-- A trip Evidence Root is anchored for every route, clean or incident.
-- A claim package base is produced for every claim, confirmed or rejected.
+- A Trip Evidence Root is anchored for every route, clean or incident.
+- An Evidence Package Base is produced for every claim, confirmed or rejected.
 - ZK proof is generated only on dispute request, and only when the claim level is E3 or higher.
 
 ---

@@ -16,8 +16,8 @@ Subscribers acknowledge with HTTP 2xx. LogiQED retries on failure.
 | route.state_changed       | Route State Machine transition           |
 | claim.decision_recorded   | Claim closed as confirmed or rejected    |
 | sla.evaluated             | SLA evaluation completed                 |
-| claim.package.created     | Claim package base produced and anchored |
-| claim.package.full        | Full package produced on dispute request |
+| evidence.package.base     | Evidence Package Base produced and anchored |
+| evidence.package.full     | Evidence Package Full produced on dispute request |
 | claim.verified            | Claim verification finished              |
 | trip.anchor.created       | Trip Evidence Root produced and anchored |
 
@@ -32,7 +32,7 @@ Subscribers acknowledge with HTTP 2xx. LogiQED retries on failure.
 ```json
     {
       "url": "https://subscriber.example.com/hooks/logiqed",
-      "events": ["evidence.accepted", "route.state_changed", "claim.package.created"],
+      "events": ["evidence.accepted", "route.state_changed", "evidence.package.base"],
       "secret": "optional-client-generated-secret",
       "description": "Alerts for dispatch team"
     }
@@ -46,7 +46,7 @@ If secret is not provided, LogiQED generates one and returns it once.
     {
       "webhookId": "wh_01HZ...",
       "url": "https://subscriber.example.com/hooks/logiqed",
-      "events": ["evidence.accepted", "route.state_changed", "claim.package.created"],
+      "events": ["evidence.accepted", "route.state_changed", "evidence.package.base"],
       "secret": "generated-secret-if-created",
       "status": "ACTIVE"
     }
@@ -180,13 +180,13 @@ If no response, retry per policy.
     }
 ```
 
-## Example: Claim Package Created
+## Example: Evidence Package Base Created
 
 ```json
     {
       "schemaVersion": "1.0",
       "eventId": "evt_01HZ...",
-      "eventType": "claim.package.created",
+      "eventType": "evidence.package.base",
       "occurredAt": "2026-08-25T10:05:00Z",
       "data": {
         "shipmentId": "shp_01HZ...",
@@ -260,4 +260,4 @@ If no response, retry per policy.
 - Payloads are backward compatible. New fields are additive.
 - Subscribers can filter by event type at registration.
 - Dead-letter events can be replayed via API.
-- Trip anchors and claim package base are produced for every route and every claim.
+- Trip Evidence Root anchors and Evidence Package Base are produced for every route and every claim.

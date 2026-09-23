@@ -14,17 +14,17 @@ From a GPS point to a verifiable package:
 
 An Evidence Package exists in two forms.
 
-**Base package.** Produced when a claim closes, whether the claim is confirmed or rejected. Records the driver's report, the system's own data, the external API response, the computed claim level, and the final decision.
+**Evidence Package Base.** Produced when a claim closes, whether the claim is confirmed or rejected. Records the driver's report, the system's own data, the external API response, the computed claim level, and the final decision.
 
-**Full package.** Produced on dispute or audit request. Adds retroactive corroboration from independent sources, an independence check, and a ZK proof when the claim level is E3 or higher.
+**Evidence Package Full.** Produced on dispute or audit request. Adds retroactive corroboration from independent sources, an independence check, and a ZK proof when the claim level is E3 or higher.
 
-Clean routes without claims are closed with signed events, a trip Evidence Root, and an Arweave anchor. No package is produced.
+Clean routes without claims are closed with signed events, a Trip Evidence Root, and an Arweave anchor. No package is produced.
 
 ---
 
 ## Schema Versioning
 
-Each package includes schemaVersion, for example 1.0.
+Each Evidence Package includes schemaVersion, for example 1.0.
 
 When the schema changes, a new version is created. Verifiers support the previous version during a transition period.
 
@@ -32,7 +32,7 @@ When the schema changes, a new version is created. Verifiers support the previou
 
 ## Structure
 
-Both forms share the same top-level fields. The full package adds corroboration, a computed claim level, and proof.
+Both forms share the same top-level fields. The Evidence Package Full adds corroboration, a computed claim level, and proof.
 
 | Field | Type | Description |
 |-------|------|-------------|
@@ -62,8 +62,8 @@ Both forms share the same top-level fields. The full package adds corroboration,
 
 ### Base versus Full
 
-| Field | Base | Full |
-|-------|------|------|
+| Field | Evidence Package Base | Evidence Package Full |
+|-------|-----------------------|-----------------------|
 | driverReport | Yes | Yes |
 | sources | Yes | Yes |
 | trustPolicyResult | Yes | Yes |
@@ -76,7 +76,7 @@ Both forms share the same top-level fields. The full package adds corroboration,
 | corroborationResult | No | Yes |
 | proofRef | No | Yes |
 
-The base package is anchored as soon as the claim closes. The full package is anchored again when it is produced.
+The Evidence Package Base is anchored as soon as the claim closes. The Evidence Package Full is anchored again when it is produced.
 
 ---
 
@@ -105,13 +105,13 @@ The values match the SLA Engine evaluation result in [SLA DSL](SLA_DSL.md) and t
 
 ## Canonicalization and Evidence Root
 
-Two kinds of Evidence Root exist: trip root and claim root.
+Two kinds of Evidence Root exist: Trip Evidence Root and Claim Evidence Root.
 
 **Trip Evidence Root.** Merkle root over all events of the route.
 
 **Claim Evidence Root.** Merkle root over events related to one claim.
 
-The claim root is a subtree of the trip root. Both are anchored separately.
+The Claim Evidence Root is a subtree of the Trip Evidence Root. Both are anchored separately.
 
 ### Canonicalization Steps
 
@@ -143,6 +143,7 @@ The same canonicalization is used for the package signature.
       "signature": "..."
     }
 ```
+
 ---
 
 ## Storage in MS SQL
@@ -155,7 +156,7 @@ The Evidence Builder writes to the following tables.
 | EventHashes | SHA-256 of each event | On ingest |
 | MerkleNodes | Intermediate Merkle nodes | On route or claim close |
 | EvidenceRoots | Trip and claim roots | On close |
-| ClaimPackages | Claim package bases and full packages | On claim close or dispute request |
+| EvidencePackages | Evidence Packages Base and Full | On claim close or dispute request |
 | Anchors | Arweave transaction IDs | After anchor |
 
 ---
@@ -222,7 +223,7 @@ Proof backend is pluggable: Aligned Layer, Groth16, Plonk, STARK, or zkVM option
 
 ## Verification
 
-External party can verify without raw telemetry.
+An external party can verify without raw telemetry.
 
 Checks:
 
@@ -233,7 +234,7 @@ Checks:
 - Trust policy result matches source own assurance values
 - Claim level matches the computed level
 - Conclusion matches rule formula and input events
-- ZK-proof when present in FULL package
+- ZK-proof when present in Evidence Package Full
 
 ---
 
@@ -245,17 +246,17 @@ Checks:
 4. Verified - external party checks the package. Optional and only on dispute, audit, or settlement.
 5. Retired - raw deletable context deleted, proof package remains.
 
-For the full package, steps 1 to 3 are repeated with corroboration and proof.
+For the Evidence Package Full, steps 1 to 3 are repeated with corroboration and proof.
 
 ---
 
 ## Size Budget
 
-Base package: approximately 2 KB.
+Evidence Package Base: approximately 2 KB.
 
-Full package: approximately 4 KB.
+Evidence Package Full: approximately 4 KB.
 
-Breakdown for full package:
+Breakdown for Evidence Package Full:
 
 - JSON metadata: about 1 KB
 - Event hashes: about 0.5 KB
@@ -276,7 +277,7 @@ Detention package, confirmed.
 - Rule: DETENTION_V1
 - Trust Policy: E4_REQUIRED_V1
 - Result: PASS
-- Proof: VALID (full package)
+- Proof: VALID (Evidence Package Full)
 - Trip Evidence Root: 0x8f3a...
 - Claim Evidence Root: 0x4b12...
 - Arweave Transaction: kT4b...
@@ -309,8 +310,8 @@ A rejected claim is still recorded and anchored. The driver may review it later.
 - Any step can be independently audited.
 - All consumers are idempotent.
 - Clean routes close with signed events and Evidence Root only.
-- A claim package base is produced for every claim, confirmed or rejected.
-- A full package is produced only on dispute or audit request.
+- An Evidence Package Base is produced for every claim, confirmed or rejected.
+- An Evidence Package Full is produced only on dispute or audit request.
 - ZK proof is added only when the claim level is E3 or higher.
 
 ---

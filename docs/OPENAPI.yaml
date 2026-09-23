@@ -38,7 +38,7 @@ tags:
   - name: SLA
     description: Rules and exception attribution
   - name: Evidence
-    description: Claim packages, trip and claim anchors, verification
+    description: Evidence Packages, trip and claim Evidence Root anchors, verification
   - name: Claims
     description: ZK claims
 
@@ -509,12 +509,12 @@ components:
           type: string
         tripExternalAnchorRef:
           type: string
-          description: Arweave transaction ID for the trip Evidence Root
+          description: Arweave transaction ID for the Trip Evidence Root
         claimEvidenceRoot:
           type: string
         claimExternalAnchorRef:
           type: string
-          description: Arweave transaction ID for the claim Evidence Root
+          description: Arweave transaction ID for the Claim Evidence Root
         proof:
           type: object
           properties:
@@ -572,7 +572,7 @@ components:
         packageForm:
           type: string
           enum: [BASE, FULL]
-          description: BASE for claim package base, FULL for disputed package
+          description: BASE for Evidence Package Base, FULL for Evidence Package Full
         claimId:
           type: string
           format: uuid
@@ -589,19 +589,19 @@ components:
           type: object
         proofReference:
           type: string
-          description: Present only in FULL packages with claim level E3 or higher
+          description: Present only in Evidence Package Full with claim level E3 or higher
         schemaVersion:
           type: string
         tripEvidenceRoot:
           type: string
         tripExternalAnchorRef:
           type: string
-          description: Arweave transaction ID for the trip Evidence Root
+          description: Arweave transaction ID for the Trip Evidence Root
         claimEvidenceRoot:
           type: string
         claimExternalAnchorRef:
           type: string
-          description: Arweave transaction ID for the claim Evidence Root
+          description: Arweave transaction ID for the Claim Evidence Root
         createdAt:
           type: string
           format: date-time

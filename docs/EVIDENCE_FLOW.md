@@ -8,13 +8,13 @@ Three levels of evidence are produced, depending on what happens on the route.
 
 | Level | What is generated | When | Cost |
 |-------|-------------------|------|------|
-| Clean route | Signed events + Evidence Root + Arweave anchor | Every route | ~$0 |
-| Incident | + Claim package base + anchor | When a claim closes (confirmed or rejected) | ~$0.01 |
+| Clean route | Signed events + Trip Evidence Root + Arweave anchor | Every route | ~$0 |
+| Incident | + Evidence Package Base + anchor | When a claim closes (confirmed or rejected) | ~$0.01 |
 | Disputed | + Retroactive corroboration + ZK proof + new anchor | On dispute request | ~$0.08 |
 
 Anchor is produced for every route, clean or incident. This protects the data from substitution even if no dispute ever arises.
 
-Claim packages are produced for every claim, confirmed or rejected. A rejected claim is still a recorded event: the driver pressed the button, the system queried the API, and the outcome was recorded.
+Evidence Packages Base are produced for every claim, confirmed or rejected. A rejected claim is still a recorded event: the driver pressed the button, the system queried the API, and the outcome was recorded.
 
 ## Clean Route
 
@@ -25,13 +25,13 @@ Every route is closed with signed events and an Evidence Root.
 - Evidence Root is computed as the Merkle root of event hashes.
 - The Evidence Root is anchored in Arweave.
 
-No claim package. No ZK proof. No external API calls.
+No Evidence Package Base. No ZK proof. No external API calls.
 
 The anchor proves the data existed at the moment the route closed and has not changed since. This is the foundation for any dispute that may arise later.
 
 ## Incident Route
 
-When a claim is opened and closed, a claim package base is produced.
+When a claim is opened and closed, an Evidence Package Base is produced.
 
 A claim can be confirmed or rejected.
 
@@ -39,17 +39,17 @@ A claim can be confirmed or rejected.
 
 **Rejected:** the system's own data or external APIs contradict the driver's report. SLA continues.
 
-In both cases, the package base is formed when the claim closes. The package records:
+In both cases, the Evidence Package Base is formed when the claim closes. The package records:
 
 - the driver's report at E0
 - the system's own data
 - the external API response
 - the computed claim level
 - the final decision
-- the reference to the trip Evidence Root
-- the Evidence Root of the claim itself
+- the reference to the Trip Evidence Root
+- the Claim Evidence Root
 
-The package base is anchored in Arweave.
+The Evidence Package Base is anchored in Arweave.
 
 The package is available during the trip. The driver or dispatcher can open it at any time.
 
@@ -57,9 +57,9 @@ Cost: approximately $0.01 per claim, confirmed or rejected.
 
 ## Disputed Route
 
-When a dispute or audit requires a full package, the Evidence Builder produces it.
+When a dispute or audit requires an Evidence Package Full, the Evidence Builder produces it.
 
-The full package adds to the base:
+The Evidence Package Full adds to the base:
 
 - Retroactive corroboration from independent sources.
 - Independence check in the Evidence Graph.
@@ -97,7 +97,7 @@ Two kinds of root are produced.
 
 **Claim Evidence Root.** One per claim. Covers the events related to that claim: the driver report, the system's own data, the external API response, the decision.
 
-The claim root is a subtree of the trip root. Both are anchored separately.
+The Claim Evidence Root is a subtree of the Trip Evidence Root. Both are anchored separately.
 
 ### Canonical Event
 
@@ -150,7 +150,7 @@ The Evidence Builder uses the following tables.
 | EventHashes | SHA-256 of each event | On ingest |
 | MerkleNodes | Intermediate Merkle nodes | On route close |
 | EvidenceRoots | Trip and claim roots | On close |
-| ClaimPackages | Claim package bases | On claim close |
+| EvidencePackages | Evidence Packages Base and Full | On claim close |
 | Anchors | Arweave transaction IDs | After anchor |
 
 The Builder writes to these tables when a claim or route closes.
@@ -165,8 +165,8 @@ Storage: Arweave for permanent anchoring.
 
 A package exists in two forms:
 
-- Base: produced when a claim closes. Contains events, decision, reference to the trip root. No ZK proof.
-- Full: produced on dispute request. Adds corroboration, computed claim level, ZK proof, new anchor.
+- Evidence Package Base: produced when a claim closes. Contains events, decision, reference to the Trip Evidence Root. No ZK proof.
+- Evidence Package Full: produced on dispute request. Adds corroboration, computed claim level, ZK proof, new anchor.
 
 ## Package Signature
 
@@ -184,11 +184,11 @@ Raw events stay in operational storage with retention policy.
 
 ## Level Transition
 
-Clean route → claim opens → claim closes → claim package base is anchored.
+Clean route → claim opens → claim closes → Evidence Package Base is anchored.
 
-Claim package → dispute arises → corroboration and ZK are added → new anchor.
+Evidence Package Base → dispute arises → corroboration and ZK are added → new anchor.
 
-Events are not re-signed. The package references the trip Evidence Root and the claim Evidence Root.
+Events are not re-signed. The package references the Trip Evidence Root and the Claim Evidence Root.
 
 ## Cost Model
 
@@ -220,7 +220,7 @@ Retroactive corroboration works within the raw telemetry retention window. Raw p
 
 ## Package Formed When Claim Closes
 
-The claim package base is formed when the claim closes, not when it opens.
+The Evidence Package Base is formed when the claim closes, not when it opens.
 
 At that moment the Evidence Builder records:
 
@@ -229,18 +229,18 @@ At that moment the Evidence Builder records:
 - Trust policy result.
 - Calculation result.
 - Driver decision.
-- Reference to the trip Evidence Root.
+- Reference to the Trip Evidence Root.
 - Claim Evidence Root.
 
-The base does not include corroboration or ZK proof.
+The Evidence Package Base does not include corroboration or ZK proof.
 
-The full package is formed on dispute request.
+The Evidence Package Full is formed on dispute request.
 
 ## Anchor for Every Route
 
-The trip Evidence Root is anchored for every route, clean or incident.
+The Trip Evidence Root is anchored for every route, clean or incident.
 
-This protects the data from substitution. If anyone changes any event after the route closes, the trip Evidence Root changes, and the change is detected by comparing with the Arweave anchor.
+This protects the data from substitution. If anyone changes any event after the route closes, the Trip Evidence Root changes, and the change is detected by comparing with the Arweave anchor.
 
 Even if no dispute ever arises, the anchor is there. If a dispute arises a year later, the data is still provably unchanged.
 
@@ -248,7 +248,7 @@ Even if no dispute ever arises, the anchor is there. If a dispute arises a year 
 
 Two options for eFTI compliance from 9 July 2027:
 
-1. Keep as is: full package only on dispute. eFTI covered by signed events + Evidence Root + trip anchor.
+1. Keep as is: Evidence Package Full only on dispute. eFTI covered by signed events + Evidence Root + trip anchor.
 
 2. Add eFTI mode: a lightweight package for every route with eIDAS signature and EPCIS events, without ZK proof.
 

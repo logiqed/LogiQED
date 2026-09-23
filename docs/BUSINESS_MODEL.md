@@ -12,8 +12,8 @@ LogiQED turns telemetry and trip events into signed Evidence Packages.
 
 Three levels of evidence are produced:
 
-- **Clean route** - signed events + trip Evidence Root + Arweave anchor.
-- **Incident** - claim package base + claim anchor. Confirmed or rejected.
+- **Clean route** - signed events + Trip Evidence Root + Arweave anchor.
+- **Incident** - Evidence Package Base + Claim Evidence Root anchor. Confirmed or rejected.
 - **Disputed** - retroactive corroboration + ZK proof + new anchor.
 
 A dispute closes on evidence in minutes, not by email threads over weeks.
@@ -41,7 +41,7 @@ Example: a carrier with 20 vehicles pays $99 + $200 = $299/month base, plus $0.0
 | Variable COGS | $0.015 per package |
 | Gross margin | ~82% |
 
-Claim packages are generated for every recorded claim, confirmed or rejected. A carrier with 20 vehicles typically has 10–30 claims per month, not 5,000.
+Evidence Packages Base are generated for every recorded claim, confirmed or rejected. A carrier with 20 vehicles typically has 10–30 claims per month, not 5,000.
 
 Trip anchors are produced for every route, clean or incident. The cost of a trip anchor is close to zero.
 

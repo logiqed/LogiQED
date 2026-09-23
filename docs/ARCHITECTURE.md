@@ -72,7 +72,7 @@ Event Orchestrator runs as a Background Service. It maintains the Route State Ma
 
 SLA Engine performs deterministic calculation. Pause is the interval between the entered and exited events of a claim.
 
-Evidence Package Builder produces packages in three moments: on claim close, on route close, and on dispute request. Base package is approximately 2 KB. Full package is approximately 4 KB.
+Evidence Builder produces packages in three moments: on claim close, on route close, and on dispute request. Evidence Package Base is approximately 2 KB. Evidence Package Full is approximately 4 KB.
 
 Aligned Layer generates the ZK-proof. For MVP this is mocked.
 
@@ -149,7 +149,7 @@ If an exception is still active when the vehicle leaves the segment, the excepti
 
 #### Segments Are Optional
 
-A route can be driven with a single segment covering the whole route. SLA, corroboration, and claim packages still work. Attribution by segment is not available.
+A route can be driven with a single segment covering the whole route. SLA, corroboration, and Evidence Packages Base still work. Attribution by segment is not available.
 
 #### How the Result Is Assembled
 
@@ -250,7 +250,7 @@ See [Trust Levels](TRUST_LEVELS.md) for the full dimension table.
 
 ### Proof Flow
 
-Evidence Builder, then Proof Engine, then Full Evidence Package, then Arweave.
+Evidence Builder, then Proof Engine, then Evidence Package Full, then Arweave.
 
 ZK-proof is generated only on dispute request, and only when the claim level is E3 or higher. Below E3, the package is still produced and anchored, but the ZK button is disabled.
 
@@ -372,7 +372,7 @@ Service level management with policies, calendars and exception rules.
 
 - SLA policies apply to shipments.
 - Working calendars control timer behaviour. Evaluated in carrier timezone.
-- Exception rules generate claim packages.
+- Exception rules generate Evidence Packages Base.
 - Rule results visible to driver as Penalty Protection.
 - Golden tests for midnight, DST, holiday boundaries.
 
@@ -384,7 +384,7 @@ The evidence layer turns signed events into verifiable packages.
 
 - **Signed Event Stream** - every event signed by its source.
 - **Evidence Graph** - provenance DAG connecting events, sources, and rules.
-- **Evidence Package** - base ~2 KB, full ~4 KB.
+- **Evidence Package** - Evidence Package Base ~2 KB, Evidence Package Full ~4 KB.
 - **Trust Levels E0-E5** - computed server-side from seven dimensions.
 - **Trip Evidence Root** - Merkle root of all route events.
 - **Claim Evidence Root** - Merkle root of events related to one claim.
@@ -395,13 +395,13 @@ See [Evidence](EVIDENCE.md) and [Evidence Flow](EVIDENCE_FLOW.md) for details.
 
 | Level | What is produced | When |
 |-------|------------------|------|
-| Clean route | Signed events + trip Evidence Root + anchor | Every route |
-| Incident | + claim package base + claim anchor | Every claim, confirmed or rejected |
+| Clean route | Signed events + Trip Evidence Root + anchor | Every route |
+| Incident | + Evidence Package Base + claim anchor | Every claim, confirmed or rejected |
 | Disputed | + corroboration + ZK proof + new anchor | On dispute request |
 
 Anchor is produced for every route, clean or incident. This protects the data from substitution.
 
-Claim packages are produced for every claim, confirmed or rejected. A rejected claim is still a recorded event.
+Evidence Package Bases are produced for every claim, confirmed or rejected. A rejected claim is still a recorded event.
 
 ZK proof is generated only on dispute request, and only when the claim level is E3 or higher.
 
@@ -412,16 +412,16 @@ The Evidence Builder is called by the Orchestrator at three moments.
 **On claim close:**
 
 1. Collect claim events.
-2. Compute claim Evidence Root.
+2. Compute Claim Evidence Root.
 3. Compute claim level from source own assurance. No corroboration.
 4. Record decision: confirmed or rejected.
-5. Assemble claim package base.
+5. Assemble Evidence Package Base.
 6. Anchor claim root and package in Arweave.
 
 **On route close:**
 
 1. Collect all route events.
-2. Compute trip Evidence Root.
+2. Compute Trip Evidence Root.
 3. Anchor trip root in Arweave.
 
 **On dispute request:**
@@ -430,8 +430,8 @@ The Evidence Builder is called by the Orchestrator at three moments.
 2. Independence check in Evidence Graph.
 3. Compute final claim level.
 4. Generate ZK proof if claim level is E3 or higher.
-5. Assemble full package.
-6. Anchor full package in Arweave.
+5. Assemble Evidence Package Full.
+6. Anchor Evidence Package Full in Arweave.
 
 See [Evidence Builder](EVIDENCE_BUILDER.md) for the implementation specification.
 
@@ -445,7 +445,7 @@ The Evidence Builder writes to the following MS SQL tables.
 | EventHashes | SHA-256 of each event | On ingest |
 | MerkleNodes | Intermediate Merkle nodes | On route or claim close |
 | EvidenceRoots | Trip and claim roots | On close |
-| ClaimPackages | Claim package bases and full packages | On claim close or dispute request |
+| EvidencePackages | Evidence Packages Base and Full | On claim close or dispute request |
 | Anchors | Arweave transaction IDs | After anchor |
 
 ## Event Model
@@ -526,7 +526,7 @@ EigenLayer is an integration choice, not an architectural dependency.
 
 ## Storage
 
-MVP storage: operational event storage, canonicalization, Merkle tree, Evidence Root, external anchor, claim packages.
+MVP storage: operational event storage, canonicalization, Merkle tree, Evidence Root, external anchor, Evidence Packages Base.
 
 EigenDA is a provider choice behind the storage abstraction, not a core dependency. It is added only when benchmark shows the need for a separate DA layer.
 
@@ -552,7 +552,7 @@ Purpose: permanent evidence.
 
 Raw telemetry is never stored permanently. Trip anchors, claim anchors, and full package anchors are stored in Arweave.
 
-Trip anchor is a single 32-byte hash. Claim anchor is a single 32-byte hash. Full package anchor contains the full package.
+Trip anchor is a single 32-byte hash. Claim anchor is a single 32-byte hash. Evidence Package Full anchor contains the Evidence Package Full.
 
 ## Source Identity & Trust
 
@@ -624,4 +624,4 @@ Fallback Policy:
 | Proof backend not ready (Aligned Layer) | Mock with clear interface |
 | EPCIS 2.0 too complex for MVP | Use minimal subset |
 | No connectivity at geofence boundary | Events buffered and replayed |
-| Claim rejected but driver disputes | Claim package base is anchored, driver can review |
+| Claim rejected but driver disputes | Evidence Package Base is anchored, driver can review |

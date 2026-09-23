@@ -14,7 +14,7 @@ Not "the truck was late." But "committed events show geofence entry at 11:54, do
 
 ## The Chain
 
-Sensor/device, attestation, timestamp, signature, provenance, rule, claim, trip Evidence Root, claim Evidence Root, anchor.
+Sensor/device, attestation, timestamp, signature, provenance, rule, claim, Trip Evidence Root, Claim Evidence Root, anchor.
 
 ## Problem
 
@@ -37,11 +37,11 @@ Carriers, shippers, freight forwarders, insurers and compliance teams who make p
 ## Business Model
 
 - Platform fee per carrier or shipper
-- Fee per full package
+- Fee per Evidence Package Full
 - Fee per SLA claim verification
 - Enterprise API access
 
-Trip anchors are produced for every route at no additional cost to the customer.
+Trip Evidence Root anchors are produced for every route at no additional cost to the customer.
 
 Value scales with freight volume, not with UI users.
 
@@ -51,19 +51,19 @@ Value scales with freight volume, not with UI users.
 
 The evidence layer produces three levels of evidence:
 
-- **Clean route** - signed events + trip Evidence Root + Arweave anchor.
-- **Incident** - claim package base + claim anchor. Confirmed or rejected.
+- **Clean route** - signed events + Trip Evidence Root + Arweave anchor.
+- **Incident** - Evidence Package Base + Claim Evidence Root anchor. Confirmed or rejected.
 - **Disputed** - retroactive corroboration + ZK proof + new anchor.
 
-The trip Evidence Root is anchored for every route, clean or incident. This protects the data from substitution even if no dispute ever arises.
+The Trip Evidence Root is anchored for every route, clean or incident. This protects the data from substitution even if no dispute ever arises.
 
 ZK proof is generated only on dispute request, and only when the claim level is E3 or higher.
 
-### Claim Package Base and Full Package
+### Evidence Package Base and Evidence Package Full
 
-The base package is produced when a claim closes, confirmed or rejected. It records the driver's report, the system's own data, the external API response, the claim level, and the decision.
+The Evidence Package Base is produced when a claim closes, confirmed or rejected. It records the driver's report, the system's own data, the external API response, the claim level, and the decision.
 
-The full package is produced on dispute request. It adds retroactive corroboration, an independence check, and a ZK proof when the claim level is E3 or higher.
+The Evidence Package Full is produced on dispute request. It adds retroactive corroboration, an independence check, and a ZK proof when the claim level is E3 or higher.
 
 ### Trust Levels
 

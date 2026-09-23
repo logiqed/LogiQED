@@ -26,13 +26,13 @@ An immutable snapshot linking a claim, its sources, trust policy result, rule ve
 
 Three levels of evidence are produced:
 
-- **Clean route** - signed events + trip Evidence Root + Arweave anchor.
-- **Incident** - claim package base + claim anchor. Confirmed or rejected.
+- **Clean route** - signed events + Trip Evidence Root + Arweave anchor.
+- **Incident** - Evidence Package Base + Claim Evidence Root anchor. Confirmed or rejected.
 - **Disputed** - retroactive corroboration + ZK proof + new anchor.
 
-The trip Evidence Root is anchored for every route, clean or incident. This protects the data from substitution even if no dispute ever arises.
+The Trip Evidence Root is anchored for every route, clean or incident. This protects the data from substitution even if no dispute ever arises.
 
-A claim package base is produced for every claim, confirmed or rejected. A rejected claim is still a recorded event.
+An Evidence Package Base is produced for every claim, confirmed or rejected. A rejected claim is still a recorded event.
 
 ZK proof is generated only on dispute request, and only when the claim level is E3 or higher.
 
@@ -84,7 +84,7 @@ Detention is deterministic: timestamps, geofences, events and rule. No traffic c
 
 One detention dispute can cost a carrier $200-500 in administrative overhead and lost customer trust.
 
-Detention claims produce a claim package base when the claim closes. The trip Evidence Root is anchored for every route. So even a clean route is protected if a dispute arises later.
+Detention claims produce an Evidence Package Base when the claim closes. The Trip Evidence Root is anchored for every route. So even a clean route is protected if a dispute arises later.
 
 ## Route Monitoring
 

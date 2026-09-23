@@ -13,7 +13,7 @@ Constraints:
 - MVP: 3-5 GPS trackers, up to 50 trips, about 1 KB per telemetry packet.
 - Raw positions retention: 30 days. Aggregates: 1 year.
 - Trip Evidence Root must be anchored for every route, clean or incident.
-- Claim package base must be produced and anchored for every claim, confirmed or rejected.
+- Evidence Package Base must be produced and anchored for every claim, confirmed or rejected.
 - Storage cost must be predictable at MVP scale.
 - Privacy-by-design: raw telemetry is never stored permanently.
 - System of record: MS SQL.
@@ -27,8 +27,8 @@ MVP storage:
 - MS SQL as system of record.
 - Redis as hot read-through cache for active routes. Never the only copy.
 - Operational event storage with retention: raw positions 30 days, aggregates 1 year.
-- Canonicalization, Merkle tree, trip Evidence Root, claim Evidence Root, external anchors, claim packages.
-- Arweave for permanent commitments: trip anchors, claim anchors, and full package anchors.
+- Canonicalization, Merkle tree, Trip Evidence Root, Claim Evidence Root, external anchors, Evidence Packages.
+- Arweave for permanent commitments: Trip Evidence Root anchors, Claim Evidence Root anchors, and Evidence Package Full anchors.
 - Raw telemetry is never stored permanently.
 - EigenDA is added only when benchmark shows the need for a separate DA layer.
 - Aligned Layer is the primary proof backend. Mock for MVP.
@@ -44,20 +44,20 @@ MVP storage:
 
 4. Claim events are collected.
 5. Claim Evidence Root is computed as Merkle root.
-6. Claim package base is assembled.
-7. Claim anchor is written to Arweave.
+6. Evidence Package Base is assembled.
+7. Claim Evidence Root anchor is written to Arweave.
 
 **On route close:**
 
 8. All route events are collected.
 9. Trip Evidence Root is computed as Merkle root.
-10. Trip anchor is written to Arweave.
+10. Trip Evidence Root anchor is written to Arweave.
 
 **On dispute request:**
 
 11. Retroactive corroboration is applied.
-12. Full package is assembled.
-13. Full package anchor is written to Arweave.
+12. Evidence Package Full is assembled.
+13. Evidence Package Full anchor is written to Arweave.
 
 Raw events are retained per policy, then deleted. Anchors remain permanent in Arweave.
 

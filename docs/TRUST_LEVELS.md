@@ -174,15 +174,6 @@ Two conditions must be satisfied for corroboration to raise a claim to E4:
 
 Below these thresholds, the claim stays at the level of the strongest source.
 
-### What Corroboration Requires
-
-Two conditions must be satisfied for corroboration to raise a claim to E4:
-
-1. **Primary source must be at E3 or higher.** A claim below E3 stays at the level of the strongest source.
-2. **Corroborating source must be at E2 or higher.** A source at E1 adds context but does not raise the claim to E4.
-
-Below these thresholds, the claim stays at the level of the strongest source.
-
 Examples:
 
 | Primary source | Corroborating sources | Claim level | Comment |
@@ -212,7 +203,7 @@ Corroboration is applied by the Evidence Builder, on dispute request.
 
 It is not applied by Ingest API, State Machine, or Orchestrator.
 
-Corroboration is not requested when a claim closes. It is requested later, when a dispute or audit requires a full Evidence Package.
+Corroboration is not requested when a claim closes. It is requested later, when a dispute or audit requires an Evidence Package Full.
 
 The Evidence Builder:
 
@@ -469,7 +460,7 @@ Note: `ownAssurance` is the level of each source. `claimLevel` is the level of t
 
 ZK proof is generated only on dispute request, and only when the claim level is E3 or higher.
 
-Below E3, the claim package is still produced and anchored, but no ZK proof is generated.
+Below E3, the Evidence Package Base is still produced and anchored, but no ZK proof is generated.
 
 Example:
 
@@ -482,13 +473,13 @@ Example:
 
 | Level | What is produced | When |
 |-------|------------------|------|
-| Clean route | Signed events + trip Evidence Root + Arweave anchor | Every route |
-| Incident | + claim package base + claim anchor | Every claim, confirmed or rejected |
+| Clean route | Signed events + Trip Evidence Root + Arweave anchor | Every route |
+| Incident | + Evidence Package Base + Claim Evidence Root anchor | Every claim, confirmed or rejected |
 | Disputed | + retroactive corroboration + ZK proof + new anchor | On dispute request |
 
-The trip Evidence Root is anchored for every route, clean or incident. This protects the data from substitution even if no dispute ever arises.
+The Trip Evidence Root is anchored for every route, clean or incident. This protects the data from substitution even if no dispute ever arises.
 
-A claim package base is produced for every claim, confirmed or rejected.
+An Evidence Package Base is produced for every claim, confirmed or rejected.
 
 ## Design Principles
 

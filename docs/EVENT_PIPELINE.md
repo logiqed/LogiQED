@@ -42,8 +42,8 @@ This document is a vertical slice: from the device to the SLA Engine. For horizo
                                ↓
     ┌─────────────────────────────────────────────────────────────┐
     │  Evidence Builder                                           │
-    │  • On claim close: claim package base + anchor              │
-    │  • On route close: trip Evidence Root + anchor              │
+    │  • On claim close: Evidence Package Base + anchor           │
+    │  • On route close: Trip Evidence Root + anchor              │
     │  • On dispute: corroboration + ZK + new anchor              │
     └─────────────────────────────────────────────────────────────┘
 
@@ -68,8 +68,8 @@ This document is a vertical slice: from the device to the SLA Engine. For horizo
     SLA Engine
       ↓ computes pause in driver working calendar
     Evidence Builder
-      ↓ on claim close: claim package base + anchor
-      ↓ on route close: trip Evidence Root + anchor
+      ↓ on claim close: Evidence Package Base + anchor
+      ↓ on route close: Trip Evidence Root + anchor
       ↓ on dispute: corroboration + ZK + new anchor
 
 Each stage is described below.
@@ -365,16 +365,16 @@ The Evidence Builder is called by the Orchestrator at three moments.
 **On claim close:**
 
 1. Collect claim events.
-2. Compute claim Evidence Root.
+2. Compute Claim Evidence Root.
 3. Compute claim level.
 4. Record decision: confirmed or rejected.
-5. Assemble claim package base.
+5. Assemble Evidence Package Base.
 6. Anchor claim root and package in Arweave.
 
 **On route close:**
 
 1. Collect all route events.
-2. Compute trip Evidence Root.
+2. Compute Trip Evidence Root.
 3. Anchor trip root in Arweave.
 
 **On dispute request:**
@@ -383,14 +383,12 @@ The Evidence Builder is called by the Orchestrator at three moments.
 2. Independence check in Evidence Graph.
 3. Compute final claim level.
 4. Generate ZK proof if claim level is E3 or higher.
-5. Assemble full package.
-6. Anchor full package in Arweave.
+5. Assemble Evidence Package Full.
+6. Anchor Evidence Package Full in Arweave.
 
-The Builder writes to MS SQL tables: Events, EventHashes, MerkleNodes, EvidenceRoots, ClaimPackages, Anchors.
+The Builder writes to MS SQL tables: Events, EventHashes, MerkleNodes, EvidenceRoots, EvidencePackages, Anchors.
 
 See [Evidence Flow](EVIDENCE_FLOW.md) for the three evidence levels.
-
-## What Is Computed Where
 
 ## What Is Computed Where
 
@@ -410,8 +408,7 @@ See [Evidence Flow](EVIDENCE_FLOW.md) for the three evidence levels.
 | Corroboration | Evidence Builder | On dispute request |
 | Final claim level | Evidence Builder | On dispute request |
 | ZK proof | Evidence Builder | On dispute request, if E3 or higher |
-| Full package anchor | Evidence Builder | On dispute request |
-
+| Evidence Package Full anchor | Evidence Builder | On dispute request |
 
 ## Related Documents
 
@@ -421,3 +418,4 @@ See [Evidence Flow](EVIDENCE_FLOW.md) for the three evidence levels.
 - [Ingest API](INGEST_API.md) - endpoint contract and signing flow
 - [SLA DSL](SLA_DSL.md) - rule format and evaluation result
 - [Trust Levels](TRUST_LEVELS.md) - how source assurance is computed
+- [Evidence Builder](EVIDENCE_BUILDER.md) - implementation specification

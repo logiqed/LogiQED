@@ -103,7 +103,7 @@ The UI adapts to the role automatically:
 An administrator creates a role **Border Control** with permissions:
 
 - `Registry.Read` - view trip registry, read-only
-- `Evidence.Read` - view claim packages and Evidence Roots
+- `Evidence.Read` - view Evidence Packages and Evidence Roots
 - `Incidents.Read` - view incident reports
 
 Result:
@@ -126,10 +126,10 @@ Six seeded roles show how navigation and permissions are generated rather than h
 |------|--------|
 | Administrator | Users, Roles, Permissions, Rules & Endpoints, Audit Journal |
 | SLA Analyst | SLA policies, Working Calendar, Driver Incident Reports |
-| Dispatcher | Registry, Map, Incidents, Workflow, Claim Packages |
+| Dispatcher | Registry, Map, Incidents, Workflow, Evidence Packages |
 | Driver | Mobile Driver View, Telemetry, Incidents |
 | Shift Supervisor | Org structure: departments, employees, duty roster |
-| Auditor | Claim Packages, Trust sources, Audit Journal. Verify, export. |
+| Auditor | Evidence Packages, Trust sources, Audit Journal. Verify, export. |
 
 ## Security Properties
 
@@ -142,4 +142,4 @@ Six seeded roles show how navigation and permissions are generated rather than h
 - Client resilience.
 - RBAC separation.
 - Fully configurable roles without hardcoded permissions.
-- Evidence access is separate from operational access. Auditor and Border Control roles can view claim packages without access to raw telemetry.
+- Evidence access is separate from operational access. Auditor and Border Control roles can view Evidence Packages without access to raw telemetry.

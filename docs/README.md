@@ -40,8 +40,8 @@ A route is a finite state machine, not a stream of coordinates. Telemetry positi
 1. **Ingest** - events arrive from multiple sources and are converted to EPCIS 2.0 at the entry point.
 2. **Orchestrate** - the Event Orchestrator maintains the Route State Machine per route.
 3. **Evaluate** - the SLA Engine computes deterministic results in the working calendar.
-4. **Build** - the Evidence Builder produces a claim package when a claim closes, and a trip Evidence Root when the route closes.
-5. **Anchor** - Evidence Roots and claim packages are anchored in Arweave for permanent verification.
+4. **Build** - the Evidence Builder produces an Evidence Package Base when a claim closes, and a Trip Evidence Root when the route closes.
+5. **Anchor** - Evidence Roots and Evidence Packages are anchored in Arweave for permanent verification.
 
 ---
 
@@ -49,13 +49,13 @@ A route is a finite state machine, not a stream of coordinates. Telemetry positi
 
 | Level | What is produced | When |
 |-------|------------------|------|
-| Clean route | Signed events + trip Evidence Root + Arweave anchor | Every route |
-| Incident | + claim package base + claim anchor | Every claim, confirmed or rejected |
+| Clean route | Signed events + Trip Evidence Root + Arweave anchor | Every route |
+| Incident | + Evidence Package Base + Claim Evidence Root anchor | Every claim, confirmed or rejected |
 | Disputed | + retroactive corroboration + ZK proof + new anchor | On dispute request |
 
-The trip Evidence Root is anchored for every route, clean or incident. This protects the data from substitution even if no dispute ever arises.
+The Trip Evidence Root is anchored for every route, clean or incident. This protects the data from substitution even if no dispute ever arises.
 
-A claim package base is produced for every claim, confirmed or rejected. A rejected claim is still a recorded event: the driver pressed the button, the system queried the API, and the outcome was recorded.
+An Evidence Package Base is produced for every claim, confirmed or rejected. A rejected claim is still a recorded event: the driver pressed the button, the system queried the API, and the outcome was recorded.
 
 ZK proof is generated only on dispute request, and only when the claim level is E3 or higher.
 
@@ -90,8 +90,8 @@ The public endpoint validates the organization signature, recomputes the Evidenc
 - **SLA Engine** - rule execution with automatic exception attribution.
 - **Route State Machine** - TrafficEntered pauses SLA, TrafficExited resumes it.
 - **On-Demand Oracle** - external APIs called only when a claim opens.
-- **Evidence Package** - base ~2 KB, full ~4 KB.
-- **Trip and Claim Anchors** - Evidence Roots anchored in Arweave for every route and every claim.
+- **Evidence Package** - Base ~2 KB, Full ~4 KB.
+- **Trip and Claim Evidence Root Anchors** - Evidence Roots anchored in Arweave for every route and every claim.
 - **Role-based UI** - navigation and screens generated from permissions.
 
 ---
@@ -130,7 +130,7 @@ Policies, working calendars, holiday sets, exception rules, timers, and escalati
 
 ### Evidence
 
-Signed Event Stream, Evidence Graph, trip and claim Evidence Roots, claim packages, Trust Levels E0-E5, and independent verification.
+Signed Event Stream, Evidence Graph, Trip and Claim Evidence Roots, Evidence Packages, Trust Levels E0-E5, and independent verification.
 
 ### Identity
 
@@ -146,7 +146,7 @@ Chats (direct and group), notifications, delivery journal, and audit trail. Full
 
 ### Dispatcher
 
-Dashboard for operational control: incident reports, claim packages, manual incident resolution, and full trip lifecycle visibility.
+Dashboard for operational control: incident reports, Evidence Packages, manual incident resolution, and full trip lifecycle visibility.
 
 ---
 

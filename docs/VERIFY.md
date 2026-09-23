@@ -7,7 +7,7 @@ Verification allows any party to check an Evidence Package without accessing raw
 ## What Can Be Verified
 
 - Proof validity, when present
-- Hash consistency for trip and claim Evidence Roots
+- Hash consistency for Trip and Claim Evidence Roots
 - Source signatures
 - Rule version and digest
 - Trust policy result
@@ -15,7 +15,7 @@ Verification allows any party to check an Evidence Package without accessing raw
 - Decision: confirmed or rejected
 - Corroboration result, when present
 - Conclusion correctness
-- Trip and claim Evidence Roots against external anchors
+- Trip and Claim Evidence Roots against external anchors
 
 ## Endpoint
 
@@ -146,7 +146,7 @@ Rate limit: 100 requests per minute per IP.
     }
 ```
 
-### 200 Base Package
+### 200 Evidence Package Base
 
 ```json
     {
@@ -176,7 +176,7 @@ Rate limit: 100 requests per minute per IP.
     }
 ```
 
-The base package has no corroboration and no proof. Both checks return SKIP.
+The Evidence Package Base has no corroboration and no proof. Both checks return SKIP.
 
 ### 400 Invalid Request
 
@@ -218,9 +218,9 @@ The base package has no corroboration and no proof. Both checks return SKIP.
 
 1. Resolve package by packageId or by full package payload.
 2. Verify signature with the organization key.
-3. Recompute trip Evidence Root from canonical route events.
+3. Recompute Trip Evidence Root from canonical route events.
 4. Verify trip anchor against tripExternalAnchorRef.
-5. Recompute claim Evidence Root from canonical claim events.
+5. Recompute Claim Evidence Root from canonical claim events.
 6. Verify claim anchor against claimExternalAnchorRef.
 7. Verify rule digest from published rule definition.
 8. Verify trust policy from source own assurance values.
@@ -236,8 +236,8 @@ The base package has no corroboration and no proof. Both checks return SKIP.
 - Verification never exposes raw telemetry.
 - verifiedAt is set by the server.
 - Checks return PASS, FAIL, or SKIP.
-- SKIP is used when a check is not applicable. For a base package, corroboration and proof are not present, so both checks return SKIP.
-- ZK proof is present only in the full package, and only when the claim level is E3 or higher.
+- SKIP is used when a check is not applicable. For an Evidence Package Base, corroboration and proof are not present, so both checks return SKIP.
+- ZK proof is present only in the Evidence Package Full, and only when the claim level is E3 or higher.
 - Proof backend is pluggable: Aligned Layer, Groth16, Plonk, STARK, or zkVM options (Lattice Jolt, SP1, RISC Zero).
 - Verification results are logged for audit.
 - Aligned Layer is the primary proof backend. Mock for MVP.

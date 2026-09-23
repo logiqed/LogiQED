@@ -14,10 +14,10 @@ Default demo roles:
 |------|--------|
 | Administrator | Full access: users, roles, permissions, audit |
 | SLA Analyst | SLA policies, calendars, incidents |
-| Dispatcher | Registry, Map, Incidents, Workflow, Claim Packages |
+| Dispatcher | Registry, Map, Incidents, Workflow, Evidence Packages |
 | Driver | Mobile driver view, Telemetry, Incidents |
 | Shift Supervisor | Org structure: departments, employees, duty roster |
-| Auditor | Claim Packages, Trust sources, Audit Journal |
+| Auditor | Evidence Packages, Trust sources, Audit Journal |
 
 Any custom role can be created from the admin panel.
 
@@ -54,7 +54,7 @@ Implemented via JWT for operator UI and X-Telemetry-Key for trackers.
 ### Crypto-Agility
 
 - **MVP signatures:** Ed25519, ML-DSA.
-- **Hybrid signatures:** Ed25519 + ML-DSA, used for claim package signatures.
+- **Hybrid signatures:** Ed25519 + ML-DSA, used for Evidence Package signatures.
 - **Future signatures:** ECDSA-P256, SLH-DSA.
 
 The architecture is crypto-agile: signature providers are pluggable and can be replaced without changing the product.
@@ -67,7 +67,7 @@ The architecture is crypto-agile: signature providers are pluggable and can be r
 | Aggregates, 1 hour | 1 year | MS SQL |
 | Trip anchors | Permanent | Arweave |
 | Claim anchors | Permanent | Arweave |
-| Full package anchors | Permanent | Arweave |
+| Evidence Package Full anchors | Permanent | Arweave |
 | Raw encrypted context | Deletable on request | Deletable storage |
 | Public Manifest | Permanent | Arweave |
 
@@ -108,14 +108,14 @@ MVP alternative: signed builds, recorded firmware version, signed update manifes
 
 - Claims are independently verifiable.
 - Verification does not require raw telemetry.
-- Verifier checks signature, trip Evidence Root, claim Evidence Root, rule digest, trust policy result, claim level, decision, and proof validity when present.
+- Verifier checks signature, Trip Evidence Root, Claim Evidence Root, rule digest, trust policy result, claim level, decision, and proof validity when present.
 - ZK proof is present only when the claim level is E3 or higher.
 
 ## Error Handling and Resilience
 
 - Redis down: read from MS SQL projections, mark cache stale.
 - SQL down: telemetry buffered to filesystem, retry later.
-- Oracle API down: return NoExternalData with synthetic flag, notify dispatcher.
+- External API (On-Demand Oracle) down: return NoExternalData with synthetic flag, notify dispatcher.
 - No connectivity at geofence boundary: events buffered and replayed with original timestamp.
 
 ## Monitoring and Alerts

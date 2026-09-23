@@ -15,9 +15,9 @@ The Builder is called by the Event Orchestrator on claim close and route close. 
 ## Responsibilities
 
 - Collect events related to a claim or route
-- Compute claim Evidence Root and trip Evidence Root
-- Assemble claim package base
-- Assemble full package on dispute request
+- Compute Claim Evidence Root and Trip Evidence Root
+- Assemble Evidence Package Base
+- Assemble Evidence Package Full on dispute request
 - Anchor roots and packages in Arweave
 - Write to MS SQL tables
 
@@ -39,13 +39,13 @@ Input:
 Steps:
 
 1. Collect claim events.
-2. Compute claim Evidence Root.
+2. Compute Claim Evidence Root.
 3. Compute claim level from the own assurance of the sources that confirm the fact. No corroboration at this stage.
 4. Record decision.
-5. Assemble claim package base.
+5. Assemble Evidence Package Base.
 6. Anchor claim root and package in Arweave.
 
-Output: claim package base, anchored.
+Output: Evidence Package Base, anchored.
 
 ### On Route Close
 
@@ -56,16 +56,16 @@ Input: all route events.
 Steps:
 
 1. Collect all route events.
-2. Compute trip Evidence Root.
+2. Compute Trip Evidence Root.
 3. Anchor trip root in Arweave.
 
 Output: trip anchor.
 
 ### On Dispute Request
 
-Trigger: operator, auditor, or driver requests a full package.
+Trigger: operator, auditor, or driver presses Generate full package in the UI.
 
-Input: claim package base.
+Input: Evidence Package Base.
 
 Steps:
 
@@ -73,12 +73,12 @@ Steps:
 2. Independence check in the Evidence Graph.
 3. Compute final claim level, including corroboration. This may be higher than the base claim level.
 4. Generate ZK proof if claim level is E3 or higher.
-5. Assemble full package.
-6. Anchor full package in Arweave.
+5. Assemble Evidence Package Full.
+6. Anchor Evidence Package Full in Arweave.
 
-Output: full package, anchored.
+Output: Evidence Package Full, anchored.
 
-ZK proof is generated only when the claim level is E3 or higher. Below E3, the full package is still assembled and anchored, but no ZK proof is produced.
+ZK proof is generated only when the claim level is E3 or higher. Below E3, the Evidence Package Full is still assembled and anchored, but no ZK proof is produced.
 
 ## Claim Level Computation
 
@@ -129,7 +129,7 @@ Event hash: `SHA-256(canonicalJson)`.
 
 Two kinds of Evidence Root:
 
-**Claim Evidence Root.** Merkle root over events related to one claim. Subtree of the trip root.
+**Claim Evidence Root.** Merkle root over events related to one claim. Subtree of the Trip Evidence Root.
 
 **Trip Evidence Root.** Merkle root over all events of the route.
 
@@ -145,7 +145,7 @@ The Evidence Builder writes to the following tables.
 | EventHashes | SHA-256 of each event | On ingest |
 | MerkleNodes | Intermediate Merkle nodes | On route or claim close |
 | EvidenceRoots | Trip and claim roots | On close |
-| ClaimPackages | Claim package bases and full packages | On claim close or dispute request |
+| EvidencePackages | Evidence Packages Base and Full | On claim close or dispute request |
 | Anchors | Arweave transaction IDs | After anchor |
 
 ## Interface with Orchestrator
@@ -164,7 +164,7 @@ The Orchestrator passes:
 
 The Builder returns:
 
-- Claim package base (on claim close)
+- Evidence Package Base (on claim close)
 - Trip anchor reference (on route close)
 
 ## Interface with Dispute Handler
@@ -178,7 +178,7 @@ The dispute handler passes:
 
 The Builder returns:
 
-- Full package
+- Evidence Package Full
 - Anchor reference
 - ZK proof reference, if generated
 
@@ -211,9 +211,9 @@ If Arweave is unavailable:
 
 | Trigger | Caller | Output |
 |---------|--------|--------|
-| Claim close | Event Orchestrator | Claim package base, claim anchor |
+| Claim close | Event Orchestrator | Evidence Package Base, claim anchor |
 | Route close | Event Orchestrator | Trip anchor |
-| Dispute request | Dispute handler | Full package, full anchor, ZK proof |
+| Dispute request | Dispute handler | Evidence Package Full, Evidence Package Full anchor, ZK proof |
 
 ## Related
 

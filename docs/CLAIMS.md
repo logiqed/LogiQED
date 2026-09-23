@@ -38,7 +38,7 @@ A claim carries two distinct values:
 
 A claim is produced for every recorded incident, whether the claim is confirmed or rejected.
 
-ZK proof is added only when the claim level is E3 or higher. Below E3, the claim package is still produced and anchored, but no ZK proof is generated.
+ZK proof is added only when the claim level is E3 or higher. Below E3, the Evidence Package Base is still produced and anchored, but no ZK proof is generated.
 
 Example:
 

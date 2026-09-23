@@ -38,7 +38,7 @@ See [Architecture](ARCHITECTURE.md) for full details.
 |-----------|--------|
 | Core platform | Production-ready |
 | Evidence Layer | MVP stage |
-| Claim packages and anchors | MVP stage |
+| Evidence Packages and anchors | MVP stage |
 | ZK Claims | MVP stage |
 | Post-quantum signatures | Hybrid Ed25519 + ML-DSA |
 
@@ -97,9 +97,9 @@ Export to PDF, CSV, XLSX. 200,000 rows × 60 columns in 5 seconds.
 
 - Signed Event Stream
 - Evidence Graph
-- Trip and claim Evidence Roots
-- Claim package base and full package
-- Trip and claim anchors in Arweave
+- Trip and Claim Evidence Roots
+- Evidence Package Base and Evidence Package Full
+- Trip and Claim Evidence Root anchors in Arweave
 - Trust Levels E0-E5
 - Hybrid signatures: Ed25519 + ML-DSA
 
@@ -117,7 +117,7 @@ Primary: Aligned Layer. Fast, cheap ZK-verification as AVS on EigenLayer.
 
 Status: mock for MVP, integration in Phase 2.
 
-Estimated cost: $0.01-0.03 per full package. This is the COGS for LogiQED, covering ZK proof generation, Arweave anchor, and external API calls.
+Estimated cost: $0.01-0.03 per Evidence Package Full. This is the COGS for LogiQED, covering ZK proof generation, Arweave anchor, and external API calls.
 
 ZK proof is generated only on dispute request, and only when the claim level is E3 or higher.
 

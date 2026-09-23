@@ -1,3 +1,60 @@
+## [0.9.1] - 2026-09-23
+
+Terminology unified: `claim package base` → `Evidence Package Base`, `full package` → `Evidence Package Full`, `claim package(s)` → `Evidence Package(s)`, `trip Evidence Root` / `claim Evidence Root` capitalized as artifact names. Plural forms: `Evidence Packages Base`, `Evidence Packages Full`. Anchor naming: `Trip Evidence Root anchor`, `Claim Evidence Root anchor`, `Evidence Package Full anchor`.
+
+### Added
+
+- Evidence Package Base as the canonical term for the package produced when a claim closes, confirmed or rejected
+- Evidence Package Full as the canonical term for the package produced on dispute request
+- Evidence Package Base anchors and Evidence Package Full anchors in Data Handling and Arweave storage descriptions
+
+### Changed
+
+- Terminology: claim package base → Evidence Package Base across all documents
+- Terminology: full package → Evidence Package Full across all documents
+- Terminology: claim packages → Evidence Packages across all documents
+- Terminology: trip Evidence Root → Trip Evidence Root (capitalized as artifact name)
+- Terminology: claim Evidence Root → Claim Evidence Root (capitalized as artifact name)
+- Terminology: claim anchor → Claim Evidence Root anchor
+- Terminology: trip anchor → Trip Evidence Root anchor
+- Terminology: full package anchor → Evidence Package Full anchor
+- Plural: Evidence Package Bases → Evidence Packages Base
+- Plural: Evidence Package Fulls → Evidence Packages Full
+- SECURITY.md: Data Handling row "Full package anchors" → "Evidence Package Full anchors"
+- AUTHENTICATION.md: `Evidence.Read` scope wording updated to Evidence Packages
+- AUTHORIZATION.md: demo roles updated with Evidence Packages terminology
+- COMMUNICATION.md: triggering events and Evidence Integration updated to Evidence Package Base and Evidence Package Full
+- WEBHOOKS.md: event types `claim.package.created` → `evidence.package.base`, `claim.package.full` → `evidence.package.full`
+- BUSINESS_MODEL.md: incident row updated to Evidence Package Base + Claim Evidence Root anchor
+- VISION.md: base and full package sections renamed to Evidence Package Base and Evidence Package Full
+- ADR 0002: Process steps, Decision, and Related anchors updated to Evidence Package Base, Evidence Package Full, Trip Evidence Root anchor, Claim Evidence Root anchor
+- ARCHITECTURE.md: Storage Tables row renamed to Evidence Packages Base and Full, Arweave anchors updated
+- EVIDENCE.md: Storage Tables row renamed, Verification section updated, Lifecycle updated
+- EVIDENCE_BUILDER.md: MS SQL Tables row renamed, Trigger Summary anchors updated
+- EVIDENCE_FLOW.md: Evidence Levels table, Storage in MS SQL, and Package Formed When Claim Closes updated
+- EVENT_PIPELINE.md: Stage 10 and What Is Computed Where updated, Full package anchor → Evidence Package Full anchor
+- SYSTEM_MAP.md: Overview, Layer 2, Layer 3, What Belongs to Which Layer, What Is Computed Where, and end-to-end examples updated
+- TRUST_LEVELS.md: Three Evidence Levels table and ZK Proof Gating updated
+- DATA_FLOW.md: BUILD step, COMMIT step, Storage and Settlement, Design Notes updated
+- MVP.md: Phase A, Milestones, MVP Scope, MVP Storage, Definition of Done updated
+- PILOT.md: Claims to Prove, Success Criteria, Budget, Deliverables updated
+- ROADMAP.md: Phase 0, Phase 1 scope and exit criteria updated
+- INVESTORS.md: Three Evidence Levels table, Platform Architecture, Operational Platform updated
+- PLATFORM.md: Product Status, Evidence Layer, Proof Engine updated
+- PITCH.md: How It Works, First Two Claims, Market updated
+- OVERVIEW.md: Evidence Package section, Why Detention First updated
+- README.md: pipeline, three evidence levels, What LogiQED Provides, Modules updated
+- GLOSSARY.md: Core Concepts entries renamed, Arweave entry updated
+- FAQ/OVERVIEW: evidence levels and anchors terminology aligned
+
+### Removed
+
+- General use of claim package base, replaced with Evidence Package Base
+- General use of full package, replaced with Evidence Package Full
+- General use of claim packages, replaced with Evidence Packages
+- General use of claim anchor, replaced with Claim Evidence Root anchor
+- General use of trip anchor, replaced with Trip Evidence Root anchor
+- General use of full package anchor, replaced with Evidence Package Full anchor
 ## [0.9.0] - 2026-09-23
 
 Three-level evidence model. Claim packages, trip anchors, and claim level terminology unified across all documents.

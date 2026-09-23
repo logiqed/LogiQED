@@ -31,14 +31,14 @@ Target: the dispute closes in 12 minutes instead of 2 days.
 1. **Signed Event Stream** - devices and APIs produce authenticated events.
 2. **Trust Levels E0-E5** - server evaluates own assurance, not client-supplied.
 3. **SLA Engine** - deterministic rules with working calendars and exception attribution.
-4. **Evidence Builder** - produces claim package base on claim close, trip Evidence Root on route close, full package on dispute request.
-5. **Anchoring** - trip and claim Evidence Roots are anchored in Arweave.
+4. **Evidence Builder** - produces Evidence Package Base on claim close, Trip Evidence Root on route close, Evidence Package Full on dispute request.
+5. **Anchoring** - Trip and Claim Evidence Roots are anchored in Arweave.
 6. **Verification** - any party checks without raw telemetry.
 
 Three levels of evidence are produced:
 
-- **Clean route** - signed events + trip Evidence Root + Arweave anchor.
-- **Incident** - claim package base + claim anchor. Confirmed or rejected.
+- **Clean route** - signed events + Trip Evidence Root + Arweave anchor.
+- **Incident** - Evidence Package Base + Claim Evidence Root anchor. Confirmed or rejected.
 - **Disputed** - retroactive corroboration + ZK proof + new anchor.
 
 ZK proof is generated only on dispute request, and only when the claim level is E3 or higher.
@@ -65,7 +65,7 @@ Result: VALID.
 
 - eFTI regulation effective 9 July 2027
 - Target: mid-sized carriers with temperature-sensitive or time-critical freight
-- One full Evidence Package costs about $0.08
+- One Evidence Package Full costs about $0.08
 - Trip anchor for every route costs close to zero
 - One SLA dispute costs $200-500
 
@@ -118,7 +118,7 @@ Source code is private. Access after NDA.
 
 Pilot with one European carrier. 3-5 vehicles, 50+ trips, one dispute closed.
 
-Claim package base produced for every claim. Trip Evidence Root anchored for every route.
+Evidence Package Base produced for every claim. Trip Evidence Root anchored for every route.
 
 ---
 

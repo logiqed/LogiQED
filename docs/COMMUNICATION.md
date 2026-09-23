@@ -117,9 +117,9 @@ The module is present in the codebase and integrated. Enabling it is a configura
 - Trip deadline breached
 - Incident report submitted
 - Claim confirmed or rejected
-- Claim package base generated
+- Evidence Package Base generated
 - Trip anchor created
-- Full package generated on dispute request
+- Evidence Package Full generated on dispute request
 - Route State Machine transition
 
 ### Delivery Statuses
@@ -180,7 +180,7 @@ Chat messages and notifications become part of the evidence layer.
 - Delivery journal is auditable
 - Both are linked to the trip and claim
 
-Chat and notification records are included in the trip Evidence Root. When a claim package base is produced, the relevant communication records are referenced in the claim package.
+Chat and notification records are included in the Trip Evidence Root. When an Evidence Package Base is produced, the relevant communication records are referenced in the Evidence Package Base.
 
 When a dispute starts, the system shows:
 

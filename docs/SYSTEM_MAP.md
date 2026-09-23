@@ -6,13 +6,13 @@ This document is a horizontal slice: all components side by side. For the vertic
 
 ## Overview
 
-LogiQED is a pipeline. A GPS point enters the system, is validated and assigned a trust level, becomes a candidate event inside a Route State Machine, and either closes as a clean route, produces a claim package, or produces a full package for dispute resolution.
+LogiQED is a pipeline. A GPS point enters the system, is validated and assigned a trust level, becomes a candidate event inside a Route State Machine, and either closes as a clean route, produces an Evidence Package Base, or produces an Evidence Package Full for dispute resolution.
 
 Three layers work together:
 
-- **Trust Layer** — computes source assurance E0-E5.
+- **Trust Layer** — computes own assurance E0-E5.
 - **State Layer** — tracks route state and detects exceptions.
-- **Evidence Layer** — produces claim packages, trip anchors, and full packages.
+- **Evidence Layer** — produces Evidence Packages Base, Trip Evidence Roots, and Evidence Packages Full.
 
 ## Full Flow Diagram
 
@@ -93,7 +93,7 @@ Three layers work together:
     ║  │  Warehouse Queue, Geofence Wait, Border Delay                               │  ║
     ║  │                                                                             │  ║
     ║  │  Driver reports exception start and end manually                            │  ║
-    ║  │  On exception close → package base is created                               │  ║
+    ║  │  On exception close → Evidence Package Base is created                      │  ║
     ║  └────────────────────────────────────┬────────────────────────────────────────┘  ║
     ║                                       │                                           ║
     ║                                       │  driver report or auto-detected event     ║
@@ -144,15 +144,15 @@ Three layers work together:
     ║  │                                                                             │  ║
     ║  │  On claim close:                                                            │  ║
     ║  │    1. Collect claim events                                                  │  ║
-    ║  │    2. Compute claim Evidence Root                                           │  ║
+    ║  │    2. Compute Claim Evidence Root                                           │  ║
     ║  │    3. Compute claim level                                                   │  ║
     ║  │    4. Record decision (confirmed or rejected)                               │  ║
-    ║  │    5. Assemble claim package base                                           │  ║
+    ║  │    5. Assemble Evidence Package Base                                        │  ║
     ║  │    6. Anchor claim root + package in Arweave                                │  ║
     ║  │                                                                             │  ║
     ║  │  On route close:                                                            │  ║
     ║  │    1. Collect all route events                                              │  ║
-    ║  │    2. Compute trip Evidence Root                                            │  ║
+    ║  │    2. Compute Trip Evidence Root                                            │  ║
     ║  │    3. Anchor trip root in Arweave                                           │  ║
     ║  │                                                                             │  ║
     ║  │  On dispute request:                                                        │  ║
@@ -160,8 +160,8 @@ Three layers work together:
     ║  │    2. Independence check in Evidence Graph                                  │  ║
     ║  │    3. Compute final claim level                                             │  ║
     ║  │    4. Generate ZK proof (if E3+)                                            │  ║
-    ║  │    5. Assemble full package                                                 │  ║
-    ║  │    6. Anchor full package in Arweave                                        │  ║
+    ║  │    5. Assemble Evidence Package Full                                        │  ║
+    ║  │    6. Anchor Evidence Package Full in Arweave                               │  ║
     ║  └────────────────────────────────────┬────────────────────────────────────────┘  ║
     ║                                       │                                           ║
     ║                                       ↓                                           ║
@@ -414,7 +414,7 @@ In this case:
 
 - SLA still works. Pause calculation is unaffected.
 - Corroboration still works. Another vehicle on the same route can confirm the claim.
-- Claim packages are still produced.
+- Evidence Packages Base are still produced.
 - What is not available: attribution by segment. The system cannot show where on the route the delay occurred.
 
 Single-segment routes are supported for MVP and for carriers that do not want to configure segmentation.
@@ -442,16 +442,16 @@ The Evidence Builder is called by the Orchestrator at three moments.
 **On claim close:**
 
 1. Collect claim events.
-2. Compute claim Evidence Root.
+2. Compute Claim Evidence Root.
 3. Compute claim level.
 4. Record decision: confirmed or rejected.
-5. Assemble claim package base.
+5. Assemble Evidence Package Base.
 6. Anchor claim root and package in Arweave.
 
 **On route close:**
 
 1. Collect all route events.
-2. Compute trip Evidence Root.
+2. Compute Trip Evidence Root.
 3. Anchor trip root in Arweave.
 
 **On dispute request:**
@@ -460,22 +460,22 @@ The Evidence Builder is called by the Orchestrator at three moments.
 2. Independence check in Evidence Graph.
 3. Compute final claim level.
 4. Generate ZK proof if claim level is E3 or higher.
-5. Assemble full package.
-6. Anchor full package in Arweave.
+5. Assemble Evidence Package Full.
+6. Anchor Evidence Package Full in Arweave.
 
-The Builder writes to MS SQL tables: Events, EventHashes, MerkleNodes, EvidenceRoots, ClaimPackages, Anchors.
+The Builder writes to MS SQL tables: Events, EventHashes, MerkleNodes, EvidenceRoots, EvidencePackages, Anchors.
 
 ### Three Evidence Levels
 
 | Level | What is produced | When |
 |-------|------------------|------|
-| Clean route | Signed events + trip Evidence Root + anchor | Every route |
-| Incident | + claim package base + claim anchor | Every claim, confirmed or rejected |
+| Clean route | Signed events + Trip Evidence Root + anchor | Every route |
+| Incident | + Evidence Package Base + Claim Evidence Root anchor | Every claim, confirmed or rejected |
 | Disputed | + corroboration + ZK proof + new anchor | On dispute request |
 
 Anchor is produced for every route, clean or incident. This protects the data from substitution.
 
-Claim packages are produced for every claim, confirmed or rejected. A rejected claim is still a recorded event.
+Evidence Packages Base are produced for every claim, confirmed or rejected. A rejected claim is still a recorded event.
 
 ZK proof is generated only when the claim level is E3 or higher.
 
@@ -602,19 +602,19 @@ For clean routes:
 - Signed events.
 - Trip Evidence Root.
 - Arweave anchor.
-- No claim package.
+- No Evidence Package Base.
 - No ZK proof.
 
 For incident routes:
 
-- Claim package base (~2 KB).
+- Evidence Package Base (~2 KB).
 - Claim Evidence Root.
-- Arweave anchor for claim.
+- Arweave anchor for the Claim Evidence Root.
 - Trip Evidence Root anchored at route close.
 
 For disputed routes:
 
-- Full package (~4 KB).
+- Evidence Package Full (~4 KB).
 - Corroboration result.
 - ZK proof, if claim level is E3 or higher.
 - New Arweave anchor.
@@ -631,14 +631,14 @@ A truck in transit. A traffic jam occurs.
 6. Driver presses "Traffic ended".
 7. SLA Engine computes pause: 15 minutes.
 8. Orchestrator triggers Evidence Builder.
-9. Builder collects claim events, computes claim Evidence Root, computes claim level E2, records decision CONFIRMED, assembles claim package base, anchors in Arweave.
+9. Builder collects claim events, computes Claim Evidence Root, computes claim level E2, records decision CONFIRMED, assembles Evidence Package Base, anchors in Arweave.
 10. Segment ends. SegmentExited written.
 11. Route completes.
-12. Builder collects all route events, computes trip Evidence Root, anchors in Arweave.
-13. Later, operator requests dispute package.
+12. Builder collects all route events, computes Trip Evidence Root, anchors in Arweave.
+13. Later, operator presses Generate Evidence Package Full.
 14. Builder does retroactive corroboration. Second truck with onboard tracker confirms the same standstill. Different gateway → independent. Claim level = E4.
 15. Builder generates ZK proof (E4 ≥ E3).
-16. Full package assembled and anchored.
+16. Evidence Package Full assembled and anchored.
 
 ## End-to-End Example: Traffic, Rejected
 
@@ -651,7 +651,7 @@ A truck in transit. Driver reports a jam. The system disagrees.
 5. Claim rejected. SLA continues.
 6. Driver presses "Traffic ended" (or the claim closes manually).
 7. Orchestrator triggers Evidence Builder.
-8. Builder assembles claim package base with decision REJECTED, anchors in Arweave.
+8. Builder assembles Evidence Package Base with decision REJECTED, anchors in Arweave.
 9. Trip Evidence Root anchored at route close.
 
 The rejected claim is still recorded. The driver can review it. The package shows why the claim was rejected.
@@ -664,15 +664,15 @@ A truck drives Kyiv to Oslo. No exceptions.
 2. Orchestrator reads each event. State Machine transitions: Created → InTransit → SegmentEntered(A-B) → SegmentExited(A-B) → SegmentEntered(B-C) → ... → Completed.
 3. No candidate events fire. No external API is called.
 4. Route completes in 40 hours. SLA is 48 hours.
-5. Builder collects all route events, computes trip Evidence Root, anchors in Arweave.
-6. No claim package. No ZK proof.
+5. Builder collects all route events, computes Trip Evidence Root, anchors in Arweave.
+6. No Evidence Package Base. No ZK proof.
 7. Cost per route: approximately zero.
 
 ## What Belongs to Which Layer
 
 | Component | Layer | Responsibility |
 |-----------|-------|----------------|
-| Ingest API | Trust | Validation, dedup, EPCIS conversion, source assurance E0-E5, event-level policy check |
+| Ingest API | Trust | Validation, dedup, EPCIS conversion, own assurance E0-E5, event-level policy check |
 | Bounded Channel | Transport | In-memory queue with backpressure |
 | Event Orchestrator | State | Holds Route State Machines, delegates to Builder |
 | Route State Machine | State | Evaluates metrics, creates candidate events, triggers Builder on claim close |
@@ -681,13 +681,13 @@ A truck drives Kyiv to Oslo. No exceptions.
 | SLA Engine | Evidence | Computes pause in working calendar |
 | Evidence Builder | Evidence | Assembles packages, computes Evidence Roots, anchors |
 | Evidence Graph | Evidence | Provenance, independence check, E5 verification |
-| Arweave | Evidence | Trip anchors, claim anchors, full package anchors |
+| Arweave | Evidence | Trip Evidence Root anchor, Claim Evidence Root anchors, Evidence Package Full anchors |
 
 ## What Is Computed Where
 
 | What | Where | When |
 |------|-------|------|
-| Source Assurance E0-E5 | Ingest API | On each event |
+| Own assurance E0-E5 | Ingest API | On each event |
 | Event-level policy check | Ingest API | On each event |
 | Candidate event | Route State Machine | When metrics cross thresholds |
 | Enrichment decision | Enrichment Decider | On each candidate event |
@@ -697,12 +697,12 @@ A truck drives Kyiv to Oslo. No exceptions.
 | Claim level | Evidence Builder | When a claim closes |
 | Claim Evidence Root | Evidence Builder | When a claim closes |
 | Trip Evidence Root | Evidence Builder | When a route closes |
-| Claim anchor | Evidence Builder | When a claim closes |
-| Trip anchor | Evidence Builder | When a route closes |
+| Claim Evidence Root anchor | Evidence Builder | When a claim closes |
+| Trip Evidence Root anchor | Evidence Builder | When a route closes |
 | Corroboration | Evidence Builder | On dispute request |
 | Final claim level | Evidence Builder | On dispute request |
 | ZK proof | Evidence Builder | On dispute request, if E3 or higher |
-| Full package anchor | Evidence Builder | On dispute request |
+| Evidence Package Full anchor | Evidence Builder | On dispute request |
 
 ## Related Documents
 

@@ -200,7 +200,7 @@ When a rule changes:
 
 - A new version is created
 - The previous version remains for audit
-- Claim packages reference the rule version that was active at the time of the events
+- Evidence Packages reference the rule version that was active at the time of the events
 
 ---
 
@@ -221,7 +221,7 @@ The Workflow Engine is used by:
 
 - SLA Engine - timer and escalation logic
 - Notifications - trigger rules
-- Evidence - rule versioning for claim packages
+- Evidence - rule versioning for Evidence Packages
 - Route State Machine - can trigger workflow actions on state change
 
 The Route State Machine itself is owned by the Event Orchestrator, not by the Workflow Engine.
