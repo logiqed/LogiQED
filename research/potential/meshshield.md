@@ -22,7 +22,7 @@ Even if the attacked truck's systems are compromised, nearby trucks keep recordi
 
 ## How It Works
 
-Truck sensors detect vibration, light, or door state. Edge detection identifies a suspicious event. A local alert broadcasts via mesh radio. Nearby trucks receive and relay the alert. A signed event stream reaches the fleet operator through any truck with internet. The operator receives an alert and an Evidence Package for insurance or police.
+Truck sensors detect vibration, light, or door state. Edge detection identifies a suspicious event. A local alert broadcasts via mesh radio. Nearby trucks receive and relay the alert. A signed event stream reaches the fleet operator through any truck with internet. The operator receives an alert and a claim package base with a claim Evidence Root and an Arweave anchor.
 
 For a typical incident:
 
@@ -32,7 +32,7 @@ For a typical incident:
 4. Every nearby truck receives the alert, signs it, and relays it.
 5. Any truck with internet forwards the signed alert to the fleet operator.
 6. Operator sees GPS location, timestamp, sensor details, and camera capture when present.
-7. Records are collected as evidence.
+7. Alerts from multiple trucks are combined into a claim package base. The claim level rises with the number of independent nodes that signed related alerts.
 
 Even if the thief cuts power to the victim truck, the signed alert already left the vehicle via neighbors.
 
@@ -44,18 +44,36 @@ Even if the thief cuts power to the victim truck, the signed alert already left 
 - Signed events in LogiQED format
 - Low-latency local alerting
 - Back-haul connectivity through at least one truck with cellular
+- Claim package base with claim Evidence Root and Arweave anchor
 
 ## Integration with Core
 
 MeshShield adds a new cluster of sources and event types.
 
 - SourceType: MESHSHIELD_NODE
-- Trust Level: E3 attested device, then E4 with multi-node corroboration
+- Own assurance: E3 attested device, then E4 with multi-node corroboration
 - AttestationType: SECURE_ELEMENT, TEE, OEM_PKI
 - Data: signed alerts, not positions
 - Evidence: multi-node alerts form corroboration for a single incident
+- Claim package: alerts from independent nodes are merged into one claim package base. The claim Evidence Root covers all node alerts within the time window.
 
-A single node alert is E2 or E3. When five neighboring trucks sign related alerts in a time window, the combined evidence reaches E4 or E5.
+A single node alert is E2 or E3. When five neighboring trucks sign related alerts in a time window, the combined evidence reaches E4 or E5, depending on how many independent nodes confirmed the same fact.
+
+For the full model, see [Trust Levels](../../docs/TRUST_LEVELS.md).
+
+## Why Multi-Node Corroboration Matters
+
+A single truck alert is one source. The claim level stays at E2 or E3.
+
+When nearby trucks sign related alerts at the same time and the same location, the claim level rises.
+
+| Nodes confirming the alert | Claim level |
+|---------------------------|-------------|
+| One node | E2 or E3, depending on attestation |
+| Two independent nodes | E4 |
+| Three or more independent nodes | E5 |
+
+This is the core value of MeshShield: independent nodes turn a single-vehicle alert into dispute-proof evidence.
 
 ## Use Cases
 
@@ -72,8 +90,9 @@ A single node alert is E2 or E3. When five neighboring trucks sign related alert
 | Mesh radio range too short | Support range and mesh relaying |
 | Mesh radio interference | Long-range low-power radio |
 | False positives | Sensitivity trained per parking mode |
-| Low network density | Alert still sent, operator falls back to camera telemetry |
+| Low network density | Alert still sent, operator falls back to camera telemetry. Claim level stays at E2 or E3 |
 | Power constraints | Low-power mode, battery backup |
+| Node compromise | Independent nodes. One compromised node does not raise the claim level above E3 |
 
 ## Why Later
 

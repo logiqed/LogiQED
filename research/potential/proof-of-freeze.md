@@ -33,7 +33,7 @@ For a typical attack scenario:
 5. Hardware locks engage within milliseconds.
 6. Device generates a signed event with timestamp, sensor data, and action taken.
 7. When connectivity returns, the proof uploads to LogiQED.
-8. Fleet operator and insurer receive an Evidence Package.
+8. Fleet operator and insurer receive a claim package base with a claim Evidence Root and an Arweave anchor.
 
 ## Use Cases
 
@@ -52,18 +52,41 @@ For a typical attack scenario:
 - Hardware locks with fail-safe behavior
 - Power management with battery backup
 - Opportunistic upload via cellular, satellite, or mesh
+- Claim package base with claim Evidence Root and Arweave anchor
 
 ## Integration with Core
 
 Proof-of-Freeze is a hardware source in the LogiQED Trust Model.
 
 - SourceType: TAMPER_PROOF_DEVICE
-- Trust Level: E3 attested device, then E4 with corroboration
+- Own assurance: E3 attested device, then E4 with corroboration
 - AttestationType: SECURE_ELEMENT, TEE
 - Data: signed events for attack detected and locks engaged
 - Evidence: attack attempt proof for claims and insurance
+- Claim package: events from the device are assembled into a claim package base. The claim Evidence Root covers all events for this attack.
 
-The device generates evidence locally and does not depend on the cloud.
+A single Proof-of-Freeze event is E3. When a neighboring vehicle, a fixed camera, or a parking facility sensor confirms the same event, the claim level rises to E4 or E5.
+
+For the full model, see [Trust Levels](../../docs/TRUST_LEVELS.md).
+
+## Delayed Upload and Evidence Integrity
+
+Connectivity may return hours or days after the attack. This does not weaken the evidence.
+
+- Every event is signed at the moment it happens, using the device's secure element.
+- The signature binds the event to the device and to the time of the attack.
+- The signature does not depend on the cloud or on the upload moment.
+- When the event reaches LogiQED, the trip Evidence Root and the claim Evidence Root are computed over the canonical event stream.
+- Anchors in Arweave record the time when the Evidence Roots were committed.
+
+A verifier can confirm that the event was produced by the device at the recorded time, not fabricated during upload.
+
+## Use Cases Beyond Theft
+
+- Dispute over seal integrity at delivery
+- Evidence that a door remained closed during transit
+- Corroboration for temperature claims, when the sensor is on the same door
+- Insurance claim for cargo condition
 
 ## Challenges and Risks
 
@@ -75,6 +98,8 @@ The device generates evidence locally and does not depend on the cloud.
 | Hardware failure | Redundant sensors, self-test |
 | Manual override | Driver key or authorized bypass with audit trail |
 | Legal liability | Label as anti-tamper device, not life-safety system |
+| Delayed upload | Signature at the moment of the event. Cloud is not required |
+| Device compromise | Secure element protects the signing key. Tamper detection invalidates the key |
 
 ## Why Later
 

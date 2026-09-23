@@ -53,7 +53,7 @@ Source: [European Commission - The eFTI Regulation](https://transport.ec.europa.
 
 ### Route Proof
 
-Signed GPS events, geofences, Evidence Root.
+Signed GPS events, geofences, trip Evidence Root.
 
 Proves where the truck actually drove and when.
 
@@ -61,7 +61,7 @@ Proves where the truck actually drove and when.
 
 Continuous signed log for refrigerated cargo.
 
-Proves the cold chain was maintained for the entire trip.
+Proves the cold chain was maintained for the entire trip. Temperature claims use claim package base with claim level E4 when the sensor is attested.
 
 ### eFTI-ready Events
 
@@ -73,7 +73,7 @@ Ready for eFTI platforms from 9 July 2027.
 
 One-page summary for the customs broker.
 
-Route, cargo, temperature status, evidence anchor.
+Route, cargo, temperature status, trip and claim Evidence Roots.
 
 ---
 
@@ -81,12 +81,14 @@ Route, cargo, temperature status, evidence anchor.
 
 | Component | Content | For |
 |-----------|---------|-----|
-| Route Proof | GPS events, geofences, Evidence Root | Customs, receiver |
-| Temperature Log | Continuous signed log | Receiver, insurance |
+| Route Proof | GPS events, geofences, trip Evidence Root | Customs, receiver |
+| Temperature Log | Continuous signed log, claim package base | Receiver, insurance |
 | eFTI-ready Events | EPCIS 2.0, eIDAS signature | eFTI platforms |
 | Border Summary | One page for the broker | Customs broker |
 
 Estimated cost: **$0.05–0.10 per route**.
+
+For a route with a temperature claim, the claim package base is anchored and the temperature log is part of the claim Evidence Root.
 
 ---
 
@@ -96,8 +98,8 @@ Estimated cost: **$0.05–0.10 per route**.
 |-------|--------------|--------|
 | 4–8 hours at border | Faster document verification, queue remains | Medium |
 | Paper CMR, invoices | EPCIS events with eIDAS signature | High |
-| "Where were you" disputes | Signed route proof | High |
-| Manual temperature checks | Automatic signed log | High |
+| "Where were you" disputes | Signed route proof with trip Evidence Root | High |
+| Manual temperature checks | Automatic signed log with claim level | High |
 | No pre-arrival visibility | Pack sent 2–3 hours before arrival | Medium |
 
 Note: Border Ready Pack reduces document verification time, not physical queue waiting. Savings depend on how much of the delay is document-related vs infrastructure-related.
@@ -113,7 +115,7 @@ Per cross-border route (EU):
 | Cost today | Cost with LogiQED | Saving |
 |------------|-------------------|--------|
 | Document verification delay: $50–150 | Reduced 30–50% | $15–75 |
-| Dispute resolution: $200–500 | $0.08 (evidence closes dispute) | $200–500 |
+| Dispute resolution: $200–500 | $0.08 (full package closes dispute) | $200–500 |
 | Document prep: $15–30/hr × 2h | $0 (auto-generated) | $30–60 |
 | **Total per route** | **$0.08** | **$245–635** |
 
@@ -152,7 +154,7 @@ Note: whether signed evidence has formal legal standing is a matter for legal re
 
 The pilot converts the projection into a measurement.
 
-On live commercial routes, the pilot records the actual cost of resolving each dispute before and after Evidence Packages are in use: hours spent, documents exchanged, calls held, and the settlement outcome.
+On live commercial routes, the pilot records the actual cost of resolving each dispute before and after claim packages are in use: hours spent, documents exchanged, calls held, and the settlement outcome.
 
 The output is a measured per-dispute cost, which replaces the $200–500 input and re-derives the fleet-level number from observed data.
 
@@ -170,7 +172,7 @@ Until that measurement exists, the fleet-level figure should be read as the size
 | Chainlink oracles | Data feeds | No logistics-specific evidence, no eFTI compliance |
 | In-house solutions | Custom internal tools | High cost, no inter-carrier standard, no cryptographic verification |
 
-**LogiQED advantage:** Only solution that combines signed GPS events, temperature logs, eFTI-ready EPCIS events, and cryptographic dispute resolution in one package.
+**LogiQED advantage:** Only solution that combines signed GPS events, temperature logs, eFTI-ready EPCIS events, trip and claim Evidence Roots, and cryptographic dispute resolution in one package.
 
 ---
 
@@ -216,13 +218,13 @@ At 20 broker-clients (mixed): **~$15K MRR → ~$180K ARR** - realistic Year 1 ta
 | 2 | Does eFTI require eIDAS signature on events or packages? | eFTI regulatory working group | Week 2 |
 | 3 | Is NCTS integration required for EU transit? | IT contact at a customs agency | Week 2 |
 | 4 | Who is the first pilot partner - carrier or broker? | Existing network | Week 3 |
-| 5 | What is the legal weight of a signed Evidence Package in EU transport law? | Legal counsel | Week 4 |
+| 5 | What is the legal weight of a signed claim package in EU transport law? | Legal counsel | Week 4 |
 
 ---
 
 ## Strategic Questions (post-research)
 
-1. Should Border Ready Pack be a separate product or a feature of Evidence Package?
+1. Should Border Ready Pack be a separate product or a feature of claim packages?
 2. Do we build customs broker integrations in-house or via API partners?
 3. Is there a market for pre-eFTI compliance, or wait for the 2027 mandate?
 
@@ -276,10 +278,10 @@ Border Ready Pack is **not a new module** - it's a **view** on existing evidence
 
 | Component | Reuses | Changes needed |
 |-----------|--------|---------------|
-| Route Proof | Signed event stream, Evidence Root | None |
-| Temperature Log | Signed event stream, trust levels E0–E5 | None |
+| Route Proof | Signed event stream, trip Evidence Root | None |
+| Temperature Log | Signed event stream, own assurance E0–E5, claim level | None |
 | eFTI Events | EPCIS 2.0 event model, canonicalization | Add eIDAS signature wrapper |
-| Border Summary | Evidence Package, canonicalization | New template, no new logic |
+| Border Summary | Claim package base, canonicalization | New template, no new logic |
 
 **Development effort: 2–3 weeks.** Not months. The core is already built.
 
@@ -298,4 +300,6 @@ Border Ready Pack is **not a new module** - it's a **view** on existing evidence
 
 - [Research Overview](README.md)
 - [Architecture](../../ARCHITECTURE.md)
+- [Evidence Flow](../../EVIDENCE_FLOW.md)
 - [Evidence Package](../../EVIDENCE.md)
+- [Trust Levels](../../TRUST_LEVELS.md)

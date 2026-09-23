@@ -62,6 +62,26 @@ Three production-grade zkVM options are available today:
 
 This pipeline is provider-agnostic. Swap the zkVM, keep the rest.
 
+ZK proof is generated only on dispute request, and only when the claim level is E3 or higher. Post-quantum proofs follow the same gating.
+
+---
+
+## Where ZK Proofs Fit in the Evidence Layer
+
+ZK proof is one artifact inside the full package. It is not the evidence itself.
+
+The evidence is:
+
+- The trip Evidence Root, anchored in Arweave for every route.
+- The claim package base, anchored in Arweave for every claim, confirmed or rejected.
+- The claim level, computed from independent sources.
+
+ZK proof is added on top of a full package to prove that the computation was performed correctly over the committed inputs, without revealing raw telemetry.
+
+Post-quantum proofs strengthen this layer for the cases where the proof itself must survive the quantum transition. The rest of the evidence flow does not change.
+
+For the full model, see [Evidence Flow](../../docs/EVIDENCE_FLOW.md).
+
 ---
 
 ## Alignment with LogiQED Architecture
@@ -80,9 +100,9 @@ Post-quantum proofs are the logical next step after post-quantum signatures.
 
 If Lattice Jolt (or a similar lattice-based zkVM) matures:
 
-- Add it as a proof backend option in Proof Engine.
+- Add it as a proof backend option in the Proof Engine.
 - Run the same claim rules through both classical and post-quantum backends.
-- Offer post-quantum proofs for high-value claims (insurance, court disputes).
+- Offer post-quantum proofs for full packages on high-value claims (insurance, court disputes).
 
 No changes to the core architecture. Only a new backend behind the existing interface.
 
@@ -108,5 +128,6 @@ No changes to the core architecture. Only a new backend behind the existing inte
 
 - [Research Overview](README.md)
 - [Architecture](../../ARCHITECTURE.md)
+- [Evidence Flow](../../EVIDENCE_FLOW.md)
 - [Evidence Package](../../EVIDENCE.md)
 - [Trust Levels](../../TRUST_LEVELS.md)

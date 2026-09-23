@@ -21,7 +21,7 @@ A dedicated hardware recorder that captures independent evidence directly from t
 - Stores evidence in a decentralized way.
 - Driver controls who can access what, and when.
 
-The driver becomes a first-class evidence source with trust level E3 or E4.
+The driver becomes a first-class evidence source with own assurance E3, and E4 with corroboration.
 
 ## How It Works
 
@@ -37,6 +37,16 @@ For a typical dispute:
 6. Verifier checks that data is signed, tamper-evident, and originally generated at the event time.
 
 The driver never hands over the entire archive. Only the relevant window.
+
+## Trust Levels and Evidence
+
+Black Box produces signed events at own assurance E3. This is the level of an attested device with TPM or Secure Element.
+
+When a Black Box confirms a fact alongside another independent source, the claim level reaches E4. When three independent sources confirm the same fact, the claim level reaches E5.
+
+Evidence from the Black Box enters the Evidence Graph and is included in trip and claim Evidence Roots. Video is never uploaded permanently. Only signed commitments and proof references are included in the claim package.
+
+For the full model, see [Trust Levels](../../docs/TRUST_LEVELS.md).
 
 ## Use Cases
 
@@ -59,12 +69,12 @@ The driver never hands over the entire archive. Only the relevant window.
 
 A Black Box is another source in the LogiQED Trust Model.
 
-- SourceType: TRACKER or BLACK_BOX
-- Trust Level: E3 attested device, then E4 with corroborating source
+- SourceType: ONBOARD_TRACKER or BLACK_BOX
+- Own assurance: E3, attested device. E4 with corroboration.
 - AttestationType: SECURE_ENCLAVE, TEE, TPM2.0, OEM_PKI
 - Data: signed EPCIS events and video references
 
-Evidence from Black Box can corroborate carrier telematics and satisfy E4 or E5 trust requirements.
+Evidence from the Black Box can corroborate carrier telematics and help satisfy E4 or E5 trust policies. A Black Box event and a carrier tracker event on the same segment at the same time are two independent sources. If they confirm the same fact, the claim level is E4.
 
 Video is never uploaded permanently. Only signed commitments and proof references enter the Evidence Graph.
 
@@ -89,6 +99,8 @@ Validated model:
 - 250 Macs under attestation
 
 Candidate for driver device attestation in Black Box, specifically for the companion app running on the driver's iPhone or Mac, not for the hardware module itself.
+
+If the companion app uses Secure Enclave through Darkbloom, the app can reach E3 for events it signs. This would be an upgrade from the standard third-party mobile app, which reaches E2.
 
 ## Why Later
 

@@ -20,18 +20,20 @@ A driver's device captures data during a trip. That data is signed, timestamped,
 
 Every contribution is cryptographically verified: source, time, location, integrity. DePIN networks can trust the data without building their own hardware layer.
 
+The claim level attached to each contribution tells the partner how strong the evidence is. A contribution at claim level E4 commands a higher payment than the same contribution at E2.
+
 ## How It Works
 
-Driver device captures data. LogiQED ingest receives the signed event stream. Anonymization and aggregation remove driver identity. Verified data is routed to DePIN partners via webhook or API. The partner verifies the contribution against LogiQED Evidence Root. The driver receives tokens or stablecoins.
+Driver device captures data. LogiQED ingest receives the signed event stream. Anonymization and aggregation remove driver identity. Verified data is routed to DePIN partners via webhook or API. The partner verifies the contribution against the trip and claim Evidence Roots. The driver receives tokens or stablecoins.
 
 For a trip from Berlin to Warsaw:
 
 1. Driver has a LogiQED-enabled dashcam and OBD-II device.
 2. The device captures road imagery, speed, and connectivity data.
 3. Each data batch is signed by the device and pushed to LogiQED.
-4. LogiQED computes a minimal Evidence Package.
+4. LogiQED assembles a claim package base for the contribution.
 5. The anonymized contribution and proof of integrity are sent to the partner.
-6. The partner confirms the data covers the claimed segment, time, and hashes match.
+6. The partner confirms the data covers the claimed segment, time, and that hashes match the claim Evidence Root.
 7. The driver wallet receives payment.
 
 ## Example Integrations
@@ -57,8 +59,9 @@ For a trip from Berlin to Warsaw:
 - Device identity with revocation
 - Anonymization layer
 - AI-friendly API
-- Webhooks
+- Webhooks: `claim.package.created`, `trip.anchor.created`
 - Evidence Graph
+- Trip and claim Evidence Roots
 - Wallet and payout integration
 
 ## Integration with Core
@@ -66,16 +69,32 @@ For a trip from Berlin to Warsaw:
 DePIN contribution is another signed event in the LogiQED architecture.
 
 - Event type: DePINContribution
-- Source: driver device at E2 or E3
+- Source: driver device with own assurance E2 or E3
 - Data: anonymized telemetry or derived facts
-- Proof: Evidence Package with root hash and anchor
+- Proof: claim package base with claim Evidence Root and Arweave anchor
 - Access: partner receives only the relevant slice
 
-Trust levels:
+Claim level:
 
-- Driver data: E2 or E3
-- After LogiQED verification: E4
-- Partner acceptance: E2 and above, but E4 commands higher payment
+- Own assurance of the source: E2 or E3
+- Claim level after verification against the core: E2 to E4, depending on corroboration
+- Partner acceptance: E2 and above. E4 commands higher payment.
+- E5 requires three independent sources confirming the same contribution.
+
+For the full model, see [Trust Levels](../../docs/TRUST_LEVELS.md).
+
+## Payment Tiers
+
+The claim level determines the price a DePIN partner pays for the contribution.
+
+| Claim level | Evidence backing | Typical multiplier |
+|-------------|-----------------|-------------------|
+| E2 | Single signed source | Base rate |
+| E3 | Attested device | 2x base |
+| E4 | E3 plus corroboration | 4x base |
+| E5 | Three independent sources | 8x base |
+
+The multiplier is a design choice. Partners can set their own pricing, but the claim level provides a standard scale they can price against.
 
 ## Challenges and Risks
 
@@ -86,6 +105,7 @@ Trust levels:
 | Token volatility | Stablecoin payout option |
 | Driver identity linking | Pseudonymous wallet IDs |
 | Device fragmentation | Support reference hardware first |
+| False contributions | Claim level gates payment. E2 contributions pay less than E4 |
 
 ## Why Later
 

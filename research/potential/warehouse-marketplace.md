@@ -28,11 +28,12 @@ For a typical booking:
 
 1. Warehouse operator lists 200 square metres available for 3 days.
 2. Shipper books the slot for a short-term storage need.
-3. Slot dimensions, condition, and access rules are recorded as evidence.
+3. Slot dimensions, condition, and access rules are recorded as signed events with an own assurance E3 for the warehouse operator source.
 4. Truck arrives and geofence confirms entry.
 5. Cargo is stored. Sensors record condition, such as temperature and humidity.
 6. Truck exits. Geofence confirms exit.
-7. Smart contract releases payment based on verified usage.
+7. A claim package base is assembled with a claim Evidence Root and an Arweave anchor.
+8. Smart contract releases payment based on verified usage.
 
 ## Use Cases
 
@@ -50,18 +51,32 @@ For a typical booking:
 - Smart contract settlement
 - Geofence events
 - Condition sensors
+- Claim package base with claim Evidence Root and Arweave anchor
 
 ## Integration with Core
 
 Warehouse Marketplace is built on top of the evidence layer.
 
-- Warehouse identity: verified source in Trust Model
+- Warehouse identity: verified source with own assurance E3 in the Trust Model
 - Slot availability: signed state updates
 - Access: geofence entry and exit events
-- Condition: temperature and humidity sensors
+- Condition: temperature and humidity sensors, feeding into claim level
+- Claim package: slot usage events are assembled into a claim package base. The claim Evidence Root covers the storage interval.
 - Payment: smart contract with evidence-based settlement
 
 The marketplace consumes evidence from the core without weakening it.
+
+For the full model, see [Trust Levels](../../docs/TRUST_LEVELS.md).
+
+## Why Claim Level Matters Here
+
+A warehouse slot is a paid service. Both sides need a confidence signal.
+
+- One-sided evidence, such as a single truck or a single warehouse sensor: claim level E2 or E3.
+- Warehouse access confirmed by both the warehouse gate API and the truck geofence, with independent sources: claim level E4.
+- Storage condition confirmed by three independent sensors: claim level E5.
+
+Storage disputes are resolved by the claim level attached to the storage interval. A claim at E4 or E5 is dispute-proof. A claim at E2 is a signal, not a settlement basis.
 
 ## Challenges and Risks
 
@@ -69,9 +84,10 @@ The marketplace consumes evidence from the core without weakening it.
 |------|------------|
 | Warehouse onboarding | Start with 1–2 pilot warehouses |
 | Legal model | Local entity and clear terms per region |
-| Slot availability fraud | Signed slot states with timestamps |
-| Condition disputes | Condition sensors with Evidence Package |
+| Slot availability fraud | Signed slot states with timestamps. Claim level gates acceptance |
+| Condition disputes | Condition sensors with claim package base and claim level |
 | Payment risk | Escrow with evidence-based release |
+| Warehouse system integration | Thin integration layer. No WMS replacement |
 
 ## Why Later
 

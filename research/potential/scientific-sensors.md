@@ -31,8 +31,9 @@ For a typical route:
 3. Each batch is signed by the device and pushed to LogiQED.
 4. LogiQED validates source identity, sensor calibration, and location.
 5. Data is aggregated into anonymised datasets.
-6. Researchers query the dataset with full provenance.
-7. Fleet operator receives compensation per verified kilometre.
+6. Each dataset is assembled into a claim package base with a claim Evidence Root and an Arweave anchor.
+7. Researchers query the dataset with full provenance.
+8. Fleet operator receives compensation per verified kilometre.
 
 ## Example Sensors
 
@@ -60,27 +61,43 @@ For a typical route:
 - Data licensing layer
 - Anonymization pipeline
 - Marketplace or data API
+- Claim package base with claim Evidence Root and Arweave anchor
 
 ## Integration with Core
 
 Scientific sensors are another source type in the LogiQED Trust Model.
 
 - SourceType: SCIENTIFIC_SENSOR
-- Trust Level: E3 attested device, then E4 with calibration and corroboration
+- Own assurance: E3 attested device, then E4 with calibration and corroboration
 - Data: signed environmental measurements
 - Evidence: calibration chain and provenance recorded in Evidence Graph
+- Claim package: measurements from a sensor over a time window are assembled into a claim package base. The claim Evidence Root covers all measurements.
 
 Sensor calibration is critical. A sensor without calibration is just a number. A calibrated sensor with provenance is scientific evidence.
+
+For the full model, see [Trust Levels](../../docs/TRUST_LEVELS.md).
+
+## Why Claim Level Matters Here
+
+Scientific data has value only if researchers can trust it.
+
+- A single uncalibrated sensor: own assurance E1 or E2. Not usable for research.
+- A calibrated attested sensor: own assurance E3. Usable for internal use.
+- Two independent calibrated sensors on the same road: claim level E4. Usable for peer-reviewed research.
+- Three or more independent calibrated sensors: claim level E5. Premium data product.
+
+Researchers can filter datasets by claim level and select the confidence tier that matches their study.
 
 ## Challenges and Risks
 
 | Risk | Mitigation |
 |------|------------|
 | Sensor calibration | Calibration chain recorded in Evidence Graph |
-| Data quality | Multi-sensor cross-validation |
+| Data quality | Multi-sensor cross-validation. Claim level rises with independent confirmations |
 | Privacy | Anonymize location and fleet identity |
 | Sensor drift | Regular recalibration and drift detection |
 | Regulatory | Environmental data may have specific legal requirements |
+| False data | Claim level gates acceptance. E2 data is not accepted for peer-reviewed research |
 
 ## Why Later
 
