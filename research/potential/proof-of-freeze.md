@@ -33,7 +33,7 @@ For a typical attack scenario:
 5. Hardware locks engage within milliseconds.
 6. Device generates a signed event with timestamp, sensor data, and action taken.
 7. When connectivity returns, the proof uploads to LogiQED.
-8. Fleet operator and insurer receive a claim package base with a claim Evidence Root and an Arweave anchor.
+8. Fleet operator and insurer receive an Evidence Package Base with a Claim Evidence Root and an Arweave anchor.
 
 ## Use Cases
 
@@ -52,7 +52,7 @@ For a typical attack scenario:
 - Hardware locks with fail-safe behavior
 - Power management with battery backup
 - Opportunistic upload via cellular, satellite, or mesh
-- Claim package base with claim Evidence Root and Arweave anchor
+- Evidence Package Base with Claim Evidence Root and Arweave anchor
 
 ## Integration with Core
 
@@ -63,7 +63,7 @@ Proof-of-Freeze is a hardware source in the LogiQED Trust Model.
 - AttestationType: SECURE_ELEMENT, TEE
 - Data: signed events for attack detected and locks engaged
 - Evidence: attack attempt proof for claims and insurance
-- Claim package: events from the device are assembled into a claim package base. The claim Evidence Root covers all events for this attack.
+- Evidence Package: events from the device are assembled into an Evidence Package Base. The Claim Evidence Root covers all events for this attack.
 
 A single Proof-of-Freeze event is E3. When a neighboring vehicle, a fixed camera, or a parking facility sensor confirms the same event, the claim level rises to E4 or E5.
 
@@ -76,7 +76,7 @@ Connectivity may return hours or days after the attack. This does not weaken the
 - Every event is signed at the moment it happens, using the device's secure element.
 - The signature binds the event to the device and to the time of the attack.
 - The signature does not depend on the cloud or on the upload moment.
-- When the event reaches LogiQED, the trip Evidence Root and the claim Evidence Root are computed over the canonical event stream.
+- When the event reaches LogiQED, the Trip Evidence Root and the Claim Evidence Root are computed over the canonical event stream.
 - Anchors in Arweave record the time when the Evidence Roots were committed.
 
 A verifier can confirm that the event was produced by the device at the recorded time, not fabricated during upload.

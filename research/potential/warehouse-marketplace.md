@@ -32,7 +32,7 @@ For a typical booking:
 4. Truck arrives and geofence confirms entry.
 5. Cargo is stored. Sensors record condition, such as temperature and humidity.
 6. Truck exits. Geofence confirms exit.
-7. A claim package base is assembled with a claim Evidence Root and an Arweave anchor.
+7. An Evidence Package Base is assembled with a Claim Evidence Root and an Arweave anchor.
 8. Smart contract releases payment based on verified usage.
 
 ## Use Cases
@@ -51,7 +51,7 @@ For a typical booking:
 - Smart contract settlement
 - Geofence events
 - Condition sensors
-- Claim package base with claim Evidence Root and Arweave anchor
+- Evidence Package Base with Claim Evidence Root and Arweave anchor
 
 ## Integration with Core
 
@@ -61,7 +61,7 @@ Warehouse Marketplace is built on top of the evidence layer.
 - Slot availability: signed state updates
 - Access: geofence entry and exit events
 - Condition: temperature and humidity sensors, feeding into claim level
-- Claim package: slot usage events are assembled into a claim package base. The claim Evidence Root covers the storage interval.
+- Evidence Package: slot usage events are assembled into an Evidence Package Base. The Claim Evidence Root covers the storage interval.
 - Payment: smart contract with evidence-based settlement
 
 The marketplace consumes evidence from the core without weakening it.
@@ -85,7 +85,7 @@ Storage disputes are resolved by the claim level attached to the storage interva
 | Warehouse onboarding | Start with 1–2 pilot warehouses |
 | Legal model | Local entity and clear terms per region |
 | Slot availability fraud | Signed slot states with timestamps. Claim level gates acceptance |
-| Condition disputes | Condition sensors with claim package base and claim level |
+| Condition disputes | Condition sensors with Evidence Package Base and claim level |
 | Payment risk | Escrow with evidence-based release |
 | Warehouse system integration | Thin integration layer. No WMS replacement |
 

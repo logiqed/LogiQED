@@ -31,7 +31,7 @@ For a typical route:
 3. Each batch is signed by the device and pushed to LogiQED.
 4. LogiQED validates source identity, sensor calibration, and location.
 5. Data is aggregated into anonymised datasets.
-6. Each dataset is assembled into a claim package base with a claim Evidence Root and an Arweave anchor.
+6. Each dataset is assembled into an Evidence Package Base with a Claim Evidence Root and an Arweave anchor.
 7. Researchers query the dataset with full provenance.
 8. Fleet operator receives compensation per verified kilometre.
 
@@ -61,7 +61,7 @@ For a typical route:
 - Data licensing layer
 - Anonymization pipeline
 - Marketplace or data API
-- Claim package base with claim Evidence Root and Arweave anchor
+- Evidence Package Base with Claim Evidence Root and Arweave anchor
 
 ## Integration with Core
 
@@ -71,7 +71,7 @@ Scientific sensors are another source type in the LogiQED Trust Model.
 - Own assurance: E3 attested device, then E4 with calibration and corroboration
 - Data: signed environmental measurements
 - Evidence: calibration chain and provenance recorded in Evidence Graph
-- Claim package: measurements from a sensor over a time window are assembled into a claim package base. The claim Evidence Root covers all measurements.
+- Evidence Package: measurements from a sensor over a time window are assembled into an Evidence Package Base. The Claim Evidence Root covers all measurements.
 
 Sensor calibration is critical. A sensor without calibration is just a number. A calibrated sensor with provenance is scientific evidence.
 

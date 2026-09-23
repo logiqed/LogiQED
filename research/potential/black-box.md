@@ -44,7 +44,7 @@ Black Box produces signed events at own assurance E3. This is the level of an at
 
 When a Black Box confirms a fact alongside another independent source, the claim level reaches E4. When three independent sources confirm the same fact, the claim level reaches E5.
 
-Evidence from the Black Box enters the Evidence Graph and is included in trip and claim Evidence Roots. Video is never uploaded permanently. Only signed commitments and proof references are included in the claim package.
+Evidence from the Black Box enters the Evidence Graph and is included in Trip and Claim Evidence Roots. Video is never uploaded permanently. Only signed commitments and proof references are included in the Evidence Package.
 
 For the full model, see [Trust Levels](../../docs/TRUST_LEVELS.md).
 

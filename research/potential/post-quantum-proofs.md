@@ -68,15 +68,15 @@ ZK proof is generated only on dispute request, and only when the claim level is 
 
 ## Where ZK Proofs Fit in the Evidence Layer
 
-ZK proof is one artifact inside the full package. It is not the evidence itself.
+ZK proof is one artifact inside the Evidence Package Full. It is not the evidence itself.
 
 The evidence is:
 
-- The trip Evidence Root, anchored in Arweave for every route.
-- The claim package base, anchored in Arweave for every claim, confirmed or rejected.
+- The Trip Evidence Root, anchored in Arweave for every route.
+- The Evidence Package Base, anchored in Arweave for every claim, confirmed or rejected.
 - The claim level, computed from independent sources.
 
-ZK proof is added on top of a full package to prove that the computation was performed correctly over the committed inputs, without revealing raw telemetry.
+ZK proof is added on top of an Evidence Package Full to prove that the computation was performed correctly over the committed inputs, without revealing raw telemetry.
 
 Post-quantum proofs strengthen this layer for the cases where the proof itself must survive the quantum transition. The rest of the evidence flow does not change.
 
@@ -102,7 +102,7 @@ If Lattice Jolt (or a similar lattice-based zkVM) matures:
 
 - Add it as a proof backend option in the Proof Engine.
 - Run the same claim rules through both classical and post-quantum backends.
-- Offer post-quantum proofs for full packages on high-value claims (insurance, court disputes).
+- Offer post-quantum proofs for Evidence Packages Full on high-value claims (insurance, court disputes).
 
 No changes to the core architecture. Only a new backend behind the existing interface.
 

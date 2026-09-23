@@ -14,31 +14,31 @@ Trained experts are expensive and limited. With freight volume growing, the bott
 
 ## Solution
 
-AI agents consume LogiQED claim packages, full packages, and the Evidence Graph to produce recommendations, verdicts, and audit reports, all based on verifiable data.
+AI agents consume LogiQED Evidence Packages Base, Evidence Packages Full, and the Evidence Graph to produce recommendations, verdicts, and audit reports, all based on verifiable data.
 
 The agent does not replace the dispatcher. It augments him: reads evidence, applies policy, flags anomalies, suggests attribution. A human remains in the loop.
 
 ## How It Works
 
-Agent connects via OpenAPI or webhooks. Reads semantically tagged Evidence Graph. Inspects SLA evaluation, route state machine, and claims. Reads trip and claim Evidence Roots. Produces recommendation, verdict, or alert. Dispatcher reviews, confirms, or rejects.
+Agent connects via OpenAPI or webhooks. Reads semantically tagged Evidence Graph. Inspects SLA evaluation, route state machine, and claims. Reads Trip and Claim Evidence Roots. Produces recommendation, verdict, or alert. Dispatcher reviews, confirms, or rejects.
 
 For a Detention claim:
 
-1. Agent receives webhook `claim.package.created`.
-2. Fetches the claim package base via API: claim, rule, sources, timestamps, claim level, decision.
+1. Agent receives webhook `evidence.package.base`.
+2. Fetches the Evidence Package Base via API: claim, rule, sources, timestamps, claim level, decision.
 3. Checks if conclusion matches rule. Example: waiting 68 minutes, warehouse.
 4. Verifies math, calendar, and missing events.
-5. Verifies trip Evidence Root and claim Evidence Root against Arweave anchors.
+5. Verifies Trip Evidence Root and Claim Evidence Root against Arweave anchors.
 6. Outputs a structured verdict with confidence score.
 7. Dispatcher sees the verdict in UI, accepts or rejects.
 
-If the case goes to dispute, the agent can request a full package and read corroboration results and ZK proof.
+If the case goes to dispute, the agent can request an Evidence Package Full and read corroboration results and ZK proof.
 
 The agent never modifies evidence. It only reads and reports.
 
 ## What the Agent Reads
 
-From the claim package base:
+From the Evidence Package Base:
 
 - Claim ID and type
 - Driver report at E0
@@ -46,10 +46,10 @@ From the claim package base:
 - Trust policy result
 - Claim level
 - Decision: confirmed or rejected
-- Trip Evidence Root and claim Evidence Root
+- Trip Evidence Root and Claim Evidence Root
 - Arweave anchor references
 
-From the full package, if the case is disputed:
+From the Evidence Package Full, if the case is disputed:
 
 - Retroactive corroboration result
 - Independence check from the Evidence Graph
@@ -68,7 +68,7 @@ From the full package, if the case is disputed:
 
 - Semantic tags
 - OpenAPI and Swagger
-- Webhooks: `claim.package.created`, `claim.decision_recorded`, `trip.anchor.created`, `claim.package.full`
+- Webhooks: `evidence.package.base`, `claim.decision_recorded`, `trip.anchor.created`, `evidence.package.full`
 - Evidence Graph API
 - Route State Machine events
 - API keys with scoped read-only permissions
@@ -77,7 +77,7 @@ From the full package, if the case is disputed:
 
 - The agent is treated as an external source with own assurance E1, authenticated API.
 - It reads the Evidence Graph but does not write to it.
-- It reads trip and claim Evidence Roots but does not create or modify them.
+- It reads Trip and Claim Evidence Roots but does not create or modify them.
 - Agent recommendations are logged with agent ID, version, and confidence.
 - Human remains in the loop for all decisions.
 
@@ -99,7 +99,7 @@ The agent is a reader, not a source of truth.
 | Agent output mistaken as truth | Distinct Agent Recommendation versus Verified Evidence |
 | Privacy concerns | Agents receive pseudonymised, minimal data |
 | API abuse | Rate limits, quotas, billing per agent call |
-| Agent reads stale data | Agents receive only anchored packages with confirmed Evidence Roots |
+| Agent reads stale data | Agents receive only anchored Evidence Packages with confirmed Evidence Roots |
 
 ## Why Later
 
@@ -107,7 +107,7 @@ Requires a stable public API.
 
 Before MVP: OpenAPI draft, webhooks not stable.
 
-After MVP: OpenAPI and webhooks live, Evidence Graph API available, claim package base and full package retrievable. Pilots can start.
+After MVP: OpenAPI and webhooks live, Evidence Graph API available, Evidence Package Base and Evidence Package Full retrievable. Pilots can start.
 
 Phase 2: formal Agent SDK and billing.
 

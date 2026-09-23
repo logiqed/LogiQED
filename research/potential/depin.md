@@ -24,16 +24,16 @@ The claim level attached to each contribution tells the partner how strong the e
 
 ## How It Works
 
-Driver device captures data. LogiQED ingest receives the signed event stream. Anonymization and aggregation remove driver identity. Verified data is routed to DePIN partners via webhook or API. The partner verifies the contribution against the trip and claim Evidence Roots. The driver receives tokens or stablecoins.
+Driver device captures data. LogiQED ingest receives the signed event stream. Anonymization and aggregation remove driver identity. Verified data is routed to DePIN partners via webhook or API. The partner verifies the contribution against the Trip and Claim Evidence Roots. The driver receives tokens or stablecoins.
 
 For a trip from Berlin to Warsaw:
 
 1. Driver has a LogiQED-enabled dashcam and OBD-II device.
 2. The device captures road imagery, speed, and connectivity data.
 3. Each data batch is signed by the device and pushed to LogiQED.
-4. LogiQED assembles a claim package base for the contribution.
+4. LogiQED assembles an Evidence Package Base for the contribution.
 5. The anonymized contribution and proof of integrity are sent to the partner.
-6. The partner confirms the data covers the claimed segment, time, and that hashes match the claim Evidence Root.
+6. The partner confirms the data covers the claimed segment, time, and that hashes match the Claim Evidence Root.
 7. The driver wallet receives payment.
 
 ## Example Integrations
@@ -59,9 +59,9 @@ For a trip from Berlin to Warsaw:
 - Device identity with revocation
 - Anonymization layer
 - AI-friendly API
-- Webhooks: `claim.package.created`, `trip.anchor.created`
+- Webhooks: `evidence.package.base`, `trip.anchor.created`
 - Evidence Graph
-- Trip and claim Evidence Roots
+- Trip and Claim Evidence Roots
 - Wallet and payout integration
 
 ## Integration with Core
@@ -71,7 +71,7 @@ DePIN contribution is another signed event in the LogiQED architecture.
 - Event type: DePINContribution
 - Source: driver device with own assurance E2 or E3
 - Data: anonymized telemetry or derived facts
-- Proof: claim package base with claim Evidence Root and Arweave anchor
+- Proof: Evidence Package Base with Claim Evidence Root and Arweave anchor
 - Access: partner receives only the relevant slice
 
 Claim level:

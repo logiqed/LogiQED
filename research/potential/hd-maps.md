@@ -18,11 +18,11 @@ LogiQED turns the existing truck fleet into a crowd-sourced HD mapping network.
 
 Cameras and sensors capture road conditions during regular trips. Data is signed, geotagged, and aggregated into HD map layers. These layers are packaged as verifiable data products and sold to autonomous vehicle developers.
 
-Every contribution is a claim package base with a claim Evidence Root and an Arweave anchor. AV developers can trust the data without running their own fleet.
+Every contribution is an Evidence Package Base with a Claim Evidence Root and an Arweave anchor. AV developers can trust the data without running their own fleet.
 
 ## How It Works
 
-Truck cameras and sensors capture road data during a normal trip. LogiQED receives the signed event stream. A computer vision pipeline extracts map features. Features are aggregated into HD map layers per region. Each layer update gets a claim package base with a claim Evidence Root. AV developers receive layers via marketplace or API.
+Truck cameras and sensors capture road data during a normal trip. LogiQED receives the signed event stream. A computer vision pipeline extracts map features. Features are aggregated into HD map layers per region. Each layer update gets an Evidence Package Base with a Claim Evidence Root. AV developers receive layers via marketplace or API.
 
 For a daily route:
 
@@ -31,7 +31,7 @@ For a daily route:
 3. Each frame is signed and pushed to LogiQED.
 4. Computer vision extracts lane boundaries, sign locations, surface quality.
 5. Features are aggregated per road segment.
-6. A claim package base covers each segment update, with claim Evidence Root and anchor.
+6. An Evidence Package Base covers each segment update, with Claim Evidence Root and anchor.
 7. The AV developer receives the layer package with full provenance.
 
 ## Map Layers
@@ -59,7 +59,7 @@ For a daily route:
 - Evidence Graph
 - Data marketplace
 - Large-scale storage for raw data before aggregation
-- Trip and claim Evidence Roots
+- Trip and Claim Evidence Roots
 - Arweave anchoring for layer updates
 
 ## Integration with Core
@@ -70,7 +70,7 @@ HD map data is a derived product from the LogiQED event stream.
 - Own assurance: E2 signed app, then E3 attested device
 - Claim level: E2 to E4 depending on how many independent trucks confirm the same feature
 - Raw data: stored with retention policies
-- Processed data: aggregated features, signed with claim Evidence Root and anchored
+- Processed data: aggregated features, signed with Claim Evidence Root and anchored
 - Product: map layer packages sold via marketplace
 
 When multiple trucks cross the same segment and produce the same map features, the claim level rises. A layer update confirmed by three independent trucks can reach E5. This gives AV developers a graded confidence signal on every map feature.

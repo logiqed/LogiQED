@@ -14,13 +14,13 @@ Shippers cannot easily verify carrier reliability. Carriers cannot easily prove 
 
 A freight marketplace where every participant's reputation is backed by verified evidence.
 
-Shippers publish loads. Carriers see loads matched to their verified capacity and historical performance. Smart contracts lock funds, deliveries produce claim packages and Evidence Roots, and settlement releases automatically.
+Shippers publish loads. Carriers see loads matched to their verified capacity and historical performance. Smart contracts lock funds, deliveries produce Evidence Packages and Evidence Roots, and settlement releases automatically.
 
 Trust comes from the Evidence Layer, not from brokers or reviews.
 
 ## How It Works
 
-Shipper publishes a load. Carriers see matched loads. Carrier bids or AI dispatcher suggests pricing. Booking locks funds in a smart contract. Delivery produces signed events, a trip Evidence Root, and one or more claim packages. A full package with ZK proof confirms SLA or condition compliance on dispute. Smart contract releases payment automatically.
+Shipper publishes a load. Carriers see matched loads. Carrier bids or AI dispatcher suggests pricing. Booking locks funds in a smart contract. Delivery produces signed events, a Trip Evidence Root, and one or more Evidence Packages. An Evidence Package Full with ZK proof confirms SLA or condition compliance on dispute. Smart contract releases payment automatically.
 
 For a typical load:
 
@@ -29,8 +29,8 @@ For a typical load:
 3. Carrier places a bid. AI suggests optimal pricing.
 4. Booking is confirmed. Escrow locks payment.
 5. Truck performs delivery. Telemetry is signed and hash-chained.
-6. Trip Evidence Root is anchored at route close. A claim package base is produced for every claim on the route.
-7. If a dispute arises, a full package with corroboration and ZK proof is produced.
+6. Trip Evidence Root is anchored at route close. An Evidence Package Base is produced for every claim on the route.
+7. If a dispute arises, an Evidence Package Full with corroboration and ZK proof is produced.
 8. Payment is released. Carrier reputation updates with verified outcome.
 
 ## What the Marketplace Sees
@@ -53,7 +53,7 @@ From each claim:
 
 From a disputed claim:
 
-- Full package with corroboration
+- Evidence Package Full with corroboration
 - Independence check result
 - ZK proof reference
 
@@ -71,28 +71,28 @@ From a disputed claim:
 - Evidence Graph
 - SLA Engine
 - Evidence Builder
-- Trip and claim Evidence Roots
-- Claim packages
+- Trip and Claim Evidence Roots
+- Evidence Packages
 - Smart contract settlement
 - AI dispatcher
 - Marketplace API
-- Webhooks: `claim.package.created`, `claim.decision_recorded`, `trip.anchor.created`
+- Webhooks: `evidence.package.base`, `claim.decision_recorded`, `trip.anchor.created`
 
 ## Integration with Core
 
 - Trip Evidence Root: proof of delivery for payment
-- Claim packages: SLA validation, condition compliance
+- Evidence Packages: SLA validation, condition compliance
 - Claim level: carrier reputation from verified trip history
 - Trust Levels: source assurance E0–E5 for every contribution
 - SLA Engine: exception attribution before payment release
-- Full packages with ZK proof: private validation for high-value disputes
+- Evidence Package Full with ZK proof: private validation for high-value disputes
 - Evidence Graph: independence check for corroboration
 
 The marketplace is built on top of the evidence layer. It does not weaken core models.
 
 ## Reputation from Verified Deliveries
 
-Every completed trip produces a trip Evidence Root and, when claims are present, claim packages.
+Every completed trip produces a Trip Evidence Root and, when claims are present, Evidence Packages.
 
 The marketplace reads these artifacts to build carrier reputation.
 
@@ -114,7 +114,7 @@ Reputation is not a review score. It is a derivative of verifiable evidence.
 | Carrier onboarding | Verified pilots first, manual review for early carriers |
 | Legal classification | Local entity per region |
 | Payment risk | Escrow covers shipper, carrier guaranteed when evidence is valid |
-| Disputed delivery | Full package with corroboration and ZK proof resolves the case |
+| Disputed delivery | Evidence Package Full with corroboration and ZK proof resolves the case |
 
 ## Why Later
 

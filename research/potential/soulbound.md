@@ -28,7 +28,7 @@ For a carrier:
 
 1. Carrier completes 500 trips.
 2. Each trip produces signed events: departure, arrival, SLA compliance, exceptions.
-3. Every claim on a trip produces a claim package base with a claim level and a claim Evidence Root.
+3. Every claim on a trip produces an Evidence Package Base with a claim level and a Claim Evidence Root.
 4. Trip Evidence Root is anchored for every route.
 5. Evidence Graph accumulates verified history.
 6. Score is computed from on-time delivery, SLA compliance, safety events, and feedback.
@@ -39,7 +39,7 @@ The carrier cannot sell or transfer the reputation. It is bound to the verified 
 
 ## Reputation Sources
 
-- On-time delivery, from trip Evidence Roots and SLA evaluations
+- On-time delivery, from Trip Evidence Roots and SLA evaluations
 - SLA compliance, from confirmed and rejected claim ratios
 - Claim level distribution, from corroboration strength
 - Safety events, from signed incident reports
@@ -72,8 +72,8 @@ For the full model, see [Trust Levels](../../docs/TRUST_LEVELS.md).
 
 - Evidence Graph
 - Trust Levels
-- Trip and claim Evidence Roots
-- Claim packages
+- Trip and Claim Evidence Roots
+- Evidence Packages
 - Smart contracts
 - Identity layer
 - Privacy-preserving score computation
@@ -82,7 +82,7 @@ For the full model, see [Trust Levels](../../docs/TRUST_LEVELS.md).
 
 Soulbound Reputation is a derived product from the Evidence Graph.
 
-- Source: verified history of signed events, trip roots, and claim packages
+- Source: verified history of signed events, Trip Evidence Roots, and Evidence Packages
 - Storage: soulbound credential, non-transferable
 - Access: partners query score with consent
 - Privacy: detailed evidence stays private, score is public
