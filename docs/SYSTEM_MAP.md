@@ -508,6 +508,8 @@ Purpose: current claim level for operational decisions during the route.
 
 External APIs are not called during the Interim run. Their responses were already captured in Evidence Package Base at claim open.
 
+The Interim result is a lower bound on the final claim level. The claim level is monotonically non-decreasing: the Evidence Package Full assembled on dispute request carries a claim level equal to or higher than the Interim.
+
 ### How Corroboration Is Requested
 
 Corroboration is applied by the Evidence Builder.

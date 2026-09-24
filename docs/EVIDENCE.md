@@ -91,6 +91,8 @@ The Evidence Package Interim shares the Evidence Package Base fields and adds:
 
 The Evidence Package Interim does not add proofRef. It is not anchored and does not modify the Evidence Package Base. It is stored as a CorroborationRun record in MS SQL.
 
+An Interim result is a lower bound on the final claim level. The claim level is monotonically non-decreasing over time: the final claim level in the Evidence Package Full is never lower than the claim level in an earlier Evidence Package Interim.
+
 ---
 
 ## Calculation Formula

@@ -57,7 +57,7 @@ The Trip Evidence Root is anchored for every route, clean or incident. This prot
 
 An Evidence Package Base is produced for every claim, confirmed or rejected. A rejected claim is still a recorded event: the driver pressed the button, the system queried the API, and the outcome was recorded.
 
-An Evidence Package Interim can be assembled during the route, after a claim closes and before the route closes. It is not anchored, does not modify the Base package, and gives the operator a current claim level based on the independent sources found so far.
+An Evidence Package Interim can be assembled during the route, after a claim closes and before the route closes. It is not anchored, does not modify the Base package, and gives the operator a current claim level based on the independent sources found so far. The claim level is monotonically non-decreasing: the final claim level in the Evidence Package Full will never be lower than the Interim reported during the route.
 
 ZK proof is generated when the claim level is E3 or higher.
 

@@ -197,6 +197,10 @@ Notes:
 - **Claim level is one value for the whole claim.** It is not "E3 for machine A, E4 for machine B". It is the maximum level among independent sources that confirm the fact.
 - **A weaker source is ignored** when a stronger independent source confirms the same fact. Example: a tracker at E3 plus a mobile app at E1 produces an E3 claim. The mobile app does not pull the claim level down, but it does not raise it either.
 
+The claim level is monotonically non-decreasing over time. A later corroboration run cannot find fewer independent sources than an earlier one. The final claim level in the Evidence Package Full is never lower than the claim level in an earlier Evidence Package Interim.
+
+See [Evidence Builder](EVIDENCE_BUILDER.md) for the full statement.
+
 ### Where Corroboration Is Requested
 
 Corroboration is applied by the Evidence Builder.

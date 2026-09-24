@@ -46,8 +46,8 @@ Definitions of LogiQED concepts. For examples and diagrams, see [System Map](SYS
   Server-side evaluation of a single source. Range E0-E5. Computed from seven dimensions. Does not change with corroboration. See [Trust Levels](TRUST_LEVELS.md).
 
 - **Claim Level**
-  Level of a claim, formed from one or more independent sources. The maximum level among independent sources that confirm the same fact. Computed by the Evidence Builder on claim close, on corroboration preview, or on dispute request.
-
+  Level of a claim, formed from one or more independent sources. The maximum level among independent sources that confirm the same fact. Computed by the Evidence Builder on claim close, on corroboration preview, or on dispute request. Monotonically non-decreasing over time: the final claim level in the Evidence Package Full is never lower than the claim level in an earlier Evidence Package Interim.
+  
 - **Trust Policy**
   Required assurance for a specific claim. Example: E4_REQUIRED_V1.
 

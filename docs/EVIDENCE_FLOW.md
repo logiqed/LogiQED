@@ -30,6 +30,8 @@ Purpose: give the operator a current claim level before the Trip Evidence Root i
 
 External APIs are not called during the Interim run. Their responses were already captured in Evidence Package Base at claim open. The operation is local: a SQL lookup plus an Evidence Graph traversal.
 
+An Interim result is a lower bound on the final claim level. The claim level is monotonically non-decreasing over time, so the Evidence Package Full assembled on dispute request will carry a claim level equal to or higher than the Interim reported during the route.
+
 See [Evidence Builder](EVIDENCE_BUILDER.md) for the pre-check query, the CorroborationRun storage, and the reuse of Interim at Full assembly.
 
 ## Clean Route

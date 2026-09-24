@@ -50,6 +50,7 @@ Between claim close and route close, an Evidence Package Interim can be assemble
 - It carries a current claim level based on the independent sources found so far.
 - It is stored as a CorroborationRun record in MS SQL.
 - It can be re-run at any time before route close.
+- It gives a lower bound on the final claim level: the Evidence Package Full will never carry a lower claim level than the Interim.
 
 Purpose: give the operator a current claim level during the route, before the Trip Evidence Root is finalized.
 

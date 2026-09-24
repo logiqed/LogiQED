@@ -98,6 +98,16 @@ Properties:
 
 The Evidence Package Interim does not replace Evidence Package Base. It is an additional artifact on top of Base, available until route close.
 
+### Claim level monotonicity (Interim as a lower bound)
+
+The claim level is monotonically non-decreasing over time.
+
+A later corroboration run cannot find fewer independent sources than an earlier one. Late-loaded events are added as other vehicles come back online and upload their buffers. Existing sources are never removed. Own assurance of a source does not change over time.
+
+Therefore the final claim level in the Evidence Package Full is never lower than the claim level reported in an earlier Evidence Package Interim.
+
+This property holds because corroboration is additive: it collects sources, checks independence, and takes the maximum level among them. It does not remove sources or reduce their level.
+
 ### Pre-check before re-run
 
 Before re-running corroboration, the system performs a lightweight SQL check.
