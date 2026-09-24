@@ -1,60 +1,81 @@
-## [0.9.1] - 2026-09-23
+# Changelog
 
-Terminology unified: `claim package base` → `Evidence Package Base`, `full package` → `Evidence Package Full`, `claim package(s)` → `Evidence Package(s)`, `trip Evidence Root` / `claim Evidence Root` capitalized as artifact names. Plural forms: `Evidence Packages Base`, `Evidence Packages Full`. Anchor naming: `Trip Evidence Root anchor`, `Claim Evidence Root anchor`, `Evidence Package Full anchor`.
+## [0.9.1] - 2026-09-24
+
+Evidence Package Interim, Corroboration Preview, and cross-document terminology unified.
 
 ### Added
 
-- Evidence Package Base as the canonical term for the package produced when a claim closes, confirmed or rejected
-- Evidence Package Full as the canonical term for the package produced on dispute request
-- Evidence Package Base anchors and Evidence Package Full anchors in Data Handling and Arweave storage descriptions
+- Evidence Package Interim: operational package produced on demand during the route, after claim close and before route close
+- Corroboration Preview: lightweight corroboration run that uses only events already present in MS SQL and the Evidence Graph
+- CorroborationRun: MS SQL record that stores one Interim run, including scanned sources, matched sources, updated claim level, watermark, and known source list
+- Pre-check query before re-running corroboration: detects new independent sources since the last run
+- Interim section in Evidence Builder, Evidence Flow, System Map, Architecture, Data Flow, Event Pipeline, Glossary, README, Platform, MVP, Pilot, Roadmap, Investors, Pitch, FAQ, Security, Verify, Webhooks, Contributing
+- `evidence.package.interim` webhook event, emitted only when the claim level changes compared to the previous CorroborationRun
+- Evidence Package Interim references in EVIDENCE.md, with Base versus Full plus Interim additions block
+- CorroborationRuns table in the MS SQL storage tables list across Evidence, Evidence Builder, Evidence Flow, Data Flow, Event Pipeline, System Map, Architecture
+- The pre-check query documented in Evidence Builder and referenced from Evidence Flow, System Map, Trust Levels, Data Flow
+- Storage Handling row for Interim runs in Security
+- Interim mention in Product Status table in Platform
+- Interim mention in MVP Phase A, Milestones, MVP Scope, MVP Storage, Definition of Done
+- Interim mention in Pilot Claims to Prove, Success Criteria, Deliverables
+- Interim mention in Roadmap Phase 0, Phase 1 Scope, Phase 1 Exit criteria
+- Interim mention in Investors Platform Architecture, Three Evidence Levels, Claim Level and Corroboration, From MVP to Pilot
+- Interim section in FAQ
 
 ### Changed
 
-- Terminology: claim package base → Evidence Package Base across all documents
-- Terminology: full package → Evidence Package Full across all documents
-- Terminology: claim packages → Evidence Packages across all documents
-- Terminology: trip Evidence Root → Trip Evidence Root (capitalized as artifact name)
-- Terminology: claim Evidence Root → Claim Evidence Root (capitalized as artifact name)
-- Terminology: claim anchor → Claim Evidence Root anchor
-- Terminology: trip anchor → Trip Evidence Root anchor
-- Terminology: full package anchor → Evidence Package Full anchor
-- Plural: Evidence Package Bases → Evidence Packages Base
-- Plural: Evidence Package Fulls → Evidence Packages Full
-- SECURITY.md: Data Handling row "Full package anchors" → "Evidence Package Full anchors"
-- AUTHENTICATION.md: `Evidence.Read` scope wording updated to Evidence Packages
-- AUTHORIZATION.md: demo roles updated with Evidence Packages terminology
-- COMMUNICATION.md: triggering events and Evidence Integration updated to Evidence Package Base and Evidence Package Full
-- WEBHOOKS.md: event types `claim.package.created` → `evidence.package.base`, `claim.package.full` → `evidence.package.full`
-- BUSINESS_MODEL.md: incident row updated to Evidence Package Base + Claim Evidence Root anchor
-- VISION.md: base and full package sections renamed to Evidence Package Base and Evidence Package Full
-- ADR 0002: Process steps, Decision, and Related anchors updated to Evidence Package Base, Evidence Package Full, Trip Evidence Root anchor, Claim Evidence Root anchor
-- ARCHITECTURE.md: Storage Tables row renamed to Evidence Packages Base and Full, Arweave anchors updated
-- EVIDENCE.md: Storage Tables row renamed, Verification section updated, Lifecycle updated
-- EVIDENCE_BUILDER.md: MS SQL Tables row renamed, Trigger Summary anchors updated
-- EVIDENCE_FLOW.md: Evidence Levels table, Storage in MS SQL, and Package Formed When Claim Closes updated
-- EVENT_PIPELINE.md: Stage 10 and What Is Computed Where updated, Full package anchor → Evidence Package Full anchor
-- SYSTEM_MAP.md: Overview, Layer 2, Layer 3, What Belongs to Which Layer, What Is Computed Where, and end-to-end examples updated
-- TRUST_LEVELS.md: Three Evidence Levels table and ZK Proof Gating updated
-- DATA_FLOW.md: BUILD step, COMMIT step, Storage and Settlement, Design Notes updated
-- MVP.md: Phase A, Milestones, MVP Scope, MVP Storage, Definition of Done updated
-- PILOT.md: Claims to Prove, Success Criteria, Budget, Deliverables updated
-- ROADMAP.md: Phase 0, Phase 1 scope and exit criteria updated
-- INVESTORS.md: Three Evidence Levels table, Platform Architecture, Operational Platform updated
-- PLATFORM.md: Product Status, Evidence Layer, Proof Engine updated
-- PITCH.md: How It Works, First Two Claims, Market updated
-- OVERVIEW.md: Evidence Package section, Why Detention First updated
-- README.md: pipeline, three evidence levels, What LogiQED Provides, Modules updated
-- GLOSSARY.md: Core Concepts entries renamed, Arweave entry updated
-- FAQ/OVERVIEW: evidence levels and anchors terminology aligned
+- Purpose in Evidence Package: three forms instead of two (Base, Interim, Full)
+- Structure table: packageForm enum extended to BASE, INTERIM, FULL
+- Base versus Full table: interim additions described in a separate block
+- Anchor naming: `Claim Evidence Root anchor`, `Trip Evidence Root anchor`, `Evidence Package Full anchor`
+- Plural naming: `Evidence Packages Base`, `Evidence Packages Full`
+- Webhook event types: `claim.package.created` → `evidence.package.base`, `claim.package.full` → `evidence.package.full`
+- External API rule across documents: corroboration does not call external APIs; their responses were already captured in Evidence Package Base at claim open
+- ZK gating: restored full form `ZK proof is generated only on dispute request, and only when the claim level is E3 or higher`
+- Evidence Builder trigger summary: added Interim preview row
+- Event Pipeline Stage 10: added `On corroboration preview` block
+- Data Flow BUILD step: added `On corroboration preview` block, CorroborationRuns in the table list, Interim note in COMMIT and VERIFY
+- System Map: new Interim State section, Interim row in What Belongs to Which Layer and What Is Computed Where, Interim step in the end-to-end example
+- Architecture: Evidence Package Interim section, four moment triggers for Evidence Builder, CorroborationRuns in Storage Tables
+- Trust Levels: Where Corroboration Is Requested split into preview and dispute, External APIs and Corroboration subsection
+- Evidence Flow: Interim State During the Route section, Storage in MS SQL updated, Evidence Package now in three forms, Level Transition updated, Cost Model updated
+- Verify: What Is Not Verified section added, Design Notes updated
+- Glossary: Evidence Package now in three forms, Evidence Package Interim and CorroborationRun entries added, Claim Level compute moments updated, Retroactive Corroboration updated, Arweave entry updated
+- SECURITY: Data Handling updated with Interim runs, Verification updated with Interim note, Oracle API down → On-Demand Oracle API down
+- CONTRIBUTING: Suggesting Improvements updated with Interim and pre-check
+- WORKFLOW: rule versioning references Evidence Packages
+- INGEST: Design Notes clarify that Ingest does not compute claim level or build Evidence Packages
+- SLA DSL: ZK gating phrasing aligned, external API rule added to Design Notes
+- VERIFY: Verification Steps updated to `Trip Evidence Root anchor`, `Claim Evidence Root anchor`
+- PLATFORM: Proof Engine ZK gating restored to full form
+- PITCH: ZK gating restored to full form
+- INVESTORS: ZK gating restored to full form, Evidence Package Interim added to evidence levels, corroboration across preview and dispute
+- VISION: Evidence Package Base, Interim, and Full section replaces the previous base and full package section
+- BUSINESS_MODEL: Solution section mentions Interim, unit economics and competitive advantage use updated terminology
+- README: pipeline step 4 mentions Interim, three evidence levels block adds Interim paragraph, Evidence Package size line uses Base ~2 KB, Full ~4 KB, without Interim in the size budget
+- MVP: Phase A, Milestones, Scope, Storage, Definition of Done updated
+- PILOT: Claims to Prove, Success Criteria, Deliverables updated
+- ROADMAP: Phase 0, Phase 1 Scope, Phase 1 Exit criteria updated
+- FAQ: new section What Is the Evidence Package Interim, Evidence Package section rewritten, Trust Levels, On-Demand Oracle, MVP Included updated
+- ARCHITECTURE: Evidence Builder now triggered at four moments (claim close, corroboration preview, route close, dispute request)
+- SYSTEM_MAP: Evidence Builder diagram shows four moments including corroboration preview
+- EVENT_PIPELINE: On-Demand Oracle records the response and corroboration reuses it, no second API call
 
 ### Removed
 
-- General use of claim package base, replaced with Evidence Package Base
-- General use of full package, replaced with Evidence Package Full
-- General use of claim packages, replaced with Evidence Packages
-- General use of claim anchor, replaced with Claim Evidence Root anchor
-- General use of trip anchor, replaced with Trip Evidence Root anchor
-- General use of full package anchor, replaced with Evidence Package Full anchor
+- General use of `claim package base`, replaced with `Evidence Package Base`
+- General use of `full package`, replaced with `Evidence Package Full`
+- General use of `claim packages`, replaced with `Evidence Packages`
+- General use of `claim anchor`, replaced with `Claim Evidence Root anchor`
+- General use of `trip anchor`, replaced with `Trip Evidence Root anchor`
+- General use of `full package anchor`, replaced with `Evidence Package Full anchor`
+- Interim from the Evidence Package size budget; Interim is not anchored and does not carry a ZK proof reference
+- ZK proof from Evidence Package Base and Evidence Package Interim; ZK proof is present only in Evidence Package Full
+- Shortened ZK gating form from key documents; restored the full form with `only on dispute request`
+
+---
+
 ## [0.9.0] - 2026-09-23
 
 Three-level evidence model. Claim packages, trip anchors, and claim level terminology unified across all documents.

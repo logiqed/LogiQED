@@ -17,6 +17,7 @@ The Builder is called by the Event Orchestrator on claim close and route close. 
 - Collect events related to a claim or route
 - Compute Claim Evidence Root and Trip Evidence Root
 - Assemble Evidence Package Base
+- Assemble Evidence Package Interim during the route, after claim close
 - Assemble Evidence Package Full on dispute request
 - Anchor roots and packages in Arweave
 - Write to MS SQL tables
@@ -43,7 +44,7 @@ Steps:
 3. Compute claim level from the own assurance of the sources that confirm the fact. No corroboration at this stage.
 4. Record decision.
 5. Assemble Evidence Package Base.
-6. Anchor claim root and package in Arweave.
+6. Anchor Claim Evidence Root and Evidence Package Base in Arweave.
 
 Output: Evidence Package Base, anchored.
 
@@ -57,15 +58,15 @@ Steps:
 
 1. Collect all route events.
 2. Compute Trip Evidence Root.
-3. Anchor trip root in Arweave.
+3. Anchor Trip Evidence Root in Arweave.
 
-Output: trip anchor.
+Output: Trip Evidence Root anchor.
 
 ### On Dispute Request
 
 Trigger: operator, auditor, or driver presses Generate full package in the UI.
 
-Input: Evidence Package Base.
+Input: Evidence Package Base, optional Evidence Package Interim.
 
 Steps:
 
@@ -79,6 +80,80 @@ Steps:
 Output: Evidence Package Full, anchored.
 
 ZK proof is generated only when the claim level is E3 or higher. Below E3, the Evidence Package Full is still assembled and anchored, but no ZK proof is produced.
+
+## Corroboration Preview (Evidence Package Interim)
+
+Between claim close and route close, the operator can assemble an Evidence Package Interim.
+
+Purpose: give the operator a current claim level during the route, before the Trip Evidence Root is finalized.
+
+Properties:
+
+- External APIs are not called. Their responses were already captured in Evidence Package Base at claim open.
+- Reads only events already present in MS SQL and the Evidence Graph.
+- Runs as a lightweight local operation: SQL lookup plus Evidence Graph traversal.
+- Is not anchored. Does not modify Evidence Package Base.
+- Is stored as a CorroborationRun record linked to the claim.
+- Can be re-run by the operator at any time.
+
+The Evidence Package Interim does not replace Evidence Package Base. It is an additional artifact on top of Base, available until route close.
+
+### Pre-check before re-run
+
+Before re-running corroboration, the system performs a lightweight SQL check.
+
+The check answers one question: have new independent sources appeared since the last run?
+
+Query:
+
+    SELECT COUNT(DISTINCT e.sourceId) AS NewSources
+    FROM Events e
+    WHERE e.segmentId = @segmentId
+      AND e.eventTimeUtc BETWEEN @windowStartUtc AND @windowEndUtc
+      AND e.ingestedAt > @lastRunMaxIngestedAtUtc
+      AND e.sourceId NOT IN (
+          SELECT sourceId
+          FROM CorroborationKnownSources
+          WHERE claimId = @claimId
+      );
+
+Result:
+
+- 0 new sources: re-run not required. The UI shows "No new sources".
+- 1 or more new sources: re-run recommended. The UI shows "N new sources, refresh recommended".
+
+The operator can re-run at any time, regardless of the check result. The check is an optimization, not a gate.
+
+### Storage
+
+CorroborationRun record in MS SQL:
+
+| Field | Type | Notes |
+|-------|------|-------|
+| RunId | uuid | |
+| ClaimId | uuid | |
+| RunAtUtc | datetime | |
+| SourcesScanned | int | |
+| SourcesMatched | int | |
+| ClaimLevel | string | |
+| MaxIngestedAtUtc | datetime | Watermark for the pre-check |
+| KnownSourceIds | json | Sources already seen in this run |
+| CorroborationResult | json | Full result payload |
+
+Evidence Package Base is immutable after anchoring. The CorroborationRun is stored separately and referenced by ClaimId.
+
+### Use at Full package assembly
+
+When Evidence Package Full is assembled after route close:
+
+1. The system reads the latest CorroborationRun for the claim.
+2. The pre-check is run again to detect late-loaded sources.
+3. If new sources exist, corroboration is re-run and the result is used.
+4. If no new sources exist, the latest CorroborationRun is used as-is.
+5. ZK proof is generated if claim level is E3 or higher.
+6. Evidence Package Full is assembled and anchored.
+
+External APIs are never called during corroboration, at preview or at Full assembly. Their responses are part of Evidence Package Base.
 
 ## Claim Level Computation
 
@@ -144,8 +219,9 @@ The Evidence Builder writes to the following tables.
 | Events | Raw events of the route | On ingest |
 | EventHashes | SHA-256 of each event | On ingest |
 | MerkleNodes | Intermediate Merkle nodes | On route or claim close |
-| EvidenceRoots | Trip and claim roots | On close |
+| EvidenceRoots | Trip and Claim Evidence Roots | On close |
 | EvidencePackages | Evidence Packages Base and Full | On claim close or dispute request |
+| CorroborationRuns | Evidence Package Interim runs | On corroboration preview |
 | Anchors | Arweave transaction IDs | After anchor |
 
 ## Interface with Orchestrator
@@ -165,7 +241,7 @@ The Orchestrator passes:
 The Builder returns:
 
 - Evidence Package Base (on claim close)
-- Trip anchor reference (on route close)
+- Trip Evidence Root anchor reference (on route close)
 
 ## Interface with Dispute Handler
 
@@ -182,11 +258,27 @@ The Builder returns:
 - Anchor reference
 - ZK proof reference, if generated
 
+## Interface with Interim
+
+The operator calls the Builder during the route, after claim close.
+
+The operator passes:
+
+- Claim ID
+
+The Builder returns:
+
+- Evidence Package Interim
+- Updated claim level
+- New sources count since the last run
+
 ## Idempotency
 
 The Builder is idempotent. Re-processing the same claim or route produces the same Evidence Root and the same anchor.
 
 If the Builder is called twice for the same claim, the second call returns the existing package and anchor. No duplicate anchor is written.
+
+CorroborationRun is not idempotent across time: a later run may find new sources. Each run is stored separately.
 
 ## Failure Handling
 
@@ -207,12 +299,18 @@ If Arweave is unavailable:
 - The anchor is queued for retry.
 - The Builder marks the package as `anchored = false`.
 
+If corroboration fails during Interim:
+
+- The previous CorroborationRun remains the latest valid one.
+- The operator sees an error and can retry.
+
 ## Trigger Summary
 
 | Trigger | Caller | Output |
 |---------|--------|--------|
-| Claim close | Event Orchestrator | Evidence Package Base, claim anchor |
-| Route close | Event Orchestrator | Trip anchor |
+| Claim close | Event Orchestrator | Evidence Package Base, Claim Evidence Root anchor |
+| Interim preview | Operator | Evidence Package Interim, updated claim level |
+| Route close | Event Orchestrator | Trip Evidence Root anchor |
 | Dispute request | Dispute handler | Evidence Package Full, Evidence Package Full anchor, ZK proof |
 
 ## Related

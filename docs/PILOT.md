@@ -42,7 +42,7 @@ See [MVP Plan](MVP.md) for the full program.
 2. Cargo Condition Claim
    - Committed measurements from E4 sources stayed within 2-8°C.
 
-For each claim, an Evidence Package Base is produced when the claim closes, confirmed or rejected. Trip Evidence Root is anchored for every route, clean or incident.
+For each claim, an Evidence Package Base is produced when the claim closes, confirmed or rejected. A Trip Evidence Root is anchored for every route, clean or incident. An Evidence Package Interim can be assembled during the route, after claim close and before route close.
 
 ## Route Monitoring
 
@@ -61,6 +61,7 @@ For each claim, an Evidence Package Base is produced when the claim closes, conf
 - SLA engine resolves exceptions automatically.
 - Two claims verified end-to-end with mock proof backend.
 - Evidence Package Base produced for every claim, confirmed or rejected.
+- Evidence Package Interim available during the route, after claim close, on demand.
 - Trip Evidence Root anchored for every route, clean or incident.
 - Evidence Package Full with corroboration and ZK proof produced on dispute request, when claim level is E3 or higher.
 - Evidence Package exported for external review and accepted by pilot partner as valid evidence.
@@ -148,6 +149,7 @@ The pilot overlaps with the last weeks of MVP delivery.
 - Signed Event Stream
 - Evidence Graph for each trip
 - Evidence Packages for Detention and Cargo Condition
+- Evidence Package Interim available during the route
 - Trip and Claim Evidence Root anchors in Arweave
 - Benchmarks for proof generation
 - Pilot report with case study
@@ -168,4 +170,5 @@ Expected effect: pilot proves a dispute closes in minutes instead of days, with 
 - [MVP Plan](MVP.md) - full delivery program
 - [Investor Memorandum](INVESTORS.md) - capital allocation and non-engineering budget
 - [Evidence Package](EVIDENCE.md) - package structure and verification
+- [Evidence Builder](EVIDENCE_BUILDER.md) - implementation specification and Interim package
 - [Trust Levels](TRUST_LEVELS.md) - source assurance E0-E5

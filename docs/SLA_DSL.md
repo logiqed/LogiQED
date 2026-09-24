@@ -315,7 +315,7 @@ A claim is valid only if all required sources satisfy the policy.
 
 The claim level is the maximum level among independent sources that confirm the same fact. It is not the minimum.
 
-ZK proof is generated only on dispute request, and only when the claim level is E3 or higher.
+ZK proof is generated when the claim level is E3 or higher.
 
 ## Segments and Rules
 
@@ -404,4 +404,12 @@ The segment breakdown does not change the SLA result. It explains where time was
 - External API calls happen only when a claim opens.
 - In MVP, exceptions are reported by the driver. The system does not poll external APIs continuously.
 - Claim level is computed by the Evidence Builder, not by the SLA Engine.
+- Corroboration is a local operation. External APIs are not called during corroboration; their responses are already recorded in Evidence Package Base.
 - DSL is machine-readable and AI-friendly.
+
+## Related
+
+- [Trust Levels](TRUST_LEVELS.md) - own assurance and claim level
+- [Evidence Builder](EVIDENCE_BUILDER.md) - where claim level is computed
+- [Evidence Flow](EVIDENCE_FLOW.md) - three evidence levels and the Interim state
+- [Claims](CLAIMS.md) - claim definitions

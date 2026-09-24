@@ -14,6 +14,7 @@ Phase A - MVP delivery (months 1-3.5):
 - Telemetry ingestion and signed event stream
 - Route State Machine, SLA Engine, Event Orchestrator
 - Evidence Builder with Evidence Packages, Trip Evidence Root, and mock proof backend
+- Evidence Package Interim available during the route, after claim close
 - Two ZK claims verified end-to-end
 - Trip and Claim Evidence Root anchors to Arweave
 - OpenAPI and webhooks
@@ -62,7 +63,7 @@ Core principle: senior people, small team, fast execution.
 | Setup | Week 1-2 | Demo: map, documents, reports, SLA, chat on existing platform | None |
 | Tracking and Events | Week 3-6 | Telemetry, signatures, Evidence Graph, deduplication | Setup |
 | SLA and Orchestrator | Week 7-10 | Route State Machine, SLA Engine, Enrichment Decider, On-Demand Oracle | Tracking |
-| Claims and Proof | Week 11-13 | Two ZK claims with mock backend, Evidence Package Base, Trip and Claim Evidence Root anchors to Arweave, ZK proof for disputed claims only | Evidence Graph, SLA |
+| Claims and Proof | Week 11-13 | Two ZK claims with mock backend, Evidence Package Base, Evidence Package Interim, Trip and Claim Evidence Root anchors to Arweave, ZK proof for disputed claims only | Evidence Graph, SLA |
 | Pilot execution | Week 13-16 | Real trucks, commercial dispute, case study | Claims |
 
 ## Existing Platform
@@ -100,7 +101,7 @@ See [Pilot Plan](PILOT.md) for the full pilot framework.
 6. Event Orchestrator
 7. SLA Engine
 8. Exception attribution
-9. Evidence Package Base and Evidence Package Full
+9. Evidence Package Base, Evidence Package Interim, and Evidence Package Full
 10. Trip and Claim Evidence Roots, Arweave anchors
 11. ZK proof of two claims
 12. e-documents
@@ -122,7 +123,7 @@ Redis: hot read-through cache.
 
 MS SQL: system of record.
 
-Canonicalization, Merkle tree, Trip and Claim Evidence Roots, external anchors, Evidence Packages.
+Canonicalization, Merkle tree, Trip and Claim Evidence Roots, external anchors, Evidence Packages, CorroborationRuns.
 
 EigenDA is added only when benchmark shows the need for a separate DA layer.
 
@@ -135,6 +136,7 @@ EigenDA is added only when benchmark shows the need for a separate DA layer.
 - SLA engine resolves exceptions automatically.
 - Two ZK claims verified end-to-end with mock proof backend.
 - Evidence Package Base produced for every claim, confirmed or rejected.
+- Evidence Package Interim available during the route, after claim close, on demand.
 - Trip Evidence Root anchored for every route, clean or incident.
 - Evidence Package Full with corroboration and ZK proof produced on dispute request, when claim level is E3 or higher.
 - Evidence Package exported for external review and accepted by pilot partner as valid evidence.
@@ -189,3 +191,4 @@ See [Business Model](BUSINESS_MODEL.md) for the phase-by-phase roadmap.
 - [Investor Memorandum](INVESTORS.md) - capital allocation and deal options
 - [Architecture](ARCHITECTURE.md) - technical foundation
 - [Evidence Flow](EVIDENCE_FLOW.md) - evidence levels from clean route to dispute
+- [Evidence Builder](EVIDENCE_BUILDER.md) - implementation specification and Interim package

@@ -12,11 +12,13 @@ From a GPS point to a verifiable package:
 
 ## Purpose
 
-An Evidence Package exists in two forms.
+An Evidence Package exists in three forms.
 
 **Evidence Package Base.** Produced when a claim closes, whether the claim is confirmed or rejected. Records the driver's report, the system's own data, the external API response, the computed claim level, and the final decision.
 
-**Evidence Package Full.** Produced on dispute or audit request. Adds retroactive corroboration from independent sources, an independence check, and a ZK proof when the claim level is E3 or higher.
+**Evidence Package Interim.** Produced on demand during the route, after claim close and before route close. Adds corroboration from independent sources, an independence check, and an updated claim level. Not anchored. Does not modify the Evidence Package Base.
+
+**Evidence Package Full.** Produced on dispute or audit request, after route close. Adds retroactive corroboration, an independence check, and a ZK proof when the claim level is E3 or higher. Anchored as a complete artifact.
 
 Clean routes without claims are closed with signed events, a Trip Evidence Root, and an Arweave anchor. No package is produced.
 
@@ -32,12 +34,12 @@ When the schema changes, a new version is created. Verifiers support the previou
 
 ## Structure
 
-Both forms share the same top-level fields. The Evidence Package Full adds corroboration, a computed claim level, and proof.
+All forms share the same top-level fields. The Evidence Package Interim and the Evidence Package Full add corroboration and a computed claim level. The Evidence Package Full also adds proof.
 
 | Field | Type | Description |
 |-------|------|-------------|
 | schemaVersion | string | Schema version |
-| packageForm | enum | BASE or FULL |
+| packageForm | enum | BASE, INTERIM, or FULL |
 | claimId | string | Unique claim ID |
 | claimVersion | string | Version of the claim definition |
 | claimType | enum | DETENTION, CARGO_CONDITION, TRAFFIC, WEATHER, BREAKDOWN, WAREHOUSE_QUEUE, GEOFENCE_WAIT, BORDER_DELAY |
@@ -47,7 +49,7 @@ Both forms share the same top-level fields. The Evidence Package Full adds corro
 | trustPolicyResult | object | Policy reference, PASS or FAIL, digest |
 | claimLevel | string | Computed level of the claim: E0 to E5 |
 | decision | enum | CONFIRMED or REJECTED |
-| corroborationResult | object | Corroborating sources and result. Present in FULL only. |
+| corroborationResult | object | Corroborating sources and result. Present in INTERIM and FULL. |
 | inputEvents | array | Canonical event hashes or event IDs |
 | ruleRef | object | Rule ID, version, digest |
 | conclusion | object | Human-readable and machine-readable result |
@@ -56,7 +58,7 @@ Both forms share the same top-level fields. The Evidence Package Full adds corro
 | publicManifest | object | Privacy-minimized public summary |
 | tripEvidenceRoot | string | Merkle root of all events of the route |
 | claimEvidenceRoot | string | Merkle root of events related to this claim |
-| externalAnchorRef | string | Arweave transaction ID |
+| externalAnchorRef | string | Arweave transaction ID. Present in BASE and FULL. |
 | verifiedTimestamp | string | Timestamp when an external party verified the package. Optional. |
 | signature | string | Ed25519 signature over canonical bytes |
 
@@ -77,6 +79,17 @@ Both forms share the same top-level fields. The Evidence Package Full adds corro
 | proofRef | No | Yes |
 
 The Evidence Package Base is anchored as soon as the claim closes. The Evidence Package Full is anchored again when it is produced.
+
+### Interim additions
+
+The Evidence Package Interim shares the Evidence Package Base fields and adds:
+
+| Field | Description |
+|-------|-------------|
+| corroborationResult | Corroborating sources and independence check result |
+| claimLevel | Updated level based on the independent sources found so far |
+
+The Evidence Package Interim does not add proofRef. It is not anchored and does not modify the Evidence Package Base. It is stored as a CorroborationRun record in MS SQL.
 
 ---
 
@@ -155,8 +168,9 @@ The Evidence Builder writes to the following tables.
 | Events | Raw events of the route | On ingest |
 | EventHashes | SHA-256 of each event | On ingest |
 | MerkleNodes | Intermediate Merkle nodes | On route or claim close |
-| EvidenceRoots | Trip and claim roots | On close |
+| EvidenceRoots | Trip and Claim Evidence Roots | On close |
 | EvidencePackages | Evidence Packages Base and Full | On claim close or dispute request |
+| CorroborationRuns | Evidence Package Interim runs | On corroboration preview |
 | Anchors | Arweave transaction IDs | After anchor |
 
 ---
@@ -179,10 +193,12 @@ The Evidence Graph is also used to check independence between sources for corrob
 |-------|---------|-----------|
 | MS SQL | Operational events, claims, rules, audit | Raw positions: 30 days. Aggregates: 1 year. Claims: permanent |
 | Redis | Hot cache for active routes | Active route lifetime |
-| Arweave | Trip and claim anchors | Permanent |
+| Arweave | Trip Evidence Root anchors, Claim Evidence Root anchors, Evidence Package Full anchors | Permanent |
 | Deletable storage | Raw encrypted context data | Deletable on request |
 
 Raw telemetry is never stored permanently.
+
+The Evidence Package Interim is not stored in Arweave. It is an operational artifact, stored only in MS SQL as a CorroborationRun.
 
 ---
 
@@ -236,6 +252,8 @@ Checks:
 - Conclusion matches rule formula and input events
 - ZK-proof when present in Evidence Package Full
 
+The Evidence Package Interim is not verified as a standalone artifact. It is used for operational decisions during the route and its CorroborationRun is reused when the Evidence Package Full is assembled.
+
 ---
 
 ## Lifecycle
@@ -247,6 +265,8 @@ Checks:
 5. Retired - raw deletable context deleted, proof package remains.
 
 For the Evidence Package Full, steps 1 to 3 are repeated with corroboration and proof.
+
+For the Evidence Package Interim, steps 1 and 2 apply, but step 3 (anchoring) does not. The Interim is produced on demand, stored as a CorroborationRun, and can be re-run at any time before route close.
 
 ---
 
@@ -263,6 +283,8 @@ Breakdown for Evidence Package Full:
 - Rule and trust policy: about 0.5 KB
 - Signature: about 0.1 KB
 - ZK-proof reference: about 1.5-2 KB
+
+The Evidence Package Interim is not part of the size budget. It is not anchored and does not carry a ZK proof reference.
 
 ---
 
@@ -311,7 +333,9 @@ A rejected claim is still recorded and anchored. The driver may review it later.
 - All consumers are idempotent.
 - Clean routes close with signed events and Evidence Root only.
 - An Evidence Package Base is produced for every claim, confirmed or rejected.
-- An Evidence Package Full is produced only on dispute or audit request.
+- An Evidence Package Interim can be assembled during the route, after claim close and before route close. It is not anchored and does not modify the Base package.
+- An Evidence Package Full is produced only on dispute or audit request, after route close.
+- Corroboration does not call external APIs. Their responses were already recorded in Evidence Package Base at claim open. The operation is local: a SQL lookup plus an Evidence Graph traversal.
 - ZK proof is added only when the claim level is E3 or higher.
 
 ---
@@ -322,4 +346,4 @@ A rejected claim is still recorded and anchored. The driver may review it later.
 - [Claims](CLAIMS.md) - claim definitions
 - [Trust Levels](TRUST_LEVELS.md) - source assurance levels
 - [Data Flow](DATA_FLOW.md) - event pipeline from ingest to verification
-- [Evidence Builder](EVIDENCE_BUILDER.md) - implementation specification
+- [Evidence Builder](EVIDENCE_BUILDER.md) - implementation specification and Corroboration Preview

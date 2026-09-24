@@ -199,11 +199,24 @@ Notes:
 
 ### Where Corroboration Is Requested
 
-Corroboration is applied by the Evidence Builder, on dispute request.
+Corroboration is applied by the Evidence Builder.
 
-It is not applied by Ingest API, State Machine, or Orchestrator.
+Two moments:
 
-Corroboration is not requested when a claim closes. It is requested later, when a dispute or audit requires an Evidence Package Full.
+- **During the route, after claim close.** Available as an Evidence Package Interim run. This produces an updated claim level for operational decisions, before the Trip Evidence Root is finalized. The result is stored as a CorroborationRun record. It is not anchored and does not modify Evidence Package Base.
+- **On dispute request, after route close.** Produces the final claim level used in the Evidence Package Full. This is the level that appears in the signed, anchored artifact.
+
+Corroboration is not applied by Ingest API, State Machine, or Orchestrator.
+
+### External APIs and Corroboration
+
+External APIs are not called during corroboration.
+
+Their responses were captured at claim open by the On-Demand Oracle and recorded as events in Evidence Package Base. Corroboration reads those existing events plus any independent sources already present in MS SQL and the Evidence Graph.
+
+The corroboration operation is therefore local: a SQL lookup plus an Evidence Graph traversal. It is lightweight and can be re-run on demand.
+
+See [Evidence Builder](EVIDENCE_BUILDER.md) for the pre-check query, the CorroborationRun storage, and the reuse of Interim at Full assembly.
 
 The Evidence Builder:
 
@@ -239,6 +252,8 @@ Each call adds a source to the claim.
 The Enrichment Decider determines whether external confirmation is required.
 
 In MVP, exceptions are reported by the driver. The system does not poll external APIs continuously.
+
+Once the API response is recorded, it becomes part of the claim events and is included in Evidence Package Base. Later corroboration uses the recorded response; it does not re-query the API.
 
 ## Trust Levels on the Route
 
@@ -421,7 +436,7 @@ The same contract is used by LogiQED-owned clients, including the in-house wareh
 3. Check identity, key, and certificate.
 4. Check attestation when available.
 5. Build provenance.
-6. Compute Source Assessment.
+6. Compute Own Assurance.
 7. Apply Trust Policy.
 8. Produce Claim Confidence.
 
@@ -481,6 +496,8 @@ The Trip Evidence Root is anchored for every route, clean or incident. This prot
 
 An Evidence Package Base is produced for every claim, confirmed or rejected.
 
+An Evidence Package Interim can be assembled during the route, after claim close and before route close. It carries a current claim level based on the independent sources found so far, and does not modify Evidence Package Base.
+
 ## Design Principles
 
 - Source Assurance is a server-side evaluation, not a client claim.
@@ -492,12 +509,14 @@ An Evidence Package Base is produced for every claim, confirmed or rejected.
 - A claim level is the maximum among independent sources, not the minimum.
 - Corroboration requires at least one source at E3. Below E3, corroboration does not raise the level.
 - Weak sources are ignored when a stronger independent source confirms the fact.
+- Corroboration is a local operation. External APIs are not called during corroboration; their responses are already recorded in Evidence Package Base.
 - ZK proof is generated only on dispute request, and only when the claim level is E3 or higher.
 
 ## Related
 
 - [System Map](SYSTEM_MAP.md) - trust, state, and evidence in one page
 - [Evidence Flow](EVIDENCE_FLOW.md) - three evidence levels and anchor rules
+- [Evidence Builder](EVIDENCE_BUILDER.md) - Corroboration Preview and interim package specification
 - [Architecture](ARCHITECTURE.md) - modules and boundaries
 - [Event Pipeline](EVENT_PIPELINE.md) - vertical flow from device to SLA
 - [SLA DSL](SLA_DSL.md) - rule format and evaluation result

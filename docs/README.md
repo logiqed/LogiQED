@@ -40,8 +40,8 @@ A route is a finite state machine, not a stream of coordinates. Telemetry positi
 1. **Ingest** - events arrive from multiple sources and are converted to EPCIS 2.0 at the entry point.
 2. **Orchestrate** - the Event Orchestrator maintains the Route State Machine per route.
 3. **Evaluate** - the SLA Engine computes deterministic results in the working calendar.
-4. **Build** - the Evidence Builder produces an Evidence Package Base when a claim closes, and a Trip Evidence Root when the route closes.
-5. **Anchor** - Evidence Roots and Evidence Packages are anchored in Arweave for permanent verification.
+4. **Build** - the Evidence Builder produces an Evidence Package Base when a claim closes, a Trip Evidence Root when the route closes, and can produce an Evidence Package Interim during the route.
+5. **Anchor** - Evidence Roots and Evidence Packages Full are anchored in Arweave for permanent verification.
 
 ---
 
@@ -57,7 +57,9 @@ The Trip Evidence Root is anchored for every route, clean or incident. This prot
 
 An Evidence Package Base is produced for every claim, confirmed or rejected. A rejected claim is still a recorded event: the driver pressed the button, the system queried the API, and the outcome was recorded.
 
-ZK proof is generated only on dispute request, and only when the claim level is E3 or higher.
+An Evidence Package Interim can be assembled during the route, after a claim closes and before the route closes. It is not anchored, does not modify the Base package, and gives the operator a current claim level based on the independent sources found so far.
+
+ZK proof is generated when the claim level is E3 or higher.
 
 ### From a GPS point to verifiable evidence
 
@@ -130,7 +132,7 @@ Policies, working calendars, holiday sets, exception rules, timers, and escalati
 
 ### Evidence
 
-Signed Event Stream, Evidence Graph, Trip and Claim Evidence Roots, Evidence Packages, Trust Levels E0-E5, and independent verification.
+Signed Event Stream, Evidence Graph, Trip and Claim Evidence Roots, Evidence Packages Base and Full, Evidence Package Interim, Trust Levels E0-E5, and independent verification.
 
 ### Identity
 

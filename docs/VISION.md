@@ -59,11 +59,13 @@ The Trip Evidence Root is anchored for every route, clean or incident. This prot
 
 ZK proof is generated only on dispute request, and only when the claim level is E3 or higher.
 
-### Evidence Package Base and Evidence Package Full
+### Evidence Package Base, Interim, and Full
 
 The Evidence Package Base is produced when a claim closes, confirmed or rejected. It records the driver's report, the system's own data, the external API response, the claim level, and the decision.
 
-The Evidence Package Full is produced on dispute request. It adds retroactive corroboration, an independence check, and a ZK proof when the claim level is E3 or higher.
+The Evidence Package Interim is produced on demand during the route, after claim close and before route close. It adds retroactive corroboration from independent sources and an updated claim level. It is not anchored and does not modify the Base package. External APIs are not called during the Interim run; their responses were already captured in the Base.
+
+The Evidence Package Full is produced on dispute request, after route close. It adds retroactive corroboration, an independence check, and a ZK proof when the claim level is E3 or higher.
 
 ### Trust Levels
 

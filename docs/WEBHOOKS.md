@@ -10,16 +10,17 @@ Subscribers acknowledge with HTTP 2xx. LogiQED retries on failure.
 
 ## Event Types
 
-| Event                     | Description                              |
-|---------------------------|------------------------------------------|
-| evidence.accepted         | Signed event ingested and accepted       |
-| route.state_changed       | Route State Machine transition           |
-| claim.decision_recorded   | Claim closed as confirmed or rejected    |
-| sla.evaluated             | SLA evaluation completed                 |
-| evidence.package.base     | Evidence Package Base produced and anchored |
-| evidence.package.full     | Evidence Package Full produced on dispute request |
-| claim.verified            | Claim verification finished              |
-| trip.anchor.created       | Trip Evidence Root produced and anchored |
+| Event                       | Description                                                    |
+|-----------------------------|----------------------------------------------------------------|
+| evidence.accepted           | Signed event ingested and accepted                             |
+| route.state_changed         | Route State Machine transition                                 |
+| claim.decision_recorded     | Claim closed as confirmed or rejected                          |
+| sla.evaluated               | SLA evaluation completed                                       |
+| evidence.package.base       | Evidence Package Base produced and anchored                    |
+| evidence.package.interim    | Evidence Package Interim produced with a claim level change    |
+| evidence.package.full       | Evidence Package Full produced on dispute request              |
+| claim.verified              | Claim verification finished                                    |
+| trip.anchor.created         | Trip Evidence Root produced and anchored                       |
 
 ## Registering a Webhook
 
@@ -200,6 +201,47 @@ If no response, retry per policy.
     }
 ```
 
+## Example: Evidence Package Interim Produced
+
+```json
+    {
+      "schemaVersion": "1.0",
+      "eventId": "evt_01HZ...",
+      "eventType": "evidence.package.interim",
+      "occurredAt": "2026-08-25T12:40:00Z",
+      "data": {
+        "shipmentId": "shp_01HZ...",
+        "claimId": "clm_01HZ...",
+        "packageForm": "INTERIM",
+        "previousClaimLevel": "E3",
+        "claimLevel": "E4",
+        "newSourcesSinceLastRun": 1,
+        "corroborationRunAt": "2026-08-25T12:40:00Z"
+      }
+    }
+```
+
+## Example: Evidence Package Full Created
+
+```json
+    {
+      "schemaVersion": "1.0",
+      "eventId": "evt_01HZ...",
+      "eventType": "evidence.package.full",
+      "occurredAt": "2026-08-25T18:10:00Z",
+      "data": {
+        "shipmentId": "shp_01HZ...",
+        "claimId": "clm_01HZ...",
+        "packageId": "pkg_01HZ...",
+        "packageForm": "FULL",
+        "claimLevel": "E4",
+        "proofAvailable": true,
+        "claimEvidenceRoot": "0x4b12...",
+        "claimExternalAnchorRef": "arweave:kT4c..."
+      }
+    }
+```
+
 ## Example: Trip Anchor Created
 
 ```json
@@ -261,3 +303,12 @@ If no response, retry per policy.
 - Subscribers can filter by event type at registration.
 - Dead-letter events can be replayed via API.
 - Trip Evidence Root anchors and Evidence Package Base are produced for every route and every claim.
+- `evidence.package.interim` is emitted only when the claim level changes compared to the previous CorroborationRun. Re-running the Interim without a claim level change does not emit a webhook. This avoids webhook noise during the route while keeping subscribers informed of meaningful claim level transitions.
+
+## Related
+
+- [Evidence Flow](EVIDENCE_FLOW.md) - three evidence levels and the Interim state
+- [Evidence Builder](EVIDENCE_BUILDER.md) - implementation specification and Interim package
+- [Evidence Package](EVIDENCE.md) - package structure
+- [Communication](COMMUNICATION.md) - delivery journal and audit
+- [OpenAPI](OPENAPI.yaml) - REST endpoints

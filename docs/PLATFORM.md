@@ -39,6 +39,7 @@ See [Architecture](ARCHITECTURE.md) for full details.
 | Core platform | Production-ready |
 | Evidence Layer | MVP stage |
 | Evidence Packages and anchors | MVP stage |
+| Evidence Package Interim | MVP stage |
 | ZK Claims | MVP stage |
 | Post-quantum signatures | Hybrid Ed25519 + ML-DSA |
 
@@ -98,7 +99,7 @@ Export to PDF, CSV, XLSX. 200,000 rows × 60 columns in 5 seconds.
 - Signed Event Stream
 - Evidence Graph
 - Trip and Claim Evidence Roots
-- Evidence Package Base and Evidence Package Full
+- Evidence Package Base, Evidence Package Interim, Evidence Package Full
 - Trip and Claim Evidence Root anchors in Arweave
 - Trust Levels E0-E5
 - Hybrid signatures: Ed25519 + ML-DSA
@@ -109,7 +110,7 @@ Export to PDF, CSV, XLSX. 200,000 rows × 60 columns in 5 seconds.
 - TrafficEntered and TrafficExited events
 - Event Orchestrator with per-trip State Machines
 - On-Demand Oracle
-- Evidence Builder triggered on claim close, route close, and dispute request
+- Evidence Builder triggered on claim close, corroboration preview, route close, and dispute request
 
 ## Proof Engine
 

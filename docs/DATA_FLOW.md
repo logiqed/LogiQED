@@ -98,6 +98,8 @@ If yes, the On-Demand Oracle is called, such as a traffic API.
 
 An Evidence Package Base is produced when the claim closes: confirmed or rejected.
 
+Once the external API response is recorded, it becomes part of the claim and of Evidence Package Base. Later corroboration reads the recorded response; it does not call the API again.
+
 CAN bus is an amplifier, not corroboration. It confirms vehicle state inside one source, but it does not create a new independent source. CAN and GPS typically arrive through the same telematics gateway.
 
 ---
@@ -129,7 +131,7 @@ Reliability:
 
 ### 6. BUILD
 
-The Evidence Builder is called at three moments.
+The Evidence Builder is called by the Orchestrator at two moments, by the operator for the Interim preview, and by the dispute handler on dispute.
 
 **On claim close:**
 
@@ -138,7 +140,15 @@ The Evidence Builder is called at three moments.
 3. Compute claim level.
 4. Record decision: confirmed or rejected.
 5. Assemble Evidence Package Base.
-6. Anchor Claim Evidence Root and package in Arweave.
+6. Anchor Claim Evidence Root and Evidence Package Base in Arweave.
+
+**On corroboration preview:**
+
+1. Run pre-check for new sources since the last run.
+2. Corroboration over existing events. External APIs are not called.
+3. Independence check in Evidence Graph.
+4. Compute updated claim level.
+5. Store CorroborationRun. Assemble Evidence Package Interim.
 
 **On route close:**
 
@@ -148,14 +158,16 @@ The Evidence Builder is called at three moments.
 
 **On dispute request:**
 
-1. Retroactive corroboration.
+1. Retroactive corroboration. Reuse the latest CorroborationRun result if no new sources appeared.
 2. Independence check in Evidence Graph.
 3. Compute final claim level.
 4. Generate ZK proof if claim level is E3 or higher.
 5. Assemble Evidence Package Full.
 6. Anchor Evidence Package Full in Arweave.
 
-The Builder writes to MS SQL tables: Events, EventHashes, MerkleNodes, EvidenceRoots, EvidencePackages, Anchors.
+The Builder writes to MS SQL tables: Events, EventHashes, MerkleNodes, EvidenceRoots, EvidencePackages, CorroborationRuns, Anchors.
+
+See [Evidence Builder](EVIDENCE_BUILDER.md) for the pre-check query and the CorroborationRun storage.
 
 ---
 
@@ -188,6 +200,8 @@ Evidence Package Full is approximately 4 KB and adds:
 - ZK proof, when claim level is E3 or higher
 - New Arweave transaction ID
 
+The Evidence Package Interim is not anchored. It is stored as a CorroborationRun and is not part of the permanent evidence set.
+
 ---
 
 ### 8. VERIFY
@@ -205,6 +219,8 @@ Checks:
 - ZK-proof when present in the Evidence Package Full
 
 Raw telemetry is not required for verification.
+
+The Evidence Package Interim is not verified as a standalone artifact. It is reused when the Evidence Package Full is assembled after route close.
 
 ---
 
@@ -246,7 +262,7 @@ The field names match the SLA Engine evaluation result in [SLA DSL](SLA_DSL.md) 
 
 ## Storage and Settlement
 
-- Arweave - permanent evidence storage. Trip anchors, claim anchors, and Evidence Package Full anchors are stored here.
+- Arweave - permanent evidence storage. Trip Evidence Root anchors, Claim Evidence Root anchors, and Evidence Package Full anchors are stored here.
 - EigenDA - optional DA layer. Added only when benchmark shows the need. Provider choice behind storage abstraction, not a core dependency.
 - L2 settlement - future consideration, not in MVP scope.
 
@@ -262,6 +278,8 @@ The field names match the SLA Engine evaluation result in [SLA DSL](SLA_DSL.md) 
 - The client never supplies the trust level. The server computes it.
 - A Trip Evidence Root is anchored for every route, clean or incident.
 - An Evidence Package Base is produced for every claim, confirmed or rejected.
+- An Evidence Package Interim can be assembled during the route, after claim close and before route close. It is not anchored and does not modify the Base package.
+- Corroboration is a local operation. External APIs are not called during corroboration; their responses are already recorded in Evidence Package Base.
 - ZK proof is generated only on dispute request, and only when the claim level is E3 or higher.
 
 ---
@@ -271,8 +289,9 @@ The field names match the SLA Engine evaluation result in [SLA DSL](SLA_DSL.md) 
 - [Architecture](ARCHITECTURE.md) - overall system
 - [System Map](SYSTEM_MAP.md) - trust, state, and evidence layers
 - [Event Pipeline](EVENT_PIPELINE.md) - vertical flow from device to SLA
-- [Evidence Flow](EVIDENCE_FLOW.md) - three evidence levels and anchor rules
+- [Evidence Flow](EVIDENCE_FLOW.md) - three evidence levels and the Interim state
 - [Evidence Package](EVIDENCE.md) - package structure and canonicalization
+- [Evidence Builder](EVIDENCE_BUILDER.md) - implementation specification and Interim package
 - [Claims](CLAIMS.md) - claim definitions
 - [Trust Levels](TRUST_LEVELS.md) - source assurance levels
 - [Ingest API](INGEST_API.md) - endpoint contract and signing flow

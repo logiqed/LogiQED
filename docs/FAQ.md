@@ -40,6 +40,21 @@ Events are created automatically, signed on the device, evaluated server-side fo
 
 See [Evidence Flow](EVIDENCE_FLOW.md) for the three levels and [Evidence Package](EVIDENCE.md) for the full structure.
 
+## What Is the Evidence Package Interim
+
+Between claim close and route close, an Evidence Package Interim can be assembled on demand.
+
+- It uses corroboration over events already present in MS SQL and the Evidence Graph.
+- External APIs are not called. Their responses were captured in the Evidence Package Base at claim open.
+- It is not anchored and does not modify the Evidence Package Base.
+- It carries a current claim level based on the independent sources found so far.
+- It is stored as a CorroborationRun record in MS SQL.
+- It can be re-run at any time before route close.
+
+Purpose: give the operator a current claim level during the route, before the Trip Evidence Root is finalized.
+
+See [Evidence Builder](EVIDENCE_BUILDER.md) for the pre-check query and CorroborationRun storage.
+
 ## Trust Levels
 
 Trust Levels E0-E5 describe Own Assurance of a source.
@@ -48,7 +63,7 @@ They are not an enum supplied by the client. The server evaluates source identit
 
 Own assurance is the level of a single source. It does not change with corroboration.
 
-A claim level is the level of a claim, formed from one or more independent sources. It is the maximum level among independent sources that confirm the same fact. Retroactive corroboration raises the claim level on dispute request.
+A claim level is the level of a claim, formed from one or more independent sources. It is the maximum level among independent sources that confirm the same fact. Retroactive corroboration raises the claim level on corroboration preview and on dispute request.
 
 No special hardware required. Secure Enclave and TPM keys already exist in modern phones and telematics devices. LogiQED uses existing devices for MVP.
 
@@ -99,6 +114,8 @@ SLA pause is the measured interval between TrafficEntered and TrafficExited.
 External APIs are called only when an incident occurs.
 
 In normal operation, external API costs are zero.
+
+Once an API response is recorded, it becomes part of the claim and of Evidence Package Base. Later corroboration reads the recorded response; it does not call the API again.
 
 ## Blockchain Role
 
@@ -154,6 +171,7 @@ Included:
 - Telemetry ingestion and route state machine
 - SLA engine with calendars and exception rules
 - Evidence builder and mock proof backend
+- Evidence Package Base, Evidence Package Interim, Evidence Package Full
 - Detention and cargo condition claims
 - Role-based UI for dispatcher and driver
 - End-to-end tests
@@ -200,6 +218,7 @@ For investment: see [Investor Document](INVESTORS.md).
 - [Claims](CLAIMS.md)
 - [Evidence Flow](EVIDENCE_FLOW.md)
 - [Evidence Package](EVIDENCE.md)
+- [Evidence Builder](EVIDENCE_BUILDER.md)
 - [Trust Levels](TRUST_LEVELS.md)
 - [SLA DSL](SLA_DSL.md)
 - [Data Flow](DATA_FLOW.md)

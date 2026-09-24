@@ -29,6 +29,12 @@ Unlike the ingest endpoint, verification does not use X-Telemetry-Key. It is ope
 
 Rate limit: 100 requests per minute per IP.
 
+## What Is Not Verified
+
+The Evidence Package Interim is not verified as a standalone artifact.
+
+Interim is an operational artifact. It is not anchored, does not carry a ZK proof, and does not modify Evidence Package Base. Its CorroborationRun is reused when the Evidence Package Full is assembled after route close. Verification applies to the Evidence Package Base and the Evidence Package Full.
+
 ## Request
 
 ### Option A: by package ID
@@ -219,9 +225,9 @@ The Evidence Package Base has no corroboration and no proof. Both checks return 
 1. Resolve package by packageId or by full package payload.
 2. Verify signature with the organization key.
 3. Recompute Trip Evidence Root from canonical route events.
-4. Verify trip anchor against tripExternalAnchorRef.
+4. Verify Trip Evidence Root anchor against tripExternalAnchorRef.
 5. Recompute Claim Evidence Root from canonical claim events.
-6. Verify claim anchor against claimExternalAnchorRef.
+6. Verify Claim Evidence Root anchor against claimExternalAnchorRef.
 7. Verify rule digest from published rule definition.
 8. Verify trust policy from source own assurance values.
 9. Verify claim level matches the computed level.
@@ -238,7 +244,16 @@ The Evidence Package Base has no corroboration and no proof. Both checks return 
 - Checks return PASS, FAIL, or SKIP.
 - SKIP is used when a check is not applicable. For an Evidence Package Base, corroboration and proof are not present, so both checks return SKIP.
 - ZK proof is present only in the Evidence Package Full, and only when the claim level is E3 or higher.
+- Evidence Package Interim is not a verified artifact. It is not anchored and carries no proof. Its CorroborationRun is reused when the Evidence Package Full is assembled after route close.
 - Proof backend is pluggable: Aligned Layer, Groth16, Plonk, STARK, or zkVM options (Lattice Jolt, SP1, RISC Zero).
 - Verification results are logged for audit.
 - Aligned Layer is the primary proof backend. Mock for MVP.
 - Any party can verify independently.
+
+## Related
+
+- [Evidence Package](EVIDENCE.md) - package structure
+- [Evidence Flow](EVIDENCE_FLOW.md) - three evidence levels and the Interim state
+- [Evidence Builder](EVIDENCE_BUILDER.md) - implementation specification and Interim package
+- [Trust Levels](TRUST_LEVELS.md) - source assurance and claim level
+- [Claims](CLAIMS.md) - claim definitions

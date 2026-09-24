@@ -6,13 +6,13 @@ This document is a horizontal slice: all components side by side. For the vertic
 
 ## Overview
 
-LogiQED is a pipeline. A GPS point enters the system, is validated and assigned a trust level, becomes a candidate event inside a Route State Machine, and either closes as a clean route, produces an Evidence Package Base, or produces an Evidence Package Full for dispute resolution.
+LogiQED is a pipeline. A GPS point enters the system, is validated and assigned a trust level, becomes a candidate event inside a Route State Machine, and either closes as a clean route, produces an Evidence Package Base, or produces an Evidence Package Full for dispute resolution. An Evidence Package Interim can be assembled during the route, after claim close and before route close.
 
 Three layers work together:
 
 - **Trust Layer** — computes own assurance E0-E5.
 - **State Layer** — tracks route state and detects exceptions.
-- **Evidence Layer** — produces Evidence Packages Base, Trip Evidence Roots, and Evidence Packages Full.
+- **Evidence Layer** — produces Evidence Packages Base, Trip Evidence Roots, Evidence Packages Full, and Evidence Packages Interim.
 
 ## Full Flow Diagram
 
@@ -140,7 +140,7 @@ Three layers work together:
     ║                                       │                                           ║
     ║                                       ↓                                           ║
     ║  ┌─────────────────────────────────────────────────────────────────────────────┐  ║
-    ║  │  Evidence Builder (triggered by Orchestrator)                               │  ║
+    ║  │  Evidence Builder (triggered by Orchestrator or on demand)                  │  ║
     ║  │                                                                             │  ║
     ║  │  On claim close:                                                            │  ║
     ║  │    1. Collect claim events                                                  │  ║
@@ -148,15 +148,22 @@ Three layers work together:
     ║  │    3. Compute claim level                                                   │  ║
     ║  │    4. Record decision (confirmed or rejected)                               │  ║
     ║  │    5. Assemble Evidence Package Base                                        │  ║
-    ║  │    6. Anchor claim root + package in Arweave                                │  ║
+    ║  │    6. Anchor Claim Evidence Root + Evidence Package Base in Arweave         │  ║
+    ║  │                                                                             │  ║
+    ║  │  On corroboration preview:                                                  │  ║
+    ║  │    1. Pre-check for new sources                                             │  ║
+    ║  │    2. Corroboration over existing events (no external APIs)                 │  ║
+    ║  │    3. Independence check in Evidence Graph                                  │  ║
+    ║  │    4. Updated claim level                                                   │  ║
+    ║  │    5. Store CorroborationRun · Assemble Evidence Package Interim            │  ║
     ║  │                                                                             │  ║
     ║  │  On route close:                                                            │  ║
     ║  │    1. Collect all route events                                              │  ║
     ║  │    2. Compute Trip Evidence Root                                            │  ║
-    ║  │    3. Anchor trip root in Arweave                                           │  ║
+    ║  │    3. Anchor Trip Evidence Root in Arweave                                  │  ║
     ║  │                                                                             │  ║
     ║  │  On dispute request:                                                        │  ║
-    ║  │    1. Retroactive corroboration                                             │  ║
+    ║  │    1. Retroactive corroboration (reuse Interim result if no new sources)    │  ║
     ║  │    2. Independence check in Evidence Graph                                  │  ║
     ║  │    3. Compute final claim level                                             │  ║
     ║  │    4. Generate ZK proof (if E3+)                                            │  ║
@@ -167,8 +174,9 @@ Three layers work together:
     ║                                       ↓                                           ║
     ║  ┌─────────────────────────────────────────────────────────────────────────────┐  ║
     ║  │  Arweave                                                                    │  ║
-    ║  │  Trip anchors · Claim anchors · Full package anchors                        │  ║
-    ║  │  Permanent evidence · Base ~2 KB, full ~4 KB                                │  ║
+    ║  │  Trip Evidence Root anchors · Claim Evidence Root anchors ·                 │  ║
+    ║  │  Evidence Package Full anchors                                              │  ║
+    ║  │  Permanent evidence · Base ~2 KB, Full ~4 KB                                │  ║
     ║  └─────────────────────────────────────────────────────────────────────────────┘  ║
     ╚═══════════════════════════════════════════════════════════════════════════════════╝
 
@@ -349,7 +357,7 @@ The On-Demand Oracle calls the required external API.
 
 The call is made once per claim, not continuously.
 
-Results are returned to the State Machine.
+Results are returned to the State Machine and recorded as events in the claim. External APIs are not called again during corroboration. The recorded response is used.
 
 ### Finalizing the Claim
 
@@ -423,7 +431,7 @@ Full segmentation with road network and historical data is planned for Phase 2.
 
 ## Layer 3: Evidence — How Claim Confidence Is Produced
 
-The Evidence Layer runs when a claim closes, when a route closes, or when a dispute is opened.
+The Evidence Layer runs when a claim closes, when a route closes, when a dispute is opened, or on demand as an Interim preview.
 
 ### SLA Engine
 
@@ -437,7 +445,7 @@ The result is stored with the segment and used later when the route is completed
 
 ### Evidence Builder
 
-The Evidence Builder is called by the Orchestrator at three moments.
+The Evidence Builder is called by the Orchestrator at two moments, by the operator for Interim, and by the dispute handler on dispute.
 
 **On claim close:**
 
@@ -446,24 +454,32 @@ The Evidence Builder is called by the Orchestrator at three moments.
 3. Compute claim level.
 4. Record decision: confirmed or rejected.
 5. Assemble Evidence Package Base.
-6. Anchor claim root and package in Arweave.
+6. Anchor Claim Evidence Root and Evidence Package Base in Arweave.
+
+**On corroboration preview (Interim):**
+
+1. Pre-check for new sources since the last run.
+2. Corroboration over existing events. External APIs are not called.
+3. Independence check in Evidence Graph.
+4. Compute updated claim level.
+5. Store CorroborationRun and assemble Evidence Package Interim.
 
 **On route close:**
 
 1. Collect all route events.
 2. Compute Trip Evidence Root.
-3. Anchor trip root in Arweave.
+3. Anchor Trip Evidence Root in Arweave.
 
 **On dispute request:**
 
-1. Retroactive corroboration.
+1. Retroactive corroboration. Reuse the latest CorroborationRun result if no new sources appeared.
 2. Independence check in Evidence Graph.
 3. Compute final claim level.
 4. Generate ZK proof if claim level is E3 or higher.
 5. Assemble Evidence Package Full.
 6. Anchor Evidence Package Full in Arweave.
 
-The Builder writes to MS SQL tables: Events, EventHashes, MerkleNodes, EvidenceRoots, EvidencePackages, Anchors.
+The Builder writes to MS SQL tables: Events, EventHashes, MerkleNodes, EvidenceRoots, EvidencePackages, CorroborationRuns, Anchors.
 
 ### Three Evidence Levels
 
@@ -479,9 +495,29 @@ Evidence Packages Base are produced for every claim, confirmed or rejected. A re
 
 ZK proof is generated only when the claim level is E3 or higher.
 
+### Interim State
+
+An Evidence Package Interim can be assembled during the route, after claim close and before route close.
+
+- Not anchored. Does not modify Evidence Package Base.
+- Contains corroboration result and an updated claim level.
+- Stored as a CorroborationRun.
+- Can be re-run on demand.
+
+Purpose: current claim level for operational decisions during the route.
+
+External APIs are not called during the Interim run. Their responses were already captured in Evidence Package Base at claim open.
+
 ### How Corroboration Is Requested
 
-Corroboration is applied by the Evidence Builder, on dispute request. It is not applied by Ingest API, State Machine, or Orchestrator.
+Corroboration is applied by the Evidence Builder.
+
+Two moments:
+
+- During the route, after claim close, as an Evidence Package Interim.
+- On dispute request, after route close, as part of the Evidence Package Full.
+
+It is not applied by Ingest API, State Machine, or Orchestrator.
 
 Two search strategies:
 
@@ -491,6 +527,8 @@ Two search strategies:
 An independent source is required. If two sources share a gateway, corroboration fails the independence check.
 
 Retroactive corroboration works within the raw telemetry retention window. Raw positions are kept for 30 days. Aggregates are kept for 1 year.
+
+External APIs are not called during corroboration. Their responses are already recorded in Evidence Package Base.
 
 ### Claim Level and Source Level
 
@@ -609,8 +647,9 @@ For incident routes:
 
 - Evidence Package Base (~2 KB).
 - Claim Evidence Root.
-- Arweave anchor for the Claim Evidence Root.
+- Arweave anchor for claim.
 - Trip Evidence Root anchored at route close.
+- Optional Evidence Package Interim during the route.
 
 For disputed routes:
 
@@ -633,12 +672,15 @@ A truck in transit. A traffic jam occurs.
 8. Orchestrator triggers Evidence Builder.
 9. Builder collects claim events, computes Claim Evidence Root, computes claim level E2, records decision CONFIRMED, assembles Evidence Package Base, anchors in Arweave.
 10. Segment ends. SegmentExited written.
-11. Route completes.
-12. Builder collects all route events, computes Trip Evidence Root, anchors in Arweave.
-13. Later, operator presses Generate Evidence Package Full.
-14. Builder does retroactive corroboration. Second truck with onboard tracker confirms the same standstill. Different gateway → independent. Claim level = E4.
-15. Builder generates ZK proof (E4 ≥ E3).
-16. Evidence Package Full assembled and anchored.
+11. Operator presses Generate interim. Pre-check runs, no new sources yet.
+12. Builder assembles Evidence Package Interim, stores CorroborationRun.
+13. Route completes.
+14. Builder collects all route events, computes Trip Evidence Root, anchors in Arweave.
+15. Later, operator requests dispute package.
+16. Builder re-runs pre-check. Second truck with onboard tracker appeared, different gateway. Pre-check reports 1 new source.
+17. Builder runs retroactive corroboration, confirms independence, computes claim level E4.
+18. Builder generates ZK proof when the claim level is E3 or higher.
+19. Evidence Package Full assembled and anchored.
 
 ## End-to-End Example: Traffic, Rejected
 
@@ -680,8 +722,9 @@ A truck drives Kyiv to Oslo. No exceptions.
 | On-Demand Oracle | State | Calls external APIs |
 | SLA Engine | Evidence | Computes pause in working calendar |
 | Evidence Builder | Evidence | Assembles packages, computes Evidence Roots, anchors |
+| Corroboration Preview | Evidence | Builds Evidence Package Interim on demand |
 | Evidence Graph | Evidence | Provenance, independence check, E5 verification |
-| Arweave | Evidence | Trip Evidence Root anchor, Claim Evidence Root anchors, Evidence Package Full anchors |
+| Arweave | Evidence | Trip Evidence Root anchors, Claim Evidence Root anchors, Evidence Package Full anchors |
 
 ## What Is Computed Where
 
@@ -694,12 +737,14 @@ A truck drives Kyiv to Oslo. No exceptions.
 | External API result | On-Demand Oracle | On candidate events that require it |
 | Claim decision | Route State Machine | After enrichment |
 | SLA pause | SLA Engine | When a claim closes |
-| Claim level | Evidence Builder | When a claim closes |
+| Claim level (base) | Evidence Builder | When a claim closes |
 | Claim Evidence Root | Evidence Builder | When a claim closes |
 | Trip Evidence Root | Evidence Builder | When a route closes |
 | Claim Evidence Root anchor | Evidence Builder | When a claim closes |
 | Trip Evidence Root anchor | Evidence Builder | When a route closes |
-| Corroboration | Evidence Builder | On dispute request |
+| Updated claim level | Evidence Builder | On corroboration preview |
+| Evidence Package Interim | Evidence Builder | On corroboration preview |
+| Corroboration | Evidence Builder | On corroboration preview and on dispute request |
 | Final claim level | Evidence Builder | On dispute request |
 | ZK proof | Evidence Builder | On dispute request, if E3 or higher |
 | Evidence Package Full anchor | Evidence Builder | On dispute request |
@@ -710,7 +755,7 @@ A truck drives Kyiv to Oslo. No exceptions.
 - [Trust Levels](TRUST_LEVELS.md) - full trust model and corroboration rules
 - [Evidence Flow](EVIDENCE_FLOW.md) - three evidence levels and anchor rules
 - [Evidence Package](EVIDENCE.md) - package structure
-- [Evidence Builder](EVIDENCE_BUILDER.md) - implementation specification
+- [Evidence Builder](EVIDENCE_BUILDER.md) - implementation specification and Interim package
 - [Architecture](ARCHITECTURE.md) - modules and boundaries
 - [Data Flow](DATA_FLOW.md) - canonical event flow through all stages
 - [SLA DSL](SLA_DSL.md) - rule format and evaluation result

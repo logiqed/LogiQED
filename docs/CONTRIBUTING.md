@@ -40,12 +40,14 @@ Before asking, check the existing FAQ and Architecture. Your question may alread
 
 We are especially interested in feedback on:
 
-- Evidence Layer: Trip and Claim Evidence Roots, Evidence Packages, anchor rules
+- Evidence Layer: Trip and Claim Evidence Roots, Evidence Packages Base, Interim, and Full, anchor rules
 - Trust levels and corroboration rules
 - Claim definitions, especially edge cases
 - SLA DSL grammar and semantics
 - Telemetry ingestion, EPCIS conversion, and deduplication logic
 - Event-Driven Route Monitoring
+- Corroboration Preview and the Evidence Package Interim
+- The pre-check query for detecting new sources before re-running corroboration
 
 Use the issue label `improvement`.
 
@@ -71,10 +73,10 @@ Source code is private. Access after NDA.
 
 Local run for invited contributors:
 
-git clone https://github.com/logiqed/LogiQED.git
-cd logiqed
-dotnet restore
-dotnet run --project src/LogiQED.Web.API
+    git clone https://github.com/logiqed/LogiQED.git
+    cd logiqed
+    dotnet restore
+    dotnet run --project src/LogiQED.Web.API
 
 See [Development](DEVELOPMENT.md) for details.
 

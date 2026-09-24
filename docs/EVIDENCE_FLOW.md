@@ -9,21 +9,37 @@ Three levels of evidence are produced, depending on what happens on the route.
 | Level | What is generated | When | Cost |
 |-------|-------------------|------|------|
 | Clean route | Signed events + Trip Evidence Root + Arweave anchor | Every route | ~$0 |
-| Incident | + Evidence Package Base + anchor | When a claim closes (confirmed or rejected) | ~$0.01 |
+| Incident | + Evidence Package Base + Claim Evidence Root anchor | When a claim closes (confirmed or rejected) | ~$0.01 |
 | Disputed | + Retroactive corroboration + ZK proof + new anchor | On dispute request | ~$0.08 |
 
 Anchor is produced for every route, clean or incident. This protects the data from substitution even if no dispute ever arises.
 
-Evidence Packages Base are produced for every claim, confirmed or rejected. A rejected claim is still a recorded event: the driver pressed the button, the system queried the API, and the outcome was recorded.
+Evidence Package Bases are produced for every claim, confirmed or rejected. A rejected claim is still a recorded event: the driver pressed the button, the system queried the API, and the outcome was recorded.
+
+## Interim State During the Route
+
+In addition to the three levels above, an Evidence Package Interim can be assembled during the route.
+
+- Available after claim close and before route close.
+- Not anchored. Does not modify Evidence Package Base.
+- Contains corroboration result, independence check, and an updated claim level at the moment of the run.
+- Stored as a CorroborationRun record linked to the claim.
+- Can be re-run on demand.
+
+Purpose: give the operator a current claim level before the Trip Evidence Root is finalized.
+
+External APIs are not called during the Interim run. Their responses were already captured in Evidence Package Base at claim open. The operation is local: a SQL lookup plus an Evidence Graph traversal.
+
+See [Evidence Builder](EVIDENCE_BUILDER.md) for the pre-check query, the CorroborationRun storage, and the reuse of Interim at Full assembly.
 
 ## Clean Route
 
-Every route is closed with signed events and an Evidence Root.
+Every route is closed with signed events and a Trip Evidence Root.
 
 - Events are signed on the device.
 - Events are hash-chained.
-- Evidence Root is computed as the Merkle root of event hashes.
-- The Evidence Root is anchored in Arweave.
+- Trip Evidence Root is computed as the Merkle root of event hashes.
+- The Trip Evidence Root is anchored in Arweave.
 
 No Evidence Package Base. No ZK proof. No external API calls.
 
@@ -53,13 +69,15 @@ The Evidence Package Base is anchored in Arweave.
 
 The package is available during the trip. The driver or dispatcher can open it at any time.
 
+During the route, after the claim closes, the operator can assemble an Evidence Package Interim to obtain a current claim level based on the independent sources found so far. The Interim does not modify the Base package.
+
 Cost: approximately $0.01 per claim, confirmed or rejected.
 
 ## Disputed Route
 
 When a dispute or audit requires an Evidence Package Full, the Evidence Builder produces it.
 
-The Evidence Package Full adds to the base:
+The Evidence Package Full adds to the Base:
 
 - Retroactive corroboration from independent sources.
 - Independence check in the Evidence Graph.
@@ -68,6 +86,8 @@ The Evidence Package Full adds to the base:
 - New anchor in Arweave.
 
 The proof backend is pluggable: Aligned Layer, Groth16, Plonk, STARK, or zkVM (Lattice Jolt, SP1, RISC Zero). See [Architecture](ARCHITECTURE.md) for the proof pipeline.
+
+If an Evidence Package Interim was produced during the route, its CorroborationRun is reused. The pre-check is run again before assembly. If no new sources appeared, the Interim result is used as-is. If new sources appeared, corroboration is re-run and the fresh result is used.
 
 ### ZK Proof Is Gated by Claim Level
 
@@ -149,8 +169,9 @@ The Evidence Builder uses the following tables.
 | Events | Raw events of the route | On ingest |
 | EventHashes | SHA-256 of each event | On ingest |
 | MerkleNodes | Intermediate Merkle nodes | On route close |
-| EvidenceRoots | Trip and claim roots | On close |
+| EvidenceRoots | Trip and Claim Evidence Roots | On close |
 | EvidencePackages | Evidence Packages Base and Full | On claim close |
+| CorroborationRuns | Evidence Package Interim runs | On corroboration preview |
 | Anchors | Arweave transaction IDs | After anchor |
 
 The Builder writes to these tables when a claim or route closes.
@@ -159,13 +180,14 @@ The Builder writes to these tables when a claim or route closes.
 
 Evidence Package is an immutable snapshot of a claim, its sources, trust policy result, rule version and proof.
 
-Size: approximately 4 KB.
+Size: approximately 4 KB for the Evidence Package Full.
 
 Storage: Arweave for permanent anchoring.
 
-A package exists in two forms:
+A package exists in three forms:
 
 - Evidence Package Base: produced when a claim closes. Contains events, decision, reference to the Trip Evidence Root. No ZK proof.
+- Evidence Package Interim: produced on demand during the route, after claim close. Contains corroboration result and an updated claim level. Not anchored. Does not modify the Base.
 - Evidence Package Full: produced on dispute request. Adds corroboration, computed claim level, ZK proof, new anchor.
 
 ## Package Signature
@@ -186,7 +208,9 @@ Raw events stay in operational storage with retention policy.
 
 Clean route → claim opens → claim closes → Evidence Package Base is anchored.
 
-Evidence Package Base → dispute arises → corroboration and ZK are added → new anchor.
+Evidence Package Base → during route, an Evidence Package Interim can be produced on demand.
+
+Evidence Package Base → dispute arises after route close → corroboration and ZK are added → Evidence Package Full is anchored.
 
 Events are not re-signed. The package references the Trip Evidence Root and the Claim Evidence Root.
 
@@ -196,19 +220,25 @@ External APIs are called only when an incident occurs.
 
 In MVP, exception detection is manual. The driver presses "Traffic started" and "Traffic ended". The system does not poll external APIs automatically. Automatic polling would be expensive at scale.
 
+Corroboration is a local operation. It does not call external APIs. External API responses were captured at claim open and are part of the Evidence Package Base.
+
 ZK proof is generated only for disputed packages at E3 or higher.
 
 | Level | Cost |
 |-------|------|
 | Clean route | ~$0 |
 | Incident, confirmed or rejected | ~$0.01 |
+| Interim during route | ~$0 (local operation) |
 | Disputed | ~$0.08 |
 
 One won dispute at $200-$500 pays for thousands of incident packages.
 
 ## Retroactive Corroboration
 
-Corroboration is not requested when a claim closes. It is requested later, on dispute or audit.
+Corroboration is not requested when a claim closes. It is requested at two moments:
+
+- During the route, after claim close, as an Evidence Package Interim.
+- On dispute request, after route close, as part of the Evidence Package Full.
 
 The Evidence Builder searches for other vehicles that were on the same segment during the same time window. It does not matter whether those vehicles reported the same exception. What matters is that their data confirms the same physical fact.
 
@@ -217,6 +247,8 @@ For each candidate source, the Evidence Builder uses the own assurance that the 
 If the candidate source had E3 or higher at that time, corroboration raises the claim level. If the source had E1 or E2, corroboration does not raise the claim above the strongest source.
 
 Retroactive corroboration works within the raw telemetry retention window. Raw positions are kept for 30 days. Aggregates are kept for 1 year. A dispute raised within 30 days can use full raw data. A dispute raised later can use aggregates.
+
+External APIs are not called during corroboration. Their responses are already recorded in Evidence Package Base.
 
 ## Package Formed When Claim Closes
 
@@ -232,9 +264,11 @@ At that moment the Evidence Builder records:
 - Reference to the Trip Evidence Root.
 - Claim Evidence Root.
 
-The Evidence Package Base does not include corroboration or ZK proof.
+The Base does not include corroboration or ZK proof.
 
-The Evidence Package Full is formed on dispute request.
+The Evidence Package Full is formed on dispute request, after route close.
+
+The Evidence Package Interim is formed on demand during the route, after claim close and before route close.
 
 ## Anchor for Every Route
 
@@ -264,4 +298,5 @@ Decision needed before Phase 2.
 - [Claims](CLAIMS.md) — claim definitions
 - [Trust Levels](TRUST_LEVELS.md) — source assurance levels
 - [Data Flow](DATA_FLOW.md) — event pipeline from ingest to verification
+- [Evidence Builder](EVIDENCE_BUILDER.md) — Corroboration Preview and Interim package specification
 - [System Map](SYSTEM_MAP.md) — trust, state, and evidence layers

@@ -16,6 +16,8 @@ Three levels of evidence are produced:
 - **Incident** - Evidence Package Base + Claim Evidence Root anchor. Confirmed or rejected.
 - **Disputed** - retroactive corroboration + ZK proof + new anchor.
 
+In addition, an Evidence Package Interim can be assembled during the route, after a claim closes and before the route closes. It is not anchored, does not modify the Evidence Package Base, and gives the operator a current claim level based on the independent sources found so far.
+
 A dispute closes on evidence in minutes, not by email threads over weeks.
 
 ## Pricing
@@ -43,7 +45,7 @@ Example: a carrier with 20 vehicles pays $99 + $200 = $299/month base, plus $0.0
 
 Evidence Packages Base are generated for every recorded claim, confirmed or rejected. A carrier with 20 vehicles typically has 10–30 claims per month, not 5,000.
 
-Trip anchors are produced for every route, clean or incident. The cost of a trip anchor is close to zero.
+Trip Evidence Root anchors are produced for every route, clean or incident. The cost of a Trip Evidence Root anchor is close to zero.
 
 ### Enterprise: 200 vehicles
 
@@ -53,7 +55,7 @@ Trip anchors are produced for every route, clean or incident. The cost of a trip
 | Total COGS | $250/month + $0.015 per package |
 | Gross margin | ~78% |
 
-Cost per evidence package: $0.01–0.03.
+Cost per Evidence Package Full: $0.01–0.03.
 
 Sale price per package: $0.05–0.15 depending on plan.
 
@@ -63,7 +65,7 @@ Average package price: ~$0.08. This is the number quoted in the README.
 
 A single SLA dispute costs $200–500.
 
-One Evidence Package costs $0.08–0.10.
+One Evidence Package Full costs $0.08–0.10.
 
 One won dispute pays for several months of Pro subscription.
 
@@ -98,9 +100,9 @@ This creates a channel, not a conflict.
 
 ## Competitive Advantage
 
-A single Evidence Package costs about $0.08.
+A single Evidence Package Full costs about $0.08.
 
-A trip anchor costs close to zero and is produced for every route.
+A Trip Evidence Root anchor costs close to zero and is produced for every route.
 
 That is cheaper than an SMS and thousands of times cheaper than one dispute.
 

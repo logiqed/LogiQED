@@ -27,160 +27,160 @@ Payload size limit: 10 KB. Typical payloads are around 1 KB.
 ```yaml
 openapi: 3.1.0
 info:
-  title: LogiQED Ingest API
-  version: 0.2.0
-  description: Entry point for signed events. Source formats are converted to EPCIS 2.0. Server evaluates source trust server-side.
+      title: LogiQED Ingest API
+      version: 0.2.0
+      description: Entry point for signed events. Source formats are converted to EPCIS 2.0. Server evaluates source trust server-side.
 
 servers:
   - url: https://api.logiqed.tech/v1
 
 paths:
-  /evidence/ingest:
-    post:
-      summary: Submit signed evidence event
-      operationId: ingestEvidenceEvent
-      security:
-        - ApiKeyAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/EvidenceEventEnvelope'
-      responses:
-        '202':
-          description: Event accepted for processing
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/EvidenceIngestResponse'
-        '400':
-          description: Invalid payload or signature format
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-        '401':
-          description: Missing or invalid telemetry key
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-        '409':
-          description: Duplicate event
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-        '413':
-          description: Payload too large
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-        '429':
-          description: Rate limit exceeded
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
+      /evidence/ingest:
+        post:
+          summary: Submit signed evidence event
+          operationId: ingestEvidenceEvent
+          security:
+            - ApiKeyAuth: []
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/EvidenceEventEnvelope'
+          responses:
+            '202':
+              description: Event accepted for processing
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/EvidenceIngestResponse'
+            '400':
+              description: Invalid payload or signature format
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/ErrorResponse'
+            '401':
+              description: Missing or invalid telemetry key
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/ErrorResponse'
+            '409':
+              description: Duplicate event
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/ErrorResponse'
+            '413':
+              description: Payload too large
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/ErrorResponse'
+            '429':
+              description: Rate limit exceeded
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/ErrorResponse'
 
 components:
-  securitySchemes:
-    ApiKeyAuth:
-      type: apiKey
-      in: header
-      name: X-Telemetry-Key
+      securitySchemes:
+        ApiKeyAuth:
+          type: apiKey
+          in: header
+          name: X-Telemetry-Key
 
-  schemas:
-    EvidenceEventEnvelope:
-      type: object
-      required:
-        - sourceId
-        - keyId
-        - signatureAlgorithm
-        - signature
-        - schemaVersion
-        - canonicalizationMethod
-        - epcisEvent
-      properties:
-        sourceId:
-          type: string
-          description: Unique source identifier. Used by the server as the deduplication component alongside timestamp and sequence.
-          example: "src_01HZ..."
-        keyId:
-          type: string
-          description: Identifier of the signing key
-          example: "key_01HZ..."
-        signatureAlgorithm:
-          type: string
-          enum: [Ed25519, ML-DSA]
-          example: "Ed25519"
-        signature:
-          type: string
-          description: Base64 signature over canonical epcisEvent JSON
-          example: "MEUCIQD..."
-        schemaVersion:
-          type: string
-          example: "1.0"
-        canonicalizationMethod:
-          type: string
-          enum: [JCS]
-          example: "JCS"
-        epcisEvent:
+      schemas:
+        EvidenceEventEnvelope:
           type: object
-          description: "GS1 EPCIS 2.0 event"
-
-    EvidenceIngestResponse:
-      type: object
-      properties:
-        eventId:
-          type: string
-          format: uuid
-          example: "0194e0d2..."
-        status:
-          type: string
-          example: "accepted"
-        receivedAt:
-          type: string
-          format: date-time
-          description: Server time of receipt in UTC
-        trustEvaluation:
-          type: object
+          required:
+            - sourceId
+            - keyId
+            - signatureAlgorithm
+            - signature
+            - schemaVersion
+            - canonicalizationMethod
+            - epcisEvent
           properties:
             sourceId:
               type: string
-            sourceAssurance:
+              description: Unique source identifier. Used by the server as the deduplication component alongside timestamp and sequence.
+              example: "src_01HZ..."
+            keyId:
               type: string
-              description: Own assurance of the source at the time of this event. This is the source-level assurance, not the claim level. Claim level is computed later by the Evidence Builder.
-              example: "E3"
-            trustPolicy:
+              description: Identifier of the signing key
+              example: "key_01HZ..."
+            signatureAlgorithm:
               type: string
-              example: "E3_REQUIRED_V1"
-            evaluationStatus:
+              enum: [Ed25519, ML-DSA]
+              example: "Ed25519"
+            signature:
               type: string
-              enum: [PASS, FAIL, INSUFFICIENT_DATA]
-              example: "PASS"
-            evaluatedAt:
+              description: Base64 signature over canonical epcisEvent JSON
+              example: "MEUCIQD..."
+            schemaVersion:
               type: string
-              format: date-time
+              example: "1.0"
+            canonicalizationMethod:
+              type: string
+              enum: [JCS]
+              example: "JCS"
+            epcisEvent:
+              type: object
+              description: "GS1 EPCIS 2.0 event"
 
-    ErrorResponse:
-      type: object
-      required: [error]
-      properties:
-        error:
+        EvidenceIngestResponse:
           type: object
           properties:
-            code:
+            eventId:
               type: string
-              example: "INVALID_SIGNATURE"
-            message:
+              format: uuid
+              example: "0194e0d2..."
+            status:
               type: string
-              example: "Signature verification failed"
-            requestId:
+              example: "accepted"
+            receivedAt:
               type: string
-              description: Correlation ID for tracing
+              format: date-time
+              description: Server time of receipt in UTC
+            trustEvaluation:
+              type: object
+              properties:
+                sourceId:
+                  type: string
+                sourceAssurance:
+                  type: string
+                  description: Own assurance of the source at the time of this event. This is the source-level assurance, not the claim level. Claim level is computed later by the Evidence Builder.
+                  example: "E3"
+                trustPolicy:
+                  type: string
+                  example: "E3_REQUIRED_V1"
+                evaluationStatus:
+                  type: string
+                  enum: [PASS, FAIL, INSUFFICIENT_DATA]
+                  example: "PASS"
+                evaluatedAt:
+                  type: string
+                  format: date-time
+
+        ErrorResponse:
+          type: object
+          required: [error]
+          properties:
+            error:
+              type: object
+              properties:
+                code:
+                  type: string
+                  example: "INVALID_SIGNATURE"
+                message:
+                  type: string
+                  example: "Signature verification failed"
+                requestId:
+                  type: string
+                  description: Correlation ID for tracing
 ```
 
 ---
@@ -320,6 +320,7 @@ Example: an E4 source with E4_REQUIRED_V1 policy returns PASS.
 - Rate limit: 100 requests per minute per source. This supports 1 packet per second with a 40% buffer.
 - Payload size limit: 10 KB. Typical payloads are around 1 KB.
 - Error responses include requestId for tracing.
+- Ingest does not compute claim level and does not build Evidence Packages. Claim level is computed later by the Evidence Builder. Corroboration is a separate operation and does not call external APIs; their responses are already recorded in Evidence Package Base.
 
 ## Why Conversion Happens at Ingest
 
@@ -333,3 +334,13 @@ Ingest is the single entry point. Converting here means:
 Native clients (browser PWA) send EPCIS 2.0 directly. External trackers (Teltonika, Ruptela) send binary packets over TCP or HTTPS. Mobile apps (Colota, HookTrace) send JSON. Warehouse and customs APIs send their own format.
 
 All of them are converted to EPCIS 2.0 at Ingest.
+
+---
+
+## Related
+
+- [Architecture](ARCHITECTURE.md) - overall system
+- [Trust Levels](TRUST_LEVELS.md) - own assurance and claim level
+- [Evidence Builder](EVIDENCE_BUILDER.md) - where claim level and Evidence Packages are computed
+- [Data Flow](DATA_FLOW.md) - canonical event flow through all stages
+- [OpenAPI](OPENAPI.yaml) - full API specification

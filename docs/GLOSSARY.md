@@ -6,14 +6,20 @@ Definitions of LogiQED concepts. For examples and diagrams, see [System Map](SYS
 
 - **Evidence Package**
   Immutable snapshot connecting a claim, its sources, trust policy result, rule version and proof.
-  Two forms: Evidence Package Base, produced when a claim closes; Evidence Package Full, produced on dispute request.
-  Base is approximately 2 KB. Full is approximately 4 KB.
+  Three forms: Evidence Package Base, produced when a claim closes; Evidence Package Interim, produced on demand during the route; Evidence Package Full, produced on dispute request.
+  Base is approximately 2 KB. Full is approximately 4 KB. Interim is not anchored and has no size budget.
 
 - **Evidence Package Base**
   Package produced for every claim, confirmed or rejected. Records the driver's report, the system's own data, the external API response, the claim level, and the decision. Anchored in Arweave.
 
+- **Evidence Package Interim**
+  Operational package produced on demand during the route, after claim close and before route close. Adds corroboration from independent sources, an independence check, and an updated claim level. Not anchored. Does not modify Evidence Package Base. Stored as a CorroborationRun in MS SQL. External APIs are not called during the Interim run; their responses were already captured in Evidence Package Base.
+
 - **Evidence Package Full**
-  Package produced on dispute request. Adds retroactive corroboration, an independence check, a computed claim level, and a ZK proof when the claim level is E3 or higher.
+  Package produced on dispute request, after route close. Adds retroactive corroboration, an independence check, a computed final claim level, and a ZK proof when the claim level is E3 or higher. Anchored as a complete artifact.
+
+- **CorroborationRun**
+  MS SQL record that stores one Evidence Package Interim run. Contains the sources scanned, sources matched, updated claim level, a watermark for the pre-check, and the list of known sources. Not anchored.
 
 - **Claim**
   Verifiable statement evaluated by SLA policy. Examples: Detention, Cargo Condition.
@@ -40,7 +46,7 @@ Definitions of LogiQED concepts. For examples and diagrams, see [System Map](SYS
   Server-side evaluation of a single source. Range E0-E5. Computed from seven dimensions. Does not change with corroboration. See [Trust Levels](TRUST_LEVELS.md).
 
 - **Claim Level**
-  Level of a claim, formed from one or more independent sources. The maximum level among independent sources that confirm the same fact. Computed by the Evidence Builder on claim close or dispute request.
+  Level of a claim, formed from one or more independent sources. The maximum level among independent sources that confirm the same fact. Computed by the Evidence Builder on claim close, on corroboration preview, or on dispute request.
 
 - **Trust Policy**
   Required assurance for a specific claim. Example: E4_REQUIRED_V1.
@@ -49,7 +55,7 @@ Definitions of LogiQED concepts. For examples and diagrams, see [System Map](SYS
   Result of evaluating a claim against its Trust Policy: PASS or FAIL. Separate from Own Assurance.
 
 - **Retroactive Corroboration**
-  Search for other vehicles that were on the same segment during the same time window. Applied by the Evidence Builder on dispute request, not on claim close.
+  Search for other vehicles that were on the same segment during the same time window. Applied by the Evidence Builder on corroboration preview and on dispute request, not on claim close. External APIs are not called; their responses are already recorded in Evidence Package Base.
 
 - **Provenance**
   Chain showing how a claim was derived from events, sources and rules.
@@ -112,6 +118,7 @@ Definitions of LogiQED concepts. For examples and diagrams, see [System Map](SYS
   Permanent storage for commitments and proofs.
   Stores Trip Evidence Root anchors, Claim Evidence Root anchors, and Evidence Package Full anchors.
   Raw telemetry is never stored permanently.
+  The Evidence Package Interim is not stored in Arweave.
 
 - **External Anchor**
   Reference to an external timestamp or anchor, such as an Arweave transaction ID or Ethereum block hash, that verifies the Evidence Root existed at a certain time.
@@ -135,6 +142,7 @@ Definitions of LogiQED concepts. For examples and diagrams, see [System Map](SYS
 - **On-Demand Oracle**
   Pattern where external APIs are called only when an incident occurs.
   In normal operation, external API costs are zero.
+  Once a response is recorded, it is part of Evidence Package Base. Later corroboration does not call the API again.
 
 - **Enrichment Decider**
   Pure function that determines whether an event requires external confirmation.

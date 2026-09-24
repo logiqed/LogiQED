@@ -65,9 +65,10 @@ The architecture is crypto-agile: signature providers are pluggable and can be r
 |------|-----------|---------|
 | Raw positions | 30 days | MS SQL |
 | Aggregates, 1 hour | 1 year | MS SQL |
-| Trip anchors | Permanent | Arweave |
-| Claim anchors | Permanent | Arweave |
+| Trip Evidence Root anchors | Permanent | Arweave |
+| Claim Evidence Root anchors | Permanent | Arweave |
 | Evidence Package Full anchors | Permanent | Arweave |
+| Evidence Package Interim runs | Operational lifetime of the claim | MS SQL, CorroborationRuns |
 | Raw encrypted context | Deletable on request | Deletable storage |
 | Public Manifest | Permanent | Arweave |
 
@@ -109,13 +110,14 @@ MVP alternative: signed builds, recorded firmware version, signed update manifes
 - Claims are independently verifiable.
 - Verification does not require raw telemetry.
 - Verifier checks signature, Trip Evidence Root, Claim Evidence Root, rule digest, trust policy result, claim level, decision, and proof validity when present.
-- ZK proof is present only when the claim level is E3 or higher.
+- ZK proof is present only in the Evidence Package Full, and only when the claim level is E3 or higher.
+- The Evidence Package Interim is not verified as a standalone artifact. It is not anchored and carries no proof. Its CorroborationRun is reused when the Evidence Package Full is assembled after route close.
 
 ## Error Handling and Resilience
 
 - Redis down: read from MS SQL projections, mark cache stale.
 - SQL down: telemetry buffered to filesystem, retry later.
-- External API (On-Demand Oracle) down: return NoExternalData with synthetic flag, notify dispatcher.
+- On-Demand Oracle API down: return NoExternalData with synthetic flag, notify dispatcher.
 - No connectivity at geofence boundary: events buffered and replayed with original timestamp.
 
 ## Monitoring and Alerts
@@ -135,3 +137,11 @@ MVP alternative: signed builds, recorded firmware version, signed update manifes
 - Every claim is policy-bound
 - Idempotent consumers
 - Observability is not optional
+
+## Related
+
+- [Evidence Package](EVIDENCE.md) - package structure and Interim form
+- [Evidence Builder](EVIDENCE_BUILDER.md) - implementation specification and CorroborationRun
+- [Evidence Flow](EVIDENCE_FLOW.md) - three evidence levels and the Interim state
+- [Trust Levels](TRUST_LEVELS.md) - own assurance and claim level
+- [Authorization](AUTHORIZATION.md) - roles and permissions

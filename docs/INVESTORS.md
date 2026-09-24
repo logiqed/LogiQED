@@ -59,7 +59,7 @@ The current platform foundation is an engineered modular monolith built on .NET 
 
 - **Core Domains:** Telemetry Ingestion, Route State Machine, SLA Evaluation Engine, Evidence Engine, Identity & Role-Based Access, Dispatch Console, Workflow Engine.
 - **Proprietary Mediator (`LogiQED.MediatR`):** Custom `ValueTask`-based CQRS dispatch pipeline with startup cache prewarming, explicit behavior ordering, and no reflection in the hot dispatch path.
-- **Evidence Layer:** Signed Event Stream, Evidence Graph, Trip and Claim Evidence Roots, Evidence Packages, and Trust Levels E0-E5.
+- **Evidence Layer:** Signed Event Stream, Evidence Graph, Trip and Claim Evidence Roots, Evidence Packages Base, Interim, and Full, and Trust Levels E0-E5.
 - **Cryptographic Primitives:** Ed25519 signatures with an established architectural path for post-quantum ML-DSA integration.
 - **Proof Engine:** Pluggable backend architecture (Aligned Layer mock for MVP; extensible to Groth16, PLONK, STARK, and zkVM backends including SP1 and RISC Zero).
 - **Audit & Security:** Dual-channel delivery auditing, SHA-256 tracker-key hashing (obliteration pattern), 30-day telemetry retention policies, and session-level revocation.
@@ -78,6 +78,8 @@ The Trip Evidence Root is anchored for every route, clean or incident. This prot
 
 An Evidence Package Base is produced for every claim, confirmed or rejected. A rejected claim is still a recorded event: the driver pressed the button, the system queried the API, and the outcome was recorded.
 
+An Evidence Package Interim can be assembled during the route, after claim close and before route close. It is not anchored, does not modify the Base package, and gives the operator a current claim level based on the independent sources found so far.
+
 ZK proof is generated only on dispute request, and only when the claim level is E3 or higher.
 
 ### Claim Level and Corroboration
@@ -86,7 +88,9 @@ Own assurance is the level of a single source. It is computed server-side and do
 
 Claim level is the level of a claim, formed from one or more independent sources. It is the maximum level among independent sources that confirm the same fact.
 
-Retroactive corroboration is applied by the Evidence Builder on dispute request. It searches for other vehicles that were on the same segment during the same time window. If a candidate source had E3 or higher at that time, corroboration raises the claim level. Two weak sources do not combine into a strong claim.
+Retroactive corroboration is applied by the Evidence Builder on corroboration preview and on dispute request. It searches for other vehicles that were on the same segment during the same time window. If a candidate source had E3 or higher at that time, corroboration raises the claim level. Two weak sources do not combine into a strong claim.
+
+External APIs are not called during corroboration. Their responses were already captured in Evidence Package Base at claim open.
 
 See [Trust Levels](https://github.com/logiqed/LogiQED/blob/main/docs/TRUST_LEVELS.md) for the full model.
 
@@ -146,7 +150,7 @@ See [Communication](https://github.com/logiqed/LogiQED/blob/main/docs/COMMUNICAT
 
 ## Market & Regulatory Tailwinds
 
-- **Dispute Economics:** Manual resolution currently costs $200-500 per claim. Automated cryptographic resolution is priced at $0.05-0.15 per Evidence Package, with an average of $0.08. The cost to LogiQED is $0.01-0.03 per package.
+- **Dispute Economics:** Manual resolution currently costs $200-500 per claim. Automated cryptographic resolution is priced at $0.05-0.15 per Evidence Package Full, with an average of $0.08. The cost to LogiQED is $0.01-0.03 per package.
 - **Regulatory Mandate:** The **eFTI Regulation (EU) 2020/1056** enters full application on **9 July 2027**. EU member-state authorities must accept compliant electronic freight information shared through certified eFTI platforms.
 - **Target Market:** Mid-sized carriers (10-100 trucks), temperature-controlled reefers, cross-border 3PLs, and digital freight brokers.
 
@@ -183,7 +187,8 @@ The MVP and the pilot are one continuous program, not two separate projects.
 - Shipment and trip domain model
 - Telemetry ingestion and signed event stream
 - Route State Machine, SLA Engine, Event Orchestrator
-- Evidence Package Builder with mock proof backend
+- Evidence Builder with mock proof backend
+- Evidence Package Base, Evidence Package Interim, Evidence Package Full
 - Two ZK claims verified end-to-end
 - OpenAPI and webhooks
 

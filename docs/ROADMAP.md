@@ -14,7 +14,7 @@ Complete.
 
 Architecture, OpenAPI draft, Evidence Package specification, and demo are done.
 
-The evidence model defines three levels: clean route with Trip Evidence Root anchor, incident with Evidence Package Base, disputed with corroboration and ZK proof.
+The evidence model defines three levels: clean route with Trip Evidence Root anchor, incident with Evidence Package Base, disputed with corroboration and ZK proof. An Evidence Package Interim is available during the route, after claim close.
 
 Demo: 30+ screens, 6 roles. Workflow engine, identity layer, and communication audit are live.
 
@@ -40,7 +40,7 @@ Scope:
 - On-Demand Oracle
 - SLA Engine
 - Exception attribution
-- Evidence Package Base and Evidence Package Full
+- Evidence Package Base, Evidence Package Interim, Evidence Package Full
 - Trip and Claim Evidence Roots, Arweave anchors
 - Two ZK claims with mock proof backend
 - e-documents
@@ -54,6 +54,7 @@ Must have:
 - Route State Machine reacts to TrafficEntered and TrafficExited
 - Two claims verified end-to-end
 - Evidence Package Base produced for every claim, confirmed or rejected
+- Evidence Package Interim available during the route, after claim close
 - Trip Evidence Root anchored for every route, clean or incident
 - Evidence Package accepted by pilot partner
 

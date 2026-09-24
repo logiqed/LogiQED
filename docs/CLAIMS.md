@@ -38,7 +38,7 @@ A claim carries two distinct values:
 
 A claim is produced for every recorded incident, whether the claim is confirmed or rejected.
 
-ZK proof is added only when the claim level is E3 or higher. Below E3, the Evidence Package Base is still produced and anchored, but no ZK proof is generated.
+ZK proof is generated only on dispute request, and only when the claim level is E3 or higher. Below E3, the Evidence Package Base is still produced and anchored, but no ZK proof is generated.
 
 Example:
 
@@ -254,7 +254,7 @@ The claim is VALID only when every committed measurement satisfies the rule.
 Both claims carry the same envelope:
 
 - `signature` - Ed25519 signature over the canonical form of the claim.
-- `proof` - ZK proof or a reference to the proof backend. Present only when the claim level is E3 or higher.
+- `proof` - ZK proof or a reference to the proof backend. Present only when the claim level is E3 or higher, and only in the Evidence Package Full.
 
 In MVP, the proof backend is mocked. The signature is real.
 
@@ -273,3 +273,13 @@ Formal verification reference is optional in MVP. When available, it is included
 ```
 
 The verifier checks the reference and hash when the field is present. When absent, the claim is still verifiable by signature and proof.
+
+---
+
+## Related
+
+- [Trust Levels](TRUST_LEVELS.md) - own assurance and claim level
+- [Evidence Flow](EVIDENCE_FLOW.md) - three evidence levels and the Interim state
+- [Evidence Package](EVIDENCE.md) - package structure
+- [Evidence Builder](EVIDENCE_BUILDER.md) - implementation specification and Interim package
+- [SLA DSL](SLA_DSL.md) - rule format and evaluation result
