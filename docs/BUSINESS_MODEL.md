@@ -26,11 +26,53 @@ Pricing follows industry habits: a base platform fee plus a per-vehicle componen
 
 | Plan | Who | Price | Includes |
 |------|-----|-------|----------|
-| Starter | Small carrier, 1–3 vehicles | $0 base + $0.15/package | Up to 100 packages/month |
+| Starter | Small carrier, 1–3 vehicles | $0 base + $0.15/package | 100 packages total, 1-month trial |
 | Pro | Mid carrier, 10–100 vehicles | $99/month + $10/vehicle + $0.08/package | Up to 5,000 packages, priority verification |
 | Enterprise | Logistics network, 100+ vehicles | Custom base + $0.05/package | API, dedicated SLA, support |
 
 Example: a carrier with 20 vehicles pays $99 + $200 = $299/month base, plus $0.08 per package.
+
+### What each plan includes
+
+The evidence layer is the same on every plan. The differences are volume, priority, API access, and support.
+
+| Feature | Starter | Pro | Enterprise |
+|---------|---------|-----|------------|
+| SLA Engine | Yes | Yes | Yes |
+| Trip Evidence Root anchors | Yes | Yes | Yes |
+| Evidence Package Base | Yes | Yes | Yes |
+| Evidence Package Full on dispute | Yes | Yes | Yes |
+| Priority verification | No | Yes | Yes |
+| API access | No | No | Yes |
+| Dedicated support | Community | Email | Dedicated |
+| Package volume | 100 total | Up to 5,000/month | Custom |
+| Trial period | 1 month | — | — |
+
+### Role of the Starter tier
+
+Starter is an entry tier, not a revenue driver.
+
+It exists to remove the entry barrier for small carriers and to create a path to Pro. It is capped at 100 packages total and a 1-month trial. The trial ends when either limit is reached: 100 packages consumed or one month elapsed.
+
+After the trial ends, the client moves to Pro or leaves. There is no automatic upgrade; the client chooses.
+
+At $0 base and $0.15 per package, gross profit per Starter client is marginal. It is not intended to cover acquisition cost.
+
+The economics work at Pro and Enterprise. Starter is the on-ramp.
+
+### Where the revenue comes from
+
+- **Pro** is the primary revenue tier. A carrier with 20 vehicles pays about $299/month base plus per-package fees, at roughly 82% gross margin.
+- **Enterprise** is the second tier. Custom base, API access, dedicated support, plus per-package fees. Higher contract value, longer sales cycle.
+- **Starter** is a funnel. It converts to Pro when the client reaches 100 packages or the 1-month trial ends.
+
+### Note on pricing model
+
+This pricing is a working model, not a fixed commercial policy.
+
+It reflects how the platform is built and where the costs sit. Final pricing, tiers, and commercial terms are open to adjustment based on investor input, pilot feedback, and market response.
+
+The engineering team built the system. Business terms are expected to be refined with commercial partners.
 
 ## Unit Economics
 
@@ -96,7 +138,7 @@ This creates a channel, not a conflict.
 
 - Direct sales: LinkedIn, Transport Logistic, LogiMAT.
 - Partnerships: TMS integrations such as Trans.eu, CargoWise; telematics platforms such as Wialon.
-- Product-led growth: free Starter tier, upsell to Pro.
+- Product-led growth: free Starter trial, upsell to Pro.
 
 ## Competitive Advantage
 
