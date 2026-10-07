@@ -60,6 +60,8 @@ At $0 base and $0.15 per package, gross profit per Starter client is marginal. I
 
 The economics work at Pro and Enterprise. Starter is the on-ramp.
 
+The Pro tier is designed for fleets of 5 or more vehicles, where per-vehicle pricing reflects the operational value. For single-vehicle operators, a simplified tier is under consideration. Structure and pricing would be defined with commercial partners, not fixed here.
+
 ### Where the revenue comes from
 
 - **Pro** is the primary revenue tier. A carrier with 20 vehicles pays about $299/month base plus per-package fees, at roughly 82% gross margin.
